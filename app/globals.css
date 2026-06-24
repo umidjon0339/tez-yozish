@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+@custom-variant dark (&:where(.dark, .dark *));
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html {
+  scroll-behavior: smooth;
+}
+/* Colorful Keyboard Mode (Keys) */
+.colorful-mode path#iso-key, .colorful-mode path#tilda, .colorful-mode path#key-1, .colorful-mode path#q, .colorful-mode path#a, .colorful-mode path#z, .colorful-mode path#tab, .colorful-mode path#capslock, .colorful-mode path#shift-left, .colorful-mode path#control, .colorful-mode path#option-left { fill: #f97316 !important; opacity: 0.2; --active-color: #f97316; }
+.colorful-mode path#key-2, .colorful-mode path#w, .colorful-mode path#s, .colorful-mode path#x { fill: #a855f7 !important; opacity: 0.3; --active-color: #a855f7; }
+.colorful-mode path#key-3, .colorful-mode path#e, .colorful-mode path#d, .colorful-mode path#c { fill: #ef4444 !important; opacity: 0.4; --active-color: #ef4444; }
+.colorful-mode path#key-4, .colorful-mode path#key-5, .colorful-mode path#r, .colorful-mode path#t, .colorful-mode path#f, .colorful-mode path#g, .colorful-mode path#v, .colorful-mode path#b { fill: #22c55e !important; opacity: 0.3; --active-color: #22c55e; }
+.colorful-mode path#space, .colorful-mode path#option-right{ fill: #3b82f6 !important; opacity: 0.4; --active-color: #3b82f6; }
+.colorful-mode path#key-6, .colorful-mode path#key-7, .colorful-mode path#y, .colorful-mode path#u, .colorful-mode path#h, .colorful-mode path#j, .colorful-mode path#n, .colorful-mode path#m { fill: #ec4899 !important; opacity: 0.3; --active-color: #ec4899; }
+.colorful-mode path#key-8, .colorful-mode path#i, .colorful-mode path#k, .colorful-mode path#comma { fill: #14b8a6 !important; opacity: 0.3; --active-color: #14b8a6; }
+.colorful-mode path#key-9, .colorful-mode path#o, .colorful-mode path#l, .colorful-mode path#dot { fill: #94a3b8 !important; opacity: 0.5; --active-color: #94a3b8; }
+.colorful-mode path#arrows, .colorful-mode path#key-0, .colorful-mode path#minus, .colorful-mode path#equal, .colorful-mode path#p, .colorful-mode path#open-bracket, .colorful-mode path#close-bracket, .colorful-mode path#backslash, .colorful-mode path#semicolon, .colorful-mode path#quote, .colorful-mode path#enter, .colorful-mode path#slash, .colorful-mode path#shift-right, .colorful-mode path#backspace { fill: #eab308 !important; opacity: 0.7; --active-color: #eab308; }
+
+/* Colorful Keyboard Mode (Hands Active Ring) */
+.colorful-mode g#tilda .st5, .colorful-mode g#key-1 .st5, .colorful-mode g#q .st5, .colorful-mode g#a .st5, .colorful-mode g#z .st5, .colorful-mode g#tab .st5, .colorful-mode g#capslock .st5, .colorful-mode g#shift-left .st5, .colorful-mode g#control .st5, .colorful-mode g#option-left .st5 { stroke: #f97316 !important; }
+.colorful-mode g#key-2 .st5, .colorful-mode g#w .st5, .colorful-mode g#s .st5, .colorful-mode g#x .st5 { stroke: #a855f7 !important; }
+.colorful-mode g#key-3 .st5, .colorful-mode g#e .st5, .colorful-mode g#d .st5, .colorful-mode g#c .st5 { stroke: #ef4444 !important; }
+.colorful-mode g#key-4 .st5, .colorful-mode g#key-5 .st5, .colorful-mode g#r .st5, .colorful-mode g#t .st5, .colorful-mode g#f .st5, .colorful-mode g#g .st5, .colorful-mode g#v .st5, .colorful-mode g#b .st5 { stroke: #22c55e !important; }
+.colorful-mode g#space .st5 { stroke: #3b82f6 !important; }
+.colorful-mode g#key-6 .st5, .colorful-mode g#key-7 .st5, .colorful-mode g#y .st5, .colorful-mode g#u .st5, .colorful-mode g#h .st5, .colorful-mode g#j .st5, .colorful-mode g#n .st5, .colorful-mode g#m .st5 { stroke: #ec4899 !important; }
+.colorful-mode g#key-8 .st5, .colorful-mode g#i .st5, .colorful-mode g#k .st5, .colorful-mode g#comma .st5 { stroke: #14b8a6 !important; }
+.colorful-mode g#key-9 .st5, .colorful-mode g#o .st5, .colorful-mode g#l .st5, .colorful-mode g#dot .st5 { stroke: #94a3b8 !important; }
+.colorful-mode g#key-0 .st5, .colorful-mode g#minus .st5, .colorful-mode g#equal .st5, .colorful-mode g#p .st5, .colorful-mode g#open-bracket .st5, .colorful-mode g#close-bracket .st5, .colorful-mode g#backslash .st5, .colorful-mode g#semicolon .st5, .colorful-mode g#quote .st5, .colorful-mode g#enter .st5, .colorful-mode g#slash .st5, .colorful-mode g#shift-right .st5, .colorful-mode g#backspace .st5 { stroke: #eab308 !important; }
+
+
+/* Target Key "Pulse & Pop" Highlight (Colorful Mode) */
+@keyframes colorful-pulse-pop {
+  0% { stroke-width: 2px; }
+  50% { stroke-width: 4px; filter: drop-shadow(0px 0px 6px var(--active-color)); }
+  100% { stroke-width: 2px; }
+}
+
+@keyframes colorful-pulse-pop-dark {
+  0% { stroke-width: 2px; }
+  50% { stroke-width: 4px; filter: drop-shadow(0px 0px 8px var(--active-color)); }
+  100% { stroke-width: 2px; }
+}
+
+.colorful-mode path.active {
+  opacity: 1 !important;
+  stroke: var(--active-color) !important;
+  stroke-width: 3px !important;
+  animation: colorful-pulse-pop 1s infinite alternate !important;
+}
+
+.dark .colorful-mode path.active {
+  stroke: var(--active-color) !important;
+  animation: colorful-pulse-pop-dark 1s infinite alternate !important;
 }

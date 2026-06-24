@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Dev Bootcamp Curriculum Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-blue-500 selection:text-white">
+
+    <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 p-2 rounded-lg text-white font-black tracking-wider">DEV</div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight" id="header-title">Curriculum Portal</h1>
+                <p class="text-xs text-slate-400" id="header-subtitle">Loading...</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full text-slate-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Instructor View
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        
+        <aside class="w-80 bg-slate-900/50 border-r border-slate-800 flex flex-col h-[calc(100vh-73px)]">
+            <div class="p-4 border-b border-slate-800 font-semibold text-xs text-slate-400 uppercase tracking-wider">
+                Course Roadmap
+            </div>
+            <nav class="flex-1 overflow-y-auto p-4 space-y-6" id="nav-tree">
+                </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-8 bg-slate-950" id="lesson-viewport">
+            </main>
+    </div>
+
+    <script>
+        let curriculumData = null;
+        let activeLessonId = 1;
+
+        async function initApp() {
+            try {
+                const response = await fetch('./curriculum.json');
+                if (!response.ok) throw new Error("Failed to load JSON");
+                curriculumData = await response.json();
+                
+                document.getElementById('header-title').innerText = curriculumData.courseTitle;
+                document.getElementById('header-subtitle').innerText = curriculumData.description;
+
+                renderSidebar();
+                selectLesson(1);
+
+            } catch (error) {
+                renderErrorState();
+            }
+        }
+
+        function renderSidebar() {
+            const tree = document.getElementById('nav-tree');
+            tree.innerHTML = curriculumData.weeks.map(week => `
+                <div class="space-y-1.5">
+                    <span class="text-xs font-bold text-blue-400 tracking-wide uppercase px-2">
+                        Week ${week.weekNumber}: ${week.weekTheme}
+                    </span>
+                    <div class="space-y-1 mt-1">
+                        ${week.lessons.map(l => `
+                            <button 
+                                onclick="selectLesson(${l.id})"
+                                id="btn-lesson-${l.id}"
+                                class="w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 flex items-center gap-2.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 group"
+                            >
+                                <span class="w-5 h-5 rounded bg-slate-800 text-[11px] flex items-center justify-center font-mono text-slate-400 group-hover:text-blue-400 border border-slate-700/50">
+                                    ${l.id}
+                                </span>
+                                <span class="truncate">${l.title}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectLesson(id) {
+            activeLessonId = id;
+            
+            // Highlight active button in sidebar
+            document.querySelectorAll('[id^="btn-lesson-"]').forEach(btn => {
+                btn.className = "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 flex items-center gap-2.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 group";
+            });
+            const activeBtn = document.getElementById(`btn-lesson-${id}`);
+            if(activeBtn) {
+                activeBtn.className = "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-150 flex items-center gap-2.5 bg-blue-600/10 text-blue-400 border border-blue-500/20 font-medium";
+            }
+
+            // Find lesson data
+            let targetLesson = null;
+            let parentWeek = null;
+            curriculumData.weeks.forEach(w => {
+                const found = w.lessons.find(l => l.id === id);
+                if(found) { targetLesson = found; parentWeek = w; }
+            });
+
+            if(!targetLesson) return;
+
+            // Render Right Canvas
+            const viewport = document.getElementById('lesson-viewport');
+            viewport.innerHTML = `
+                <div class="max-w-4xl mx-auto space-y-8 pb-12">
+                    
+                    <div class="border-b border-slate-800 pb-6">
+                        <div class="flex items-center gap-2 text-xs font-semibold text-blue-400 mb-2 uppercase tracking-wider">
+                            <span>Week ${parentWeek.weekNumber}</span>
+                            <span>•</span>
+                            <span>Lesson ${targetLesson.id} of 16</span>
+                        </div>
+                        <h2 class="text-3xl font-black tracking-tight text-white mb-2">${targetLesson.title}</h2>
+                        <p class="text-slate-400 text-lg">${targetLesson.topic}</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col">
+                            <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                                Core Discussion Points
+                            </h3>
+                            <ul class="space-y-3 text-slate-300 text-sm flex-1">
+                                ${targetLesson.teaches.map(item => `
+                                    <li class="flex items-start gap-2.5">
+                                        <svg class="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                        <span>${item}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col">
+                            <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                Required Student Outcomes
+                            </h3>
+                            <div class="space-y-3 text-sm flex-1">
+                                ${targetLesson.checklist.map((chk, idx) => `
+                                    <label class="flex items-start gap-3 p-2.5 rounded-lg border border-slate-800/80 bg-slate-950/50 hover:border-slate-700 cursor-pointer transition-colors group">
+                                        <input type="checkbox" class="mt-0.5 rounded border-slate-700 text-emerald-500 focus:ring-0 bg-slate-900 w-4 h-4">
+                                        <span class="text-slate-300 group-hover:text-white select-none leading-snug">${chk}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="bg-gradient-to-r from-blue-950/60 via-slate-900 to-slate-900 border-l-4 border-blue-500 border-y border-r border-slate-800 rounded-r-xl p-6">
+                        <div class="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">
+                            💡 Lesson Hook & Preparation
+                        </div>
+                        <p class="text-slate-200 text-sm italic leading-relaxed">
+                            "${targetLesson.teacherPrep}"
+                        </p>
+                    </div>
+
+                </div>
+            `;
+        }
+
+        function renderErrorState() {
+            document.getElementById('lesson-viewport').innerHTML = `
+                <div class="h-full flex items-center justify-center">
+                    <div class="max-w-md w-full bg-red-950/30 border border-red-800/50 rounded-2xl p-8 text-center space-y-4">
+                        <div class="w-12 h-12 bg-red-500/10 text-red-400 flex items-center justify-center rounded-full mx-auto text-2xl border border-red-500/20">
+                            ⚠️
+                        </div>
+                        <h3 class="text-lg font-bold text-red-200">Local CORS Policy Blocked</h3>
+                        <p class="text-xs text-red-300/80 leading-relaxed">
+                            Your browser prevented index.html from requesting <code class="text-red-300 font-mono bg-red-900/40 px-1 py-0.5 rounded">curriculum.json</code> directly off your hard drive. 
+                        </p>
+                        <div class="bg-black/40 border border-red-900/50 rounded-xl p-4 text-left space-y-2">
+                            <div class="text-xs font-bold text-slate-300 uppercase tracking-wider">How to fix instantly:</div>
+                            <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside font-mono">
+                                <li>Open this folder in VS Code</li>
+                                <li>Install extension "Live Server"</li>
+                                <li>Right click index.html -> "Open with Live Server"</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Boot
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

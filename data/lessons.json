@@ -1,0 +1,113 @@
+
+{
+  "courseId": "course_core_typing",
+  "courseTitle": {
+    "en": "Universal Keyboarding Masterclass",
+    "uz": "Universal klaviatura masterklassi",
+    "ru": "Универсальный мастер-класс по печати"
+  },
+  "targetAudience": "All Ages",
+  "chapters": [
+    {
+      "chapterId": "chap_01",
+      "chapterNumber": 1,
+      "chapterTitle": {
+        "en": "The Home Row & Upper Reaches",
+        "uz": "Asosiy qator va yuqori tugmalar",
+        "ru": "Основной ряд и верхние клавиши"
+      },
+      "description": {
+        "en": "Establish foundational finger anchors and vertical index finger extensions.",
+        "uz": "Barmoqlarning asosiy joylashuvini va ko'rsatkich barmoqning yuqoriga harakatini o'rganish.",
+        "ru": "Освоение базовой постановки пальцев и движений указательного пальца вверх."
+      },
+      "lessons": [
+        {
+          "lessonId": "less_01_02",
+          "lessonNumber": 2,
+          "lessonTitle": {
+            "en": "Index Extension: [ R ] and [ U ]",
+            "uz": "Ko'rsatkich barmoq: [ R ] va [ U ]",
+            "ru": "Указательный палец: [ R ] и [ U ]"
+          },
+          "pedagogicalGoal": {
+            "en": "Anchor F and J while extending upward to strike R and U.",
+            "uz": "F va J tugmalarini ushlab turgan holda R va U tugmalarini bosish.",
+            "ru": "Удерживая F и J, вытягивать пальцы вверх для нажатия R и U."
+          },
+          "unlockedKeys": ["f", "j", "r", "u"],
+          "steps": [
+            {
+              "stepId": "stp_01_02_01",
+              "stepNumber": 1,
+              "viewport": "POSTURE_CHECK",
+              "instruction": {
+                "en": "Rest your index fingers on the home row bumps [ F ] and [ J ]. Hold both down to start.",
+                "uz": "Ko'rsatkich barmoqlaringizni [ F ] va [ J ] tugmalaridagi bo'rtmalarga qo'ying. Boshlash uchun ikkalasini bosing.",
+                "ru": "Положите указательные пальцы на выступы клавиш [ F ] и [ J ]. Нажмите обе для начала."
+              },
+              "content": ["f", "j"],
+              "rules": {
+                "allowBackspace": false,
+                "blockOnTypo": true,
+                "maxMistakesAllowed": 0,
+                "minimumWPM": 0
+              }
+            },
+            {
+              "stepId": "stp_01_02_02",
+              "stepNumber": 2,
+              "viewport": "KEY_INTRO",
+              "instruction": {
+                "en": "Reach your left index finger up and to the left to strike [ R ].",
+                "uz": "Chao ko'rsatkich barmog'ingizni yuqoriga va chapga harakatlantirib [ R ] tugmasini bosing.",
+                "ru": "Потяните левый указательный палец вверх и влево, чтобы нажать [ R ]."
+              },
+              "content": ["r", "r", "r", "f", "r"],
+              "rules": {
+                "allowBackspace": false,
+                "blockOnTypo": true,
+                "maxMistakesAllowed": 2,
+                "minimumWPM": 0
+              }
+            },
+            {
+              "stepId": "stp_01_02_03",
+              "stepNumber": 3,
+              "viewport": "STANDARD_GYM",
+              "instruction": {
+                "en": "Roll your index fingers smoothly. Do not write the next letter before correcting the current key.",
+                "uz": "Barmoqlaringizni silliq harakatlantiring. Xatoni tuzatmasdan keyingi harfga o'tmang.",
+                "ru": "Двигайте пальцами плавно. Не нажимайте следующую букву, пока не исправите текущую."
+              },
+              "content": ["frf", "juj", "frr", "juu", "rur", "ufu"],
+              "rules": {
+                "allowBackspace": true,
+                "blockOnTypo": true,
+                "maxMistakesAllowed": 2,
+                "minimumWPM": 16
+              }
+            },
+            {
+              "stepId": "stp_01_02_04",
+              "stepNumber": 4,
+              "viewport": "GAME_NINJA_RUN",
+              "instruction": {
+                "en": "Exam Time! Throw shurikens at the incoming red ninjas to clear the jungle path.",
+                "uz": "Imtihon vaqti! O'rmon yo'lini tozalash uchun qizil ninjalarga shurikenlar firlating.",
+                "ru": "Время экзамена! Бросайте сюрикены в красных ниндзя, чтобы расчистить путь."
+              },
+              "content": ["fur", "rug", "jur", "ruf", "jur", "rug"],
+              "rules": {
+                "allowBackspace": false,
+                "blockOnTypo": false,
+                "maxMistakesAllowed": 3,
+                "minimumWPM": 22
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
