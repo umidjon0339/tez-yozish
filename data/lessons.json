@@ -1,4 +1,3 @@
-
 {
   "courseId": "course_core_typing",
   "courseTitle": {
@@ -7,103 +6,352 @@
     "ru": "Универсальный мастер-класс по печати"
   },
   "targetAudience": "All Ages",
+  "thumbnail": {
+    "imageSrc": "/cource01.png"
+  },
   "chapters": [
     {
       "chapterId": "chap_01",
       "chapterNumber": 1,
       "chapterTitle": {
-        "en": "The Home Row & Upper Reaches",
-        "uz": "Asosiy qator va yuqori tugmalar",
-        "ru": "Основной ряд и верхние клавиши"
+        "en": "Home Row",
+        "uz": "Asosiy qator",
+        "ru": "Основной ряд"
       },
       "description": {
         "en": "Establish foundational finger anchors and vertical index finger extensions.",
         "uz": "Barmoqlarning asosiy joylashuvini va ko'rsatkich barmoqning yuqoriga harakatini o'rganish.",
         "ru": "Освоение базовой постановки пальцев и движений указательного пальца вверх."
       },
-      "lessons": [
+      "sections": [
         {
-          "lessonId": "less_01_02",
-          "lessonNumber": 2,
-          "lessonTitle": {
-            "en": "Index Extension: [ R ] and [ U ]",
-            "uz": "Ko'rsatkich barmoq: [ R ] va [ U ]",
-            "ru": "Указательный палец: [ R ] и [ U ]"
+          "sectionId": "sec_01_01",
+          "sectionNumber": 1,
+          "sectionTitle": {
+            "en": "f & j",
+            "uz": "f & j tugmalari",
+            "ru": "Клавиши f & j"
           },
-          "pedagogicalGoal": {
-            "en": "Anchor F and J while extending upward to strike R and U.",
-            "uz": "F va J tugmalarini ushlab turgan holda R va U tugmalarini bosish.",
-            "ru": "Удерживая F и J, вытягивать пальцы вверх для нажатия R и U."
+          "thumbnail": {
+            "svgId": "SECTION_KEYS_SHOWCASE",
+            "parameters": {
+              "keys": [
+                "f",
+                "j"
+              ],
+              "accentColor": "emerald"
+            }
           },
-          "unlockedKeys": ["f", "j", "r", "u"],
-          "steps": [
+          "lessons": [
             {
-              "stepId": "stp_01_02_01",
-              "stepNumber": 1,
-              "viewport": "POSTURE_CHECK",
-              "instruction": {
-                "en": "Rest your index fingers on the home row bumps [ F ] and [ J ]. Hold both down to start.",
-                "uz": "Ko'rsatkich barmoqlaringizni [ F ] va [ J ] tugmalaridagi bo'rtmalarga qo'ying. Boshlash uchun ikkalasini bosing.",
-                "ru": "Положите указательные пальцы на выступы клавиш [ F ] и [ J ]. Нажмите обе для начала."
+              "lessonId": "less_01_01",
+              "lessonNumber": 1,
+              "type": "practice",
+              "lessonTitle": {
+                "en": "Keys f & j",
+                "uz": "f & j tugmalari",
+                "ru": "Клавиши f & j"
               },
-              "content": ["f", "j"],
-              "rules": {
-                "allowBackspace": false,
-                "blockOnTypo": true,
-                "maxMistakesAllowed": 0,
-                "minimumWPM": 0
-              }
+              "pedagogicalGoal": {
+                "en": "Map the tactile home row bumps to your left and right index fingers.",
+                "uz": "Asosiy qatordagi bo'rtmalarni chap va o'ng ko'rsatkich barmoqlaringizga moslang.",
+                "ru": "Свяжите тактильные выступы основного ряда с левым и правым указательным пальцем."
+              },
+              "thumbnail": {
+                "svgId": "TWO_KEYS_FOCUS",
+                "parameters": {
+                  "keys": [
+                    "f",
+                    "j"
+                  ],
+                  "accentColor": "emerald"
+                }
+              },
+              "unlockedKeys": [
+                "f",
+                "j"
+              ],
+              "steps": [
+                
+                {
+                  "stepId": "stp_01_01_02",
+                  "stepNumber": 2,
+                  "viewport": "KEY_INTRO",
+                  "instruction": {
+                    "en": "Strike your left index finger firmly on the home bump [ F ].",
+                    "uz": "Chap ko'rsatkich barmog'ingiz bilan [ F ] tugmasini qat'iy bosing.",
+                    "ru": "Уверенно нажмите левым указательным пальцем на выступ [ F ]."
+                  },
+                  "content": [
+                    "f",
+                    "f",
+                    "f",
+                    "f",
+                    "f",
+                    "f",
+                    "f",
+                    "f",
+                    "f"
+                  ],
+                  "rules": {
+                    "allowBackspace": false,
+                    "blockOnTypo": true,
+                    "maxMistakesAllowed": 2,
+                    "minimumWPM": 0
+                  }
+                },
+                {
+                  "stepId": "stp_01_01_03",
+                  "stepNumber": 3,
+                  "viewport": "KEY_INTRO",
+                  "instruction": {
+                    "en": "Strike your right index finger firmly on the home bump [ J ].",
+                    "uz": "O'ng ko'rsatkich barmog'ingiz bilan [ J ] tugmasini qat'iy bosing.",
+                    "ru": "Уверенно нажмите правым указательным пальцем на выступ [ J ]."
+                  },
+                  "content": [
+                    "j",
+                    "j",
+                    "j",
+                    "j",
+                    "j",
+                    "j",
+                    "j",
+                    "j",
+                    "j",
+                    "j"
+                  ],
+                  "rules": {
+                    "allowBackspace": false,
+                    "blockOnTypo": true,
+                    "maxMistakesAllowed": 2,
+                    "minimumWPM": 0
+                  }
+                },
+                {
+                  "stepId": "stp_01_01_04",
+                  "stepNumber": 4,
+                  "viewport": "STANDARD_GYM",
+                  "instruction": {
+                    "en": "Alternate your index anchors. Keep your eyes on the screen, never your hands.",
+                    "uz": "Ko'rsatkich barmoqlaringizni galma-gal bosing. Ko'zingiz ekranda bo'lsin, qo'llaringizga qaramang.",
+                    "ru": "Чередуйте указательные пальцы. Смотрите только на экран, никогда на руки."
+                  },
+                  "content": [
+                    "f",
+                    "j",
+                    "f",
+                    "j",
+                    "ff",
+                    "jj",
+                    "fj",
+                    "jf"
+                  ],
+                  "rules": {
+                    "allowBackspace": true,
+                    "blockOnTypo": true,
+                    "maxMistakesAllowed": 2,
+                    "minimumWPM": 10
+                  }
+                }
+              ]
             },
             {
-              "stepId": "stp_01_02_02",
-              "stepNumber": 2,
-              "viewport": "KEY_INTRO",
-              "instruction": {
-                "en": "Reach your left index finger up and to the left to strike [ R ].",
-                "uz": "Chao ko'rsatkich barmog'ingizni yuqoriga va chapga harakatlantirib [ R ] tugmasini bosing.",
-                "ru": "Потяните левый указательный палец вверх и влево, чтобы нажать [ R ]."
+              "lessonId": "less_01_02",
+              "lessonNumber": 2,
+              "type": "practice",
+              "lessonTitle": {
+                "en": "f & j Combinations",
+                "uz": "f & j birikmalari",
+                "ru": "Комбинации f & j"
               },
-              "content": ["r", "r", "r", "f", "r"],
-              "rules": {
-                "allowBackspace": false,
-                "blockOnTypo": true,
-                "maxMistakesAllowed": 2,
-                "minimumWPM": 0
-              }
+              "pedagogicalGoal": {
+                "en": "Develop high-frequency, automated muscle rolls between the two home anchors.",
+                "uz": "Ikkala asosiy langar orasida tezkor, avtomatlashgan mushak xotirasini shakllantiring.",
+                "ru": "Развейте быструю, автоматизированную мышечную память между двумя якорями."
+              },
+              "unlockedKeys": [
+                "f",
+                "j"
+              ],
+              "thumbnail": {
+                "svgId": "RHYTHM_LOOP",
+                "parameters": {
+                  "keys": [
+                    "f",
+                    "j"
+                  ],
+                  "accentColor": "blue"
+                }
+              },
+              "steps": [
+                {
+                  "stepId": "stp_01_02_02",
+                  "stepNumber": 2,
+                  "viewport": "STANDARD_GYM",
+                  "instruction": {
+                    "en": "Roll the index fingers in triplets. Maintain an even, rhythmic cadence.",
+                    "uz": "Ko'rsatkich barmoqlarni uchtadan bosing. Bir xil, maromli ritmni saqlang.",
+                    "ru": "Нажимайте указательными пальцами тройками. Поддерживайте ровный, ритмичный темп."
+                  },
+                  "content": [
+                    "fff",
+                    "jjj",
+                    "fjf",
+                    "jfj",
+                    "ffj",
+                    "jjf"
+                  ],
+                  "rules": {
+                    "allowBackspace": true,
+                    "blockOnTypo": true,
+                    "maxMistakesAllowed": 2,
+                    "minimumWPM": 14
+                  }
+                },
+                {
+                  "stepId": "stp_01_02_03",
+                  "stepNumber": 3,
+                  "viewport": "STANDARD_GYM",
+                  "instruction": {
+                    "en": "Execute longer 4-letter muscle locks. Delete mistakes immediately.",
+                    "uz": "To'rt harfli uzunroq mushak xotirasini bajaring. Xatolarni darhol o'chiring.",
+                    "ru": "Выполняйте длинные 4-буквенные связки. Мгновенно удаляйте ошибки."
+                  },
+                  "content": [
+                    "fjfj",
+                    "jfjf",
+                    "fjjf",
+                    "jffj",
+                    "ffjj",
+                    "jjff"
+                  ],
+                  "rules": {
+                    "allowBackspace": true,
+                    "blockOnTypo": true,
+                    "maxMistakesAllowed": 2,
+                    "minimumWPM": 16
+                  }
+                }
+              ]
             },
             {
-              "stepId": "stp_01_02_03",
-              "stepNumber": 3,
-              "viewport": "STANDARD_GYM",
-              "instruction": {
-                "en": "Roll your index fingers smoothly. Do not write the next letter before correcting the current key.",
-                "uz": "Barmoqlaringizni silliq harakatlantiring. Xatoni tuzatmasdan keyingi harfga o'tmang.",
-                "ru": "Двигайте пальцами плавно. Не нажимайте следующую букву, пока не исправите текущую."
+              "lessonId": "less_01_03",
+              "lessonNumber": 3,
+              "type": "practice",
+              "lessonTitle": {
+                "en": "f & j review",
+                "uz": "f & j takrorlash",
+                "ru": "Обзор f & j"
               },
-              "content": ["frf", "juj", "frr", "juu", "rur", "ufu"],
-              "rules": {
-                "allowBackspace": true,
-                "blockOnTypo": true,
-                "maxMistakesAllowed": 2,
-                "minimumWPM": 16
-              }
+              "pedagogicalGoal": {
+                "en": "Consolidate zero-latency index reflexes under strict speed and game pressure.",
+                "uz": "Qat'iy tezlik va o'yin bosimi ostida ko'rsatkich barmoq reflekslarini mustahkamlang.",
+                "ru": "Закрепите мгновенные рефлексы указательных пальцев под давлением скорости и игры."
+              },
+              "unlockedKeys": [
+                "f",
+                "j"
+              ],
+              "thumbnail": {
+                "svgId": "PRECISION_TARGET",
+                "parameters": {
+                  "keys": [
+                    "f",
+                    "j"
+                  ],
+                  "accentColor": "amber",
+                  "targetWPM": 18
+                }
+              },
+              "steps": [
+          
+                {
+                  "stepId": "stp_01_03_02",
+                  "stepNumber": 2,
+                  "viewport": "STANDARD_GYM",
+                  "instruction": {
+                    "en": "Strict precision test. A single uncorrected typo will freeze your momentum.",
+                    "uz": "Qat'iy aniqlik testi. Bitta to'g'irlanmagan xato harakatni to'xtatadi.",
+                    "ru": "Тест строгой точности. Одна неисправленная ошибка остановит ваше движение."
+                  },
+                  "content": [
+                    "fjfjf",
+                    "jfjfj",
+                    "fjjff",
+                    "jffjj",
+                    "fjjf",
+                    "jffj"
+                  ],
+                  "rules": {
+                    "allowBackspace": true,
+                    "blockOnTypo": true,
+                    "maxMistakesAllowed": 1,
+                    "minimumWPM": 18
+                  }
+                }
+              ]
             },
             {
-              "stepId": "stp_01_02_04",
-              "stepNumber": 4,
-              "viewport": "GAME_NINJA_RUN",
-              "instruction": {
-                "en": "Exam Time! Throw shurikens at the incoming red ninjas to clear the jungle path.",
-                "uz": "Imtihon vaqti! O'rmon yo'lini tozalash uchun qizil ninjalarga shurikenlar firlating.",
-                "ru": "Время экзамена! Бросайте сюрикены в красных ниндзя, чтобы расчистить путь."
+              "lessonId": "less_01_04",
+              "lessonNumber": 4,
+              "type": "game",
+              "lessonTitle": {
+                "en": "Minions Game f & j",
+                "uz": "Minions Game f & j",
+                "ru": "Minions Game f & j"
               },
-              "content": ["fur", "rug", "jur", "ruf", "jur", "rug"],
-              "rules": {
-                "allowBackspace": false,
-                "blockOnTypo": false,
-                "maxMistakesAllowed": 3,
-                "minimumWPM": 22
-              }
+              "pedagogicalGoal": {
+                "en": "Survive a continuous wave of enemies using only zero-latency F and J reflexes.",
+                "uz": "Faqat F va J reflekslaridan foydalanib dushmanlar to'lqinida omon qoling.",
+                "ru": "Выживите в непрерывной волне врагов, используя только рефлексы F и J."
+              },
+              "unlockedKeys": [
+                "f",
+                "j"
+              ],
+              "thumbnail": {
+                "svgId": "MINION_BOSS_COVER",
+                "parameters": {
+                  "accentColor": "amber",
+                  "enemyCount": 45
+                }
+              },
+              "steps": [
+              
+                {
+                  "stepId": "stp_01_04_02",
+                  "stepNumber": 2,
+                  "viewport": "GAME_NINJA_RUN",
+                  "instruction": {
+                    "en": "Survive the ambush! Defeat 14 incoming minions without making more than 3 mistakes.",
+                    "uz": "Hujumda omon qoling! 3 martadan ko'p xato qilmasdan 14 ta minionni mag'lub eting.",
+                    "ru": "Переживите засаду! Победите 14 миньонов, допустив не более 3 ошибок."
+                  },
+                  "content": [
+                    "f",
+                    "j",
+                    "ff",
+                    "jj",
+                    "fj",
+                    "jf",
+                    "fjf",
+                    "jfj",
+                    "ffj",
+                    "jjf",
+                    "fjjf",
+                    "jffj",
+                    "ffjj",
+                    "jjff"
+                  ],
+                  "rules": {
+                    "allowBackspace": false,
+                    "blockOnTypo": false,
+                    "maxMistakesAllowed": 300,
+                    "minimumWPM": 22
+                  }
+                }
+              ]
             }
           ]
         }

@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, Html } from "@react-three/drei";
 import * as THREE from "three";
+import { StepNode } from "../../types/lesson";
 
 // ==========================================
 // THE "GOD MODE" MASTER CONFIGURATION
@@ -383,6 +384,13 @@ class SoundSynthesizer {
         };
         scheduleNote();
     }
+
+    stopProceduralBGM() {
+        if (this.bgmTimer) {
+            clearTimeout(this.bgmTimer);
+            this.bgmTimer = null;
+        }
+    }
 }
 const sfx = new SoundSynthesizer();
 
@@ -418,7 +426,9 @@ const getInitialState = () => ({
     timeSurvived: 0,
     vignette: 0,
     redFlash: 0,
-    hudTick: 0
+    hudTick: 0,
+    embeddedMistakes: 0,
+    embeddedQueue: [] as string[]
 });
 
 // --- PROCEDURAL 3D MODELS (Trees, Ninjas, Shurikens) ---
@@ -1033,25 +1043,56 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
         if (state.particles.length !== oldPartLen) listsChanged = true;
 
         state.spawnTimer += dt;
-        if (state.spawnTimer > DIFFICULTY_CONFIG[difficulty as Difficulty].spawnInterval / 1000) {
-            state.spawnTimer = 0;
-            const numWords = DIFFICULTY_CONFIG[difficulty as Difficulty].wordsPerEnemy;
-            let word = "";
-            for (let i=0; i<numWords; i++) {
-                word += WORDS[Math.floor(Math.random() * WORDS.length)];
-                if (i < numWords - 1) word += " ";
+        
+        const isEmbedded = (window as any)._isNinjaEmbedded;
+        
+        if (isEmbedded) {
+            if (state.embeddedQueue.length > 0 && state.spawnTimer > 1.4) {
+                state.spawnTimer = 0;
+                const word = state.embeddedQueue.shift();
+                if (word) {
+                    state.enemies.push({
+                        id: Math.random().toString(),
+                        word,
+                        typed: "",
+                        queuedHits: 0,
+                        x: -MASTER_CONFIG.LAYOUT.trackWidth + 0.3 + Math.random() * ((MASTER_CONFIG.LAYOUT.trackWidth*2) - 0.6),
+                        z: -45,
+                        isDead: false,
+                        deathTimer: 0
+                    });
+                    listsChanged = true;
+                }
+            } else if (state.embeddedQueue.length === 0 && state.enemies.length === 0) {
+                // Victory Condition for Embedded
+                const triggerVictory = (window as any)._ninjaOnComplete;
+                if (triggerVictory) {
+                    triggerVictory();
+                    // Prevent multiple calls
+                    (window as any)._ninjaOnComplete = null; 
+                }
             }
-            state.enemies.push({
-                id: Math.random().toString(),
-                word,
-                typed: "",
-                queuedHits: 0,
-                x: -MASTER_CONFIG.LAYOUT.trackWidth + 0.3 + Math.random() * ((MASTER_CONFIG.LAYOUT.trackWidth*2) - 0.6),
-                z: -45,
-                isDead: false,
-                deathTimer: 0
-            });
-            listsChanged = true;
+        } else {
+            if (state.spawnTimer > DIFFICULTY_CONFIG[difficulty as Difficulty].spawnInterval / 1000) {
+                state.spawnTimer = 0;
+                const numWords = DIFFICULTY_CONFIG[difficulty as Difficulty].wordsPerEnemy;
+                let word = "";
+                for (let i=0; i<numWords; i++) {
+                    word += WORDS[Math.floor(Math.random() * WORDS.length)];
+                    if (i < numWords - 1) word += " ";
+                }
+                state.enemies.push({
+                    id: Math.random().toString(),
+                    word,
+                    typed: "",
+                    queuedHits: 0,
+                    x: -MASTER_CONFIG.LAYOUT.trackWidth + 0.3 + Math.random() * ((MASTER_CONFIG.LAYOUT.trackWidth*2) - 0.6),
+                    z: -45,
+                    isDead: false,
+                    deathTimer: 0
+                });
+                listsChanged = true;
+            }
         }
 
         if (listsChanged) {
@@ -1078,8 +1119,8 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
 
 // --- HTML UI OVERLAYS (HUD, Menus) ---
 
-export default function NinjaWorld() {
-    const [gameState, setGameState] = useState<GameState>("MENU");
+export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: any, onComplete?: () => void, isEmbedded?: boolean }) {
+    const [gameState, setGameState] = useState<GameState>(isEmbedded ? "PLAYING" : "MENU");
     const [isMuted, setIsMuted] = useState(sfx.muted);
     const [difficulty, setDifficulty] = useState<Difficulty>("MEDIUM");
     
@@ -1113,14 +1154,30 @@ export default function NinjaWorld() {
         state.correctKeystrokes = 0;
         state.totalKeystrokes = 0;
         state.timeSurvived = 0;
+        state.hudTick = 0;
         state.vignette = 0;
         state.redFlash = 0;
+        
+        if (isEmbedded && step) {
+            state.embeddedQueue = [...step.content];
+            state.embeddedMistakes = 0;
+            (window as any)._isNinjaEmbedded = true;
+            (window as any)._ninjaOnComplete = onComplete;
+        } else {
+            (window as any)._isNinjaEmbedded = false;
+        }
         
         setActiveEnemyIds([]);
         setActiveProjectileIds([]);
         setActiveParticleIds([]);
         setHudState({ score: 0, lives: 3, wpm: 0, accuracy: 0, vignette: 0, redFlash: 0 });
-    }, []);
+    }, [isEmbedded, step, onComplete]);
+
+    useEffect(() => {
+        if (isEmbedded && step) {
+            startGame("MEDIUM");
+        }
+    }, [isEmbedded, step, startGame]);
 
     // --- KEYBOARD LOGIC ---
     useEffect(() => {
@@ -1129,24 +1186,33 @@ export default function NinjaWorld() {
             if (e.ctrlKey || e.altKey || e.metaKey || e.key.length > 1) return;
             if (e.code === "Space") e.preventDefault();
             sfx.playKeyTap();
-            if (e.ctrlKey || e.altKey || e.metaKey || e.key.length > 1) return;
-            if (e.code === "Space") e.preventDefault();
 
             const char = e.key.toLowerCase();
             const state = stateRef.current;
             state.totalKeystrokes++;
 
             const handleMiss = () => {
+                state.vignette = 1.0;
+                state.redFlash = 1.0;
                 sfx.playTypo();
-                state.redFlash = 0.25;
+                
+                if (isEmbedded && step && step.rules) {
+                    state.embeddedMistakes++;
+                    if (state.embeddedMistakes > step.rules.maxMistakesAllowed) {
+                        setGameState("GAME_OVER");
+                        sfx.stopProceduralBGM();
+                    }
+                }
+                
                 const pid = Math.random().toString();
                 state.projectiles.push({ 
                     id: pid, isHit: false, 
-                    x: 0, y: 1.5, z: MASTER_CONFIG.LAYOUT.playerZ, 
+                    x: -2 + Math.random() * 4, y: 1.5, z: MASTER_CONFIG.LAYOUT.playerZ, 
                     vx: (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random()*10),
                     vy: Math.random() * 5,
                     vz: -20 - Math.random()*10,
-                    life: 2.0 
+                    life: 2.0,
+                    toRemove: false
                 });
                 setActiveProjectileIds((prev: any) => [...prev, pid]);
             };
@@ -1227,7 +1293,7 @@ export default function NinjaWorld() {
         };
         window.addEventListener('keydown', handleKey);
         return () => window.removeEventListener('keydown', handleKey);
-    }, [gameState]);
+    }, [gameState, isEmbedded, step]);
 
     return (
         <div className="w-full h-full relative bg-[#f4e0c5]">
@@ -1277,11 +1343,13 @@ export default function NinjaWorld() {
                         </div>
                     </div>
 
-                    <div className="absolute top-6 right-6 z-50 pointer-events-none flex gap-2">
-                        {[...Array(3)].map((_, i) => (
-                            <div key={i} className={`w-6 h-6 rounded-sm border-2 ${i < hudState.lives ? 'bg-red-500 border-red-800' : 'bg-[#554e44] border-[#3d2a21]'} rotate-45 shadow-sm mx-1`} />
-                        ))}
-                    </div>
+                    {!isEmbedded && (
+                        <div className="absolute top-6 right-6 z-50 pointer-events-none flex gap-2">
+                            {[...Array(3)].map((_, i) => (
+                                <div key={i} className={`w-6 h-6 rounded-sm border-2 ${i < hudState.lives ? 'bg-red-500 border-red-800' : 'bg-[#554e44] border-[#3d2a21]'} rotate-45 shadow-sm mx-1`} />
+                            ))}
+                        </div>
+                    )}
 
                     <div className="absolute top-20 right-6 z-50 flex gap-2">
                         <button onClick={() => { sfx.audioCtx?.suspend(); setGameState('PAUSED'); }} className="bg-[#7a6f61] text-white border-[3px] border-[#554e44] px-4 py-2 rounded-lg font-black tracking-widest shadow-md hover:scale-105 active:scale-95 transition-transform uppercase text-sm">
@@ -1293,23 +1361,41 @@ export default function NinjaWorld() {
             )}
 
             {/* MENUS (Stone Tablet UI) */}
-            {gameState !== 'PLAYING' && (
+            {gameState === "GAME_OVER" && (
+                <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center font-mono">
+                    <h1 className="text-6xl font-bold text-red-500 mb-2 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]">GAME OVER</h1>
+                    {isEmbedded ? (
+                        <p className="text-xl text-neutral-300 mb-8">You were overwhelmed by the minions.</p>
+                    ) : (
+                        <p className="text-xl text-neutral-300 mb-8">Final Score: {hudState.score} | WPM: {hudState.wpm}</p>
+                    )}
+                    
+                    <button 
+                        onClick={() => startGame(difficulty)}
+                        className="px-8 py-4 bg-white text-black font-bold text-xl uppercase rounded shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:bg-red-500 hover:text-white hover:shadow-[0_0_30px_rgba(239,68,68,0.8)] transition-all cursor-pointer"
+                    >
+                        {isEmbedded ? 'Retry Module' : 'Play Again'}
+                    </button>
+                    
+                    {!isEmbedded && (
+                        <button 
+                            onClick={() => setGameState("MENU")}
+                            className="mt-6 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                        >
+                            Return to Menu
+                        </button>
+                    )}
+                </div>
+            )}
+            {gameState !== 'PLAYING' && gameState !== 'GAME_OVER' && (
                 <div className="absolute inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm">
                     <div className="w-[340px] bg-[#7a6f61] border-[8px] border-[#554e44] rounded-lg p-6 shadow-2xl relative flex flex-col items-center">
                         <button onClick={() => { setIsMuted(sfx.toggleMute()); }} className="absolute -top-4 -right-4 bg-[#7a6f61] text-white border-[3px] border-[#554e44] w-12 h-12 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center text-2xl z-10">
                             {isMuted ? '🔇' : '🔊'}
                         </button>
                         <div className="absolute -top-6 bg-[#655a4d] border-4 border-[#4a4339] px-6 py-1.5 text-white font-black text-xl tracking-wider uppercase shadow-md">
-                            {gameState === 'MENU' ? 'Ninja Run' : gameState === 'PAUSED' ? 'Paused' : 'Game Over'}
+                            {gameState === 'MENU' ? 'Ninja Run' : 'Paused'}
                         </div>
-
-                        {gameState === 'GAME_OVER' && (
-                            <div className="bg-[#554e44]/60 border-2 border-[#4a4339] p-4 rounded w-full font-mono text-white mt-4 mb-6">
-                                <div className="flex justify-between"><span>SPEED:</span><span>{hudState.wpm} WPM</span></div>
-                                <div className="flex justify-between mt-2"><span>ACCURACY:</span><span>{hudState.accuracy}%</span></div>
-                                <div className="flex justify-between mt-2"><span>SCORE:</span><span className="text-amber-400 text-lg font-black">{hudState.score}</span></div>
-                            </div>
-                        )}
 
                         <div className="flex flex-col gap-4 mt-6 w-full">
                             {gameState === 'MENU' && (
@@ -1330,7 +1416,7 @@ export default function NinjaWorld() {
                                 </div>
                             )}
 
-                            {(gameState === 'PAUSED' || gameState === 'GAME_OVER') && (
+                            {gameState === 'PAUSED' && (
                                 <>
                                     <div className="w-full bg-[#554e44] p-1.5 rounded shadow-inner border-2 border-[#4a4339]">
                                         <button onClick={() => startGame(difficulty)} className="w-full bg-[#e4dfd7] text-[#554e44] border-4 border-[#c0bbb5] rounded font-black text-xl py-2 uppercase shadow-md transition-transform hover:scale-[1.02] active:scale-[0.98]">

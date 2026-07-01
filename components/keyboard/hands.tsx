@@ -28,14 +28,21 @@ const KEY_ID_MAP: Record<string, string> = {
   'tab': 'tab',
 };
 
-function getSvgTargetId(char: string | null): string | null {
+function getSvgTargetId(char: string | string[] | null): string | null {
   if (!char) return null;
+  if (Array.isArray(char)) {
+    if (char.length === 1) {
+      char = char[0];
+    } else {
+      return null;
+    }
+  }
   const lower = char.toLowerCase();
   return KEY_ID_MAP[lower] || lower; 
 }
 
 interface KeyboardProps extends React.SVGProps<SVGSVGElement> {
-  expectedKey: string | null;
+  expectedKey: string | string[] | null;
   offsetX?: number;
   offsetY?: number;
   scale?: number;

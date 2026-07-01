@@ -1,6 +1,6 @@
 ================================================================================
-UNIVERSAL TYPING ACADEMY: MASTER SCHEMA & API SPECIFICATION (v3.0)
-ARCHITECTURE: 4-Tier Flat Hierarchy (Course -> Chapter -> Lesson -> Step)
+UNIVERSAL TYPING ACADEMY: MASTER SCHEMA & API SPECIFICATION (v3.1)
+ARCHITECTURE: 5-Tier Hierarchy (Course -> Chapter -> Section -> Lesson -> Step)
 SUPPORTED LOCALES: English (en), Uzbek (uz), Russian (ru)
 ================================================================================
 
@@ -46,7 +46,7 @@ interface StepRules {
 }
 
 --------------------------------------------------------------------------------
-PART 2: THE 4-TIER HIERARCHY SCHEMA
+PART 2: THE 5-TIER HIERARCHY SCHEMA
 --------------------------------------------------------------------------------
 
 TIER 1: ROOT COURSE (CourseNode)
@@ -63,21 +63,32 @@ TIER 2: CHAPTER (ChapterNode)
   "chapterNumber": number,
   "chapterTitle": LocalizedString,
   "description": LocalizedString,
+  "sections": [ SectionNode, SectionNode, ... ]
+}
+
+TIER 3: SECTION (SectionNode)
+{
+  "sectionId": string,
+  "sectionNumber": number,
+  "sectionTitle": LocalizedString,
+  "thumbnail"?: { "svgId": string, "parameters"?: object },
   "lessons": [ LessonNode, LessonNode, ... ]
 }
 
-TIER 3: LESSON (LessonNode)
+TIER 4: LESSON (LessonNode)
 {
   "lessonId": string,
   "lessonNumber": number,
+  "type": "practice" | "game", // "game" lessons show up separately in the UI
   "lessonTitle": LocalizedString,
   "pedagogicalGoal": LocalizedString,
   "unlockedKeys": string[], // CRITICAL: Content strings in this lesson cannot contain 
                             // characters outside this explicit array.
+  "thumbnail"?: { "svgId": string, "parameters"?: object },
   "steps": [ StepNode, StepNode, ... ]
 }
 
-TIER 4: STEP (StepNode)
+TIER 5: STEP (StepNode)
 {
   "stepId": string,
   "stepNumber": number,
@@ -106,8 +117,8 @@ The user resolves "red", which instantly snaps the engine focus to "fox".
 PART 4: COMPLETE PRODUCTION SPECIMEN (Valid JSON)
 --------------------------------------------------------------------------------
 The following JSON payload represents a fully complete, multi-lingual Course 
-containing Chapter 1, Lesson 2. It demonstrates the exact handoff between a 
-static posture check, a standard key-gym exercise, and a 3D Ninja Game exam.
+containing Chapter 1, Section 1, Lesson 2. It demonstrates the exact handoff 
+between a static posture check, a standard key-gym exercise, and a 3D Ninja Game exam.
 
 {
   "courseId": "course_core_typing",
@@ -131,89 +142,67 @@ static posture check, a standard key-gym exercise, and a 3D Ninja Game exam.
         "uz": "Barmoqlarning asosiy joylashuvini va ko'rsatkich barmoqning yuqoriga harakatini o'rganish.",
         "ru": "Освоение базовой постановки пальцев и движений указательного пальца вверх."
       },
-      "lessons": [
+      "sections": [
         {
-          "lessonId": "less_01_02",
-          "lessonNumber": 2,
-          "lessonTitle": {
+          "sectionId": "sec_01_01",
+          "sectionNumber": 1,
+          "sectionTitle": {
             "en": "Index Extension: [ R ] and [ U ]",
             "uz": "Ko'rsatkich barmoq: [ R ] va [ U ]",
             "ru": "Указательный палец: [ R ] и [ U ]"
           },
-          "pedagogicalGoal": {
-            "en": "Anchor F and J while extending upward to strike R and U.",
-            "uz": "F va J tugmalarini ushlab turgan holda R va U tugmalarini bosish.",
-            "ru": "Удерживая F и J, вытягивать пальцы вверх для нажатия R и U."
-          },
-          "unlockedKeys": ["f", "j", "r", "u"],
-          "steps": [
+          "lessons": [
             {
-              "stepId": "stp_01_02_01",
-              "stepNumber": 1,
-              "viewport": "POSTURE_CHECK",
-              "instruction": {
-                "en": "Rest your index fingers on the home row bumps [ F ] and [ J ]. Hold both down to start.",
-                "uz": "Ko'rsatkich barmoqlaringizni [ F ] va [ J ] tugmalaridagi bo'rtmalarga qo'ying. Boshlash uchun ikkalasini bosing.",
-                "ru": "Положите указательные пальцы на выступы клавиш [ F ] и [ J ]. Нажмите обе для начала."
+              "lessonId": "less_01_02",
+              "lessonNumber": 2,
+              "type": "practice",
+              "lessonTitle": {
+                "en": "Index Extension: [ R ] and [ U ]",
+                "uz": "Ko'rsatkich barmoq: [ R ] va [ U ]",
+                "ru": "Указательный палец: [ R ] и [ U ]"
               },
-              "content": ["f", "j"],
-              "rules": {
-                "allowBackspace": false,
-                "blockOnTypo": true,
-                "maxMistakesAllowed": 0,
-                "minimumWPM": 0
-              }
-            },
-            {
-              "stepId": "stp_01_02_02",
-              "stepNumber": 2,
-              "viewport": "KEY_INTRO",
-              "instruction": {
-                "en": "Reach your left index finger up and to the left to strike [ R ].",
-                "uz": "Chao ko'rsatkich barmog'ingizni yuqoriga va chapga harakatlantirib [ R ] tugmasini bosing.",
-                "ru": "Потяните левый указательный палец вверх и влево, чтобы нажать [ R ]."
+              "pedagogicalGoal": {
+                "en": "Anchor F and J while extending upward to strike R and U.",
+                "uz": "F va J tugmalarini ushlab turgan holda R va U tugmalarini bosish.",
+                "ru": "Удерживая F и J, вытягивать пальцы вверх для нажатия R и U."
               },
-              "content": ["r", "r", "r", "f", "r"],
-              "rules": {
-                "allowBackspace": false,
-                "blockOnTypo": true,
-                "maxMistakesAllowed": 2,
-                "minimumWPM": 0
-              }
-            },
-            {
-              "stepId": "stp_01_02_03",
-              "stepNumber": 3,
-              "viewport": "STANDARD_GYM",
-              "instruction": {
-                "en": "Roll your index fingers smoothly. Do not write the next letter before correcting the current key.",
-                "uz": "Barmoqlaringizni silliq harakatlantiring. Xatoni tuzatmasdan keyingi harfga o'tmang.",
-                "ru": "Двигайте пальцами плавно. Не нажимайте следующую букву, пока не исправите текущую."
-              },
-              "content": ["frf", "juj", "frr", "juu", "rur", "ufu"],
-              "rules": {
-                "allowBackspace": true,
-                "blockOnTypo": true,
-                "maxMistakesAllowed": 2,
-                "minimumWPM": 16
-              }
-            },
-            {
-              "stepId": "stp_01_02_04",
-              "stepNumber": 4,
-              "viewport": "GAME_NINJA_RUN",
-              "instruction": {
-                "en": "Exam Time! Throw shurikens at the incoming red ninjas to clear the jungle path.",
-                "uz": "Imtihon vaqti! O'rmon yo'lini tozalash uchun qizil ninjalarga shurikenlar firlating.",
-                "ru": "Время экзамена! Бросайте сюрикены в красных ниндзя, чтобы расчистить путь."
-              },
-              "content": ["fur", "rug", "jur", "ruf", "jur", "rug"],
-              "rules": {
-                "allowBackspace": false,
-                "blockOnTypo": false,
-                "maxMistakesAllowed": 3,
-                "minimumWPM": 22
-              }
+              "unlockedKeys": ["f", "j", "r", "u"],
+              "steps": [
+                {
+                  "stepId": "stp_01_02_01",
+                  "stepNumber": 1,
+                  "viewport": "POSTURE_CHECK",
+                  "instruction": {
+                    "en": "Rest your index fingers on the home row bumps [ F ] and [ J ]. Hold both down to start.",
+                    "uz": "Ko'rsatkich barmoqlaringizni [ F ] va [ J ] tugmalaridagi bo'rtmalarga qo'ying. Boshlash uchun ikkalasini bosing.",
+                    "ru": "Положите указательные пальцы на выступы клавиш [ F ] и [ J ]. Нажмите обе для начала."
+                  },
+                  "content": ["f", "j"],
+                  "rules": {
+                    "allowBackspace": false,
+                    "blockOnTypo": true,
+                    "maxMistakesAllowed": 0,
+                    "minimumWPM": 0
+                  }
+                },
+                {
+                  "stepId": "stp_01_02_03",
+                  "stepNumber": 3,
+                  "viewport": "STANDARD_GYM",
+                  "instruction": {
+                    "en": "Roll your index fingers smoothly. Do not write the next letter before correcting the current key.",
+                    "uz": "Barmoqlaringizni silliq harakatlantiring. Xatoni tuzatmasdan keyingi harfga o'tmang.",
+                    "ru": "Двигайте пальцами плавно. Не нажимайте следующую букву, пока не исправите текущую."
+                  },
+                  "content": ["frf", "juj", "frr", "juu", "rur", "ufu"],
+                  "rules": {
+                    "allowBackspace": true,
+                    "blockOnTypo": true,
+                    "maxMistakesAllowed": 2,
+                    "minimumWPM": 16
+                  }
+                }
+              ]
             }
           ]
         }

@@ -18,14 +18,15 @@ const KEY_ID_MAP: Record<string, string> = {
 };
 
 interface NewKeyboardProps {
-  expectedKey: string | null;
+  expectedKey: string | string[] | null;
+  activeKeys?: string[];
   offsetX?: number;
   offsetY?: number;
   scale?: number;
   lastPress?: { key: string; isCorrect: boolean; id: number } | null;
 }
 
-export const NewKeyboard = memo(function NewKeyboard({ expectedKey, offsetX = 0, offsetY = 0, scale = 1, lastPress }: NewKeyboardProps) {
+export const NewKeyboard = memo(function NewKeyboard({ expectedKey, activeKeys, offsetX = 0, offsetY = 0, scale = 1, lastPress }: NewKeyboardProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   // Calculate viewBox dimensions based on scale
@@ -42,33 +43,51 @@ export const NewKeyboard = memo(function NewKeyboard({ expectedKey, offsetX = 0,
     if (!svgRef.current) return;
     const dom = svgRef.current;
 
-    // Reset active classes
+    // Reset active and pressed classes
     const activeElements = dom.querySelectorAll('.active');
     activeElements.forEach(el => el.classList.remove('active'));
-
-    if (!expectedKey) return;
-
-    const targetId = KEY_ID_MAP[expectedKey.toLowerCase()] || expectedKey.toLowerCase();
     
-    if (targetId) {
-      const targetPath = dom.querySelector(`path#${targetId}`);
-      if (targetPath) {
-        targetPath.classList.add('active');
-      }
+    const pressedElements = dom.querySelectorAll('.pressed');
+    pressedElements.forEach(el => el.classList.remove('pressed'));
 
-      // Highlight text elements
-      const targetTextId = `text-${targetId}`;
-      const textById = dom.querySelector(`text#${targetTextId}`);
-      if (textById) {
-        textById.classList.add('active');
-      } else {
-        // Find text by content for letters and symbols, ignoring hidden alternate labels
-        const allTexts = Array.from(dom.querySelectorAll('text.edc-st2'));
-        const matchingTexts = allTexts.filter(t => t.textContent?.trim().toLowerCase() === expectedKey.toLowerCase());
-        matchingTexts.forEach(t => t.classList.add('active'));
-      }
+    if (expectedKey) {
+      const keys = Array.isArray(expectedKey) ? expectedKey : [expectedKey];
+      keys.forEach(key => {
+        const targetId = KEY_ID_MAP[key.toLowerCase()] || key.toLowerCase();
+        
+        if (targetId) {
+          const targetPath = dom.querySelector(`path#${targetId}`);
+          if (targetPath) {
+            targetPath.classList.add('active');
+          }
+
+          // Highlight text elements
+          const targetTextId = `text-${targetId}`;
+          const textById = dom.querySelector(`text#${targetTextId}`);
+          if (textById) {
+            textById.classList.add('active');
+          } else {
+            // Find text by content for letters and symbols, ignoring hidden alternate labels
+            const allTexts = Array.from(dom.querySelectorAll('text.edc-st2'));
+            const matchingTexts = allTexts.filter(t => t.textContent?.trim().toLowerCase() === key.toLowerCase());
+            matchingTexts.forEach(t => t.classList.add('active'));
+          }
+        }
+      });
     }
-  }, [expectedKey]);
+
+    if (activeKeys) {
+      activeKeys.forEach(key => {
+        const targetId = KEY_ID_MAP[key.toLowerCase()] || key.toLowerCase();
+        if (targetId) {
+          const targetPath = dom.querySelector(`path#${targetId}`);
+          if (targetPath) {
+            targetPath.classList.add('pressed');
+          }
+        }
+      });
+    }
+  }, [expectedKey, activeKeys]);
 
   useEffect(() => {
     if (!svgRef.current || !lastPress) return;
@@ -96,34 +115,36 @@ export const NewKeyboard = memo(function NewKeyboard({ expectedKey, offsetX = 0,
     <svg 
       ref={svgRef}
       viewBox={`${x} ${y} ${w} ${h}`}
-      className="w-full h-full select-none pointer-events-none theme-bees overflow-visible"
+      className="w-full h-full select-none pointer-events-none theme-bees overflow-visible keyboard-svg"
     >
       <style type="text/css" dangerouslySetInnerHTML={{ __html: `
-        .edc-st0 {fill: none;stroke: #777777;stroke-width: 0.5;stroke-miterlimit: 10;}
-        .edc-st1 {
+        .keyboard-svg .edc-st0 {fill: none;stroke: #777777;stroke-width: 0.5;stroke-miterlimit: 10;}
+        .keyboard-svg .edc-st1 {
           opacity: 0;
           font-family: 'ArialMT', 'Arial', 'Helvetica', 'sans-serif';
           font-size: 15px;
         }
-        .edc-st2 {
+        .keyboard-svg .edc-st2 {
           opacity: 1;
           fill: #777777;
         }
 
-        .b {font-size: 26px;}
-        .b2 {font-size: 24px;}
-        .s {font-size: 12px;}
+        .keyboard-svg .b {font-size: 26px;}
+        .keyboard-svg .b2 {font-size: 24px;}
+        .keyboard-svg .s {font-size: 12px;}
 
-        path.active {fill: rgb(121, 187, 255);}
-        path.deadkey {fill: orange;}
-        path.correct {stroke: #22c55e !important; stroke-width: 4px !important;}
-        path.incorrect {stroke: #ef4444 !important; stroke-width: 4px !important; fill: #fecaca !important;}
-        .dark path.incorrect { fill: #c76767ff !important; }
-        path.clickable:hover {cursor: pointer;stroke-width: 2px;}
+        .keyboard-svg path.active {fill: rgb(121, 187, 255);}
+        .keyboard-svg path.pressed { stroke: #22c55e !important; stroke-width: 3px !important; fill: #dcfce7 !important; }
+        .dark .keyboard-svg path.pressed { fill: #166534 !important; }
+        .keyboard-svg path.deadkey {fill: orange;}
+        .keyboard-svg path.correct {stroke: #22c55e !important; stroke-width: 4px !important;}
+        .keyboard-svg path.incorrect {stroke: #ef4444 !important; stroke-width: 4px !important; fill: #fecaca !important;}
+        .dark .keyboard-svg path.incorrect { fill: #c76767ff !important; }
+        .keyboard-svg path.clickable:hover {cursor: pointer;stroke-width: 2px;}
 
-        text {user-select: none;opacity: 0;}
-        text.active {fill: #ffffff; opacity: 1;}
-        text.incorrect {fill: white;}
+        .keyboard-svg text {user-select: none;opacity: 0;}
+        .keyboard-svg text.active {fill: #ffffff; opacity: 1;}
+        .keyboard-svg text.incorrect {fill: white;}
       `}} />
       <g id="keys">
         <path id="iso-key" className="edc-st0" d="M58.4,53.7c0,1.7-1.4,3-3,3H18.9c-1.6,0-3-1.3-3-3V18.3c0-1.7,1.3-3,3-3h36.5c1.6,0,3,1.3,3,3V53.7z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
