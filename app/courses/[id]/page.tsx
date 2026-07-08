@@ -2,9 +2,11 @@
 
 import React, { useCallback, useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
-import lessonsData from '@/data/lessons.json';
-import { CourseNode, SectionNode } from '@/types/lesson';
+import { course as courseData } from '@/lib/curriculum';
+import { SectionNode, LessonNode } from '@/types/lesson';
 import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
+import { getProgress, computeUnlocked, isLessonPassed, ProgressMap } from '@/lib/progress';
+import { LESSON_TYPES, LESSON_TYPE_ORDER, LessonTypeIcon } from '@/lib/lessonTypes';
 
 export default function CourseDetailPage({ 
   params,
@@ -15,11 +17,16 @@ export default function CourseDetailPage({
 }) {
   const sp = use(searchParams);
   const router = useRouter();
-  const course = lessonsData as unknown as CourseNode;
+  const course = courseData;
   const [isRouting, setIsRouting] = useState(false);
   
   // State to track which section is currently "open"
   const [activeSectionId, setActiveSectionId] = useState<string | null>(sp?.sectionId || null);
+  const [progress, setProgress] = useState<ProgressMap>({});
+
+  useEffect(() => {
+    setProgress(getProgress());
+  }, []);
 
   useEffect(() => {
     if (sp?.sectionId) {
@@ -29,9 +36,7 @@ export default function CourseDetailPage({
 
   const launchLesson = useCallback((lessonId: string | number) => {
     setIsRouting(true);
-    setTimeout(() => {
-      router.push(`/lesson/${lessonId}`);
-    }, 150);
+    router.push(`/lesson/${lessonId}`);
   }, [router]);
 
   // Find active section details if one is selected
@@ -47,6 +52,13 @@ export default function CourseDetailPage({
       }
     }
   }
+
+  // Star tally for the section header — only graded lessons (tests, games) award stars
+  const gradedLessons = activeSection
+    ? activeSection.lessons.filter(l => LESSON_TYPES[l.type].graded)
+    : [];
+  const earnedStars = gradedLessons.reduce((sum, l) => sum + (progress[l.lessonId]?.stars ?? 0), 0);
+  const totalStars = gradedLessons.length * 5;
 
   return (
     <div className={`flex-1 flex flex-col bg-[#FAFAFA] text-neutral-950 font-sans min-h-screen pt-24 px-6 transition-opacity duration-200 ${isRouting ? 'opacity-0' : 'opacity-100'}`}>
@@ -75,55 +87,135 @@ export default function CourseDetailPage({
                  )}
                  <div>
                    <h2 className="text-2xl font-black text-neutral-900 leading-tight">{activeSection.sectionTitle.en}</h2>
-                   <p className="text-sm text-neutral-500 mt-1">{activeChapterTitle} • Section {activeSection.sectionNumber}</p>
+                   <p className="text-sm text-neutral-500 mt-1">
+                     {activeChapterTitle} • Section {activeSection.sectionNumber}
+                     {totalStars > 0 && (
+                       <>
+                         {' '}•{' '}
+                         <span className="font-semibold text-amber-500">★ {earnedStars}/{totalStars}</span>
+                       </>
+                     )}
+                   </p>
                  </div>
                </div>
 
                {(() => {
-                 const practiceLessons = activeSection.lessons.filter(l => l.type !== 'game');
-                 const gameLessons = activeSection.lessons.filter(l => l.type === 'game');
+                 // Groups follow the pedagogical arc: Learn → Practice → Tests → Games
+                 const groups = LESSON_TYPE_ORDER
+                   .map(t => ({
+                     type: t,
+                     cfg: LESSON_TYPES[t],
+                     lessons: activeSection!.lessons.filter(l => l.type === t),
+                   }))
+                   .filter(g => g.lessons.length > 0);
 
-                 const renderLessonCard = (lesson: any) => (
-                   <div 
+                 // Sequential unlocking follows the authored lesson order
+                 const unlockedFlags = computeUnlocked(
+                   activeSection.lessons.map(l => ({ lessonId: l.lessonId, passStars: l.passStars })),
+                   progress,
+                 );
+                 const unlockedMap: Record<string, boolean> = {};
+                 activeSection.lessons.forEach((l, i) => { unlockedMap[l.lessonId] = unlockedFlags[i]; });
+
+                 // The first unlocked-but-not-yet-passed lesson is "up next"
+                 const nextUpId = activeSection.lessons.find((l, i) =>
+                   unlockedFlags[i] &&
+                   !isLessonPassed({ lessonId: l.lessonId, passStars: l.passStars }, progress),
+                 )?.lessonId;
+
+                 const renderLessonCard = (lesson: LessonNode) => {
+                   const cfg = LESSON_TYPES[lesson.type];
+                   const prog = progress[lesson.lessonId];
+                   const completed = !!prog?.completed;
+                   const locked = !unlockedMap[lesson.lessonId];
+                   const isNextUp = lesson.lessonId === nextUpId;
+                   const passed = isLessonPassed({ lessonId: lesson.lessonId, passStars: lesson.passStars }, progress);
+                   const showStars = cfg.graded && completed && (prog?.stars ?? 0) > 0;
+                   return (
+                   <div
                      key={lesson.lessonId}
-                     onClick={() => launchLesson(lesson.lessonId)}
-                     className="group bg-white border border-neutral-200 hover:border-neutral-400 hover:shadow-md rounded-lg shadow-sm transition-all duration-200 cursor-pointer flex flex-col overflow-hidden relative"
+                     onClick={locked ? undefined : () => launchLesson(lesson.lessonId)}
+                     aria-disabled={locked}
+                     className={`group bg-white border rounded-lg shadow-sm transition-all duration-200 flex flex-col overflow-hidden relative ${
+                       locked
+                         ? 'border-neutral-200 cursor-not-allowed'
+                         : isNextUp
+                           ? 'border-emerald-500 ring-2 ring-emerald-500 hover:shadow-md cursor-pointer'
+                           : 'border-neutral-200 hover:border-neutral-400 hover:shadow-md cursor-pointer'
+                     }`}
                    >
-                     <div className="absolute top-2 left-3 sm:top-3 sm:left-4 text-xl sm:text-2xl font-extrabold text-neutral-500/80 group-hover:text-neutral-700 transition-colors z-10 mix-blend-multiply">
-                       
-                     </div>
-
                      <div className="w-full aspect-[16/10] bg-neutral-50 relative overflow-hidden">
-                       <DynamicThumbnail svgId={lesson.thumbnail?.svgId || 'TWO_KEYS_FOCUS'} params={lesson.thumbnail?.parameters} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" />
+                       <DynamicThumbnail
+                         svgId={lesson.thumbnail?.svgId || 'TWO_KEYS_FOCUS'}
+                         params={lesson.thumbnail?.parameters}
+                         className={`w-full h-full object-cover transition-all duration-500 ease-out ${
+                           locked ? 'grayscale opacity-40' : 'group-hover:scale-105'
+                         }`}
+                       />
+
+                       {/* Type badge — anchors the card to its group */}
+                       <div className={`absolute top-1.5 left-1.5 z-10 w-6 h-6 rounded-md border flex items-center justify-center shadow-sm ${cfg.badgeClass} ${locked ? 'opacity-50' : ''}`}>
+                         <LessonTypeIcon type={lesson.type} size={12} />
+                       </div>
+
+                       {/* Earned stars — big, on top of the thumbnail */}
+                       {showStars && !locked && (
+                         <div className="absolute top-1.5 left-1/2 -translate-x-1/2 z-10 text-base sm:text-lg tracking-wide leading-none drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)]">
+                           <span className="text-amber-400">{'★'.repeat(prog.stars)}</span>
+                           <span className="text-neutral-300/90">{'★'.repeat(5 - prog.stars)}</span>
+                         </div>
+                       )}
+
+                       {/* Star goal — graded lessons show what it takes to pass */}
+                       {cfg.graded && !locked && !passed && lesson.passStars > 0 && (
+                         <div className="absolute bottom-1.5 left-1.5 z-10 px-1.5 py-0.5 rounded-md bg-white/95 border border-neutral-200 shadow-sm text-[9px] font-bold text-neutral-600 leading-none flex items-center gap-0.5">
+                           <span className="text-amber-500">★</span>
+                           <span>{lesson.passStars}</span>
+                           <span className="font-semibold text-neutral-400 ml-0.5">to pass</span>
+                         </div>
+                       )}
+
+                       {/* Completed badge — big and unmistakable */}
+                       {completed && !locked && (
+                         <div className="absolute bottom-2 right-2 z-10 w-8 h-8 bg-emerald-500 text-white flex items-center justify-center rounded-full shadow-md ring-2 ring-white">
+                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                         </div>
+                       )}
+
+                       {/* Padlock for locked lessons */}
+                       {locked && (
+                         <div className="absolute inset-0 z-10 flex items-center justify-center">
+                           <div className="w-10 h-10 bg-white/95 rounded-full flex items-center justify-center shadow-md">
+                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                           </div>
+                         </div>
+                       )}
                      </div>
 
-                     <div className="border-t border-neutral-100 py-2 sm:py-3 px-2 text-center bg-white flex items-center justify-center min-h-[44px]">
-                       <span className="text-[10px] sm:text-xs font-medium text-neutral-500 group-hover:text-neutral-800 transition-colors truncate">
+                     <div className="border-t border-neutral-100 py-2 sm:py-3 px-2 text-center bg-white flex flex-col items-center justify-center min-h-[44px] gap-0.5">
+                       <span className={`text-[10px] sm:text-xs font-medium truncate transition-colors ${
+                         locked ? 'text-neutral-300' : 'text-neutral-500 group-hover:text-neutral-800'
+                       }`}>
                          {lesson.lessonTitle.en}
                        </span>
                      </div>
                    </div>
-                 );
+                   );
+                 };
 
                  return (
                    <div className="flex flex-col gap-8">
-                     {practiceLessons.length > 0 && (
-                       <div>
-                         {gameLessons.length > 0 && <h3 className="text-sm font-bold text-neutral uppercase tracking-widest mb-3 pl-1">Practice</h3>}
+                     {groups.map(({ type, cfg, lessons }) => (
+                       <div key={type}>
+                         <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3 pl-1 flex items-center gap-1.5">
+                           <LessonTypeIcon type={type} size={12} />
+                           {cfg.label.en}
+                         </h3>
                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
-                           {practiceLessons.map(renderLessonCard)}
+                           {lessons.map(renderLessonCard)}
                          </div>
                        </div>
-                     )}
-                     
-                     {gameLessons.length > 0 && (
-                       <div>
-                         <h3 className="text-xs font-bold text-neutral uppercase tracking-widest mb-3 pl-1">Games</h3>
-                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
-                           {gameLessons.map(renderLessonCard)}
-                         </div>
-                       </div>
-                     )}
+                     ))}
                    </div>
                  );
                })()}
@@ -135,9 +227,13 @@ export default function CourseDetailPage({
                    <h2 className="text-2xl font-black text-neutral-900 mb-8 border-b border-neutral-200 pb-4">{chapter.chapterTitle.en}</h2>
                    
                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
-                     {chapter.sections?.map((section) => (
-                       <div 
-                         key={section.sectionId} 
+                     {chapter.sections?.map((section) => {
+                       const totalLessons = section.lessons?.length || 0;
+                       const doneLessons =
+                         section.lessons?.filter((l) => progress[l.lessonId]?.completed).length || 0;
+                       return (
+                       <div
+                         key={section.sectionId}
                          onClick={() => setActiveSectionId(section.sectionId)}
                          className="group bg-white border border-neutral-200 hover:border-neutral-400 hover:shadow-md rounded-lg shadow-sm transition-all duration-200 cursor-pointer flex flex-col overflow-hidden relative"
                        >
@@ -157,13 +253,25 @@ export default function CourseDetailPage({
                            )}
                          </div>
 
-                         <div className="border-t border-neutral-100 py-2 sm:py-3 px-2 text-center bg-white flex items-center justify-center min-h-[44px]">
+                         {totalLessons > 0 && doneLessons > 0 && (
+                           <div className="h-1 w-full bg-neutral-100">
+                             <div
+                               className="h-full bg-emerald-500 transition-all duration-500"
+                               style={{ width: `${(doneLessons / totalLessons) * 100}%` }}
+                             />
+                           </div>
+                         )}
+                         <div className="border-t border-neutral-100 py-2 sm:py-3 px-2 text-center bg-white flex items-center justify-center min-h-[44px] gap-1.5">
                            <span className="text-[10px] sm:text-xs font-medium text-neutral-500 group-hover:text-neutral-800 transition-colors truncate">
                              {section.sectionTitle.en}
                            </span>
+                           {doneLessons === totalLessons && totalLessons > 0 && (
+                             <span className="text-[10px] font-bold text-emerald-500">✓</span>
+                           )}
                          </div>
                        </div>
-                     ))}
+                       );
+                     })}
                    </div>
                  </div>
                ))}

@@ -1,212 +1,116 @@
 ================================================================================
-UNIVERSAL TYPING ACADEMY: MASTER SCHEMA & API SPECIFICATION (v3.1)
-ARCHITECTURE: 5-Tier Hierarchy (Course -> Chapter -> Section -> Lesson -> Step)
-SUPPORTED LOCALES: English (en), Uzbek (uz), Russian (ru)
+TYPING ACADEMY — LESSON DATA FORMAT (v4)
+Hierarchy: Course -> Chapter -> Section -> Lesson -> Step
+Locales: en (English), uz (O'zbekcha), ru (Русский)
 ================================================================================
 
-ATTENTION CURRICULUM DATA ENGINEERS & AI GENERATORS:
-This document is the absolute technical standard for creating course content. 
-Follow the exact naming conventions, deep-nested object structures, and 
-strict validation rules defined below.
+data/lessons.json is written in the v4 AUTHORING format described here.
+At runtime, lib/curriculum.ts normalizes it into the internal model
+(ids for steps, numbers, expanded rules) — you never write those by hand.
+
+CHECK YOUR WORK:   npm run validate:lessons
+(validates locales, ids, viewports, modes, key coverage, thumbnail ids)
 
 --------------------------------------------------------------------------------
-PART 1: GLOBAL INTERFACES & DATA TYPES
+1. THE BASICS
 --------------------------------------------------------------------------------
 
-1. THE TRI-LINGUAL STRING (LocalizedString)
-All user-facing instructional text and UI titles must strictly provide translations 
-for all three supported platforms. Partial objects will fail compilation.
+Every node uses the same two fields:
 
-interface LocalizedString {
-  en: string; // English
-  uz: string; // O'zbekcha
-  ru: string; // Русский
-}
+  "id"     — unique string (e.g. "less_01_02"). Used in URLs, never shown.
+  "title"  — { "en": "...", "uz": "...", "ru": "..." } — ALL THREE required.
 
-2. THE VIEWPORT RENDERER (ViewportMode)
-This string dictates exactly which React UI component mounts on the client's screen.
-
-enum ViewportMode {
-  POSTURE_CHECK  = "POSTURE_CHECK",  // Static hands graphic; waits for home row anchor
-  KEY_INTRO      = "KEY_INTRO",      // Introduces a single new key coordinate
-  STANDARD_GYM   = "STANDARD_GYM",   // Standard typing treadmill (letters/words/texts)
-  GAME_NINJA_RUN = "GAME_NINJA_RUN"  // 3D WebGL Runner Game (consumes 'content' array)
-}
-
-3. THE EXECUTION RULES (StepRules)
-Defines the mechanical strictness for completing a Step.
-
-interface StepRules {
-  allowBackspace: boolean;     // If true: user can delete mistakes.
-  blockOnTypo: boolean;        // If true: cursor freezes until the correct key is struck.
-                               // If false: cursor advances, marking the letter red.
-  maxMistakesAllowed: number;  // Maximum permitted typos before triggering an instant fail/reset.
-                               // Set to 0 for strict flawless execution.
-  minimumWPM: number;          // Target speed threshold. Set to 0 to disable timer.
-}
+There are NO number fields (chapterNumber, stepNumber, ...) — the position
+in the array IS the number.
 
 --------------------------------------------------------------------------------
-PART 2: THE 5-TIER HIERARCHY SCHEMA
+2. THE TREE
 --------------------------------------------------------------------------------
 
-TIER 1: ROOT COURSE (CourseNode)
-{
-  "courseId": string,
-  "courseTitle": LocalizedString,
-  "targetAudience": string,
-  "chapters": [ ChapterNode, ChapterNode, ... ]
-}
+COURSE   { id, title, audience?, thumbnail?, chapters: [...] }
+CHAPTER  { id, title, description?, sections: [...] }
+SECTION  { id, title, thumbnail?, lessons: [...] }
+LESSON   { id, type?, title, goal?, keys?, thumbnail?, steps: [...] }
+STEP     { viewport, instruction, text, mode?, targetWPM?, maxMistakes? }
 
-TIER 2: CHAPTER (ChapterNode)
-{
-  "chapterId": string,
-  "chapterNumber": number,
-  "chapterTitle": LocalizedString,
-  "description": LocalizedString,
-  "sections": [ SectionNode, SectionNode, ... ]
-}
+LESSON fields:
+  type   — what kind of lesson this is (default "practice"):
+      "lesson"    teaches something NEW (key intros, guidance).
+                  UNGRADED — completion checkmark only, no stars.
+      "practice"  drills what was taught, judgment-free.
+                  UNGRADED — mistakes are fine, completing it passes it.
+      "test"      proves the skill for this lesson's keys.
+                  Graded 0-5 stars — this is where rewards are earned.
+                  Author its steps in "strict" mode with a targetWPM.
+      "game"      arcade challenge. Graded 0-5 stars.
+    A good section follows the arc:
+    lesson -> practice -> practice -> test -> game -> mastery test.
+    (per-type behavior is defined once in lib/lessonTypes.tsx,
+    so new types can be added without touching the pages)
+  passStars — stars needed to PASS this lesson and unlock the next one.
+    Defaults: "lesson"/"practice" 0 (just complete it), "game" 1, "test" 3.
+    Use higher values for exams (e.g. 4 for a mastery test).
+    Must be 0 (or omitted) on ungraded types ("lesson", "practice").
+  goal   — localized learning goal (optional; falls back to title)
+  keys   — e.g. ["f","j"]. OPTIONAL: when omitted it is derived automatically
+           from the step text. If you DO declare it, the validator enforces
+           that no step uses a character outside this list.
 
-TIER 3: SECTION (SectionNode)
-{
-  "sectionId": string,
-  "sectionNumber": number,
-  "sectionTitle": LocalizedString,
-  "thumbnail"?: { "svgId": string, "parameters"?: object },
-  "lessons": [ LessonNode, LessonNode, ... ]
-}
-
-TIER 4: LESSON (LessonNode)
-{
-  "lessonId": string,
-  "lessonNumber": number,
-  "type": "practice" | "game", // "game" lessons show up separately in the UI
-  "lessonTitle": LocalizedString,
-  "pedagogicalGoal": LocalizedString,
-  "unlockedKeys": string[], // CRITICAL: Content strings in this lesson cannot contain 
-                            // characters outside this explicit array.
-  "thumbnail"?: { "svgId": string, "parameters"?: object },
-  "steps": [ StepNode, StepNode, ... ]
-}
-
-TIER 5: STEP (StepNode)
-{
-  "stepId": string,
-  "stepNumber": number,
-  "viewport": ViewportMode,
-  "instruction": LocalizedString, // Top-screen Sensei prompt
-  "content": string[],            // The raw data payload (Tokens, Words, or Sentences).
-                                  // For Games, each string represents one spawned enemy.
-  "rules": StepRules
-}
+STEP fields:
+  viewport — which UI mounts:
+      "KEY_INTRO"       introduce a single new key
+      "STANDARD_GYM"    the standard typing treadmill
+      "GAME_NINJA_RUN"  the 3D game (each text token = one enemy)
+      "POSTURE_CHECK"   static hands graphic, waits for home-row anchor
+  instruction — localized sensei prompt shown above the step
+  text — ONE string, tokens separated by spaces: "fff jjj fjf"
+         The engine splits it for you (spaces are never typed).
+         An array of tokens is also accepted.
+  mode — how strict the step is (default "careful"):
+      "learn"    no backspace, cursor waits for the right key   (new keys)
+      "careful"  backspace on, cursor waits for the right key   (practice)
+      "strict"   like careful but only 1 uncorrected mistake    (tests)
+      "free"     mistakes mark red and the cursor moves on      (games)
+  targetWPM   — speed goal; used for the 3-star rating (omit = no speed goal)
+  maxMistakes — overrides the mode's mistake limit (e.g. 3 for a game step)
 
 --------------------------------------------------------------------------------
-PART 3: COMPILER COMPLIANCE & SAFETY LAWS
+3. THUMBNAILS
 --------------------------------------------------------------------------------
 
-LAW 1 (The Key-Vector Boundary): 
-If a Lesson declares "unlockedKeys": ["f", "j", "r", "u"], placing the string "run" 
-inside a Step's content array is a fatal compile violation. The character 'n' 
-has not been unlocked. 
+  "thumbnail": { "svgId": "TWO_KEYS_FOCUS",
+                 "parameters": { "keys": ["f","j"], "accentColor": "emerald" } }
 
-LAW 2 (Token Atomicity):
-Never put spacebars inside discrete content strings. Writing "content": ["red fox"] 
-is invalid. It must be split into atomic target tokens: "content": ["red", "fox"]. 
-The user resolves "red", which instantly snaps the engine focus to "fox".
+svgId must exist in ThumbnailRegistry (components/thumbnails/SvgLibrary.tsx).
+A raster image is also allowed: "thumbnail": { "imageSrc": "/cource01.png" }.
 
 --------------------------------------------------------------------------------
-PART 4: COMPLETE PRODUCTION SPECIMEN (Valid JSON)
+4. MINIMAL EXAMPLE (one lesson)
 --------------------------------------------------------------------------------
-The following JSON payload represents a fully complete, multi-lingual Course 
-containing Chapter 1, Section 1, Lesson 2. It demonstrates the exact handoff 
-between a static posture check, a standard key-gym exercise, and a 3D Ninja Game exam.
 
 {
-  "courseId": "course_core_typing",
-  "courseTitle": {
-    "en": "Universal Keyboarding Masterclass",
-    "uz": "Universal klaviatura masterklassi",
-    "ru": "Универсальный мастер-класс по печати"
-  },
-  "targetAudience": "All Ages",
-  "chapters": [
-    {
-      "chapterId": "chap_01",
-      "chapterNumber": 1,
-      "chapterTitle": {
-        "en": "The Home Row & Upper Reaches",
-        "uz": "Asosiy qator va yuqori tugmalar",
-        "ru": "Основной ряд и верхние клавиши"
-      },
-      "description": {
-        "en": "Establish foundational finger anchors and vertical index finger extensions.",
-        "uz": "Barmoqlarning asosiy joylashuvini va ko'rsatkich barmoqning yuqoriga harakatini o'rganish.",
-        "ru": "Освоение базовой постановки пальцев и движений указательного пальца вверх."
-      },
-      "sections": [
-        {
-          "sectionId": "sec_01_01",
-          "sectionNumber": 1,
-          "sectionTitle": {
-            "en": "Index Extension: [ R ] and [ U ]",
-            "uz": "Ko'rsatkich barmoq: [ R ] va [ U ]",
-            "ru": "Указательный палец: [ R ] и [ U ]"
-          },
-          "lessons": [
-            {
-              "lessonId": "less_01_02",
-              "lessonNumber": 2,
-              "type": "practice",
-              "lessonTitle": {
-                "en": "Index Extension: [ R ] and [ U ]",
-                "uz": "Ko'rsatkich barmoq: [ R ] va [ U ]",
-                "ru": "Указательный палец: [ R ] и [ U ]"
-              },
-              "pedagogicalGoal": {
-                "en": "Anchor F and J while extending upward to strike R and U.",
-                "uz": "F va J tugmalarini ushlab turgan holda R va U tugmalarini bosish.",
-                "ru": "Удерживая F и J, вытягивать пальцы вверх для нажатия R и U."
-              },
-              "unlockedKeys": ["f", "j", "r", "u"],
-              "steps": [
-                {
-                  "stepId": "stp_01_02_01",
-                  "stepNumber": 1,
-                  "viewport": "POSTURE_CHECK",
-                  "instruction": {
-                    "en": "Rest your index fingers on the home row bumps [ F ] and [ J ]. Hold both down to start.",
-                    "uz": "Ko'rsatkich barmoqlaringizni [ F ] va [ J ] tugmalaridagi bo'rtmalarga qo'ying. Boshlash uchun ikkalasini bosing.",
-                    "ru": "Положите указательные пальцы на выступы клавиш [ F ] и [ J ]. Нажмите обе для начала."
-                  },
-                  "content": ["f", "j"],
-                  "rules": {
-                    "allowBackspace": false,
-                    "blockOnTypo": true,
-                    "maxMistakesAllowed": 0,
-                    "minimumWPM": 0
-                  }
-                },
-                {
-                  "stepId": "stp_01_02_03",
-                  "stepNumber": 3,
-                  "viewport": "STANDARD_GYM",
-                  "instruction": {
-                    "en": "Roll your index fingers smoothly. Do not write the next letter before correcting the current key.",
-                    "uz": "Barmoqlaringizni silliq harakatlantiring. Xatoni tuzatmasdan keyingi harfga o'tmang.",
-                    "ru": "Двигайте пальцами плавно. Не нажимайте следующую букву, пока не исправите текущую."
-                  },
-                  "content": ["frf", "juj", "frr", "juu", "rur", "ufu"],
-                  "rules": {
-                    "allowBackspace": true,
-                    "blockOnTypo": true,
-                    "maxMistakesAllowed": 2,
-                    "minimumWPM": 16
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+  "id": "less_02_01",
+  "title":  { "en": "Keys r & u", "uz": "r & u tugmalari", "ru": "Клавиши r & u" },
+  "goal":   { "en": "Reach up from F and J to strike R and U.",
+              "uz": "F va J dan yuqoriga cho'zilib R va U ni bosing.",
+              "ru": "Тянитесь вверх от F и J к R и U." },
+  "thumbnail": { "svgId": "TWO_KEYS_FOCUS",
+                 "parameters": { "keys": ["r","u"], "accentColor": "blue" } },
+  "steps": [
+    { "viewport": "KEY_INTRO",
+      "instruction": { "en": "Reach your left index up to [ R ].",
+                       "uz": "Chap ko'rsatkich barmoqni [ R ] ga cho'zing.",
+                       "ru": "Потянитесь левым указательным к [ R ]." },
+      "text": "r r r r r r",
+      "mode": "learn" },
+    { "viewport": "STANDARD_GYM",
+      "instruction": { "en": "Roll smoothly between the four keys.",
+                       "uz": "To'rt tugma orasida silliq harakatlaning.",
+                       "ru": "Плавно перемещайтесь между четырьмя клавишами." },
+      "text": "frf juj ruf urj fur juru",
+      "mode": "careful",
+      "targetWPM": 16 }
   ]
 }
+
+That's the whole format. Write text, pick a mode, run the validator.

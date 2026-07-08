@@ -3,14 +3,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import lessonsData from '@/data/lessons.json';
-import { CourseNode } from '@/types/lesson';
+import { course } from '@/lib/curriculum';
 
 const IGNITION_WORD = 'tez';
 
 export default function HomePage() {
   const router = useRouter();
-  const course = lessonsData as unknown as CourseNode;
   const lessons = course.chapters?.flatMap(c => c.sections || []).flatMap(s => s.lessons || []) || [];
 
   // Interactive Hero "t-e-z" secret trigger state
@@ -19,9 +17,7 @@ export default function HomePage() {
 
   const launchLesson = useCallback((lessonId: string | number) => {
     setIsRouting(true);
-    setTimeout(() => {
-      router.push(`/lesson/${lessonId}`);
-    }, 150);
+    router.push(`/lesson/${lessonId}`);
   }, [router]);
 
   // Global key listener for the "t - e - z" typist launch hook
@@ -29,11 +25,6 @@ export default function HomePage() {
     if (isRouting) return;
 
     const handleGlobalTyping = (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        launchLesson(lessons[0]?.lessonId || "less_01_02");
-        return;
-      }
-
       const expectedChar = IGNITION_WORD[typedIndex];
       if (e.key.toLowerCase() === expectedChar) {
         const nextIdx = typedIndex + 1;

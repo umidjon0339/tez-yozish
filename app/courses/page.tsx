@@ -1,11 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import lessonsData from '@/data/lessons.json';
-import { CourseNode } from '@/types/lesson';
+import { course } from '@/lib/curriculum';
 import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
 
 export default function CoursesPage() {
-  const courses = lessonsData as unknown as CourseNode;
+  const courses = course;
 
   return (
     <div className="flex-1 flex flex-col bg-[#FAFAFA] min-h-screen pt-24 px-6">

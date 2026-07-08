@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, Html } from "@react-three/drei";
 import * as THREE from "three";
-import { StepNode } from "../../types/lesson";
+import { Mascot } from "@/components/Mascot";
 
 // ==========================================
 // THE "GOD MODE" MASTER CONFIGURATION
@@ -460,13 +460,15 @@ const MinionHero = ({ position, scale, isPlayer, wordTag }: any) => {
             const rightRot = Math.sin(t + Math.PI) * 0.6;
             leftLegRef.current.rotation.x = leftRot;
             rightLegRef.current.rotation.x = rightRot;
-            
-            // Detect maximum forward extension (peak of Math.sin)
-            const phase = t % (Math.PI * 2);
-            if (phaseRef.current < Math.PI/2 && phase >= Math.PI/2) sfx.playFootstep(false);
-            if (phaseRef.current < 3*Math.PI/2 && phase >= 3*Math.PI/2) sfx.playFootstep(true);
-            if (phase < phaseRef.current && phase >= Math.PI/2) sfx.playFootstep(false);
-            phaseRef.current = phase;
+
+            // Footsteps only for the player — N enemies each firing steps is a cacophony
+            if (isPlayer) {
+                const phase = t % (Math.PI * 2);
+                if (phaseRef.current < Math.PI/2 && phase >= Math.PI/2) sfx.playFootstep(false);
+                if (phaseRef.current < 3*Math.PI/2 && phase >= 3*Math.PI/2) sfx.playFootstep(true);
+                if (phase < phaseRef.current && phase >= Math.PI/2) sfx.playFootstep(false);
+                phaseRef.current = phase;
+            }
         }
         if (upperBodyRef.current) {
             upperBodyRef.current.position.y = 0; // Lock vertical height
@@ -937,7 +939,11 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
         const state = stateRef.current;
         state.timeSurvived += dt * 1000;
 
-        const speedMultiplier = DIFFICULTY_CONFIG[difficulty as Difficulty].baseSpeed / 18; // Normalized to MEDIUM
+        // Survival ramp (arcade only): speed & spawn rate grow up to +50% over ~90s
+        const ramp = (window as any)._isNinjaEmbedded
+            ? 1
+            : Math.min(1.5, 1 + state.timeSurvived / 180000);
+        const speedMultiplier = (DIFFICULTY_CONFIG[difficulty as Difficulty].baseSpeed / 18) * ramp; // Normalized to MEDIUM
         const worldMoveDist = MASTER_CONFIG.SPEEDS.worldScrollBase * speedMultiplier * dt;
         const enemyMoveDist = MASTER_CONFIG.SPEEDS.enemyRunBase * (speedMultiplier * 0.8) * dt;
 
@@ -970,7 +976,7 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
                 state.vignette = 1;
                 sfx.playDamage();
                 if (state.targetId === e.id) state.targetId = null;
-                if (state.lives <= 0) { setGameState("GAME_OVER"); sfx.playDeath(); }
+                if (state.lives <= 0) { setGameState("GAME_OVER"); sfx.playDeath(); sfx.stopProceduralBGM(); }
             }
         });
 
@@ -1073,7 +1079,7 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
                 }
             }
         } else {
-            if (state.spawnTimer > DIFFICULTY_CONFIG[difficulty as Difficulty].spawnInterval / 1000) {
+            if (state.spawnTimer > DIFFICULTY_CONFIG[difficulty as Difficulty].spawnInterval / 1000 / ramp) {
                 state.spawnTimer = 0;
                 const numWords = DIFFICULTY_CONFIG[difficulty as Difficulty].wordsPerEnemy;
                 let word = "";
@@ -1108,7 +1114,8 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
         if (state.hudTick > 0.05) {
             state.hudTick = 0;
             const minutes = state.timeSurvived / 60000;
-            const wpm = minutes > 0 ? Math.round(state.wordsTyped / minutes) : 0;
+            // Standard WPM: 5 characters = 1 word
+            const wpm = minutes > 0 ? Math.round(state.correctKeystrokes / 5 / minutes) : 0;
             const acc = state.totalKeystrokes > 0 ? Math.round((state.correctKeystrokes / state.totalKeystrokes)*100) : 0;
             setHudState({ score: state.score, lives: state.lives, wpm, accuracy: acc, vignette: state.vignette, redFlash: state.redFlash });
         }
@@ -1129,9 +1136,30 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
     const [activeParticleIds, setActiveParticleIds] = useState<string[]>([]);
     
     const [hudState, setHudState] = useState({ score: 0, lives: 3, wpm: 0, accuracy: 0, vignette: 0, redFlash: 0 });
+    const [highScore, setHighScore] = useState(0);
+    const [isNewRecord, setIsNewRecord] = useState(false);
 
     const [initState] = useState(getInitialState);
     const stateRef = useRef(initState);
+
+    useEffect(() => {
+        try {
+            setHighScore(Number(localStorage.getItem('tz-ninja-highscore') || 0));
+        } catch {}
+    }, []);
+
+    useEffect(() => {
+        if (gameState !== 'GAME_OVER' || isEmbedded) return;
+        const final = stateRef.current.score;
+        setIsNewRecord(final > 0 && final > highScore);
+        if (final > highScore) {
+            setHighScore(final);
+            try {
+                localStorage.setItem('tz-ninja-highscore', String(final));
+            } catch {}
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameState, isEmbedded]);
 
     const startGame = useCallback((diff: Difficulty) => {
         sfx.init();
@@ -1295,6 +1323,30 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
         return () => window.removeEventListener('keydown', handleKey);
     }, [gameState, isEmbedded, step]);
 
+    // --- GAME CONTROL KEYS (Esc = pause/resume, Enter = restart) ---
+    useEffect(() => {
+        const handleControlKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                if (gameState === 'PLAYING') { sfx.audioCtx?.suspend(); setGameState('PAUSED'); }
+                else if (gameState === 'PAUSED') { sfx.resume(); setGameState('PLAYING'); }
+            } else if (e.key === 'Enter' && gameState === 'GAME_OVER') {
+                startGame(difficulty);
+            }
+        };
+        window.addEventListener('keydown', handleControlKey);
+        return () => window.removeEventListener('keydown', handleControlKey);
+    }, [gameState, difficulty, startGame]);
+
+    // --- CLEANUP ON UNMOUNT (stop music, release globals) ---
+    useEffect(() => {
+        return () => {
+            sfx.stopProceduralBGM();
+            sfx.audioCtx?.suspend();
+            (window as any)._isNinjaEmbedded = false;
+            (window as any)._ninjaOnComplete = null;
+        };
+    }, []);
+
     return (
         <div className="w-full h-full relative bg-[#f4e0c5]">
             <Canvas>
@@ -1332,14 +1384,18 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
             {/* HUD */}
             {gameState === 'PLAYING' && (
                 <>
-                    <div className="absolute top-6 left-6 z-50 pointer-events-none flex gap-4">
-                        <div className="bg-[#5c4033]/90 border-2 border-[#3d2a21] rounded-full px-4 py-1.5 flex items-center shadow-md">
-                            <span className="font-bold text-[#e4dfd7] mr-2">💵</span>
-                            <span className="font-mono font-black text-white">0</span>
+                    <div className="absolute top-6 left-6 z-50 pointer-events-none flex flex-wrap gap-2 font-sans">
+                        <div className="bg-white/90 backdrop-blur border border-neutral-200 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm">
+                            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Score</span>
+                            <span className="font-mono font-bold text-neutral-900">{hudState.score}</span>
                         </div>
-                        <div className="bg-[#5c4033]/90 border-2 border-[#3d2a21] rounded-full px-4 py-1.5 flex items-center shadow-md">
-                            <span className="font-black text-[#e4dfd7] uppercase tracking-wider mr-2 text-sm">Score:</span>
-                            <span className="font-mono font-black text-amber-400">{hudState.score}</span>
+                        <div className="bg-white/90 backdrop-blur border border-neutral-200 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm">
+                            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">WPM</span>
+                            <span className="font-mono font-bold text-neutral-900">{hudState.wpm}</span>
+                        </div>
+                        <div className="bg-white/90 backdrop-blur border border-neutral-200 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm">
+                            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Acc</span>
+                            <span className="font-mono font-bold text-neutral-900">{hudState.accuracy}%</span>
                         </div>
                     </div>
 
@@ -1351,88 +1407,147 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                         </div>
                     )}
 
-                    <div className="absolute top-20 right-6 z-50 flex gap-2">
-                        <button onClick={() => { sfx.audioCtx?.suspend(); setGameState('PAUSED'); }} className="bg-[#7a6f61] text-white border-[3px] border-[#554e44] px-4 py-2 rounded-lg font-black tracking-widest shadow-md hover:scale-105 active:scale-95 transition-transform uppercase text-sm">
-                            ⏸ PAUSE
+                    <div className="absolute top-20 right-6 z-50 flex gap-2 font-sans">
+                        <button title="Pause (Esc)" onClick={() => { sfx.audioCtx?.suspend(); setGameState('PAUSED'); }} className="bg-white/90 backdrop-blur border border-neutral-200 text-neutral-700 px-4 py-2 rounded-lg font-semibold text-sm shadow-sm hover:bg-neutral-100 active:scale-95 transition-all flex items-center gap-2">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+                            Pause <span className="text-neutral-400 font-mono text-xs">Esc</span>
                         </button>
                     </div>
 
                 </>
             )}
 
-            {/* MENUS (Stone Tablet UI) */}
+            {/* GAME OVER */}
             {gameState === "GAME_OVER" && (
-                <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center font-mono">
-                    <h1 className="text-6xl font-bold text-red-500 mb-2 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]">GAME OVER</h1>
-                    {isEmbedded ? (
-                        <p className="text-xl text-neutral-300 mb-8">You were overwhelmed by the minions.</p>
-                    ) : (
-                        <p className="text-xl text-neutral-300 mb-8">Final Score: {hudState.score} | WPM: {hudState.wpm}</p>
-                    )}
-                    
-                    <button 
-                        onClick={() => startGame(difficulty)}
-                        className="px-8 py-4 bg-white text-black font-bold text-xl uppercase rounded shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:bg-red-500 hover:text-white hover:shadow-[0_0_30px_rgba(239,68,68,0.8)] transition-all cursor-pointer"
-                    >
-                        {isEmbedded ? 'Retry Module' : 'Play Again'}
-                    </button>
-                    
-                    {!isEmbedded && (
-                        <button 
-                            onClick={() => setGameState("MENU")}
-                            className="mt-6 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                <div className="absolute inset-0 z-50 bg-neutral-950/70 backdrop-blur-sm flex items-center justify-center font-sans">
+                    <div className="w-[400px] max-w-[92%] bg-white rounded-2xl border border-neutral-200 shadow-2xl p-8 flex flex-col items-center animate-in zoom-in duration-300">
+                        <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 mb-1">Game Over</h1>
+                        {isNewRecord && !isEmbedded && (
+                            <p className="text-sm font-bold text-amber-500 mb-1">★ New record!</p>
+                        )}
+                        <p className="text-sm text-neutral-500 mb-6 text-center">
+                            {isEmbedded
+                                ? 'Too many mistakes — the minions got through. Try again!'
+                                : 'The minions overwhelmed you.'}
+                        </p>
+
+                        {!isEmbedded && (
+                            <div className="grid grid-cols-4 gap-2 w-full mb-6">
+                                {[
+                                    { label: 'Score', value: String(hudState.score) },
+                                    { label: 'Best', value: String(highScore) },
+                                    { label: 'WPM', value: String(hudState.wpm) },
+                                    { label: 'Acc', value: `${hudState.accuracy}%` },
+                                ].map((s) => (
+                                    <div key={s.label} className="flex flex-col items-center bg-neutral-50 border border-neutral-200 rounded-xl px-2 py-3">
+                                        <span className="font-mono text-lg font-bold text-neutral-900">{s.value}</span>
+                                        <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-semibold mt-0.5">{s.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        <button
+                            onClick={() => startGame(difficulty)}
+                            className="w-full py-3.5 bg-neutral-950 text-white font-semibold text-sm rounded-lg hover:bg-neutral-800 transition-colors"
                         >
-                            Return to Menu
+                            {isEmbedded ? 'Retry' : 'Play Again'} <span className="text-neutral-400 font-mono text-xs ml-1">Enter ↵</span>
                         </button>
-                    )}
+
+                        {!isEmbedded && (
+                            <div className="flex items-center gap-5 mt-4 text-sm">
+                                <button onClick={() => setGameState("MENU")} className="text-neutral-500 hover:text-neutral-900 transition-colors">
+                                    Menu
+                                </button>
+                                <a href="/games" className="text-neutral-500 hover:text-neutral-900 transition-colors">
+                                    Exit to Games
+                                </a>
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
             {gameState !== 'PLAYING' && gameState !== 'GAME_OVER' && (
-                <div className="absolute inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                    <div className="w-[340px] bg-[#7a6f61] border-[8px] border-[#554e44] rounded-lg p-6 shadow-2xl relative flex flex-col items-center">
-                        <button onClick={() => { setIsMuted(sfx.toggleMute()); }} className="absolute -top-4 -right-4 bg-[#7a6f61] text-white border-[3px] border-[#554e44] w-12 h-12 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center text-2xl z-10">
-                            {isMuted ? '🔇' : '🔊'}
+                <div className="absolute inset-0 z-[9999] flex items-center justify-center bg-neutral-950/60 backdrop-blur-sm font-sans">
+                    <div className="w-[380px] max-w-[92%] bg-white rounded-2xl border border-neutral-200 shadow-2xl p-7 relative flex flex-col items-center animate-in zoom-in duration-300">
+                        <button
+                            onClick={() => { setIsMuted(sfx.toggleMute()); }}
+                            title={isMuted ? 'Unmute' : 'Mute'}
+                            className="absolute -top-3 -right-3 bg-white text-neutral-600 border border-neutral-200 w-11 h-11 rounded-full shadow-md hover:bg-neutral-50 active:scale-95 transition-all flex items-center justify-center z-10"
+                        >
+                            {isMuted ? (
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+                            ) : (
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                            )}
                         </button>
-                        <div className="absolute -top-6 bg-[#655a4d] border-4 border-[#4a4339] px-6 py-1.5 text-white font-black text-xl tracking-wider uppercase shadow-md">
-                            {gameState === 'MENU' ? 'Ninja Run' : 'Paused'}
-                        </div>
 
-                        <div className="flex flex-col gap-4 mt-6 w-full">
-                            {gameState === 'MENU' && (
-                                ['EASY', 'MEDIUM', 'HARD'].map(diff => (
-                                    <div key={diff} className="w-full bg-[#554e44] p-1.5 rounded shadow-inner border-2 border-[#4a4339]">
-                                        <button onClick={() => startGame(diff as Difficulty)} className={`w-full border-4 border-[#4a4339] rounded font-black text-xl py-2 uppercase shadow-md transition-transform hover:scale-[1.02] active:scale-[0.98] ${diff === 'EASY' ? 'bg-[#3ea0e6] text-white border-[#2b7bb5]' : 'bg-[#e4dfd7] text-[#554e44] border-[#c0bbb5]'}`}>
-                                            {diff}
-                                        </button>
-                                    </div>
-                                ))
-                            )}
+                        <Mascot mood={gameState === 'MENU' ? 'focused' : 'happy'} className="w-20 h-20 -mt-2 mb-2" />
+                        <h2 className="text-2xl font-extrabold tracking-tight text-neutral-900">
+                            {gameState === 'MENU' ? 'Typing Ninja' : 'Paused'}
+                        </h2>
 
-                            {gameState === 'PAUSED' && (
-                                <div className="w-full bg-[#554e44] p-1.5 rounded shadow-inner border-2 border-[#4a4339]">
-                                    <button onClick={() => { sfx.resume(); setGameState('PLAYING'); }} className="w-full bg-[#3ea0e6] text-white border-4 border-[#2b7bb5] rounded font-black text-xl py-2 uppercase shadow-md transition-transform hover:scale-[1.02] active:scale-[0.98]">
-                                        CONTINUE
+                        {gameState === 'MENU' && (
+                            <>
+                                <p className="text-sm text-neutral-500 text-center leading-snug mt-2 mb-1">
+                                    Type the word above a minion to throw shurikens at it.
+                                    You have 3 lives — don&apos;t let them reach you!
+                                </p>
+                                {highScore > 0 && (
+                                    <p className="text-xs font-mono text-neutral-400 mb-2">
+                                        Best score: <span className="text-amber-500 font-bold">{highScore}</span>
+                                    </p>
+                                )}
+                            </>
+                        )}
+
+                        <div className="flex flex-col gap-2.5 mt-4 w-full">
+                            {gameState === 'MENU' &&
+                                ([
+                                    ['EASY', '#10B981'],
+                                    ['MEDIUM', '#F59E0B'],
+                                    ['HARD', '#EF4444'],
+                                ] as const).map(([diff, dot]) => (
+                                    <button
+                                        key={diff}
+                                        onClick={() => startGame(diff as Difficulty)}
+                                        className="w-full py-3 rounded-lg border border-neutral-200 bg-white font-bold text-sm tracking-widest text-neutral-800 hover:border-neutral-400 hover:bg-neutral-50 active:scale-[0.98] transition-all flex items-center justify-center gap-2.5"
+                                    >
+                                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: dot }} />
+                                        {diff}
                                     </button>
-                                </div>
-                            )}
+                                ))}
 
                             {gameState === 'PAUSED' && (
                                 <>
-                                    <div className="w-full bg-[#554e44] p-1.5 rounded shadow-inner border-2 border-[#4a4339]">
-                                        <button onClick={() => startGame(difficulty)} className="w-full bg-[#e4dfd7] text-[#554e44] border-4 border-[#c0bbb5] rounded font-black text-xl py-2 uppercase shadow-md transition-transform hover:scale-[1.02] active:scale-[0.98]">
-                                            RESTART
-                                        </button>
-                                    </div>
-                                    <div className="w-full bg-[#554e44] p-1.5 rounded shadow-inner border-2 border-[#4a4339]">
-                                        <button onClick={() => setGameState('MENU')} className="w-full bg-[#e4dfd7] text-[#554e44] border-4 border-[#c0bbb5] rounded font-black text-xl py-2 uppercase shadow-md transition-transform hover:scale-[1.02] active:scale-[0.98]">
-                                            HOME
-                                        </button>
-                                    </div>
-                                    <div className="w-full bg-[#554e44] p-1.5 rounded shadow-inner border-2 border-[#4a4339]">
-                                        <button onClick={() => { window.location.href = '/'; }} className="w-full bg-[#ef4444] text-white border-4 border-[#b91c1c] rounded font-black text-xl py-2 uppercase shadow-md transition-transform hover:scale-[1.02] active:scale-[0.98]">
-                                            QUIT
-                                        </button>
-                                    </div>
+                                    <button
+                                        onClick={() => { sfx.resume(); setGameState('PLAYING'); }}
+                                        className="w-full py-3 rounded-lg bg-neutral-950 text-white font-semibold text-sm hover:bg-neutral-800 active:scale-[0.98] transition-all"
+                                    >
+                                        Continue <span className="text-neutral-400 font-mono text-xs ml-1">Esc</span>
+                                    </button>
+                                    <button
+                                        onClick={() => startGame(difficulty)}
+                                        className="w-full py-3 rounded-lg border border-neutral-200 bg-white font-semibold text-sm text-neutral-800 hover:border-neutral-400 hover:bg-neutral-50 active:scale-[0.98] transition-all"
+                                    >
+                                        Restart
+                                    </button>
+                                    {!isEmbedded && (
+                                        <>
+                                            <button
+                                                onClick={() => setGameState('MENU')}
+                                                className="w-full py-3 rounded-lg border border-neutral-200 bg-white font-semibold text-sm text-neutral-800 hover:border-neutral-400 hover:bg-neutral-50 active:scale-[0.98] transition-all"
+                                            >
+                                                Menu
+                                            </button>
+                                            <button
+                                                onClick={() => { window.location.href = '/games'; }}
+                                                className="w-full py-3 rounded-lg border border-red-200 bg-white font-semibold text-sm text-red-600 hover:bg-red-50 active:scale-[0.98] transition-all"
+                                            >
+                                                Quit to Games
+                                            </button>
+                                        </>
+                                    )}
                                 </>
                             )}
                         </div>

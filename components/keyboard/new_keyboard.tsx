@@ -1,21 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, memo } from 'react';
-
-// Maps real keyboard event strings to SVG path IDs
-const KEY_ID_MAP: Record<string, string> = {
-  ' ': 'space',
-  '1': 'key-1', '2': 'key-2', '3': 'key-3', '4': 'key-4', '5': 'key-5',
-  '6': 'key-6', '7': 'key-7', '8': 'key-8', '9': 'key-9', '0': 'key-0',
-  '-': 'minus', '=': 'equal', 'backspace': 'backspace',
-  'tab': 'tab', 'capslock': 'capslock', 'enter': 'enter',
-  'shift': 'shift-left', // Defaulting shift to left
-  'control': 'control', 'alt': 'option-left', 'meta': 'option-left',
-  '[': 'open-bracket', ']': 'close-bracket', '\\\\': 'backslash',
-  ';': 'semicolon', "'": 'quote',
-  ',': 'comma', '.': 'dot', '/': 'slash',
-  '\`': 'tilda'
-};
+import { KEY_ID_MAP } from './keymap';
 
 interface NewKeyboardProps {
   expectedKey: string | string[] | null;
@@ -112,13 +98,26 @@ export const NewKeyboard = memo(function NewKeyboard({ expectedKey, activeKeys, 
   }, [lastPress]);
 
   return (
-    <svg 
+    <svg
       ref={svgRef}
       viewBox={`${x} ${y} ${w} ${h}`}
+      aria-hidden="true"
       className="w-full h-full select-none pointer-events-none theme-bees overflow-visible keyboard-svg"
     >
       <style type="text/css" dangerouslySetInnerHTML={{ __html: `
-        .keyboard-svg .edc-st0 {fill: none;stroke: #777777;stroke-width: 0.5;stroke-miterlimit: 10;}
+        /* Keys carry their zone color at opacity 0 (not fill:none) so the
+           active/colorful tints can FADE in and out — none→color can't
+           interpolate, opacity can. */
+        .keyboard-svg .edc-st0 {fill: var(--fz, #777777);fill-opacity: 0;stroke: #777777;stroke-width: 0.5;stroke-miterlimit: 10;}
+
+        /* Smooth everything: the target highlight glides from key to key and
+           the colorful tints fade on toggle… */
+        .keyboard-svg path { transition: fill .18s ease, fill-opacity .18s ease, stroke .18s ease; }
+        .keyboard-svg text { transition: fill .18s ease; }
+        /* …but keystroke feedback stays instant — latency reads as lag. */
+        .keyboard-svg path.pressed,
+        .keyboard-svg path.correct,
+        .keyboard-svg path.incorrect { transition: none; }
         .keyboard-svg .edc-st1 {
           opacity: 0;
           font-family: 'ArialMT', 'Arial', 'Helvetica', 'sans-serif';
@@ -126,24 +125,76 @@ export const NewKeyboard = memo(function NewKeyboard({ expectedKey, activeKeys, 
         }
         .keyboard-svg .edc-st2 {
           opacity: 1;
-          fill: #777777;
+          fill: #171717;
+        }
+        .dark .keyboard-svg .edc-st2 {
+          fill: #e5e5e5;
         }
 
         .keyboard-svg .b {font-size: 26px;}
         .keyboard-svg .b2 {font-size: 24px;}
         .keyboard-svg .s {font-size: 12px;}
 
-        .keyboard-svg path.active {fill: rgb(121, 187, 255);}
-        .keyboard-svg path.pressed { stroke: #22c55e !important; stroke-width: 3px !important; fill: #dcfce7 !important; }
+        /* Target key: the finger's own color (--fz from globals.css), steady —
+           no glow, no pulse. On the plain keyboard the fill is a soft tint so
+           the colored guide finger crossing the key doesn't stack into a
+           doubled border; on the colorful (tinted) keyboard the target must
+           outshine the 22% key tints, so it goes solid. */
+        /* Breathing shadow that draws the eye to the key to press. The shadow
+           color rides on currentColor (set from --fz in a normal declaration)
+           because var() inside these @keyframes resolved against the wrong
+           key. Only the shadow animates — the key's color stays constant. */
+        .keyboard-svg path.active {
+          fill: var(--fz, #3b82f6) !important;
+          fill-opacity: 0.45 !important;
+          stroke: var(--fz, #3b82f6);
+          stroke-width: 1.5px;
+          color: var(--fz, #3b82f6);
+          animation: kb-target-pulse 1.1s ease-in-out infinite;
+        }
+        .colorful-mode .keyboard-svg path.active {
+          fill-opacity: 1 !important;
+        }
+        @keyframes kb-target-pulse {
+          0%, 100% { filter: drop-shadow(0 0 1px currentColor); }
+          50% { filter: drop-shadow(0 0 6px currentColor); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .keyboard-svg path.active {
+            animation: none;
+            filter: drop-shadow(0 0 4px currentColor);
+          }
+        }
+        .keyboard-svg path.pressed { stroke: #22c55e !important; stroke-width: 3px !important; fill: #dcfce7 !important; fill-opacity: 1 !important; }
         .dark .keyboard-svg path.pressed { fill: #166534 !important; }
         .keyboard-svg path.deadkey {fill: orange;}
         .keyboard-svg path.correct {stroke: #22c55e !important; stroke-width: 4px !important;}
-        .keyboard-svg path.incorrect {stroke: #ef4444 !important; stroke-width: 4px !important; fill: #fecaca !important;}
+        .keyboard-svg path.incorrect {stroke: #ef4444 !important; stroke-width: 4px !important; fill: #fecaca !important; fill-opacity: 1 !important;}
         .dark .keyboard-svg path.incorrect { fill: #c76767ff !important; }
         .keyboard-svg path.clickable:hover {cursor: pointer;stroke-width: 2px;}
 
         .keyboard-svg text {user-select: none;opacity: 0;}
-        .keyboard-svg text.active {fill: #ffffff; opacity: 1;}
+        /* Legend of the target key. Plain keyboard (soft 45% tint): a dark/light
+           letter like every other key reads best. Colorful keyboard (solid deep
+           fills): white in light mode, near-black on the bright dark-mode hues;
+           the faint halo keeps it readable on every hue. */
+        .keyboard-svg text.active {
+          fill: #171717;
+          opacity: 1;
+        }
+        .dark .keyboard-svg text.active {
+          fill: #e5e5e5;
+        }
+        .colorful-mode .keyboard-svg text.active {
+          fill: #ffffff;
+          stroke: rgba(23, 23, 23, 0.35);
+          stroke-width: 0.6px;
+          paint-order: stroke;
+        }
+        .dark .colorful-mode .keyboard-svg text.active {
+          fill: #171717;
+          stroke: rgba(255, 255, 255, 0.3);
+        }
         .keyboard-svg text.incorrect {fill: white;}
       `}} />
       <g id="keys">
@@ -296,8 +347,8 @@ export const NewKeyboard = memo(function NewKeyboard({ expectedKey, activeKeys, 
         <text transform="matrix(1 0 0 1 494.9275 164.3396)" className="edc-st1 edc-st2" dx="0" dy="0">&gt;</text>
         <text transform="matrix(1 0 0 1 543.4077 181.0408)" className="edc-st1 edc-st2" dx="0" dy="0">/</text>
         <text transform="matrix(1 0 0 1 541.3276 163.2498)" className="edc-st1 edc-st2" dx="0" dy="0">?</text>
-        <text transform="matrix(1 0 0 1 565.6211 138.7126)" className="edc-st1 edc-st2" dx="0" dy="0">'</text>
-        <text transform="matrix(1 0 0 1 565.6211 120.3762)" className="edc-st1 edc-st2" dx="0" dy="0">"</text>
+        <text transform="matrix(1 0 0 1 565.6211 138.7126)" className="edc-st1 edc-st2" dx="0" dy="0">&apos;</text>
+        <text transform="matrix(1 0 0 1 565.6211 120.3762)" className="edc-st1 edc-st2" dx="0" dy="0">&quot;</text>
         <text transform="matrix(1 0 0 1 553.3923 94.426)" className="edc-st1 edc-st2" dx="0" dy="0">[</text>
         <text transform="matrix(1 0 0 1 552.9709 74.877)" className="edc-st1 edc-st2" dx="0" dy="0">&#123;</text>
         <text transform="matrix(1 0 0 1 598.7656 94.426)" className="edc-st1 edc-st2" dx="0" dy="0">]</text>

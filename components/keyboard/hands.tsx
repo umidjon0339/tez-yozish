@@ -1,32 +1,5 @@
 import React, { useEffect, useRef, memo } from "react";
-
-const LEFT_HAND_KEYS = new Set([
-  'key-1', 'key-2', 'key-3', 'key-4', 'key-5',
-  'q', 'w', 'e', 'r', 't',
-  'a', 's', 'd', 'f', 'g',
-  'z', 'x', 'c', 'v', 'b',
-  'tilda', 'tab', 'capslock', 'shift-left', 'control', 'option-left'
-]);
-
-const KEY_ID_MAP: Record<string, string> = {
-  ' ': 'space',
-  '1': 'key-1', '2': 'key-2', '3': 'key-3', '4': 'key-4', '5': 'key-5',
-  '6': 'key-6', '7': 'key-7', '8': 'key-8', '9': 'key-9', '0': 'key-0',
-  '~': 'tilda', '`': 'tilda',
-  '-': 'minus', '_': 'minus',
-  '=': 'equal', '+': 'equal',
-  '[': 'open-bracket', '{': 'open-bracket',
-  ']': 'close-bracket', '}': 'close-bracket',
-  '\\': 'backslash', '|': 'backslash',
-  ';': 'semicolon', ':': 'semicolon',
-  '\'': 'quote', '"': 'quote',
-  ',': 'comma', '<': 'comma',
-  '.': 'dot', '>': 'dot',
-  '/': 'slash', '?': 'slash',
-  'backspace': 'backspace',
-  'enter': 'enter',
-  'tab': 'tab',
-};
+import { KEY_ID_MAP, LEFT_HAND_KEYS } from "./keymap";
 
 function getSvgTargetId(char: string | string[] | null): string | null {
   if (!char) return null;
@@ -105,35 +78,47 @@ export const Keyboard = memo(function Keyboard({ expectedKey, offsetX = 0, offse
     viewBox={`${x} ${y} ${w} ${h}`}
     style={{}}
     xmlSpace="preserve"
+    aria-hidden="true"
     className={`theme-bone overflow-visible ${props.className || ''}`}
     {...props}
   >
     <style type="text/css">
       {`
         .st0 { display: none; }
-        .st1 { display: inline; opacity: 0.6; fill: #ddccccff; } /* Darker gray fill, higher opacity */
-        .st2 { display: inline; fill: none; stroke: #94989eff; stroke-width: 2; stroke-miterlimit: 10; } /* Slate 600 stroke, thicker */
-        .st3 { display: inline; opacity: 0.7; }
+        /* Frosted-glass hands: translucent fill keeps the key caps readable through the palm */
+        .st1 { display: inline; fill: rgba(255, 255, 255, 0.55); filter: url(#hands-soft-shadow); }
+        .st2 { display: inline; fill: none; stroke: #8fa0b5; stroke-width: 1.75; stroke-linecap: round; stroke-miterlimit: 10; }
+        .st3 { display: inline; opacity: 0.45; }
         .st4 { fill: #94a3b8; }
-        .st5 { display: inline; fill: none; stroke: #3b82f6; stroke-width: 3.5; stroke-linecap: round; stroke-miterlimit: 10; } /* Stronger blue finger */
+        /* Guide finger: colored with the finger's own zone color (--fz, set on
+           each key's hand group by globals.css inside .kb-stage), falling back
+           to the theme accent. A single steady stroke — no glow (a drop-shadow
+           draws a blurred copy of the line, which reads as a doubled border)
+           and no opacity pulse (fading let the gray outline flash through). */
+        .st5 {
+          --guide: var(--fz, var(--hands-accent, #3b82f6));
+          display: inline; fill: none; stroke: var(--guide);
+          stroke-width: 3.5; stroke-linecap: round; stroke-miterlimit: 10;
+        }
 
-        .theme-dark .st1 { fill: #475569; opacity: 0.3; }
-        .theme-dark .st5 { stroke: #8b5cf6; }
+        .theme-dark { --hands-accent: #8b5cf6; }
+        .theme-dark .st1 { fill: rgba(148, 163, 184, 0.14); }
         .theme-dark .st2 { stroke: #94a3b8; stroke-width: 1.5; }
 
+        .theme-robot { --hands-accent: #b238b7; }
         .theme-robot .st1 { fill: #b1b7ce; }
-        .theme-robot .st5 { stroke: #b238b7; }
         .theme-robot .st2 { stroke: black; stroke-width: 3.5; }
 
+        .theme-kingfish { --hands-accent: #2196f3; }
         .theme-kingfish .st1 { fill: #b5bac3; }
-        .theme-kingfish .st5 { stroke: #2196f3; }
         .theme-kingfish .st2 { stroke: #00060c; stroke-width: 3.5; }
-        
-        .kb-colorful .st1 { fill: #f9f8f4; opacity: 0.8; }
-        .kb-colorful .st5 { stroke: #f724d6; }
-        .kb-colorful .st2 { stroke: #4a4949; stroke-width: 3.5; }
       `}
     </style>
+    <defs>
+      <filter id="hands-soft-shadow" x="-15%" y="-15%" width="130%" height="130%">
+        <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#334155" floodOpacity="0.18" />
+      </filter>
+    </defs>
     <g
       id="neutral-right"
       className="st0"
