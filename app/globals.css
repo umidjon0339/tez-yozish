@@ -32,6 +32,24 @@ html {
   }
 }
 
+/* Typing micro-feedback: a correct letter pops for a beat, a wrong one
+   shakes. Both finish in ~130ms so they never lag behind fast typing. */
+@keyframes letter-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+@keyframes letter-shake {
+  0%, 100% { transform: translateX(0); }
+  30% { transform: translateX(-2px); }
+  70% { transform: translateX(2px); }
+}
+.letter-pop { animation: letter-pop 140ms ease-out; }
+.letter-shake { animation: letter-shake 120ms ease-in-out; }
+@media (prefers-reduced-motion: reduce) {
+  .letter-pop, .letter-shake { animation: none; }
+}
+
 /* Star-burst particles on the lesson results screen */
 @keyframes burst-fly {
   0% {
@@ -92,40 +110,93 @@ html {
    Light mode uses deeper shades (readable on white), dark mode brighter ones.
    Dark values flip via the page-local `.dark` wrapper div. */
 :root {
-  --fz-l-pinky: #ea580c;
+  --fz-l-pinky: #d8964b;
   --fz-l-ring: #9333ea;
   --fz-l-middle: #dc2626;
   --fz-l-index: #16a34a;
   --fz-thumb: #2563eb;
-  --fz-r-index: #db2777;
-  --fz-r-middle: #0d9488;
+  --fz-r-index: #94c200;
+  --fz-r-middle: #db2777;
   --fz-r-ring: #4f46e5;
-  --fz-r-pinky: #d97706;
+  --fz-r-pinky: #d8964b;
 }
 .dark {
-  --fz-l-pinky: #fb923c;
+  --fz-l-pinky: #fbbf24;
   --fz-l-ring: #c084fc;
   --fz-l-middle: #f87171;
   --fz-l-index: #4ade80;
   --fz-thumb: #60a5fa;
-  --fz-r-index: #f472b6;
-  --fz-r-middle: #2dd4bf;
+  --fz-r-index: #00fec3;
+  --fz-r-middle: #f87171;
   --fz-r-ring: #818cf8;
   --fz-r-pinky: #fbbf24;
+}
+
+/* Selectable finger-zone themes. The navbar PaletteSwitcher sets data-fz on <html>
+   (persisted in localStorage "tz-fz-palette"; an inline boot script in layout.tsx
+   applies it before paint). No attribute = Classic above. Hue orders were validated
+   for color-blind (protan/deutan) separation between adjacent finger zones. */
+:root[data-fz="classic-plus"] {
+  /* Classic with the low-contrast tan pinky replaced by amber (dark mode already uses amber) */
+  --fz-r-pinky: #d97706;
+}
+:root[data-fz="vivid"] {
+  --fz-l-pinky: #0d9488;
+  --fz-l-ring: #d97706;
+  --fz-l-middle: #4f46e5;
+  --fz-l-index: #16a34a;
+  --fz-thumb: #0284c7;
+  --fz-r-index: #ea580c;
+  --fz-r-middle: #9333ea;
+  --fz-r-ring: #e11d48;
+  --fz-r-pinky: #c026d3;
+}
+:root[data-fz="vivid"] .dark {
+  --fz-l-pinky: #2dd4bf;
+  --fz-l-ring: #fbbf24;
+  --fz-l-middle: #818cf8;
+  --fz-l-index: #4ade80;
+  --fz-thumb: #38bdf8;
+  --fz-r-index: #fb923c;
+  --fz-r-middle: #c084fc;
+  --fz-r-ring: #fb7185;
+  --fz-r-pinky: #e879f9;
+}
+:root[data-fz="soft"] {
+  --fz-l-pinky: #b0485c;
+  --fz-l-ring: #9c7a22;
+  --fz-l-middle: #4f74c9;
+  --fz-l-index: #2e8b57;
+  --fz-thumb: #1f7fa3;
+  --fz-r-index: #6f7f30;
+  --fz-r-middle: #7761c9;
+  --fz-r-ring: #b95f3d;
+  --fz-r-pinky: #9c5a9e;
+}
+:root[data-fz="soft"] .dark {
+  --fz-l-pinky: #d97487;
+  --fz-l-ring: #c2a04e;
+  --fz-l-middle: #83a3e8;
+  --fz-l-index: #57b389;
+  --fz-thumb: #4fb0d4;
+  --fz-r-index: #9aab5a;
+  --fz-r-middle: #a291e3;
+  --fz-r-ring: #dd8a66;
+  --fz-r-pinky: #c489c6;
 }
 
 /* Assign each key to its finger. Bare #id selectors intentionally match both the
    keycap (`path#id` in new_keyboard.tsx) and the hand pose (`g#id` in hands.tsx),
    so `--fz` inherits into whichever SVG is inside the `.kb-stage` wrapper. */
-.kb-stage :is(#iso-key, #key-1, #tilda, #q, #a, #z, #tab, #capslock, #shift-left, #control, #option-left, #shift-option-left) { --fz: var(--fz-l-pinky); }
+.kb-stage :is(#key-1, #tilda, #q, #a, #z, #tab, #capslock, #shift-left, #control, #fn, #shift-option-left) { --fz: var(--fz-l-pinky); }
 .kb-stage :is(#key-2, #w, #s, #x) { --fz: var(--fz-l-ring); }
 .kb-stage :is(#key-3, #e, #d, #c) { --fz: var(--fz-l-middle); }
 .kb-stage :is(#key-4, #key-5, #r, #t, #f, #g, #v, #b) { --fz: var(--fz-l-index); }
-.kb-stage :is(#space, #option-right) { --fz: var(--fz-thumb); }
+.kb-stage :is(#space, #win, #alt-left, #alt-right, #control-right) { --fz: var(--fz-thumb); }
 .kb-stage :is(#key-6, #key-7, #y, #u, #h, #j, #n, #m) { --fz: var(--fz-r-index); }
 .kb-stage :is(#key-8, #i, #k, #comma) { --fz: var(--fz-r-middle); }
 .kb-stage :is(#key-9, #o, #l, #dot) { --fz: var(--fz-r-ring); }
-.kb-stage :is(#key-0, #minus, #equal, #p, #open-bracket, #close-bracket, #backslash, #semicolon, #quote, #enter, #slash, #shift-right, #backspace, #arrows, #shift-option-right) { --fz: var(--fz-r-pinky); }
+.kb-stage :is(#key-0, #minus, #equal, #p, #open-bracket, #close-bracket, #backslash, #semicolon, #quote, #enter, #slash, #shift-right, #backspace, #arrow-left, #arrow-up, #arrow-down, #arrow-right, #shift-option-right) { --fz: var(--fz-r-pinky); }
 
 /* Colorful Keyboard Mode: tint every keycap with its finger color.
    fill-opacity (not opacity) keeps the key outlines and legends crisp;

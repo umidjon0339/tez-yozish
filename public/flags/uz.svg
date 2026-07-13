@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40">
+  <defs>
+    <path id="star" d="M0-1.7 0.5-0.52 1.62-0.52 0.72 0.2 1 1.37 0-0.65 -1 1.37 -0.72 0.2 -1.62-0.52 -0.5-0.52Z" fill="#fff"/>
+  </defs>
+  <rect width="60" height="40" fill="#1EB53A"/>
+  <rect width="60" height="27.5" fill="#CE1126"/>
+  <rect width="60" height="26.5" fill="#fff"/>
+  <rect width="60" height="13.5" fill="#CE1126"/>
+  <rect width="60" height="12.5" fill="#0099B5"/>
+  <circle cx="8.6" cy="6.25" r="4.4" fill="#fff"/>
+  <circle cx="10.2" cy="6.25" r="4.4" fill="#0099B5"/>
+  <use href="#star" x="21.5" y="2.4"/><use href="#star" x="26" y="2.4"/><use href="#star" x="30.5" y="2.4"/>
+  <use href="#star" x="19.25" y="6.25"/><use href="#star" x="23.75" y="6.25"/><use href="#star" x="28.25" y="6.25"/><use href="#star" x="32.75" y="6.25"/>
+  <use href="#star" x="17" y="10.1"/><use href="#star" x="21.5" y="10.1"/><use href="#star" x="26" y="10.1"/><use href="#star" x="30.5" y="10.1"/><use href="#star" x="35" y="10.1"/>
+</svg>

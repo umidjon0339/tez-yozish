@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/refs */
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { PerspectiveCamera, Html } from "@react-three/drei";
+import { Html, Trail } from "@react-three/drei";
 import * as THREE from "three";
 import { Mascot } from "@/components/Mascot";
+import { HeroNinja, EnemyNinja, getSoftTexture, type HeroMode } from "./characters";
+import { CameraRig, SkyDome, Mountains, Clouds, InstancedScenery } from "./environment";
+import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/stats";
 
 // ==========================================
 // THE "GOD MODE" MASTER CONFIGURATION
@@ -416,6 +419,12 @@ const getInitialState = () => ({
         isStump: Math.random() > 0.8,
         mainColor: Math.random() > 0.5 ? '#2dd4bf' : '#16a34a'
     })),
+    rocks: Array.from({length: 20}).map(() => ({
+        x: (Math.random() > 0.5 ? 1 : -1) * (3.4 + Math.random() * 1.8),
+        z: -45 + Math.random() * 60,
+        s: 0.5 + Math.random() * 0.9,
+        ry: Math.random() * Math.PI
+    })),
     targetId: null as string | null,
     spawnTimer: 0,
     score: 0,
@@ -428,254 +437,19 @@ const getInitialState = () => ({
     redFlash: 0,
     hudTick: 0,
     embeddedMistakes: 0,
-    embeddedQueue: [] as string[]
+    embeddedQueue: [] as string[],
+    // game-feel channels (written by the loop/input, read by visuals)
+    heroHandPos: { x: 0, y: 1.1, z: MASTER_CONFIG.LAYOUT.playerZ },
+    throwCount: 0,
+    damageCount: 0,
+    streak: 0,
+    camTrauma: 0,
+    camPunch: 0,
+    speedRamp: 1,
+    fxDirty: false
 });
 
 // --- PROCEDURAL 3D MODELS (Trees, Ninjas, Shurikens) ---
-
-// =========================================================================
-// 🥷 NINJA APPEARANCE BLOCK 🥷
-// Modify the geometries and materials here to change how the ninjas look!
-// The 'isPlayer' boolean controls the Hero ninja vs the Opponent ninjas.
-// =========================================================================
-const MinionHero = ({ position, scale, isPlayer, wordTag }: any) => {
-    const leftLegRef = useRef<THREE.Group>(null!);
-    const rightLegRef = useRef<THREE.Group>(null!);
-    const upperBodyRef = useRef<THREE.Group>(null!);
-    const leftArmRef = useRef<THREE.Group>(null!);
-    const rightArmRef = useRef<THREE.Group>(null!);
-
-    const phaseRef = useRef(0);
-    const colors = isPlayer ? {
-        body: "#FCE588", overalls: "#2563EB", strap: "#111827", headband: "#ef4444"
-    } : {
-        body: "#FCE588", overalls: "#1E293B", strap: "#374151", headband: "#DC2626"
-    };
-
-    useFrame((state) => {
-        const t = state.clock.getElapsedTime() * (MASTER_CONFIG.SPEEDS.playerAnimRunRate * 1.2);
-        
-        if (leftLegRef.current && rightLegRef.current) {
-            const leftRot = Math.sin(t) * 0.6;
-            const rightRot = Math.sin(t + Math.PI) * 0.6;
-            leftLegRef.current.rotation.x = leftRot;
-            rightLegRef.current.rotation.x = rightRot;
-
-            // Footsteps only for the player — N enemies each firing steps is a cacophony
-            if (isPlayer) {
-                const phase = t % (Math.PI * 2);
-                if (phaseRef.current < Math.PI/2 && phase >= Math.PI/2) sfx.playFootstep(false);
-                if (phaseRef.current < 3*Math.PI/2 && phase >= 3*Math.PI/2) sfx.playFootstep(true);
-                if (phase < phaseRef.current && phase >= Math.PI/2) sfx.playFootstep(false);
-                phaseRef.current = phase;
-            }
-        }
-        if (upperBodyRef.current) {
-            upperBodyRef.current.position.y = 0; // Lock vertical height
-            upperBodyRef.current.rotation.z = Math.cos(t * 0.5) * 0.03; // Buttery-smooth sway
-        }
-        if (leftArmRef.current && rightArmRef.current) {
-            if (isPlayer) {
-                leftArmRef.current.rotation.x = Math.sin(t + Math.PI) * 0.4;
-                rightArmRef.current.rotation.x = -Math.PI / 4; 
-            } else {
-                leftArmRef.current.rotation.x = -Math.PI/2 + Math.sin(t*2) * 0.2;
-                rightArmRef.current.rotation.x = -Math.PI/2 + Math.sin(t*2 + 0.5) * 0.2;
-            }
-        }
-    });
-
-    const radius = MASTER_CONFIG.SCALES.minionRadius || 0.39;
-
-    return (
-        <group position={position} scale={scale}>
-            {/* PROCEDURAL RUNNING ENGINE (LEGS) */}
-            <group ref={leftLegRef} position={[-0.18, 0.35, 0]}>
-                <mesh position={[0, -0.2, 0]}>
-                    <cylinderGeometry args={[0.08, 0.08, 0.35, 8]} />
-                    <meshStandardMaterial color="#111827" />
-                </mesh>
-            </group>
-            <group ref={rightLegRef} position={[0.18, 0.35, 0]}>
-                <mesh position={[0, -0.2, 0]}>
-                    <cylinderGeometry args={[0.08, 0.08, 0.35, 8]} />
-                    <meshStandardMaterial color="#111827" />
-                </mesh>
-            </group>
-
-            {/* UPPER BODY (Smooth Sway) */}
-            <group ref={upperBodyRef}>
-                {/* 1. HIGH-POLY CAPSULE */}
-                <mesh position={[0, 0.75, 0]}>
-                    <capsuleGeometry args={[radius, 0.5, 8, 32]} />
-                    <meshStandardMaterial color={colors.body} />
-                </mesh>
-
-                {/* 2. OVERALLS "BIB & STRAP" ARCHITECTURE */}
-                <mesh position={[0, 0.52, 0]}>
-                    <cylinderGeometry args={[0.41, radius, 0.45, 32, 1, true]} />
-                    <meshStandardMaterial color={colors.overalls} side={THREE.DoubleSide} />
-                </mesh>
-                <mesh position={[0, 0.72, radius + 0.02]}>
-                    <boxGeometry args={[0.38, 0.28, 0.04]} />
-                    <meshStandardMaterial color={colors.overalls} />
-                </mesh>
-                <mesh position={[-0.14, 0.86, 0]} rotation={[0.4, 0, 0]}>
-                    <boxGeometry args={[0.08, 0.3, 0.02]} />
-                    <meshStandardMaterial color={colors.overalls} />
-                </mesh>
-                <mesh position={[0.14, 0.86, 0]} rotation={[0.4, 0, 0]}>
-                    <boxGeometry args={[0.08, 0.3, 0.02]} />
-                    <meshStandardMaterial color={colors.overalls} />
-                </mesh>
-                <mesh position={[-0.14, 0.8, radius + 0.03]}>
-                    <sphereGeometry args={[0.03, 16, 16]} />
-                    <meshStandardMaterial color="#0F172A" />
-                </mesh>
-                <mesh position={[0.14, 0.8, radius + 0.03]}>
-                    <sphereGeometry args={[0.03, 16, 16]} />
-                    <meshStandardMaterial color="#0F172A" />
-                </mesh>
-
-                {/* Rubber Strap (Wraps head) */}
-                <mesh position={[0, 0.92, 0]}>
-                    <cylinderGeometry args={[radius + 0.015, radius + 0.015, 0.12, 32, 1, true]} />
-                    <meshStandardMaterial color={colors.strap} side={THREE.DoubleSide} />
-                </mesh>
-
-                {/* FRONT / BACK RENDERING LOGIC */}
-                {isPlayer ? (
-                    // HERO: Back of head only.
-                    <group position={[0, 0.92, 0]}>
-                        {/* Rear Red Headband Knot */}
-                        <mesh position={[0, 0, -(radius + 0.02)]}>
-                            <sphereGeometry args={[0.08, 8, 8]} />
-                            <meshStandardMaterial color={colors.headband} />
-                        </mesh>
-                        {/* Fluttering Ribbons */}
-                        <mesh position={[-0.1, -0.1, -(radius + 0.06)]} rotation={[0.2, -0.4, 0.2]}>
-                            <boxGeometry args={[0.04, 0.25, 0.02]} />
-                            <meshStandardMaterial color={colors.headband} />
-                        </mesh>
-                        <mesh position={[0.1, -0.15, -(radius + 0.06)]} rotation={[0.3, 0.4, -0.2]}>
-                            <boxGeometry args={[0.04, 0.3, 0.02]} />
-                            <meshStandardMaterial color={colors.headband} />
-                        </mesh>
-                    </group>
-                ) : (
-                    // ENEMY: Front-facing details.
-                    <group position={[0, 0.92, 0]}>
-                        {/* Metallic Rim */}
-                        <mesh position={[0, 0, radius - 0.02]} rotation={[Math.PI/2, 0, 0]}>
-                            <cylinderGeometry args={[0.22, 0.22, 0.1, 32]} />
-                            <meshStandardMaterial color="#94A3B8" metalness={0.8} roughness={0.2} />
-                        </mesh>
-                        {/* Sclera (White Eyeball) */}
-                        <mesh position={[0, 0, radius - 0.02]}>
-                            <sphereGeometry args={[0.18, 32, 32]} />
-                            <meshStandardMaterial color="#FFFFFF" />
-                            
-                            {/* Angry Iris */}
-                            <mesh position={[0, 0, 0.16]}>
-                                <sphereGeometry args={[0.07, 16, 16]} />
-                                <meshBasicMaterial color="#DC2626" />
-                                
-                                {/* Pupil */}
-                                <mesh position={[0, 0, 0.07]}>
-                                    <sphereGeometry args={[0.04, 16, 16]} />
-                                    <meshStandardMaterial color="#000000" />
-                                    
-                                    {/* Specular Catchlight */}
-                                    <mesh position={[0.015, 0.015, 0.035]}>
-                                        <sphereGeometry args={[0.015, 8, 8]} />
-                                        <meshBasicMaterial color="#FFFFFF" />
-                                    </mesh>
-                                </mesh>
-                            </mesh>
-                        </mesh>
-
-                        {/* Face slit */}
-                        <mesh position={[0, -0.18, radius + 0.01]}>
-                            <boxGeometry args={[0.4, 0.08, 0.02]} />
-                            <meshStandardMaterial color="#000000" />
-                        </mesh>
-
-                        {/* Headband Ribbons blowing backward away from camera */}
-                        <mesh position={[-0.1, 0, -(radius + 0.06)]} rotation={[-0.2, 0.4, 0.2]}>
-                            <boxGeometry args={[0.04, 0.25, 0.02]} />
-                            <meshStandardMaterial color={colors.headband} />
-                        </mesh>
-                        <mesh position={[0.1, 0.05, -(radius + 0.06)]} rotation={[-0.3, -0.4, -0.2]}>
-                            <boxGeometry args={[0.04, 0.3, 0.02]} />
-                            <meshStandardMaterial color={colors.headband} />
-                        </mesh>
-                    </group>
-                )}
-
-                {/* 4. COMEDIC HAIR SPROUTS */}
-                <group position={[0, 1.25, 0]}>
-                    {isPlayer ? (
-                        <>
-                            <mesh rotation={[0, 0, -0.15]} position={[-0.05, 0.08, 0]}><cylinderGeometry args={[0.008, 0.008, 0.16, 8]} /><meshStandardMaterial color="#111827" /></mesh>
-                            <mesh rotation={[0, 0, 0]} position={[0, 0.09, 0]}><cylinderGeometry args={[0.008, 0.008, 0.18, 8]} /><meshStandardMaterial color="#111827" /></mesh>
-                            <mesh rotation={[0, 0, 0.15]} position={[0.05, 0.08, 0]}><cylinderGeometry args={[0.008, 0.008, 0.16, 8]} /><meshStandardMaterial color="#111827" /></mesh>
-                        </>
-                    ) : (
-                        // Frizzy Evil Hair
-                        <>
-                            <mesh rotation={[0.2, 0, -0.3]} position={[-0.08, 0.1, 0.05]}><cylinderGeometry args={[0.006, 0.006, 0.2, 8]} /><meshStandardMaterial color="#111827" /></mesh>
-                            <mesh rotation={[-0.1, 0, -0.1]} position={[-0.04, 0.12, -0.02]}><cylinderGeometry args={[0.006, 0.006, 0.24, 8]} /><meshStandardMaterial color="#111827" /></mesh>
-                            <mesh rotation={[0, 0, 0]} position={[0, 0.14, 0]}><cylinderGeometry args={[0.006, 0.006, 0.28, 8]} /><meshStandardMaterial color="#111827" /></mesh>
-                            <mesh rotation={[0.1, 0, 0.2]} position={[0.04, 0.12, 0.02]}><cylinderGeometry args={[0.006, 0.006, 0.24, 8]} /><meshStandardMaterial color="#111827" /></mesh>
-                            <mesh rotation={[-0.2, 0, 0.3]} position={[0.08, 0.1, -0.05]}><cylinderGeometry args={[0.006, 0.006, 0.2, 8]} /><meshStandardMaterial color="#111827" /></mesh>
-                        </>
-                    )}
-                </group>
-
-                {/* 5. ANGLED ARMS & RUBBER GLOVES */}
-                <group ref={leftArmRef} position={[-(radius + 0.03), 0.78, 0]}>
-                    <group rotation={[0, 0, 0.4]}>
-                        <mesh position={[0, -0.2, 0]}>
-                            <cylinderGeometry args={[0.08, 0.06, 0.4, 16]} />
-                            <meshStandardMaterial color={colors.body} />
-                        </mesh>
-                        <mesh position={[0, -0.45, 0]}>
-                            <sphereGeometry args={[0.09, 16, 16]} />
-                            <meshStandardMaterial color="#111827" />
-                        </mesh>
-                    </group>
-                </group>
-
-                <group ref={rightArmRef} position={[(radius + 0.03), 0.78, 0]}>
-                    <group rotation={[0, 0, -0.4]}>
-                        <mesh position={[0, -0.2, 0]}>
-                            <cylinderGeometry args={[0.08, 0.06, 0.4, 16]} />
-                            <meshStandardMaterial color={colors.body} />
-                        </mesh>
-                        <mesh position={[0, -0.45, 0]}>
-                            <sphereGeometry args={[0.09, 16, 16]} />
-                            <meshStandardMaterial color="#111827" />
-                        </mesh>
-                        {isPlayer && (
-                            /* Katana */
-                            <mesh position={[0, -0.45, 0.4]} rotation={[Math.PI/2, 0, 0]}>
-                                <cylinderGeometry args={[0.02, 0.02, 0.8, 8]} />
-                                <meshStandardMaterial color="#E2E8F0" metalness={0.9} roughness={0.1} />
-                            </mesh>
-                        )}
-                    </group>
-                </group>
-            </group>
-
-            {/* HTML WORD PILL MOUNT (Unaffected by body sway) */}
-            {wordTag && (
-                <group position={[0, 2.8, 0]}>
-                    {wordTag}
-                </group>
-            )}
-        </group>
-    );
-};
 
 const EnemyNode = ({ enemyId, stateRef, isPaused }: any) => {
     const meshRef = useRef<THREE.Group>(null!);
@@ -689,9 +463,10 @@ const EnemyNode = ({ enemyId, stateRef, isPaused }: any) => {
     useFrame(() => {
       const e = stateRef.current.enemies.find((x: any) => x.id === enemyId);
       if (e && meshRef.current) {
-        meshRef.current.position.set(e.x, 0, e.z);
+        // Corpse sinks into the ground at the end of the death animation
+        const sink = e.isDead && e.deathTimer < 0.35 ? -(0.35 - e.deathTimer) * 3 : 0;
+        meshRef.current.position.set(e.x, sink, e.z);
         if (e.isDead) {
-          meshRef.current.scale.setScalar(Math.max(0, e.deathTimer));
           if (textState.show) setTextState((s) => ({ ...s, show: false }));
         } else {
           const isTarget = stateRef.current.targetId === enemyId;
@@ -716,10 +491,9 @@ const EnemyNode = ({ enemyId, stateRef, isPaused }: any) => {
 
     return (
         <group ref={meshRef} scale={MASTER_CONFIG.SCALES.enemyNinja}>
-            <MinionHero 
-                position={[0, 0, 0]} 
-                isPlayer={false} 
-                wordTag={!isPaused && textState.show && (
+            <EnemyNinja stateRef={stateRef} enemyId={enemyId} paused={isPaused} />
+            {!isPaused && textState.show && (
+                <group position={[0, 2.5, 0]}>
                     <Html
                       center
                       distanceFactor={14}
@@ -732,7 +506,7 @@ const EnemyNode = ({ enemyId, stateRef, isPaused }: any) => {
                       }`}>
                         <span className="text-red-400">{textState.typed}</span>
                         <span>{textState.untyped}</span>
-                        
+
                         {/* Speech Bubble Pointer */}
                         <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 border-b-2 border-r-2 transition-all ${
                           textState.isTarget
@@ -741,8 +515,8 @@ const EnemyNode = ({ enemyId, stateRef, isPaused }: any) => {
                         }`} />
                       </div>
                     </Html>
-                )} 
-            />
+                </group>
+            )}
         </group>
     );
 };
@@ -778,6 +552,8 @@ const ProjectileNode = ({ pid, stateRef }: any) => {
 
     return (
         <group ref={meshRef}>
+            {/* Comet trail while the shuriken flies */}
+            <Trail width={0.5} length={2.5} color={"#ffe9c0"} attenuation={(w: number) => w * w}>
             {/* Lay the shuriken flat on the XZ plane */}
             <group ref={spinRef} rotation={[-Math.PI / 2, 0, 0]}>
                 {/* Central Ring */}
@@ -806,39 +582,69 @@ const ProjectileNode = ({ pid, stateRef }: any) => {
                     <meshStandardMaterial color="#9ca3af" metalness={0.8} roughness={0.2} />
                 </mesh>
             </group>
+            </Trail>
         </group>
     );
 };
 
 const ParticleNode = ({ pid, stateRef }: any) => {
     const meshRef = useRef<THREE.Group>(null!);
-    const [textProps, setTextProps] = useState<any>(null);
+    const matRef = useRef<any>(null!);
+    // Snapshot kind/color once — particle data is mutable but its identity isn't
+    const [init] = useState(() => stateRef.current.particles.find((x: any) => x.id === pid));
+
     useFrame((_, delta) => {
         const p = stateRef.current.particles.find((x: any) => x.id === pid);
-        if (p && meshRef.current) {
-            meshRef.current.position.set(p.x, p.y, p.z);
-            if (p.isText) {
-                if (!textProps) setTextProps({ score: p.score, maxLife: p.maxLife });
-            } else {
-                meshRef.current.rotation.x += p.rx * delta;
-                meshRef.current.rotation.y += p.ry * delta;
-                meshRef.current.scale.setScalar(Math.max(0, p.life / p.maxLife));
-            }
+        if (!p || !meshRef.current) return;
+        meshRef.current.position.set(p.x, p.y, p.z);
+        const frac = Math.max(0, p.life / p.maxLife);
+        if (p.kind === "smoke" || p.kind === "dust") {
+            // puffs expand and fade out
+            meshRef.current.scale.setScalar((p.size || 0.3) * (1 + (1 - frac) * 1.8));
+            if (matRef.current) matRef.current.opacity = frac * 0.55;
+        } else if (!p.isText) {
+            meshRef.current.rotation.x += p.rx * delta;
+            meshRef.current.rotation.y += p.ry * delta;
+            meshRef.current.scale.setScalar(frac);
         }
     });
 
+    if (!init) return null;
+
+    if (init.isText) {
+        return (
+            <group ref={meshRef}>
+                <Html center distanceFactor={10}>
+                    <div className="text-amber-400 font-black text-2xl drop-shadow-md">+{init.score}</div>
+                </Html>
+            </group>
+        );
+    }
+    if (init.kind === "smoke" || init.kind === "dust") {
+        return (
+            <group ref={meshRef}>
+                <sprite>
+                    <spriteMaterial ref={matRef} map={getSoftTexture()} color={init.color || "#cfcac2"} transparent depthWrite={false} opacity={0.5} />
+                </sprite>
+            </group>
+        );
+    }
+    if (init.kind === "spark") {
+        return (
+            <group ref={meshRef}>
+                <mesh>
+                    <octahedronGeometry args={[0.09, 0]} />
+                    <meshBasicMaterial color={init.color || "#fbbf24"} />
+                </mesh>
+            </group>
+        );
+    }
     return (
         <group ref={meshRef}>
-            {textProps ? (
-                <Html center distanceFactor={10}>
-                    <div className="text-amber-400 font-black text-2xl drop-shadow-md">+{textProps.score}</div>
-                </Html>
-            ) : (
-                <mesh>
-                    <boxGeometry args={[0.2, 0.2, 0.2]} />
-                    <meshBasicMaterial color="#f97316" />
-                </mesh>
-            )}
+            <mesh>
+                <boxGeometry args={[0.16, 0.16, 0.16]} />
+                <meshBasicMaterial color={init.color || "#f97316"} />
+            </mesh>
         </group>
     );
 };
@@ -876,64 +682,7 @@ const GroundLayer = ({ stateRef }: any) => {
     );
 };
 
-const SceneryLayer = ({ stateRef }: any) => {
-    const groupRef = useRef<THREE.Group>(null!);
-    useFrame(() => {
-        if (!groupRef.current) return;
-        const children = groupRef.current.children;
-        const sc = stateRef.current.scenery;
-        for (let i = 0; i < children.length; i++) {
-            children[i].position.z = sc[i].z;
-            children[i].position.x = sc[i].x;
-        }
-    });
-
-    return (
-        <group ref={groupRef}>
-            {stateRef.current.scenery.map((s: any) => (
-                <group key={s.id} scale={s.isStump ? MASTER_CONFIG.SCALES.stump : MASTER_CONFIG.SCALES.pineTree}>
-                    {s.isStump ? (
-                        <mesh position={[0, 0.2, 0]}>
-                            <cylinderGeometry args={[0.2, 0.4, 0.8, 5]} />
-                            <meshStandardMaterial color="#825229" flatShading />
-                        </mesh>
-                    ) : (
-                        <>
-                            <mesh position={[0, 0.2, 0]}>
-                                <cylinderGeometry args={[0.2, 0.4, 0.8, 5]} />
-                                <meshStandardMaterial color="#825229" flatShading />
-                            </mesh>
-                            <mesh position={[0, 1.6, 0]}>
-                                <coneGeometry args={[2.5, 3, 5]} />
-                                <meshStandardMaterial color={s.mainColor} flatShading />
-                            </mesh>
-                            <mesh position={[0, 3.2, 0]}>
-                                <coneGeometry args={[2, 2.5, 5]} />
-                                <meshStandardMaterial color={s.mainColor} flatShading />
-                            </mesh>
-                            <mesh position={[0, 4.4, 0]}>
-                                <coneGeometry args={[1.5, 2, 5]} />
-                                <meshStandardMaterial color={s.mainColor} flatShading />
-                            </mesh>
-                        </>
-                    )}
-                </group>
-            ))}
-        </group>
-    );
-};
-
-// --- R3F SCENE GRAPH & GAME LOOP ---
-
-const CamSetup = () => {
-    const camRef = useRef<any>(null!);
-    useEffect(() => {
-        camRef.current.lookAt(0, 1.5, 2);
-    }, []);
-    return <PerspectiveCamera ref={camRef} makeDefault position={[0, 4.5, 11]} fov={48} />;
-};
-
-const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setActiveProjectileIds, setActiveParticleIds, setHudState }: any) => {
+const GameLoop = ({ stateRef, difficulty, speedFactor = 1, setGameState, setActiveEnemyIds, setActiveProjectileIds, setActiveParticleIds, setHudState }: any) => {
     useFrame((_, delta) => {
         const dt = Math.min(delta, 0.1);
         const state = stateRef.current;
@@ -943,9 +692,10 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
         const ramp = (window as any)._isNinjaEmbedded
             ? 1
             : Math.min(1.5, 1 + state.timeSurvived / 180000);
-        const speedMultiplier = (DIFFICULTY_CONFIG[difficulty as Difficulty].baseSpeed / 18) * ramp; // Normalized to MEDIUM
+        const speedMultiplier = (DIFFICULTY_CONFIG[difficulty as Difficulty].baseSpeed / 18) * ramp * speedFactor; // Normalized to MEDIUM
         const worldMoveDist = MASTER_CONFIG.SPEEDS.worldScrollBase * speedMultiplier * dt;
         const enemyMoveDist = MASTER_CONFIG.SPEEDS.enemyRunBase * (speedMultiplier * 0.8) * dt;
+        state.speedRamp = ramp; // read by hero run-cycle speed + camera FOV
 
         state.ground.forEach((g: any) => {
             g.z += worldMoveDist;
@@ -957,6 +707,14 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
             if (s.z > 12) {
                 s.z -= 57;
                 s.x = getTreeX();
+            }
+        });
+
+        state.rocks.forEach((r: any) => {
+            r.z += worldMoveDist;
+            if (r.z > 12) {
+                r.z -= 57;
+                r.x = (Math.random() > 0.5 ? 1 : -1) * (3.4 + Math.random() * 1.8);
             }
         });
 
@@ -974,6 +732,9 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
                 e.deathTimer = 0;
                 state.lives--;
                 state.vignette = 1;
+                state.camTrauma = 1;    // camera shake
+                state.damageCount++;    // hero flinch animation
+                state.streak = 0;
                 sfx.playDamage();
                 if (state.targetId === e.id) state.targetId = null;
                 if (state.lives <= 0) { setGameState("GAME_OVER"); sfx.playDeath(); sfx.stopProceduralBGM(); }
@@ -993,24 +754,55 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
                     const dist = Math.sqrt(dx*dx + dz*dz);
                     if (dist < 2.0) {
                         p.toRemove = true;
-                        
+
                         target.typed += target.word[target.typed.length];
                         target.queuedHits--;
+                        target.hitCount++; // enemy flinch animation
                         sfx.playEnemyPop();
+
+                        // spark burst at the impact point
+                        for (let i = 0; i < 5; i++) {
+                            state.particles.push({
+                                id: Math.random().toString(),
+                                kind: "spark",
+                                x: target.x, y: 1.0, z: target.z + 0.3,
+                                vx: (Math.random()-0.5)*8, vy: 2 + Math.random()*5, vz: 2 + Math.random()*4,
+                                rx: Math.random()*20, ry: Math.random()*20, grav: 25,
+                                life: 0.35, maxLife: 0.35,
+                                color: "#fbbf24"
+                            });
+                        }
 
                         if (target.typed === target.word) {
                             target.isDead = true;
-                            target.deathTimer = 1;
+                            target.deathTimer = 1.4; // full death animation + sink
+                            state.camPunch = 1;      // camera kill punch
+                            state.streak++;
                             sfx.playEnemyDefeat();
-                            
-                            for(let i=0; i<10; i++) {
+
+                            // bone shards
+                            for(let i=0; i<8; i++) {
                                 state.particles.push({
                                     id: Math.random().toString(),
+                                    kind: "debris",
                                     x: target.x, y: 1.0, z: target.z,
-                                    vx: (Math.random()-0.5)*15, vy: Math.random()*15, vz: (Math.random()-0.5)*15,
-                                    rx: Math.random()*10, ry: Math.random()*10,
+                                    vx: (Math.random()-0.5)*10, vy: 3 + Math.random()*8, vz: (Math.random()-0.5)*10,
+                                    rx: Math.random()*10, ry: Math.random()*10, grav: 18,
                                     life: 1.0, maxLife: 1.0 + Math.random(),
-                                    isText: false
+                                    color: "#efe9dc"
+                                });
+                            }
+                            // smoke poof
+                            for(let i=0; i<6; i++) {
+                                state.particles.push({
+                                    id: Math.random().toString(),
+                                    kind: "smoke",
+                                    x: target.x + (Math.random()-0.5)*0.5, y: 0.5 + Math.random()*0.8, z: target.z,
+                                    vx: (Math.random()-0.5)*1.2, vy: 0.8 + Math.random()*0.8, vz: (Math.random()-0.5)*1.2,
+                                    rx: 0, ry: 0, grav: 0,
+                                    life: 0.8, maxLife: 0.8,
+                                    size: 0.5 + Math.random()*0.4,
+                                    color: "#d8d2c8"
                                 });
                             }
                             state.particles.push({
@@ -1023,6 +815,9 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
                             });
                             state.score += target.word.length * 10;
                             state.wordsTyped++;
+                        } else {
+                            // stagger knockback per hit
+                            target.z = Math.max(-46, target.z - 0.4);
                         }
                     }
                 } else {
@@ -1039,6 +834,7 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
         if (state.projectiles.length !== oldProjLen) listsChanged = true;
 
         state.particles.forEach((p: any) => {
+            if (p.grav) p.vy -= p.grav * dt;
             p.x += p.vx * dt;
             p.y += p.vy * dt;
             p.z += p.vz * dt;
@@ -1053,7 +849,7 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
         const isEmbedded = (window as any)._isNinjaEmbedded;
         
         if (isEmbedded) {
-            if (state.embeddedQueue.length > 0 && state.spawnTimer > 1.4) {
+            if (state.embeddedQueue.length > 0 && state.spawnTimer > 1.4 / speedFactor) {
                 state.spawnTimer = 0;
                 const word = state.embeddedQueue.shift();
                 if (word) {
@@ -1062,6 +858,7 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
                         word,
                         typed: "",
                         queuedHits: 0,
+                        hitCount: 0,
                         x: -MASTER_CONFIG.LAYOUT.trackWidth + 0.3 + Math.random() * ((MASTER_CONFIG.LAYOUT.trackWidth*2) - 0.6),
                         z: -45,
                         isDead: false,
@@ -1092,6 +889,7 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
                     word,
                     typed: "",
                     queuedHits: 0,
+                    hitCount: 0,
                     x: -MASTER_CONFIG.LAYOUT.trackWidth + 0.3 + Math.random() * ((MASTER_CONFIG.LAYOUT.trackWidth*2) - 0.6),
                     z: -45,
                     isDead: false,
@@ -1101,10 +899,12 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
             }
         }
 
-        if (listsChanged) {
+        // fxDirty covers particles pushed outside this loop (hero dust puffs)
+        if (listsChanged || state.fxDirty) {
             setActiveEnemyIds(state.enemies.map((e: any) => e.id));
             setActiveProjectileIds(state.projectiles.map((e: any) => e.id));
             setActiveParticleIds(state.particles.map((e: any) => e.id));
+            state.fxDirty = false;
         }
 
         if (state.vignette > 0) state.vignette = Math.max(0, state.vignette - dt * 2);
@@ -1117,7 +917,7 @@ const GameLoop = ({ stateRef, difficulty, setGameState, setActiveEnemyIds, setAc
             // Standard WPM: 5 characters = 1 word
             const wpm = minutes > 0 ? Math.round(state.correctKeystrokes / 5 / minutes) : 0;
             const acc = state.totalKeystrokes > 0 ? Math.round((state.correctKeystrokes / state.totalKeystrokes)*100) : 0;
-            setHudState({ score: state.score, lives: state.lives, wpm, accuracy: acc, vignette: state.vignette, redFlash: state.redFlash });
+            setHudState({ score: state.score, lives: state.lives, wpm, accuracy: acc, vignette: state.vignette, redFlash: state.redFlash, streak: state.streak });
         }
     });
     return null;
@@ -1135,18 +935,41 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
     const [activeProjectileIds, setActiveProjectileIds] = useState<string[]>([]);
     const [activeParticleIds, setActiveParticleIds] = useState<string[]>([]);
     
-    const [hudState, setHudState] = useState({ score: 0, lives: 3, wpm: 0, accuracy: 0, vignette: 0, redFlash: 0 });
+    const [hudState, setHudState] = useState({ score: 0, lives: 3, wpm: 0, accuracy: 0, vignette: 0, redFlash: 0, streak: 0 });
     const [highScore, setHighScore] = useState(0);
     const [isNewRecord, setIsNewRecord] = useState(false);
 
     const [initState] = useState(getInitialState);
     const stateRef = useRef(initState);
+    // Keystroke stats recorder (tz-stats-v1) — one session per run
+    const statsSession = useRef<StatsSession | null>(null);
 
     useEffect(() => {
         try {
             setHighScore(Number(localStorage.getItem('tz-ninja-highscore') || 0));
         } catch {}
     }, []);
+
+    // Run ended: flush keystroke stats; standalone runs also log an attempt
+    // (embedded runs are recorded by the lesson page instead).
+    useEffect(() => {
+        if (gameState !== 'GAME_OVER') return;
+        statsSession.current?.end();
+        statsSession.current = null;
+        if (isEmbedded) return;
+        const s = stateRef.current;
+        const minutes = s.timeSurvived / 60000;
+        recordAttempt({
+            lessonId: "typing-ninja",
+            type: "game",
+            wpm: minutes > 0 ? Math.round(s.correctKeystrokes / 5 / minutes) : 0,
+            accuracy: s.totalKeystrokes > 0 ? Math.round((s.correctKeystrokes / s.totalKeystrokes) * 100) : 0,
+            stars: 0,
+            timeMs: Math.round(s.timeSurvived),
+            errors: s.totalKeystrokes - s.correctKeystrokes,
+            problemKeys: {},
+        });
+    }, [gameState, isEmbedded]);
 
     useEffect(() => {
         if (gameState !== 'GAME_OVER' || isEmbedded) return;
@@ -1164,6 +987,8 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
     const startGame = useCallback((diff: Difficulty) => {
         sfx.init();
         sfx.resume();
+        statsSession.current?.end();
+        statsSession.current = createStatsSession();
         setDifficulty(diff);
         setGameState("PLAYING");
         sfx.startProceduralBGM(() => {
@@ -1185,7 +1010,14 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
         state.hudTick = 0;
         state.vignette = 0;
         state.redFlash = 0;
-        
+        state.throwCount = 0;
+        state.damageCount = 0;
+        state.streak = 0;
+        state.camTrauma = 0;
+        state.camPunch = 0;
+        state.speedRamp = 1;
+        state.fxDirty = false;
+
         if (isEmbedded && step) {
             state.embeddedQueue = [...step.content];
             state.embeddedMistakes = 0;
@@ -1198,7 +1030,7 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
         setActiveEnemyIds([]);
         setActiveProjectileIds([]);
         setActiveParticleIds([]);
-        setHudState({ score: 0, lives: 3, wpm: 0, accuracy: 0, vignette: 0, redFlash: 0 });
+        setHudState({ score: 0, lives: 3, wpm: 0, accuracy: 0, vignette: 0, redFlash: 0, streak: 0 });
     }, [isEmbedded, step, onComplete]);
 
     useEffect(() => {
@@ -1222,8 +1054,11 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
             const handleMiss = () => {
                 state.vignette = 1.0;
                 state.redFlash = 1.0;
+                state.streak = 0; // typo breaks the combo
+                state.camTrauma = Math.max(state.camTrauma, 0.3);
+                state.throwCount++; // arm still snaps — the throw just goes wild
                 sfx.playTypo();
-                
+
                 if (isEmbedded && step && step.rules) {
                     state.embeddedMistakes++;
                     if (state.embeddedMistakes > step.rules.maxMistakesAllowed) {
@@ -1231,11 +1066,12 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                         sfx.stopProceduralBGM();
                     }
                 }
-                
+
+                const hand = state.heroHandPos;
                 const pid = Math.random().toString();
-                state.projectiles.push({ 
-                    id: pid, isHit: false, 
-                    x: -2 + Math.random() * 4, y: 1.5, z: MASTER_CONFIG.LAYOUT.playerZ, 
+                state.projectiles.push({
+                    id: pid, isHit: false,
+                    x: hand.x, y: hand.y, z: hand.z,
                     vx: (Math.random() > 0.5 ? 1 : -1) * (15 + Math.random()*10),
                     vy: Math.random() * 5,
                     vz: -20 - Math.random()*10,
@@ -1253,8 +1089,10 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                         if (char === target.word[expectedIndex].toLowerCase()) {
                             target.queuedHits++;
                             state.correctKeystrokes++;
+                            statsSession.current?.stroke(char, true);
+                            state.throwCount++;
                             const pid = Math.random().toString();
-                            state.projectiles.push({ id: pid, isHit: true, targetId: target.id, x: 0, y: 1.0, z: MASTER_CONFIG.LAYOUT.playerZ, toRemove: false });
+                            state.projectiles.push({ id: pid, isHit: true, targetId: target.id, x: state.heroHandPos.x, y: state.heroHandPos.y, z: state.heroHandPos.z, toRemove: false });
                             setActiveProjectileIds((prev: any) => [...prev, pid]);
                             sfx.playWordLaunch();
                             
@@ -1276,8 +1114,10 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                                 state.targetId = newTarget.id;
                                 newTarget.queuedHits++;
                                 state.correctKeystrokes++;
+                                statsSession.current?.stroke(char, true);
+                                state.throwCount++;
                                 const pid = Math.random().toString();
-                                state.projectiles.push({ id: pid, isHit: true, targetId: newTarget.id, x: 0, y: 1.0, z: MASTER_CONFIG.LAYOUT.playerZ, toRemove: false });
+                                state.projectiles.push({ id: pid, isHit: true, targetId: newTarget.id, x: state.heroHandPos.x, y: state.heroHandPos.y, z: state.heroHandPos.z, toRemove: false });
                                 setActiveProjectileIds((prev: any) => [...prev, pid]);
                                 sfx.playWordLaunch();
 
@@ -1285,6 +1125,12 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                                     state.targetId = null;
                                 }
                             } else {
+                                // Wrong key with a locked target — the expected
+                                // letter is known, so the miss is attributable
+                                statsSession.current?.stroke(
+                                    target.word[expectedIndex].toLowerCase(),
+                                    false,
+                                );
                                 handleMiss();
                             }
                         }
@@ -1306,8 +1152,10 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                     state.targetId = target.id;
                     target.queuedHits++;
                     state.correctKeystrokes++;
+                    statsSession.current?.stroke(char, true);
+                    state.throwCount++;
                     const pid = Math.random().toString();
-                    state.projectiles.push({ id: pid, isHit: true, targetId: target.id, x: 0, y: 1.0, z: MASTER_CONFIG.LAYOUT.playerZ, toRemove: false });
+                    state.projectiles.push({ id: pid, isHit: true, targetId: target.id, x: state.heroHandPos.x, y: state.heroHandPos.y, z: state.heroHandPos.z, toRemove: false });
                     setActiveProjectileIds((prev: any) => [...prev, pid]);
                     sfx.playWordLaunch();
                     
@@ -1342,32 +1190,52 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
         return () => {
             sfx.stopProceduralBGM();
             sfx.audioCtx?.suspend();
+            statsSession.current?.end();
             (window as any)._isNinjaEmbedded = false;
             (window as any)._ninjaOnComplete = null;
         };
     }, []);
 
+    const heroMode: HeroMode =
+        gameState === 'PLAYING' ? 'run'
+        : gameState === 'PAUSED' ? 'frozen'
+        : gameState === 'GAME_OVER' ? 'dead'
+        : 'idle';
+
     return (
         <div className="w-full h-full relative bg-[#f4e0c5]">
             <Canvas>
-                <CamSetup />
+                <CameraRig stateRef={stateRef} />
                 <fog attach="fog" args={['#f4e0c5', 20, 50]} />
-                <ambientLight intensity={0.7} />
-                <directionalLight position={[10, 20, 15]} intensity={0.8} />
+                <ambientLight intensity={0.55} />
+                <hemisphereLight args={['#bfe0ee', '#e8c49a', 0.55]} />
+                <directionalLight position={[10, 20, 15]} intensity={1.0} color="#fff3e0" />
 
-                <GroundLayer stateRef={stateRef} />
-                <SceneryLayer stateRef={stateRef} />
-                
-                <MinionHero position={[0, 0, MASTER_CONFIG.LAYOUT.playerZ]} scale={MASTER_CONFIG.SCALES.playerNinja} isPlayer />
+                <Suspense fallback={null}>
+                    <SkyDome />
+                    <Mountains />
+                    <Clouds />
+                    <GroundLayer stateRef={stateRef} />
+                    <InstancedScenery stateRef={stateRef} />
 
-                {activeEnemyIds.map(id => <EnemyNode key={id} enemyId={id} stateRef={stateRef} isPaused={gameState !== 'PLAYING'} />)}
-                {activeProjectileIds.map(id => <ProjectileNode key={id} pid={id} stateRef={stateRef} />)}
-                {activeParticleIds.map(id => <ParticleNode key={id} pid={id} stateRef={stateRef} />)}
+                    <group position={[0, 0, MASTER_CONFIG.LAYOUT.playerZ]} scale={MASTER_CONFIG.SCALES.playerNinja}>
+                        <HeroNinja
+                            stateRef={stateRef}
+                            mode={heroMode}
+                            onFootstep={(right: boolean) => sfx.playFootstep(right)}
+                        />
+                    </group>
+
+                    {activeEnemyIds.map(id => <EnemyNode key={id} enemyId={id} stateRef={stateRef} isPaused={gameState !== 'PLAYING'} />)}
+                    {activeProjectileIds.map(id => <ProjectileNode key={id} pid={id} stateRef={stateRef} />)}
+                    {activeParticleIds.map(id => <ParticleNode key={id} pid={id} stateRef={stateRef} />)}
+                </Suspense>
 
                 {gameState === 'PLAYING' && (
-                    <GameLoop 
-                        stateRef={stateRef} 
-                        difficulty={difficulty} 
+                    <GameLoop
+                        stateRef={stateRef}
+                        difficulty={difficulty}
+                        speedFactor={isEmbedded ? (step?.rules?.gameSpeed ?? 1) : 1}
                         setGameState={setGameState}
                         setActiveEnemyIds={setActiveEnemyIds}
                         setActiveProjectileIds={setActiveProjectileIds}
@@ -1385,33 +1253,45 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
             {gameState === 'PLAYING' && (
                 <>
                     <div className="absolute top-6 left-6 z-50 pointer-events-none flex flex-wrap gap-2 font-sans">
-                        <div className="bg-white/90 backdrop-blur border border-neutral-200 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm">
-                            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Score</span>
-                            <span className="font-mono font-bold text-neutral-900">{hudState.score}</span>
+                        <div className="bg-[#fff6e6]/95 backdrop-blur border-2 border-[#3d2a21] rounded-full px-4 py-1.5 flex items-center gap-2 shadow-[0_3px_0_rgba(61,42,33,0.9)]">
+                            <span className="text-[10px] font-black text-[#a08768] uppercase tracking-widest">Score</span>
+                            <span className="font-mono font-black text-[#3d2a21]">{hudState.score}</span>
                         </div>
-                        <div className="bg-white/90 backdrop-blur border border-neutral-200 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm">
-                            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">WPM</span>
-                            <span className="font-mono font-bold text-neutral-900">{hudState.wpm}</span>
+                        <div className="bg-[#fff6e6]/95 backdrop-blur border-2 border-[#3d2a21] rounded-full px-4 py-1.5 flex items-center gap-2 shadow-[0_3px_0_rgba(61,42,33,0.9)]">
+                            <span className="text-[10px] font-black text-[#a08768] uppercase tracking-widest">WPM</span>
+                            <span className="font-mono font-black text-[#3d2a21]">{hudState.wpm}</span>
                         </div>
-                        <div className="bg-white/90 backdrop-blur border border-neutral-200 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm">
-                            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">Acc</span>
-                            <span className="font-mono font-bold text-neutral-900">{hudState.accuracy}%</span>
+                        <div className="bg-[#fff6e6]/95 backdrop-blur border-2 border-[#3d2a21] rounded-full px-4 py-1.5 flex items-center gap-2 shadow-[0_3px_0_rgba(61,42,33,0.9)]">
+                            <span className="text-[10px] font-black text-[#a08768] uppercase tracking-widest">Acc</span>
+                            <span className="font-mono font-black text-[#3d2a21]">{hudState.accuracy}%</span>
                         </div>
+                        {hudState.streak >= 3 && (
+                            <div className="bg-amber-400/95 backdrop-blur border-2 border-[#3d2a21] rounded-full px-4 py-1.5 flex items-center gap-2 shadow-[0_3px_0_rgba(61,42,33,0.9)] animate-in zoom-in duration-200 -rotate-2">
+                                <span className="text-sm">🔥</span>
+                                <span className="font-mono font-black text-[#3d2a21]">×{hudState.streak}</span>
+                            </div>
+                        )}
                     </div>
 
                     {!isEmbedded && (
                         <div className="absolute top-6 right-6 z-50 pointer-events-none flex gap-2">
                             {[...Array(3)].map((_, i) => (
-                                <div key={i} className={`w-6 h-6 rounded-sm border-2 ${i < hudState.lives ? 'bg-red-500 border-red-800' : 'bg-[#554e44] border-[#3d2a21]'} rotate-45 shadow-sm mx-1`} />
+                                <div key={i} className={`w-6 h-6 rounded-sm border-2 border-[#3d2a21] ${i < hudState.lives ? 'bg-red-500 shadow-[2px_2px_0_rgba(61,42,33,0.9)]' : 'bg-[#554e44] opacity-60'} rotate-45 mx-1 transition-all duration-300`} />
                             ))}
                         </div>
                     )}
 
                     <div className="absolute top-20 right-6 z-50 flex gap-2 font-sans">
-                        <button title="Pause (Esc)" onClick={() => { sfx.audioCtx?.suspend(); setGameState('PAUSED'); }} className="bg-white/90 backdrop-blur border border-neutral-200 text-neutral-700 px-4 py-2 rounded-lg font-semibold text-sm shadow-sm hover:bg-neutral-100 active:scale-95 transition-all flex items-center gap-2">
+                        <button title="Pause (Esc)" onClick={() => { sfx.audioCtx?.suspend(); setGameState('PAUSED'); }} className="bg-[#fff6e6]/95 backdrop-blur border-2 border-[#3d2a21] text-[#3d2a21] px-4 py-2 rounded-xl font-black text-sm shadow-[0_3px_0_rgba(61,42,33,0.9)] hover:-translate-y-0.5 hover:brightness-105 active:translate-y-[3px] active:shadow-none transition-all flex items-center gap-2">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
-                            Pause <span className="text-neutral-400 font-mono text-xs">Esc</span>
+                            Pause <span className="text-[#a08768] font-mono text-xs">Esc</span>
                         </button>
+                        {!isEmbedded && (
+                            <a title="Quit" href="/games" className="bg-[#fff6e6]/95 backdrop-blur border-2 border-[#3d2a21] text-red-500 px-4 py-2 rounded-xl font-black text-sm shadow-[0_3px_0_rgba(61,42,33,0.9)] hover:-translate-y-0.5 hover:bg-red-50 active:translate-y-[3px] active:shadow-none transition-all flex items-center gap-2">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                Quit
+                            </a>
+                        )}
                     </div>
 
                 </>
@@ -1419,29 +1299,24 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
 
             {/* GAME OVER */}
             {gameState === "GAME_OVER" && (
-                <div className="absolute inset-0 z-50 bg-neutral-950/70 backdrop-blur-sm flex items-center justify-center font-sans">
-                    <div className="w-[400px] max-w-[92%] bg-white rounded-2xl border border-neutral-200 shadow-2xl p-8 flex flex-col items-center animate-in zoom-in duration-300">
-                        <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 mb-1">Game Over</h1>
+                <div className="absolute inset-0 z-50 bg-[#2a1c15]/70 backdrop-blur-sm flex items-center justify-center font-sans">
+                    <div className="w-[400px] max-w-[92%] bg-[#fff6e6] rounded-[28px] border-4 border-[#3d2a21] shadow-[0_10px_0_#3d2a21,0_28px_60px_rgba(0,0,0,0.35)] p-8 flex flex-col items-center animate-in zoom-in duration-300">
+                        <h1 className="text-3xl font-black tracking-tight text-[#3d2a21] mb-5">💥 Game Over</h1>
                         {isNewRecord && !isEmbedded && (
-                            <p className="text-sm font-bold text-amber-500 mb-1">★ New record!</p>
+                            <p className="-mt-3 mb-4 px-3 py-1 bg-amber-300 border-2 border-[#3d2a21] rounded-full text-xs font-black text-[#3d2a21] -rotate-2 shadow-[0_2px_0_#3d2a21]">★ New record!</p>
                         )}
-                        <p className="text-sm text-neutral-500 mb-6 text-center">
-                            {isEmbedded
-                                ? 'Too many mistakes — the minions got through. Try again!'
-                                : 'The minions overwhelmed you.'}
-                        </p>
 
                         {!isEmbedded && (
                             <div className="grid grid-cols-4 gap-2 w-full mb-6">
                                 {[
-                                    { label: 'Score', value: String(hudState.score) },
-                                    { label: 'Best', value: String(highScore) },
-                                    { label: 'WPM', value: String(hudState.wpm) },
-                                    { label: 'Acc', value: `${hudState.accuracy}%` },
+                                    { label: 'Score', value: String(hudState.score), tint: 'bg-amber-200' },
+                                    { label: 'Best', value: String(highScore), tint: 'bg-violet-200' },
+                                    { label: 'WPM', value: String(hudState.wpm), tint: 'bg-sky-200' },
+                                    { label: 'Acc', value: `${hudState.accuracy}%`, tint: 'bg-emerald-200' },
                                 ].map((s) => (
-                                    <div key={s.label} className="flex flex-col items-center bg-neutral-50 border border-neutral-200 rounded-xl px-2 py-3">
-                                        <span className="font-mono text-lg font-bold text-neutral-900">{s.value}</span>
-                                        <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-semibold mt-0.5">{s.label}</span>
+                                    <div key={s.label} className={`flex flex-col items-center ${s.tint} border-2 border-[#3d2a21] rounded-2xl px-2 py-3 shadow-[0_3px_0_#3d2a21]`}>
+                                        <span className="font-mono text-lg font-black text-[#3d2a21]">{s.value}</span>
+                                        <span className="text-[9px] uppercase tracking-widest text-[#3d2a21]/60 font-black mt-0.5">{s.label}</span>
                                     </div>
                                 ))}
                             </div>
@@ -1449,18 +1324,18 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
 
                         <button
                             onClick={() => startGame(difficulty)}
-                            className="w-full py-3.5 bg-neutral-950 text-white font-semibold text-sm rounded-lg hover:bg-neutral-800 transition-colors"
+                            className="w-full py-3.5 bg-emerald-500 text-white font-black text-sm tracking-wide rounded-2xl border-2 border-b-[6px] border-[#3d2a21] [text-shadow:0_1px_0_rgba(61,42,33,0.4)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-1 active:border-b-2 transition-all"
                         >
-                            {isEmbedded ? 'Retry' : 'Play Again'} <span className="text-neutral-400 font-mono text-xs ml-1">Enter ↵</span>
+                            {isEmbedded ? 'Retry' : 'Play Again'} <span className="text-white/80 font-mono text-xs ml-1">Enter ↵</span>
                         </button>
 
                         {!isEmbedded && (
                             <div className="flex items-center gap-5 mt-4 text-sm">
-                                <button onClick={() => setGameState("MENU")} className="text-neutral-500 hover:text-neutral-900 transition-colors">
+                                <button onClick={() => setGameState("MENU")} className="font-bold text-[#8a7563] hover:text-[#3d2a21] underline decoration-2 decoration-[#e0c9a6] underline-offset-4 hover:decoration-amber-400 transition-colors">
                                     Menu
                                 </button>
-                                <a href="/games" className="text-neutral-500 hover:text-neutral-900 transition-colors">
-                                    Exit to Games
+                                <a href="/games" className="font-bold text-red-500 hover:text-red-600 underline decoration-2 decoration-[#e0c9a6] underline-offset-4 hover:decoration-red-300 transition-colors">
+                                    Quit
                                 </a>
                             </div>
                         )}
@@ -1468,12 +1343,12 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                 </div>
             )}
             {gameState !== 'PLAYING' && gameState !== 'GAME_OVER' && (
-                <div className="absolute inset-0 z-[9999] flex items-center justify-center bg-neutral-950/60 backdrop-blur-sm font-sans">
-                    <div className="w-[380px] max-w-[92%] bg-white rounded-2xl border border-neutral-200 shadow-2xl p-7 relative flex flex-col items-center animate-in zoom-in duration-300">
+                <div className="absolute inset-0 z-[9999] flex items-center justify-center bg-[#2a1c15]/60 backdrop-blur-sm font-sans">
+                    <div className="w-[380px] max-w-[92%] bg-[#fff6e6] rounded-[28px] border-4 border-[#3d2a21] shadow-[0_10px_0_#3d2a21,0_28px_60px_rgba(0,0,0,0.35)] p-7 relative flex flex-col items-center animate-in zoom-in duration-300">
                         <button
                             onClick={() => { setIsMuted(sfx.toggleMute()); }}
                             title={isMuted ? 'Unmute' : 'Mute'}
-                            className="absolute -top-3 -right-3 bg-white text-neutral-600 border border-neutral-200 w-11 h-11 rounded-full shadow-md hover:bg-neutral-50 active:scale-95 transition-all flex items-center justify-center z-10"
+                            className="absolute -top-3 -right-3 bg-[#fff6e6] text-[#3d2a21] border-2 border-[#3d2a21] w-11 h-11 rounded-full shadow-[0_3px_0_#3d2a21] hover:brightness-105 active:translate-y-[3px] active:shadow-none transition-all flex items-center justify-center z-10"
                         >
                             {isMuted ? (
                                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
@@ -1483,52 +1358,62 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                         </button>
 
                         <Mascot mood={gameState === 'MENU' ? 'focused' : 'happy'} className="w-20 h-20 -mt-2 mb-2" />
-                        <h2 className="text-2xl font-extrabold tracking-tight text-neutral-900">
-                            {gameState === 'MENU' ? 'Typing Ninja' : 'Paused'}
+                        <h2 className="text-3xl font-black tracking-tight text-[#3d2a21]">
+                            {gameState === 'MENU' ? <>Typing <span className="text-red-500">Ninja</span></> : 'Paused'}
                         </h2>
 
                         {gameState === 'MENU' && (
                             <>
-                                <p className="text-sm text-neutral-500 text-center leading-snug mt-2 mb-1">
-                                    Type the word above a minion to throw shurikens at it.
-                                    You have 3 lives — don&apos;t let them reach you!
+                                <p className="text-sm font-medium text-[#8a7563] text-center leading-snug mt-2 mb-1">
+                                    Type the word — stop the minions!
                                 </p>
                                 {highScore > 0 && (
-                                    <p className="text-xs font-mono text-neutral-400 mb-2">
-                                        Best score: <span className="text-amber-500 font-bold">{highScore}</span>
+                                    <p className="mt-1 mb-1 px-3 py-1 bg-amber-300 border-2 border-[#3d2a21] rounded-full text-xs font-black text-[#3d2a21] -rotate-1 shadow-[0_2px_0_#3d2a21]">
+                                        ★ Best: {highScore}
                                     </p>
                                 )}
                             </>
                         )}
 
-                        <div className="flex flex-col gap-2.5 mt-4 w-full">
-                            {gameState === 'MENU' &&
-                                ([
-                                    ['EASY', '#10B981'],
-                                    ['MEDIUM', '#F59E0B'],
-                                    ['HARD', '#EF4444'],
-                                ] as const).map(([diff, dot]) => (
-                                    <button
-                                        key={diff}
-                                        onClick={() => startGame(diff as Difficulty)}
-                                        className="w-full py-3 rounded-lg border border-neutral-200 bg-white font-bold text-sm tracking-widest text-neutral-800 hover:border-neutral-400 hover:bg-neutral-50 active:scale-[0.98] transition-all flex items-center justify-center gap-2.5"
-                                    >
-                                        <span className="w-2 h-2 rounded-full" style={{ backgroundColor: dot }} />
-                                        {diff}
-                                    </button>
-                                ))}
+                        <div className="flex flex-col gap-3 mt-4 w-full">
+                            {gameState === 'MENU' && (
+                                <>
+                                    {([
+                                        ['EASY', '🌱', 'bg-emerald-500'],
+                                        ['MEDIUM', '⚡', 'bg-amber-500'],
+                                        ['HARD', '🔥', 'bg-red-500'],
+                                    ] as const).map(([diff, emoji, tint]) => (
+                                        <button
+                                            key={diff}
+                                            onClick={() => startGame(diff as Difficulty)}
+                                            className={`w-full py-3 rounded-2xl border-2 border-b-[6px] border-[#3d2a21] ${tint} font-black text-sm tracking-widest text-white [text-shadow:0_1px_0_rgba(61,42,33,0.4)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-1 active:border-b-2 transition-all flex items-center justify-center gap-2.5`}
+                                        >
+                                            <span className="text-base [text-shadow:none]">{emoji}</span>
+                                            {diff}
+                                        </button>
+                                    ))}
+                                    {!isEmbedded && (
+                                        <a
+                                            href="/games"
+                                            className="w-full py-3 rounded-2xl border-2 border-b-[6px] border-[#3d2a21] bg-[#fff6e6] text-red-500 font-black text-sm tracking-wide text-center hover:-translate-y-0.5 hover:bg-red-50 active:translate-y-1 active:border-b-2 transition-all"
+                                        >
+                                            Quit
+                                        </a>
+                                    )}
+                                </>
+                            )}
 
                             {gameState === 'PAUSED' && (
                                 <>
                                     <button
                                         onClick={() => { sfx.resume(); setGameState('PLAYING'); }}
-                                        className="w-full py-3 rounded-lg bg-neutral-950 text-white font-semibold text-sm hover:bg-neutral-800 active:scale-[0.98] transition-all"
+                                        className="w-full py-3 rounded-2xl border-2 border-b-[6px] border-[#3d2a21] bg-emerald-500 text-white font-black text-sm tracking-wide [text-shadow:0_1px_0_rgba(61,42,33,0.4)] hover:-translate-y-0.5 hover:brightness-110 active:translate-y-1 active:border-b-2 transition-all"
                                     >
-                                        Continue <span className="text-neutral-400 font-mono text-xs ml-1">Esc</span>
+                                        Continue <span className="text-white/80 font-mono text-xs ml-1">Esc</span>
                                     </button>
                                     <button
                                         onClick={() => startGame(difficulty)}
-                                        className="w-full py-3 rounded-lg border border-neutral-200 bg-white font-semibold text-sm text-neutral-800 hover:border-neutral-400 hover:bg-neutral-50 active:scale-[0.98] transition-all"
+                                        className="w-full py-3 rounded-2xl border-2 border-b-[6px] border-[#3d2a21] bg-[#ffe9c7] text-[#3d2a21] font-black text-sm tracking-wide hover:-translate-y-0.5 hover:brightness-105 active:translate-y-1 active:border-b-2 transition-all"
                                     >
                                         Restart
                                     </button>
@@ -1536,15 +1421,15 @@ export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: an
                                         <>
                                             <button
                                                 onClick={() => setGameState('MENU')}
-                                                className="w-full py-3 rounded-lg border border-neutral-200 bg-white font-semibold text-sm text-neutral-800 hover:border-neutral-400 hover:bg-neutral-50 active:scale-[0.98] transition-all"
+                                                className="w-full py-3 rounded-2xl border-2 border-b-[6px] border-[#3d2a21] bg-[#fff6e6] text-[#3d2a21] font-black text-sm tracking-wide hover:-translate-y-0.5 hover:brightness-105 active:translate-y-1 active:border-b-2 transition-all"
                                             >
                                                 Menu
                                             </button>
                                             <button
                                                 onClick={() => { window.location.href = '/games'; }}
-                                                className="w-full py-3 rounded-lg border border-red-200 bg-white font-semibold text-sm text-red-600 hover:bg-red-50 active:scale-[0.98] transition-all"
+                                                className="w-full py-3 rounded-2xl border-2 border-b-[6px] border-[#3d2a21] bg-[#fff6e6] text-red-500 font-black text-sm tracking-wide hover:-translate-y-0.5 hover:bg-red-50 active:translate-y-1 active:border-b-2 transition-all"
                                             >
-                                                Quit to Games
+                                                Quit
                                             </button>
                                         </>
                                     )}

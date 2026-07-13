@@ -4,10 +4,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { course } from '@/lib/curriculum';
+import { useLocale } from '@/lib/locale';
+import { STR } from '@/lib/uiStrings';
 
 const IGNITION_WORD = 'tez';
 
 export default function HomePage() {
+  const { locale } = useLocale();
   const router = useRouter();
   const lessons = course.chapters?.flatMap(c => c.sections || []).flatMap(s => s.lessons || []) || [];
 
@@ -70,12 +73,12 @@ export default function HomePage() {
         </div>
 
         <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-neutral-950 leading-[1.08] mb-6">
-          Type with your reflexes.<br />
-          <span className="font-light text-neutral-400">Execute with your mind.</span>
+          {STR.home.titleLine1[locale]}<br />
+          <span className="font-light text-neutral-400">{STR.home.titleLine2[locale]}</span>
         </h1>
 
         <p className="text-sm sm:text-base text-neutral-500 max-w-lg mb-10 leading-relaxed font-normal">
-          Master touch typing through subconscious muscle memory. Put your mouse away, rest your index fingers on <kbd className="font-mono font-bold text-neutral-900 bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 rounded shadow-sm">F</kbd> and <kbd className="font-mono font-bold text-neutral-900 bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 rounded shadow-sm">J</kbd>, and strike.
+          {STR.home.bodyStart[locale]} <kbd className="font-mono font-bold text-neutral-900 bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 rounded shadow-sm">F</kbd> {STR.home.bodyAnd[locale]} <kbd className="font-mono font-bold text-neutral-900 bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 rounded shadow-sm">J</kbd>{STR.home.bodyEnd[locale]}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
@@ -83,14 +86,14 @@ export default function HomePage() {
             href="/courses"
             className="group inline-flex items-center gap-3 bg-neutral-950 hover:bg-neutral-800 text-white text-[13px] font-medium px-8 py-3.5 rounded-lg shadow-sm transition-all active:scale-95 cursor-pointer w-full sm:w-auto justify-center"
           >
-            <span>Explore Courses</span>
+            <span>{STR.home.exploreCourses[locale]}</span>
             <span className="text-neutral-400 font-mono group-hover:translate-x-0.5 transition-transform">→</span>
           </Link>
           <Link 
             href="/games"
             className="group inline-flex items-center gap-3 bg-white border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 text-neutral-950 text-[13px] font-medium px-8 py-3.5 rounded-lg shadow-sm transition-all active:scale-95 cursor-pointer w-full sm:w-auto justify-center"
           >
-            <span>Play Games</span>
+            <span>{STR.home.playGames[locale]}</span>
             <span className="text-neutral-400 font-mono group-hover:translate-x-0.5 transition-transform">→</span>
           </Link>
         </div>

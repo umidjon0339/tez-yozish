@@ -30,8 +30,8 @@ in the array IS the number.
 COURSE   { id, title, audience?, thumbnail?, chapters: [...] }
 CHAPTER  { id, title, description?, sections: [...] }
 SECTION  { id, title, thumbnail?, lessons: [...] }
-LESSON   { id, type?, title, goal?, keys?, thumbnail?, steps: [...] }
-STEP     { viewport, instruction, text, mode?, targetWPM?, maxMistakes? }
+LESSON   { id, type?, title, goal?, keys?, passStars?, thumbnail?, steps: [...] }
+STEP     { viewport, instruction, text, mode?, targetWPM?, maxMistakes?, gameSpeed? }
 
 LESSON fields:
   type   — what kind of lesson this is (default "practice"):
@@ -62,30 +62,109 @@ STEP fields:
       "STANDARD_GYM"    the standard typing treadmill
       "GAME_NINJA_RUN"  the 3D game (each text token = one enemy)
       "POSTURE_CHECK"   static hands graphic, waits for home-row anchor
+      "CHAT_SIM"        a messenger: type each reply, Enter sends it
+      "SHORTCUT_DOJO"   a mini document that shortcuts really act on
   instruction — localized sensei prompt shown above the step
   text — ONE string, tokens separated by spaces: "fff jjj fjf"
          The engine splits it for you (spaces are never typed).
          An array of tokens is also accepted.
+         A token can also be a SPECIAL KEY or a CHORD — see section 3.
+  prefill — fix-the-typo drills (STANDARD_GYM only) — see section 3.
   mode — how strict the step is (default "careful"):
       "learn"    no backspace, cursor waits for the right key   (new keys)
       "careful"  backspace on, cursor waits for the right key   (practice)
       "strict"   like careful but only 1 uncorrected mistake    (tests)
-      "free"     mistakes mark red and the cursor moves on      (games)
-  targetWPM   — speed goal; used for the 3-star rating (omit = no speed goal)
+      "free"     no backspace; mistakes mark red, cursor moves on (games)
+  targetWPM   — speed goal; gates the TOP star tiers only: 5 stars need
+                wpm >= targetWPM, 4 stars need wpm >= 80% of it; 3 stars
+                and below are accuracy-only (omit = no speed goal)
   maxMistakes — overrides the mode's mistake limit (e.g. 3 for a game step)
+  gameSpeed   — GAME_NINJA_RUN only: multiplies enemy speed and spawn rate.
+                1 = normal, 0.85 = slightly slower (first games), 1.2 = faster.
+                Sane range 0.3-3 (validator warns outside it). Default 1.
 
 --------------------------------------------------------------------------------
-3. THUMBNAILS
+3. SPECIAL KEYS, CHORDS & PREFILL (v4.1)
+--------------------------------------------------------------------------------
+
+Besides plain typed text, a text token can be one of two other kinds.
+(The exact rules live in lib/keyTokens.ts; the validator enforces them.)
+
+SPECIAL KEY tokens — one named key the learner must press:
+    Enter  Backspace  Tab  CapsLock  Control  Alt  Shift
+  Where they may appear:
+    KEY_INTRO      all of them (rendered as keycaps in the sequence)
+    STANDARD_GYM   only Enter and Tab, INSIDE real text:
+                     "milk Enter bread Enter"  — type a word, press Enter,
+                     the line really breaks (Enter shows as an inline key).
+                     Tab indents the line it starts.
+    GAME_NINJA_RUN never (games use plain words only)
+
+CHORD tokens — keyboard shortcuts, written with "+":
+    "Ctrl+C"  "Ctrl+Shift+Z"  "Shift+ArrowRight"
+  Modifiers: Ctrl, Alt, Shift (in that spirit — last part is the base key).
+  Allowed in KEY_INTRO and STANDARD_GYM, never in games.
+  NOTE: plain math text still works — "1+1" or "+=" are typed characters,
+  not chords. Only tokens whose leading parts are modifier names parse as
+  chords. Ctrl+C / Ctrl+V / Ctrl+X / Ctrl+Z / Ctrl+Y / Ctrl+A are safe to
+  practice in the browser; never author Ctrl+W / Ctrl+T / Alt+Tab (the
+  browser or OS swallows them).
+
+CHAT_SIM steps — a conversation instead of "text":
+    { "viewport": "CHAT_SIM",
+      "instruction": { ... },
+      "chat": [
+        { "from": "them", "text": "hi! ready?" },
+        { "from": "you",  "text": "yes lets go" },
+        { "from": "them", "text": "cool" }
+      ],
+      "mode": "careful", "targetWPM": 16 }
+  "them" bubbles appear by themselves; every "you" turn is typed and sent
+  with Enter. Turn text is plain typable ASCII (localize the scenario in
+  "instruction", not in the messages). At least one "you" turn required;
+  "text" must be omitted.
+
+SHORTCUT_DOJO steps — a document + task script instead of "text":
+    { "viewport": "SHORTCUT_DOJO",
+      "instruction": { ... },
+      "dojo": {
+        "doc": "the quick brown fox",
+        "tasks": [
+          { "do": "Ctrl+A", "say": { "en": "Select everything!", ... } },
+          { "do": "Ctrl+C", "say": { "en": "Copy it!", ... } },
+          { "do": "Ctrl+V", "say": { "en": "Paste it!", ... } }
+        ]
+      } }
+  Each task card asks for ONE shortcut; the document really reacts
+  (select / copy / cut / paste / undo / redo). Allowed "do" values:
+  Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z, Ctrl+Y, Shift+ArrowRight
+  (grow the selection one word), Shift+ArrowLeft (shrink it).
+  The validator SIMULATES the script and rejects impossible sequences
+  (e.g. Ctrl+C before anything is selected). "text" must be omitted.
+
+prefill — fix-the-typo drills (STANDARD_GYM only):
+    { "viewport": "STANDARD_GYM",
+      "text":    "the cat sat",
+      "prefill": "teh",
+      "mode":    "careful" }
+  The step starts with "teh" already typed (and marked wrong). The learner
+  must Backspace the wrong letters, retype them, then continue typing the
+  rest. Rules: prefill tokens are a prefix of the text tokens, each the
+  same length as its text token, plain text only, and the mode must allow
+  backspace ("careful" or "strict").
+
+--------------------------------------------------------------------------------
+4. THUMBNAILS
 --------------------------------------------------------------------------------
 
   "thumbnail": { "svgId": "TWO_KEYS_FOCUS",
                  "parameters": { "keys": ["f","j"], "accentColor": "emerald" } }
 
 svgId must exist in ThumbnailRegistry (components/thumbnails/SvgLibrary.tsx).
-A raster image is also allowed: "thumbnail": { "imageSrc": "/cource01.png" }.
+A raster image is also allowed: "thumbnail": { "imageSrc": "/course-cover.svg" }.
 
 --------------------------------------------------------------------------------
-4. MINIMAL EXAMPLE (one lesson)
+5. MINIMAL EXAMPLE (one lesson)
 --------------------------------------------------------------------------------
 
 {

@@ -6,13 +6,49 @@ export interface LocalizedString {
   ru: string;
 }
 
-export type ViewportMode = 'POSTURE_CHECK' | 'KEY_INTRO' | 'STANDARD_GYM' | 'GAME_NINJA_RUN';
+export type ViewportMode =
+  | 'POSTURE_CHECK'
+  | 'KEY_INTRO'
+  | 'STANDARD_GYM'
+  | 'GAME_NINJA_RUN'
+  | 'CHAT_SIM'
+  | 'SHORTCUT_DOJO';
+
+/**
+ * One message of a CHAT_SIM conversation. "them" bubbles appear by
+ * themselves; "you" turns must be typed and sent with Enter. Turn text is
+ * plain typable ASCII (like all step text) — the localized `instruction`
+ * carries the scenario framing.
+ */
+export interface ChatTurn {
+  from: 'them' | 'you';
+  text: string;
+}
+
+/**
+ * One task card of a SHORTCUT_DOJO step. `do` is the shortcut to perform
+ * (one of lib/dojoSim.ts DOJO_ACTIONS, e.g. "Ctrl+C"); `say` is the
+ * localized task text ("Copy the selected words!").
+ */
+export interface DojoTask {
+  do: string;
+  say: LocalizedString;
+}
+
+/** SHORTCUT_DOJO payload: a small document the shortcuts really act on. */
+export interface DojoSource {
+  /** Space-separated plain words, e.g. "the quick brown fox". */
+  doc: string;
+  tasks: DojoTask[];
+}
 
 export interface StepRules {
   allowBackspace: boolean;
   blockOnTypo: boolean;
   maxMistakesAllowed: number;
   minimumWPM: number;
+  /** GAME_NINJA_RUN only: enemy speed/spawn multiplier (1 = normal pace). */
+  gameSpeed: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -35,13 +71,36 @@ export interface ThumbnailSource {
 export interface StepSource {
   viewport: ViewportMode;
   instruction: LocalizedString;
-  /** "f f fj jf" — split on whitespace into tokens. An array is also accepted. */
-  text: string | string[];
+  /**
+   * "f f fj jf" — split on whitespace into tokens. An array is also accepted.
+   * Besides plain typed text, a token may be a SPECIAL KEY (Enter, Backspace,
+   * Tab, CapsLock, Control, Alt, Shift) or a CHORD ("Ctrl+C") — see
+   * lib/keyTokens.ts for the exact rules and where each kind is allowed.
+   * CHAT_SIM steps use `chat` INSTEAD of `text`.
+   */
+  text?: string | string[];
+  /** CHAT_SIM only: the conversation script (replaces `text`). */
+  chat?: ChatTurn[];
+  /** SHORTCUT_DOJO only: the document + task script (replaces `text`). */
+  dojo?: DojoSource;
+  /**
+   * Fix-the-typo drills (STANDARD_GYM only): what is ALREADY typed — wrongly —
+   * when the step starts. Tokenized like `text`; must be a prefix of the text
+   * tokens with the same per-token lengths, e.g. text "the cat", prefill "teh".
+   * The learner backspaces the wrong letters and retypes them, so the step's
+   * mode must allow backspace ('careful' or 'strict').
+   */
+  prefill?: string | string[];
   /** Defaults to 'careful'. */
   mode?: StepMode;
   targetWPM?: number;
   /** Overrides the mode preset's mistake limit. */
   maxMistakes?: number;
+  /**
+   * GAME_NINJA_RUN only: multiplies enemy speed and spawn rate.
+   * 1 = normal, 0.85 = slightly slower, 1.2 = faster. Defaults to 1.
+   */
+  gameSpeed?: number;
 }
 
 /**
@@ -104,6 +163,12 @@ export interface StepNode {
   viewport: ViewportMode;
   instruction: LocalizedString;
   content: string[];
+  /** Pre-typed wrong tokens for fix-the-typo drills (see StepSource.prefill). */
+  prefill?: string[];
+  /** CHAT_SIM only: the conversation script. */
+  chat?: ChatTurn[];
+  /** SHORTCUT_DOJO only: the document + task script. */
+  dojo?: DojoSource;
   rules: StepRules;
 }
 

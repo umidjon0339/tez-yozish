@@ -6,7 +6,9 @@ import { course as courseData } from '@/lib/curriculum';
 import { SectionNode, LessonNode } from '@/types/lesson';
 import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
 import { getProgress, computeUnlocked, isLessonPassed, ProgressMap } from '@/lib/progress';
-import { LESSON_TYPES, LESSON_TYPE_ORDER, LessonTypeIcon } from '@/lib/lessonTypes';
+import { LESSON_TYPES, LESSON_TYPE_ORDER } from '@/lib/lessonTypes';
+import { useLocale } from '@/lib/locale';
+import { STR } from '@/lib/uiStrings';
 
 export default function CourseDetailPage({ 
   params,
@@ -16,6 +18,7 @@ export default function CourseDetailPage({
   searchParams: Promise<{ sectionId?: string }>
 }) {
   const sp = use(searchParams);
+  const { locale } = useLocale();
   const router = useRouter();
   const course = courseData;
   const [isRouting, setIsRouting] = useState(false);
@@ -47,7 +50,7 @@ export default function CourseDetailPage({
       const found = chapter.sections?.find(s => s.sectionId === activeSectionId);
       if (found) {
         activeSection = found;
-        activeChapterTitle = chapter.chapterTitle.en;
+        activeChapterTitle = chapter.chapterTitle[locale];
         break;
       }
     }
@@ -61,7 +64,7 @@ export default function CourseDetailPage({
   const totalStars = gradedLessons.length * 5;
 
   return (
-    <div className={`flex-1 flex flex-col bg-[#FAFAFA] text-neutral-950 font-sans min-h-screen pt-24 px-6 transition-opacity duration-200 ${isRouting ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`flex-1 flex flex-col bg-[#FAFAFA] text-neutral-950 font-sans min-h-screen pt-7 px-6 transition-opacity duration-200 ${isRouting ? 'opacity-0' : 'opacity-100'}`}>
       <div className="max-w-5xl mx-auto w-full">
         <section className="w-full pb-32">
           
@@ -72,32 +75,10 @@ export default function CourseDetailPage({
                  className="text-neutral-500 hover:text-neutral-900 font-medium text-sm flex items-center gap-2 mb-8 transition-colors bg-white px-4 py-2 rounded-lg border border-neutral-200 shadow-sm hover:shadow"
                >
                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                 Back to Sections
+                 {STR.courses.backToSections[locale]}
                </button>
                
-               <div className="flex items-center gap-4 mb-8">
-                 {activeSection.thumbnail && (
-                    <div className="w-20 h-12 rounded-lg overflow-hidden bg-neutral-100 flex-shrink-0 border border-neutral-200 shadow-sm">
-                       {activeSection.thumbnail.imageSrc ? (
-                          <img src={activeSection.thumbnail.imageSrc} alt="" className="w-full h-full object-cover" />
-                       ) : activeSection.thumbnail.svgId ? (
-                          <DynamicThumbnail svgId={activeSection.thumbnail.svgId} params={activeSection.thumbnail.parameters} className="w-full h-full object-cover" />
-                       ) : null}
-                    </div>
-                 )}
-                 <div>
-                   <h2 className="text-2xl font-black text-neutral-900 leading-tight">{activeSection.sectionTitle.en}</h2>
-                   <p className="text-sm text-neutral-500 mt-1">
-                     {activeChapterTitle} • Section {activeSection.sectionNumber}
-                     {totalStars > 0 && (
-                       <>
-                         {' '}•{' '}
-                         <span className="font-semibold text-amber-500">★ {earnedStars}/{totalStars}</span>
-                       </>
-                     )}
-                   </p>
-                 </div>
-               </div>
+              
 
                {(() => {
                  // Groups follow the pedagogical arc: Learn → Practice → Tests → Games
@@ -129,7 +110,6 @@ export default function CourseDetailPage({
                    const completed = !!prog?.completed;
                    const locked = !unlockedMap[lesson.lessonId];
                    const isNextUp = lesson.lessonId === nextUpId;
-                   const passed = isLessonPassed({ lessonId: lesson.lessonId, passStars: lesson.passStars }, progress);
                    const showStars = cfg.graded && completed && (prog?.stars ?? 0) > 0;
                    return (
                    <div
@@ -149,14 +129,9 @@ export default function CourseDetailPage({
                          svgId={lesson.thumbnail?.svgId || 'TWO_KEYS_FOCUS'}
                          params={lesson.thumbnail?.parameters}
                          className={`w-full h-full object-cover transition-all duration-500 ease-out ${
-                           locked ? 'grayscale opacity-40' : 'group-hover:scale-105'
+                           locked ? '' : 'group-hover:scale-105'
                          }`}
                        />
-
-                       {/* Type badge — anchors the card to its group */}
-                       <div className={`absolute top-1.5 left-1.5 z-10 w-6 h-6 rounded-md border flex items-center justify-center shadow-sm ${cfg.badgeClass} ${locked ? 'opacity-50' : ''}`}>
-                         <LessonTypeIcon type={lesson.type} size={12} />
-                       </div>
 
                        {/* Earned stars — big, on top of the thumbnail */}
                        {showStars && !locked && (
@@ -166,28 +141,17 @@ export default function CourseDetailPage({
                          </div>
                        )}
 
-                       {/* Star goal — graded lessons show what it takes to pass */}
-                       {cfg.graded && !locked && !passed && lesson.passStars > 0 && (
-                         <div className="absolute bottom-1.5 left-1.5 z-10 px-1.5 py-0.5 rounded-md bg-white/95 border border-neutral-200 shadow-sm text-[9px] font-bold text-neutral-600 leading-none flex items-center gap-0.5">
-                           <span className="text-amber-500">★</span>
-                           <span>{lesson.passStars}</span>
-                           <span className="font-semibold text-neutral-400 ml-0.5">to pass</span>
-                         </div>
-                       )}
-
                        {/* Completed badge — big and unmistakable */}
                        {completed && !locked && (
-                         <div className="absolute bottom-2 right-2 z-10 w-8 h-8 bg-emerald-500 text-white flex items-center justify-center rounded-full shadow-md ring-2 ring-white">
-                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                         <div className="absolute top-2 right-2 z-10 w-5 h-5 bg-emerald-500 text-white flex items-center justify-center rounded-full shadow-md ring-2 ring-white">
+                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                          </div>
                        )}
 
-                       {/* Padlock for locked lessons */}
+                       {/* Padlock badge — top-right, so the artwork stays visible */}
                        {locked && (
-                         <div className="absolute inset-0 z-10 flex items-center justify-center">
-                           <div className="w-10 h-10 bg-white/95 rounded-full flex items-center justify-center shadow-md">
-                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                           </div>
+                         <div className="absolute top-2 right-2 z-10 w-7 h-7 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md ring-1 ring-black/5">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-500"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                          </div>
                        )}
                      </div>
@@ -196,7 +160,7 @@ export default function CourseDetailPage({
                        <span className={`text-[10px] sm:text-xs font-medium truncate transition-colors ${
                          locked ? 'text-neutral-300' : 'text-neutral-500 group-hover:text-neutral-800'
                        }`}>
-                         {lesson.lessonTitle.en}
+                         {lesson.lessonTitle[locale]}
                        </span>
                      </div>
                    </div>
@@ -207,9 +171,8 @@ export default function CourseDetailPage({
                    <div className="flex flex-col gap-8">
                      {groups.map(({ type, cfg, lessons }) => (
                        <div key={type}>
-                         <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3 pl-1 flex items-center gap-1.5">
-                           <LessonTypeIcon type={type} size={12} />
-                           {cfg.label.en}
+                         <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3 pl-1">
+                           {cfg.label[locale]}
                          </h3>
                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
                            {lessons.map(renderLessonCard)}
@@ -223,8 +186,8 @@ export default function CourseDetailPage({
           ) : (
              <div className="animate-in fade-in duration-300">
                {course.chapters?.map((chapter) => (
-                 <div key={chapter.chapterId} className="mb-16">
-                   <h2 className="text-2xl font-black text-neutral-900 mb-8 border-b border-neutral-200 pb-4">{chapter.chapterTitle.en}</h2>
+                 <div key={chapter.chapterId} className="mb-10">
+                   <h2 className="text-2xl font-black text-neutral-900 mb-5">{chapter.chapterTitle[locale]}</h2>
                    
                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
                      {chapter.sections?.map((section) => {
@@ -261,14 +224,6 @@ export default function CourseDetailPage({
                              />
                            </div>
                          )}
-                         <div className="border-t border-neutral-100 py-2 sm:py-3 px-2 text-center bg-white flex items-center justify-center min-h-[44px] gap-1.5">
-                           <span className="text-[10px] sm:text-xs font-medium text-neutral-500 group-hover:text-neutral-800 transition-colors truncate">
-                             {section.sectionTitle.en}
-                           </span>
-                           {doneLessons === totalLessons && totalLessons > 0 && (
-                             <span className="text-[10px] font-bold text-emerald-500">✓</span>
-                           )}
-                         </div>
                        </div>
                        );
                      })}

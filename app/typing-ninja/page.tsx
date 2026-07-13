@@ -5,8 +5,8 @@ const NinjaWorld = dynamic(() => import('./NinjaWorld'), {
     ssr: false,
     loading: () => (
         <div className="w-full h-full flex flex-col items-center justify-center gap-3">
-            <div className="w-8 h-8 border-4 border-[#c0bbb5] border-t-[#554e44] rounded-full animate-spin" />
-            <p className="font-mono text-xs text-[#554e44] uppercase tracking-widest">Loading game…</p>
+            <div className="w-10 h-10 border-4 border-[#e0c9a6] border-t-[#3d2a21] rounded-full animate-spin" />
+            <p className="font-mono text-xs font-bold text-[#3d2a21] uppercase tracking-widest">🥷 Loading game…</p>
         </div>
     ),
 });

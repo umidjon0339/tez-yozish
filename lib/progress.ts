@@ -1,6 +1,8 @@
 // Lesson progress & typing statistics — stored in localStorage (key: tz-progress-v1).
 // All reads/writes are guarded so this is safe to import from server components.
 
+import { useSyncExternalStore } from "react";
+
 export interface StepStats {
   correct: number; // correct keystrokes
   mistakes: number;
@@ -48,6 +50,32 @@ export function getProgress(): ProgressMap {
   }
 }
 
+// ─── REACTIVE READ (house useSyncExternalStore idiom, see locale.tsx) ───
+// Components that must re-render when progress changes use useProgress();
+// imperative call sites keep using getProgress().
+
+let progressCache: ProgressMap | null = null;
+const progressListeners = new Set<() => void>();
+const SERVER_PROGRESS: ProgressMap = {};
+
+function readProgressCached(): ProgressMap {
+  if (progressCache === null) progressCache = getProgress();
+  return progressCache;
+}
+
+function subscribeProgress(listener: () => void): () => void {
+  progressListeners.add(listener);
+  return () => progressListeners.delete(listener);
+}
+
+export function useProgress(): ProgressMap {
+  return useSyncExternalStore(
+    subscribeProgress,
+    readProgressCached,
+    () => SERVER_PROGRESS,
+  );
+}
+
 export function getLessonProgress(
   lessonId: string,
 ): StoredLessonProgress | null {
@@ -73,6 +101,8 @@ export function saveLessonResult(
   } catch {
     // storage full/blocked — progress just isn't persisted
   }
+  progressCache = all;
+  progressListeners.forEach((l) => l());
   return all;
 }
 

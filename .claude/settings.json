@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git stash *)",
+      "Bash(which chromium *)",
+      "Read(//home/matimatik/.cache/**)",
+      "Bash(node /tmp/claude-1004/-home-matimatik-Documents-Web-Projects-tez-yozish/6e950495-ef5d-410f-9020-2d746f14d5bd/scratchpad/center-keys.mjs)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/typing-ninja)",
+      "Bash(chromium --headless --disable-gpu --window-size=1920,1200 --screenshot=/tmp/claude-1004/-home-matimatik-Documents-Web-Projects-tez-yozish/6e950495-ef5d-410f-9020-2d746f14d5bd/scratchpad/keyboard-after.png --virtual-time-budget=8000 http://localhost:3000/lesson/less_01_02)",
+      "Bash(node shot.mjs)",
+      "Bash(node debug.mjs)",
+      "Bash(chromium --headless --disable-gpu --window-size=1920,1200 --screenshot=/tmp/claude-1004/-home-matimatik-Documents-Web-Projects-tez-yozish/6e950495-ef5d-410f-9020-2d746f14d5bd/scratchpad/ninja-menu.png --virtual-time-budget=15000 http://localhost:3000/typing-ninja)",
+      "Bash(chromium --headless --disable-gpu --window-size=1920,1400 --screenshot=/tmp/claude-1004/-home-matimatik-Documents-Web-Projects-tez-yozish/6e950495-ef5d-410f-9020-2d746f14d5bd/scratchpad/section-clean.png --virtual-time-budget=8000 \"http://localhost:3000/courses/course_core_typing?sectionId=sec_01_01\")",
+      "Bash(chromium --headless --disable-gpu --window-size=1920,1200 --screenshot=/tmp/claude-1004/-home-matimatik-Documents-Web-Projects-tez-yozish/6e950495-ef5d-410f-9020-2d746f14d5bd/scratchpad/game-fullscreen.png --virtual-time-budget=15000 http://localhost:3000/lesson/less_01_05)",
+      "Bash(chromium --headless --disable-gpu --window-size=1920,1000 --screenshot=/tmp/claude-1004/-home-matimatik-Documents-Web-Projects-tez-yozish/6e950495-ef5d-410f-9020-2d746f14d5bd/scratchpad/games-page.png --virtual-time-budget=8000 http://localhost:3000/games)",
+      "Bash(chromium --headless --disable-gpu --window-size=1920,1000 --screenshot=/tmp/claude-1004/-home-matimatik-Documents-Web-Projects-tez-yozish/6e950495-ef5d-410f-9020-2d746f14d5bd/scratchpad/games-ninja.png --virtual-time-budget=8000 http://localhost:3000/games)",
+      "Bash(magick games-ninja.png -crop 900x700+500+180 +repage games-ninja-crop.png)",
+      "Bash(chromium --headless --disable-gpu --window-size=1920,1000 --screenshot=/tmp/claude-1004/-home-matimatik-Documents-Web-Projects-tez-yozish/6e950495-ef5d-410f-9020-2d746f14d5bd/scratchpad/games-final.png --virtual-time-budget=8000 http://localhost:3000/games)",
+      "Bash(magick games-final.png -crop 900x600+500+180 +repage games-final-crop.png)",
+      "Bash(magick -density 96 -background none /home/matimatik/Documents/Web_Projects/tez-yozish/public/course-cover.svg cover-preview.png)"
+    ]
+  }
+}

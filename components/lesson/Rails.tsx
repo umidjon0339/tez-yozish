@@ -137,7 +137,7 @@ export function LessonRail({
               params={l.thumbnail.parameters}
               className={`w-full h-full object-cover transition-all duration-500 ease-out ${
                 locked
-                  ? "grayscale opacity-40"
+                  ? ""
                   : isActive
                     ? "scale-105"
                     : "group-hover:scale-105"
@@ -156,23 +156,21 @@ export function LessonRail({
           )}
 
           {locked ? (
-            <div className="absolute inset-0 z-10 flex items-center justify-center">
-              <div className="w-8 h-8 bg-white/95 dark:bg-neutral-900/95 rounded-full flex items-center justify-center shadow-md">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-neutral-400"
-                >
-                  <rect x="3" y="11" width="18" height="11" rx="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-              </div>
+            <div className="absolute top-1.5 right-1.5 z-10 w-6 h-6 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md ring-1 ring-black/5 dark:ring-white/10">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-neutral-500 dark:text-neutral-400"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
             </div>
           ) : isCompleted && !isActive ? (
             <div className="absolute bottom-1.5 right-1.5 z-10 w-7 h-7 bg-emerald-500 text-white flex items-center justify-center rounded-full shadow-md ring-2 ring-white dark:ring-neutral-900">
@@ -267,23 +265,9 @@ export function LessonRail({
         title={label}
         className="flex items-center justify-end p-[3px]"
       >
-        {l.type === "game" ? (
-          <span
-            className={`w-2 h-2 rotate-45 rounded-[2px] ${color} ${isCurrent ? "scale-125 animate-pulse" : ""}`}
-          />
-        ) : l.type === "test" ? (
-          <span
-            className={`w-2 h-2 rounded-[2px] ${color} ${isCurrent ? "scale-125 animate-pulse" : ""}`}
-          />
-        ) : l.type === "lesson" ? (
-          <span
-            className={`w-2 h-2 rounded-full ${color} ${isCurrent ? "scale-125 animate-pulse" : ""}`}
-          />
-        ) : (
-          <span
-            className={`h-[3px] rounded-full ${color} ${isCurrent ? "w-7 animate-pulse" : "w-5"}`}
-          />
-        )}
+        <span
+          className={`h-[3px] rounded-full ${color} ${isCurrent ? "w-7 animate-pulse" : "w-5"}`}
+        />
       </span>
     );
   };
@@ -361,45 +345,41 @@ export function ChapterRail({
       aria-label={RAIL_UI.course[locale]}
       className="absolute inset-y-0 left-0 w-0 z-40"
     >
-      {/* Collapsed rail — click to open the drawer */}
+      {/* Collapsed rail — one dash per CHAPTER (Home Row, Top Row, …), not per
+          section: 50+ section dashes filled the whole column height. Click to
+          open the drawer for the section-level detail. */}
       <button
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label={RAIL_UI.course[locale]}
-        className={`absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-start py-3 pr-2 pl-2.5 rounded-r-xl cursor-pointer hover:bg-neutral-100/80 dark:hover:bg-neutral-900/80 transition-all duration-500 ${dimmed && !open ? "opacity-25" : "opacity-100"}`}
+        className={`absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-start gap-0.5 py-3 pr-2 pl-2.5 rounded-r-xl cursor-pointer hover:bg-neutral-100/80 dark:hover:bg-neutral-900/80 transition-all duration-500 ${dimmed && !open ? "opacity-25" : "opacity-100"}`}
       >
-        {chapters.map((ch) => (
-          <span
-            key={ch.chapterId}
-            className="flex flex-col items-center gap-1 mb-3 last:mb-0"
-          >
-            <span className="font-mono text-[9px] font-bold text-neutral-400 select-none">
-              {ch.chapterNumber}
+        {chapters.map((ch) => {
+          const isCurrent = ch.sections.some(
+            (sec) => sec.sectionId === currentSectionId,
+          );
+          const { total, done } = sectionStats(
+            ch.sections.flatMap((sec) => sec.lessons),
+          );
+          const color = isCurrent
+            ? "bg-neutral-900 dark:bg-white"
+            : done === total && total > 0
+              ? "bg-emerald-500"
+              : done > 0
+                ? "bg-emerald-300 dark:bg-emerald-800"
+                : "bg-neutral-300 dark:bg-neutral-700";
+          return (
+            <span
+              key={ch.chapterId}
+              title={`${ch.chapterTitle[locale]} · ${done}/${total}`}
+              className="flex items-center p-[3px]"
+            >
+              <span
+                className={`h-[3px] rounded-full ${color} ${isCurrent ? "w-7 animate-pulse" : "w-5"}`}
+              />
             </span>
-            {ch.sections.map((sec) => {
-              const isCurrent = sec.sectionId === currentSectionId;
-              const { total, done } = sectionStats(sec.lessons);
-              const color = isCurrent
-                ? "bg-neutral-900 dark:bg-white"
-                : done === total && total > 0
-                  ? "bg-emerald-500"
-                  : done > 0
-                    ? "bg-emerald-300 dark:bg-emerald-800"
-                    : "bg-neutral-300 dark:bg-neutral-700";
-              return (
-                <span
-                  key={sec.sectionId}
-                  title={`${sec.sectionTitle[locale]} · ${done}/${total}`}
-                  className="flex items-center p-[3px]"
-                >
-                  <span
-                    className={`h-[3px] rounded-full ${color} ${isCurrent ? "w-7 animate-pulse" : "w-5"}`}
-                  />
-                </span>
-              );
-            })}
-          </span>
-        ))}
+          );
+        })}
       </button>
 
       {/* Card drawer */}
