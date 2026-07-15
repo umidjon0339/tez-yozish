@@ -7,7 +7,7 @@ import {
   signOut,
   type User,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/firebase";
 
 /* Signed-in state, mirrored from the Firebase SDK into React with the same
    external-store pattern as lib/locale.tsx. `ready` is false until Firebase
@@ -25,7 +25,7 @@ const listeners = new Set<() => void>();
 function start() {
   if (started) return;
   started = true;
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(getFirebaseAuth(), (user) => {
     snapshot = { user, ready: true };
     listeners.forEach((cb) => cb());
   });
@@ -48,13 +48,13 @@ export function useAuth(): AuthSnapshot {
 }
 
 export function logout(): Promise<void> {
-  return signOut(auth);
+  return signOut(getFirebaseAuth());
 }
 
 /** Completes the SSO hand-off: edify-student sends the student back with a
  *  custom token; exchanging it signs them into the same account here. */
 export function signInWithSsoToken(token: string): Promise<unknown> {
-  return signInWithCustomToken(auth, token);
+  return signInWithCustomToken(getFirebaseAuth(), token);
 }
 
 /** Login/signup live on the parent app (edify-student). We send the student

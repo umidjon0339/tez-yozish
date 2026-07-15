@@ -25,9 +25,13 @@ shared account pool) and receives sessions via a custom-token SSO hand-off.
 
 ## Modules
 
-- **`lib/firebase.ts`** — standard modular init, idempotent
+- **`lib/firebase.ts`** — LAZY modular init, idempotent
   (`getApps().length ? getApp() : initializeApp`). Config entirely from
-  `NEXT_PUBLIC_FIREBASE_*` env vars (see `.env.local`). Exports `auth`.
+  `NEXT_PUBLIC_FIREBASE_*` env vars (see `.env.local`; deployments must
+  define the same vars). Exports `getFirebaseAuth()` — call it only from
+  browser code paths: module-scope init would run during `next build`
+  prerendering and, without env vars, fail the build with
+  `auth/invalid-api-key`.
 - **`lib/auth.ts`** — module-singleton external store (same
   `useSyncExternalStore` idiom as `lib/locale.tsx`):
   - `useAuth(): { user: User | null, ready: boolean }` — `ready` stays
