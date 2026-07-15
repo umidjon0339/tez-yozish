@@ -14,6 +14,10 @@ export interface ThumbnailParams {
   enemyCount?: number;           // e.g., 14
   targetWPM?: number;            // e.g., 20
   showClock?: boolean;           // Toggles a stopwatch graphic
+
+  // Letter-unit lesson covers (LETTER_STAGE / CODES_STAGE)
+  letter?: string;               // e.g., "b" — merged in at runtime per page
+  motif?: string;                // which lesson the cover depicts, e.g. "rain"
 }
 
 /**

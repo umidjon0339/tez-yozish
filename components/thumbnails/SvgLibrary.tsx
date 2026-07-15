@@ -739,7 +739,202 @@ export const SectionKeysShowcase: React.FC<SvgTemplateProps> = ({ params, classN
     </svg>
   );
 };
+/* ── Letter-unit lesson covers ─────────────────────────────────────────
+   One parametric cover per track (letters / codes); `letter` is merged in
+   at runtime by the hub page, `motif` says which lesson the card depicts.
+   Accents follow the lesson-type badge hues (sky/emerald/amber/violet). */
+
+const LETTER_MOTIF_ACCENT: Record<string, string> = {
+  meet: '#0EA5E9',
+  type: '#10B981',
+  caps: '#10B981',
+  hear: '#10B981',
+  mix: '#F59E0B',
+  rain: '#8B5CF6',
+};
+
+export const LetterStageCover: React.FC<SvgTemplateProps> = ({ params, className }) => {
+  const letter = (params?.letter || 'a').toLowerCase();
+  const motif = params?.motif || 'meet';
+  const accent = LETTER_MOTIF_ACCENT[motif] ?? '#0EA5E9';
+  const idPrefix = React.useId().replace(/:/g, "");
+  const cls = `ls-${idPrefix}`;
+  const up = letter.toUpperCase();
+
+  return (
+    <svg className={`${className || ''} ${cls}`} viewBox="0 0 400 240" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+          .${cls} .ls-cap { transition: transform .35s cubic-bezier(.34,1.56,.64,1); transform-box: fill-box; }
+          .${cls}:hover .ls-cap { transform: translateY(6px); }
+        }
+      `}</style>
+      <defs>
+        <filter id={`${idPrefix}-glow`} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="24" result="blur" />
+        </filter>
+        <filter id={`${idPrefix}-shadow`} x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000000" floodOpacity="0.05"/>
+        </filter>
+      </defs>
+
+      <rect width="400" height="240" rx="16" fill="#F4F4F5" />
+      <circle cx="200" cy="120" r="52" fill={accent} opacity="0.28" filter={`url(#${idPrefix}-glow)`} />
+
+      {/* Center keycap with the letter */}
+      <g className="ls-cap">
+        <rect x="160" y="80" width="80" height="80" rx="18" fill="#FFFFFF" filter={`url(#${idPrefix}-shadow)`} />
+        <text x="200" y="134" textAnchor="middle" fontSize="40" fontWeight="800" fontFamily="monospace" fill="#18181B">
+          {motif === 'caps' ? up : letter}
+        </text>
+      </g>
+
+      {motif === 'meet' && (
+        <g stroke={accent} strokeWidth="3" strokeLinecap="round">
+          <path d="M118 76 l0 16 M110 84 l16 0" />
+          <path d="M288 148 l0 12 M282 154 l12 0" />
+          <text x="120" y="176" textAnchor="middle" fontSize="26" fontFamily="serif" fontStyle="italic" fill="#A1A1AA" stroke="none">{up}{letter}</text>
+        </g>
+      )}
+      {motif === 'type' && (
+        <g fill="#FFFFFF" stroke="#E4E4E7">
+          {[0, 1, 2].map((i) => (
+            <g key={i}>
+              <rect x={62} y={80 + i * 30} width={64} height={20} rx={10} filter={`url(#${idPrefix}-shadow)`} />
+              <rect x={76} y={88 + i * 30} width={36 - i * 8} height={4} rx={2} fill={accent} stroke="none" opacity="0.7" />
+            </g>
+          ))}
+        </g>
+      )}
+      {motif === 'caps' && (
+        <g>
+          <rect x="86" y="102" width="52" height="52" rx="12" fill="#FFFFFF" filter={`url(#${idPrefix}-shadow)`} />
+          <text x="112" y="136" textAnchor="middle" fontSize="24" fontWeight="800" fontFamily="monospace" fill="#A1A1AA">{letter}</text>
+          <path d="M150 128 h14 m-5 -5 l5 5 -5 5" stroke={accent} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+      )}
+      {motif === 'hear' && (
+        <g stroke={accent} strokeWidth="4" strokeLinecap="round" fill="none">
+          <path d="M262 104 a22 22 0 0 1 0 32" />
+          <path d="M274 92 a38 38 0 0 1 0 56" />
+          <path d="M100 92 v56 l24 -14 v-28 z" fill={accent} stroke="none" opacity="0.85" />
+        </g>
+      )}
+      {motif === 'mix' && (
+        <g>
+          <rect x="88" y="96" width="52" height="52" rx="12" fill="#FFFFFF" filter={`url(#${idPrefix}-shadow)`} transform="rotate(-8 114 122)" />
+          <text x="114" y="130" textAnchor="middle" fontSize="26" fontWeight="800" fontFamily="monospace" fill="#A1A1AA" transform="rotate(-8 114 122)">?</text>
+          <rect x="260" y="96" width="52" height="52" rx="12" fill="#FFFFFF" filter={`url(#${idPrefix}-shadow)`} transform="rotate(8 286 122)" />
+          <text x="286" y="130" textAnchor="middle" fontSize="26" fontWeight="800" fontFamily="monospace" fill={accent} transform="rotate(8 286 122)">{letter}</text>
+        </g>
+      )}
+      {motif === 'rain' && (
+        <g>
+          {[
+            { x: 92, y: 66, r: 17 },
+            { x: 132, y: 128, r: 14 },
+            { x: 292, y: 92, r: 17 },
+            { x: 318, y: 160, r: 13 },
+          ].map((d, i) => (
+            <g key={i}>
+              <circle cx={d.x} cy={d.y} r={d.r} fill={accent} opacity={0.16} />
+              <circle cx={d.x} cy={d.y} r={d.r} stroke={accent} strokeWidth="2" fill="#FFFFFF" opacity="0.9" />
+              <text x={d.x} y={d.y + d.r * 0.36} textAnchor="middle" fontSize={d.r} fontWeight="800" fontFamily="monospace" fill="#18181B">{letter}</text>
+            </g>
+          ))}
+          <line x1="56" y1="204" x2="344" y2="204" stroke="#D4D4D8" strokeWidth="3" strokeLinecap="round" strokeDasharray="2 10" />
+        </g>
+      )}
+    </svg>
+  );
+};
+
+export const CodesStageCover: React.FC<SvgTemplateProps> = ({ params, className }) => {
+  const letter = (params?.letter || 'a').toLowerCase();
+  const motif = params?.motif || 'learn';
+  const idPrefix = React.useId().replace(/:/g, "");
+  const cls = `cs-${idPrefix}`;
+
+  const RED = '#E03131';
+  const YEL = '#FCC419';
+  const INK = '#18181B';
+
+  return (
+    <svg className={`${className || ''} ${cls}`} viewBox="0 0 400 240" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+          .${cls} .cs-lift { transition: transform .35s cubic-bezier(.34,1.56,.64,1); transform-box: fill-box; }
+          .${cls}:hover .cs-lift { transform: translateY(-5px); }
+        }
+      `}</style>
+      <defs>
+        <filter id={`${idPrefix}-shadow`} x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#000000" floodOpacity="0.05"/>
+        </filter>
+      </defs>
+
+      <rect width="400" height="240" rx="16" fill="#F4F4F5" />
+
+      {/* Letter tag — the cover's constant anchor, top-left */}
+      <rect x="24" y="22" width="44" height="44" rx="11" fill="#FFFFFF" filter={`url(#${idPrefix}-shadow)`} />
+      <text x="46" y="52" textAnchor="middle" fontSize="22" fontWeight="800" fontFamily="monospace" fill={INK}>{letter.toUpperCase()}</text>
+
+      {motif === 'learn' && (
+        <g className="cs-lift">
+          {/* mini flag, morse and braille side by side */}
+          <rect x="96" y="88" width="64" height="64" rx="8" fill={RED} filter={`url(#${idPrefix}-shadow)`} />
+          <polygon points="96,88 160,88 160,152" fill={YEL} opacity="0.9" />
+          <g fill={INK}>
+            <circle cx="204" cy="120" r="7" />
+            <rect x="222" y="113" width="34" height="14" rx="7" />
+          </g>
+          <g>
+            {[0, 1, 2].map((r) =>
+              [0, 1].map((c) => (
+                <circle key={`${r}${c}`} cx={296 + c * 24} cy={96 + r * 24} r="8" fill={(r + c) % 2 === 0 ? INK : '#D4D4D8'} />
+              )),
+            )}
+          </g>
+        </g>
+      )}
+      {motif === 'flags' && (
+        <g className="cs-lift">
+          <line x1="150" y1="66" x2="150" y2="190" stroke="#A1A1AA" strokeWidth="5" strokeLinecap="round" />
+          <path d="M155 70 h92 l-20 26 20 26 h-92 z" fill={RED} filter={`url(#${idPrefix}-shadow)`} />
+          <path d="M155 70 h46 v52 h-46 z" fill={YEL} />
+        </g>
+      )}
+      {motif === 'morse' && (
+        <g className="cs-lift" fill={INK}>
+          <circle cx="120" cy="120" r="12" />
+          <rect x="150" y="108" width="56" height="24" rx="12" />
+          <circle cx="238" cy="120" r="12" />
+          <circle cx="276" cy="120" r="12" />
+          <rect x="140" y="164" width="120" height="6" rx="3" fill="#D4D4D8" />
+        </g>
+      )}
+      {motif === 'quiz' && (
+        <g className="cs-lift">
+          <circle cx="200" cy="122" r="52" stroke="#D4D4D8" strokeWidth="8" fill="#FFFFFF" filter={`url(#${idPrefix}-shadow)`} />
+          <circle cx="200" cy="122" r="28" stroke={RED} strokeWidth="8" fill="none" />
+          <circle cx="200" cy="122" r="8" fill={INK} />
+        </g>
+      )}
+      {motif === 'game' && (
+        <g className="cs-lift">
+          <rect x="128" y="88" width="144" height="72" rx="36" fill="#FFFFFF" filter={`url(#${idPrefix}-shadow)`} />
+          <path d="M162 124 h24 m-12 -12 v24" stroke={INK} strokeWidth="6" strokeLinecap="round" />
+          <circle cx="230" cy="112" r="7" fill={RED} />
+          <circle cx="248" cy="132" r="7" fill={YEL} />
+        </g>
+      )}
+    </svg>
+  );
+};
+
 export const ThumbnailRegistry: Record<string, React.FC<SvgTemplateProps>> = {
+  'LETTER_STAGE': LetterStageCover,
+  'CODES_STAGE': CodesStageCover,
   'TWO_KEYS_FOCUS': TwoKeysFocus,
   'RHYTHM_LOOP': RhythmLoopCover,
   'PRECISION_TARGET': PrecisionTargetCover,

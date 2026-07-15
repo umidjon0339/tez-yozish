@@ -1,0 +1,175 @@
+{
+  "version": 1,
+  "tracks": [
+    {
+      "id": "letters",
+      "targetWpm": 15,
+      "lessons": [
+        {
+          "id": "meet",
+          "type": "lesson",
+          "kind": "MEET",
+          "title": {
+            "en": "Meet the letter",
+            "uz": "Harf bilan tanish",
+            "ru": "Знакомство с буквой"
+          },
+          "thumbnail": {
+            "svgId": "LETTER_STAGE",
+            "parameters": { "motif": "meet" }
+          }
+        },
+        {
+          "id": "type",
+          "type": "practice",
+          "kind": "TYPE",
+          "title": {
+            "en": "Type the words",
+            "uz": "So'zlarni ter",
+            "ru": "Печатай слова"
+          },
+          "thumbnail": {
+            "svgId": "LETTER_STAGE",
+            "parameters": { "motif": "type" }
+          }
+        },
+        {
+          "id": "caps",
+          "type": "practice",
+          "kind": "CAPS",
+          "title": {
+            "en": "Capital letters",
+            "uz": "Bosh harflar",
+            "ru": "Заглавные буквы"
+          },
+          "thumbnail": {
+            "svgId": "LETTER_STAGE",
+            "parameters": { "motif": "caps" }
+          }
+        },
+        {
+          "id": "hear",
+          "type": "practice",
+          "kind": "HEAR",
+          "title": {
+            "en": "Hear and type",
+            "uz": "Eshit va yoz",
+            "ru": "Услышь и напечатай"
+          },
+          "thumbnail": {
+            "svgId": "LETTER_STAGE",
+            "parameters": { "motif": "hear" }
+          }
+        },
+        {
+          "id": "mix",
+          "type": "test",
+          "kind": "MIX",
+          "passStars": 3,
+          "title": {
+            "en": "Don't mix them up",
+            "uz": "Adashtirma",
+            "ru": "Не перепутай"
+          },
+          "thumbnail": {
+            "svgId": "LETTER_STAGE",
+            "parameters": { "motif": "mix" }
+          }
+        },
+        {
+          "id": "rain",
+          "type": "game",
+          "kind": "RAIN",
+          "passStars": 1,
+          "title": {
+            "en": "Letter rain",
+            "uz": "Harf yomg'iri",
+            "ru": "Дождь из букв"
+          },
+          "thumbnail": {
+            "svgId": "LETTER_STAGE",
+            "parameters": { "motif": "rain" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "codes",
+      "targetWpm": 0,
+      "lessons": [
+        {
+          "id": "learn",
+          "type": "lesson",
+          "kind": "CODES_LEARN",
+          "title": {
+            "en": "Learn the codes",
+            "uz": "Kodlarni o'rgan",
+            "ru": "Выучи коды"
+          },
+          "thumbnail": {
+            "svgId": "CODES_STAGE",
+            "parameters": { "motif": "learn" }
+          }
+        },
+        {
+          "id": "flags",
+          "type": "practice",
+          "kind": "SOON",
+          "title": {
+            "en": "Flags and semaphore",
+            "uz": "Bayroqlar va semafor",
+            "ru": "Флаги и семафор"
+          },
+          "thumbnail": {
+            "svgId": "CODES_STAGE",
+            "parameters": { "motif": "flags" }
+          }
+        },
+        {
+          "id": "morse",
+          "type": "practice",
+          "kind": "SOON",
+          "title": {
+            "en": "Morse practice",
+            "uz": "Morze mashqi",
+            "ru": "Практика Морзе"
+          },
+          "thumbnail": {
+            "svgId": "CODES_STAGE",
+            "parameters": { "motif": "morse" }
+          }
+        },
+        {
+          "id": "quiz",
+          "type": "test",
+          "kind": "SOON",
+          "passStars": 3,
+          "title": {
+            "en": "Codes quiz",
+            "uz": "Kodlar testi",
+            "ru": "Тест по кодам"
+          },
+          "thumbnail": {
+            "svgId": "CODES_STAGE",
+            "parameters": { "motif": "quiz" }
+          }
+        },
+        {
+          "id": "decode",
+          "type": "game",
+          "kind": "SOON",
+          "passStars": 1,
+          "title": {
+            "en": "Code breaker",
+            "uz": "Kod buzar",
+            "ru": "Взломщик кодов"
+          },
+          "thumbnail": {
+            "svgId": "CODES_STAGE",
+            "parameters": { "motif": "game" }
+          }
+        }
+      ]
+    }
+  ]
+}

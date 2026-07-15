@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "validate:lessons": "node scripts/validate-lessons.mjs"
+    "validate:lessons": "node scripts/validate-lessons.mjs",
+    "validate:letters": "node scripts/validate-letter-lessons.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

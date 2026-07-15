@@ -1,9 +1,12 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, Plus, Equal } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ChevronRight, Plus, Equal, Star } from "lucide-react";
 import { useLocale } from "@/lib/locale";
 import { STR } from "@/lib/uiStrings";
+import { LETTERS } from "@/lib/letters";
+import { useLetterProgress } from "@/lib/letterProgress";
 
 const E = STR.english;
 
@@ -42,18 +45,26 @@ function EqualSign() {
 
 export default function EnglishPage() {
   const { locale } = useLocale();
+  const letterProgress = useLetterProgress();
+  const lettersDone = LETTERS.filter(
+    (l) => letterProgress[l.char]?.completed,
+  ).length;
+  const letterStars = LETTERS.reduce(
+    (sum, l) => sum + (letterProgress[l.char]?.stars ?? 0),
+    0,
+  );
 
   /* The six levels, smallest → biggest. Each renders its own example. */
   const units: {
     name: string;
     desc: string;
-    note?: string;
     example: React.ReactNode;
+    href?: string;
   }[] = [
     {
       name: E.letter[locale],
       desc: E.letterDesc[locale],
-      note: E.letterNote[locale],
+      href: "/english/letters",
       example: (
         <div className="flex items-center gap-2 flex-wrap">
           <Piece>c</Piece>
@@ -65,7 +76,6 @@ export default function EnglishPage() {
     {
       name: E.grapheme[locale],
       desc: E.graphemeDesc[locale],
-      note: E.graphemeNote[locale],
       example: (
         <div className="flex items-center gap-2 flex-wrap">
           <Piece accent>sh</Piece>
@@ -79,7 +89,6 @@ export default function EnglishPage() {
     {
       name: E.syllable[locale],
       desc: E.syllableDesc[locale],
-      note: E.syllableNote[locale],
       example: (
         <div className="flex items-center gap-2 flex-wrap">
           <Piece accent>ta</Piece>
@@ -93,7 +102,6 @@ export default function EnglishPage() {
     {
       name: E.morpheme[locale],
       desc: E.morphemeDesc[locale],
-      note: E.morphemeNote[locale],
       example: (
         <div className="flex items-center gap-2 flex-wrap">
           <Piece accent>un</Piece>
@@ -109,7 +117,6 @@ export default function EnglishPage() {
     {
       name: E.word[locale],
       desc: E.wordDesc[locale],
-      note: E.wordNote[locale],
       example: (
         <div className="flex items-center gap-2 flex-wrap">
           <Piece size="lg">cat</Piece>
@@ -177,16 +184,12 @@ export default function EnglishPage() {
   return (
     <div className="flex-1 bg-[#FAFAFA] min-h-screen pt-16 pb-24 px-6">
       <div className="max-w-3xl mx-auto w-full">
-        {/* Header */}
         <h1 className="text-3xl font-extrabold text-neutral-900 tracking-tight">
           {E.title[locale]}
         </h1>
-        <p className="mt-3 text-neutral-600 text-[15px] leading-relaxed max-w-xl">
-          {E.subtitle[locale]}
-        </p>
 
         {/* Overview chain: smallest → biggest */}
-        <div className="mt-8 rounded-lg border border-neutral-200 bg-white p-4">
+        <div className="mt-6 rounded-lg border border-neutral-200 bg-white p-4">
           <div className="flex items-center flex-wrap gap-y-2">
             {chain.map((name, i) => (
               <React.Fragment key={name}>
@@ -210,34 +213,56 @@ export default function EnglishPage() {
           {/* vertical rail connecting the numbers */}
           <div
             aria-hidden
-            className="absolute left-[15px] top-4 bottom-4 w-px bg-neutral-200"
+            className="absolute left-3.75 top-4 bottom-4 w-px bg-neutral-200"
           />
-          {units.map((unit, i) => (
-            <li key={unit.name} className="relative pl-12 pb-10 last:pb-0">
-              <span className="absolute left-0 top-0 w-8 h-8 rounded-full bg-neutral-950 text-white font-mono text-sm font-bold flex items-center justify-center shadow-sm">
-                {i + 1}
-              </span>
-              <div className="bg-white border border-neutral-200 rounded-lg shadow-sm p-5">
-                <h2 className="text-lg font-bold text-neutral-900">
-                  {unit.name}
-                </h2>
+          {units.map((unit, i) => {
+            const card = (
+              <div
+                className={[
+                  "bg-white border border-neutral-200 rounded-lg shadow-sm p-5 transition-all",
+                  unit.href
+                    ? "hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-md cursor-pointer"
+                    : "",
+                ].join(" ")}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="text-lg font-bold text-neutral-900">
+                    {unit.name}
+                  </h2>
+                  {unit.href && (
+                    <span className="flex items-center gap-2.5">
+                      {lettersDone > 0 && (
+                        <>
+                          <span className="font-mono text-[12px] font-semibold text-neutral-500">
+                            {lettersDone} / {LETTERS.length}
+                          </span>
+                          <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500">
+                            <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                            {letterStars}
+                          </span>
+                        </>
+                      )}
+                      <ChevronRight className="w-5 h-5 text-neutral-400" />
+                    </span>
+                  )}
+                </div>
                 <p className="mt-1 text-[14px] text-neutral-600 leading-relaxed">
                   {unit.desc}
                 </p>
                 <div className="mt-4 rounded-lg bg-neutral-50 border border-neutral-100 p-4">
-                  <p className="text-[11px] uppercase tracking-wider text-neutral-400 font-medium mb-3">
-                    {E.example[locale]}
-                  </p>
                   {unit.example}
                 </div>
-                {unit.note && (
-                  <p className="mt-3 text-[13px] text-neutral-500">
-                    {unit.note}
-                  </p>
-                )}
               </div>
-            </li>
-          ))}
+            );
+            return (
+              <li key={unit.name} className="relative pl-12 pb-10 last:pb-0">
+                <span className="absolute left-0 top-0 w-8 h-8 rounded-full bg-neutral-950 text-white font-mono text-sm font-bold flex items-center justify-center shadow-sm">
+                  {i + 1}
+                </span>
+                {unit.href ? <Link href={unit.href}>{card}</Link> : card}
+              </li>
+            );
+          })}
         </ol>
       </div>
     </div>
