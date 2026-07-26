@@ -194,7 +194,10 @@ export function LetterRain({
         }
       }
       sim.current.lastFrame = now;
-      setView(snapshot(sim.current));
+      // Only re-render while there's motion — the idle "press a key" screen is
+      // static, so a 60fps setState there just burns CPU. `over` is bounded
+      // (onDone unmounts after 650ms) so its burst animation still plays.
+      if (s.phase !== "idle") setView(snapshot(sim.current));
       raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);

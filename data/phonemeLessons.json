@@ -1,0 +1,137 @@
+{
+  "version": 3,
+  "tracks": [
+    {
+      "id": "phonemes",
+      "targetWpm": 15,
+      "lessons": [
+        {
+          "id": "meet",
+          "type": "lesson",
+          "kind": "MEET",
+          "title": {
+            "en": "Meet the sound",
+            "uz": "Tovush bilan tanish",
+            "ru": "Знакомство со звуком"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "meet" }
+          }
+        },
+        {
+          "id": "shades",
+          "type": "lesson",
+          "kind": "SHADES",
+          "title": {
+            "en": "Shades of the sound",
+            "uz": "Tovush tuslari",
+            "ru": "Оттенки звука"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "shades" }
+          }
+        },
+        {
+          "id": "type",
+          "type": "practice",
+          "kind": "TYPE",
+          "title": {
+            "en": "Type the words",
+            "uz": "So'zlarni ter",
+            "ru": "Печатай слова"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "type" }
+          }
+        },
+        {
+          "id": "hear",
+          "type": "practice",
+          "kind": "HEAR",
+          "title": {
+            "en": "Hear and type",
+            "uz": "Eshit va yoz",
+            "ru": "Услышь и напечатай"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "hear" }
+          }
+        },
+        {
+          "id": "spell",
+          "type": "practice",
+          "kind": "SPELL",
+          "title": {
+            "en": "Spelling patterns",
+            "uz": "Yozilish qoliplari",
+            "ru": "Способы написания"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "spell" }
+          }
+        },
+        {
+          "id": "pairs",
+          "type": "test",
+          "kind": "PAIRS",
+          "title": {
+            "en": "Which did you hear?",
+            "uz": "Qaysi birini eshitding?",
+            "ru": "Что ты услышал?"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "pairs" }
+          }
+        },
+        {
+          "id": "master",
+          "type": "test",
+          "kind": "MASTER",
+          "title": {
+            "en": "Sound master",
+            "uz": "Tovush ustasi",
+            "ru": "Мастер звука"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "master" }
+          }
+        },
+        {
+          "id": "rain",
+          "type": "game",
+          "kind": "RAIN",
+          "title": {
+            "en": "Word rain",
+            "uz": "So'z yomg'iri",
+            "ru": "Дождь из слов"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "rain" }
+          }
+        },
+        {
+          "id": "ninja",
+          "type": "game",
+          "kind": "NINJA",
+          "title": {
+            "en": "Typing Ninja",
+            "uz": "Typing Ninja",
+            "ru": "Typing Ninja"
+          },
+          "thumbnail": {
+            "svgId": "PHONEME_STAGE",
+            "parameters": { "motif": "ninja" }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -79,8 +79,12 @@ function buildRules(step: StepSource): StepRules {
 
 export function deriveKeys(steps: StepSource[]): string[] {
   const keys: string[] = [];
+  const seen = new Set<string>();
   const add = (k: string) => {
-    if (!keys.includes(k)) keys.push(k);
+    if (!seen.has(k)) {
+      seen.add(k);
+      keys.push(k);
+    }
   };
   for (const step of steps) {
     for (const token of stepContent(step)) {

@@ -15,5 +15,5 @@ Hard rules:
 - Sounds only through the shared SFX layer (`press_key4.mp3`/`error2.mp3`),
   gated on `isAudioEnabled`.
 - Chrome strings live in the local `UI` dict — all three locales.
-- Known gotcha: the embedded NinjaWorld `onComplete` passes no stats; game
-  steps don't contribute to grading.
+- The embedded NinjaWorld `onComplete` passes StepStats-shaped keystroke
+  totals (empty `perKeyMistakes`); game steps add them to the run totals.

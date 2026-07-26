@@ -870,9 +870,14 @@ const GameLoop = ({ stateRef, difficulty, speedFactor = 1, setGameState, setActi
                 // Victory Condition for Embedded
                 const triggerVictory = (window as any)._ninjaOnComplete;
                 if (triggerVictory) {
-                    triggerVictory();
+                    triggerVictory({
+                        correct: state.correctKeystrokes,
+                        mistakes: state.totalKeystrokes - state.correctKeystrokes,
+                        timeMs: Math.round(state.timeSurvived),
+                        perKeyMistakes: {},
+                    });
                     // Prevent multiple calls
-                    (window as any)._ninjaOnComplete = null; 
+                    (window as any)._ninjaOnComplete = null;
                 }
             }
         } else {
@@ -926,7 +931,7 @@ const GameLoop = ({ stateRef, difficulty, speedFactor = 1, setGameState, setActi
 
 // --- HTML UI OVERLAYS (HUD, Menus) ---
 
-export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: any, onComplete?: () => void, isEmbedded?: boolean }) {
+export default function NinjaWorld({ step, onComplete, isEmbedded }: { step?: any, onComplete?: (stats?: { correct: number; mistakes: number; timeMs: number; perKeyMistakes: Record<string, number> }) => void, isEmbedded?: boolean }) {
     const [gameState, setGameState] = useState<GameState>(isEmbedded ? "PLAYING" : "MENU");
     const [isMuted, setIsMuted] = useState(sfx.muted);
     const [difficulty, setDifficulty] = useState<Difficulty>("MEDIUM");

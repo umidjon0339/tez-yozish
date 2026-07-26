@@ -187,8 +187,9 @@ export function LetterLessonHub({
       <div className="max-w-5xl mx-auto w-full">
         <Link
           href="/english/letters"
-          className="text-[13px] font-medium text-neutral-400 hover:text-neutral-900 transition-colors"
+          className="inline-flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-neutral-600 shadow-sm transition-all hover:border-neutral-400 hover:text-neutral-900 hover:shadow active:scale-95"
         >
+          <ChevronLeft className="w-4 h-4" strokeWidth={2.5} />
           {L.backToLetters[locale]}
         </Link>
 

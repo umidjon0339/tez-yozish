@@ -14,6 +14,8 @@ Root `CLAUDE.md` holds the short overview; these hold the details.
 | [app-shell.md](app-shell.md) | Layout, NavBar, pages, localization (`useLocale`/`STR`), palette switcher, global CSS | `app/layout.tsx`, `app/page.tsx`, `app/courses/*`, `app/games/*`, `components/NavBar.tsx`, `lib/locale.tsx`, `lib/uiStrings.ts`, `app/globals.css` |
 | [auth.md](auth.md) | Firebase SSO with edify-student, auth store, callback route, UserMenu | `lib/firebase.ts`, `lib/auth.ts`, `app/auth/callback/page.tsx`, `components/UserMenu.tsx` |
 | [thumbnails.md](thumbnails.md) | Parametric SVG registry, every template, params contract | `components/thumbnails/*`, `types/thumbnail.ts` |
+| [../app/english/phonemes/README.md](../app/english/phonemes/README.md) | The IPA sounds unit: writing-first track, per-allophone SHADE lessons, pass gate, audio setup | `app/english/phonemes/*`, `components/phonemes/*`, `components/english/*`, `lib/phonemes.ts`, `lib/allophones.ts`, `lib/phonemeAudio.ts`, `data/phonemeLessons.json` |
+| [../app/english/graphemes/README.md](../app/english/graphemes/README.md) | The spelling units (graphemes + spellings tracks): writing-first lessons, typed WHICH/MASTER, shared games | `app/english/graphemes/*`, `app/english/spellings/*`, `components/graphemes/*`, `components/english/*`, `lib/graphemes.ts`, `data/graphemeLessons.json` |
 
 Conventions used in these docs:
 

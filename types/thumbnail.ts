@@ -18,6 +18,10 @@ export interface ThumbnailParams {
   // Letter-unit lesson covers (LETTER_STAGE / CODES_STAGE)
   letter?: string;               // e.g., "b" — merged in at runtime per page
   motif?: string;                // which lesson the cover depicts, e.g. "rain"
+
+  // Phoneme-unit lesson covers (PHONEME_STAGE)
+  symbol?: string;               // IPA symbol, e.g. "iː" — merged in at runtime
+  shade?: string;                // allophone symbol on SHADE covers, e.g. "iˑ"
 }
 
 /**

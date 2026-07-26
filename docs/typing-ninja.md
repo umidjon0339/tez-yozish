@@ -95,9 +95,11 @@ the lesson page's floating Back/Skip buttons.
 `onComplete` nulled after first call so victory fires exactly once). Two
 simultaneous NinjaWorld instances would collide on these.
 
-**Known limitation**: `onComplete` is called with **no arguments** — the
-game reports no `StepStats` back to the lesson runtime, so ninja steps
-contribute nothing to lesson grading (see lesson-runtime.md §5).
+`onComplete` receives an optional stats object
+`{ correct, mistakes, timeMs }` (keystroke totals from the run). The course
+lesson runtime ignores it (ninja steps contribute nothing to course grading,
+see lesson-runtime.md §5); the phoneme unit's NINJA lesson uses it to award
+stars (`components/phonemes/stages/NinjaStage.tsx`).
 
 ## 5. Characters & environment
 
@@ -139,7 +141,7 @@ game over/unmount).
 - dt-clamp every `useFrame`; simulation state lives in `stateRef.current`.
 - `SkeletonUtils.clone` for every skinned model instance.
 - Keep the embedded contract: words from `step.content`, pace from
-  `rules.gameSpeed`, fail on `rules.maxMistakesAllowed`, `onComplete()`
+  `rules.gameSpeed`, fail on `rules.maxMistakesAllowed`, `onComplete(stats?)`
   exactly once on victory.
 - Clear `window._isNinjaEmbedded`/`window._ninjaOnComplete` on unmount.
 - Only `GameLoop` mutates game-over/lives; visual components read state,

@@ -277,7 +277,7 @@ function AsciiTable({ char }: { char: string }) {
     };
   });
   return (
-    <div className="mt-4 font-mono">
+    <div className="mt-4 font-mono text-end">
       <div className="grid grid-cols-[1.1rem_2.2rem_2.2rem_1fr] gap-x-2 text-[9px] uppercase tracking-wider text-neutral-400">
         <span />
         <span>Dec</span>
@@ -519,13 +519,13 @@ export default function LettersPage() {
                 </div>
                 {/* Bottom row: flag left, semaphore right */}
                 <div className="mt-4 grid grid-cols-2 gap-x-4">
-                  <span className="flex flex-col justify-end gap-1.5">
+                  <span className="flex flex-col justify-end gap-1.5 items-center">
                     <SignalFlag char={l.char} className="h-10 w-10" />
                     <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">
                       {L.flagLabel[locale]}
                     </span>
                   </span>
-                  <span className="flex flex-col justify-end gap-1.5">
+                  <span className="flex flex-col justify-end gap-1.5 items-end">
                     <SemaphoreFigure
                       angles={l.semaphore}
                       className="h-11 w-11"
@@ -568,13 +568,13 @@ export default function LettersPage() {
                   {l.char}
                 </span>
                 <div className="mt-4 grid grid-cols-2 gap-x-4">
-                  <span className="flex flex-col justify-end gap-1.5">
+                  <span className="flex flex-col justify-end gap-1.5 items-center">
                     <BrailleCell dots={l.braille} big />
                     <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">
                       {L.brailleLabel[locale]}
                     </span>
                   </span>
-                  <span className="flex flex-col justify-end gap-1.5">
+                  <span className="flex flex-col justify-end gap-1.5 items-end">
                     <img
                       src={`/asl/${l.char}.svg`}
                       alt={`${L.aslLabel[locale]} — ${l.char.toUpperCase()}`}

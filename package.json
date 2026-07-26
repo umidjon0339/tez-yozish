@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
+    "dev:turbo": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "validate:lessons": "node scripts/validate-lessons.mjs",
-    "validate:letters": "node scripts/validate-letter-lessons.mjs"
+    "validate:letters": "node scripts/validate-letter-lessons.mjs",
+    "validate:phonemes": "node scripts/validate-phoneme-lessons.mjs",
+    "validate:graphemes": "node scripts/validate-grapheme-lessons.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

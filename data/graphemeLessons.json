@@ -1,0 +1,213 @@
+{
+  "version": 2,
+  "tracks": [
+    {
+      "id": "graphemes",
+      "targetWpm": 15,
+      "lessons": [
+        {
+          "id": "meet",
+          "type": "lesson",
+          "kind": "MEET",
+          "title": {
+            "en": "Meet the spelling",
+            "uz": "Yozilish bilan tanish",
+            "ru": "Знакомство с написанием"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "meet" }
+          }
+        },
+        {
+          "id": "type",
+          "type": "practice",
+          "kind": "TYPE",
+          "title": {
+            "en": "Type the words",
+            "uz": "So'zlarni ter",
+            "ru": "Печатай слова"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "type" }
+          }
+        },
+        {
+          "id": "hear",
+          "type": "practice",
+          "kind": "HEAR",
+          "title": {
+            "en": "Hear and type",
+            "uz": "Eshit va yoz",
+            "ru": "Услышь и напечатай"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "hear" }
+          }
+        },
+        {
+          "id": "which",
+          "type": "test",
+          "kind": "WHICH",
+          "title": {
+            "en": "Which did you hear?",
+            "uz": "Qaysi birini eshitding?",
+            "ru": "Что ты услышал?"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "which" }
+          }
+        },
+        {
+          "id": "master",
+          "type": "test",
+          "kind": "MASTER",
+          "title": {
+            "en": "Spelling master",
+            "uz": "Yozilish ustasi",
+            "ru": "Мастер написания"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "master" }
+          }
+        },
+        {
+          "id": "rain",
+          "type": "game",
+          "kind": "RAIN",
+          "title": {
+            "en": "Word rain",
+            "uz": "So'z yomg'iri",
+            "ru": "Дождь из слов"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "rain" }
+          }
+        },
+        {
+          "id": "ninja",
+          "type": "game",
+          "kind": "NINJA",
+          "title": {
+            "en": "Typing Ninja",
+            "uz": "Typing Ninja",
+            "ru": "Typing Ninja"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "ninja" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "spellings",
+      "targetWpm": 15,
+      "lessons": [
+        {
+          "id": "meet",
+          "type": "lesson",
+          "kind": "MEET",
+          "title": {
+            "en": "Meet the spellings",
+            "uz": "Yozilishlar bilan tanish",
+            "ru": "Знакомство с написаниями"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "meet" }
+          }
+        },
+        {
+          "id": "type",
+          "type": "practice",
+          "kind": "TYPE",
+          "title": {
+            "en": "Type the words",
+            "uz": "So'zlarni ter",
+            "ru": "Печатай слова"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "type" }
+          }
+        },
+        {
+          "id": "hear",
+          "type": "practice",
+          "kind": "HEAR",
+          "title": {
+            "en": "Hear and type",
+            "uz": "Eshit va yoz",
+            "ru": "Услышь и напечатай"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "hear" }
+          }
+        },
+        {
+          "id": "which",
+          "type": "test",
+          "kind": "WHICH",
+          "title": {
+            "en": "Which spelling?",
+            "uz": "Qaysi yozilish?",
+            "ru": "Какое написание?"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "which" }
+          }
+        },
+        {
+          "id": "master",
+          "type": "test",
+          "kind": "MASTER",
+          "title": {
+            "en": "Spelling master",
+            "uz": "Yozilish ustasi",
+            "ru": "Мастер написания"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "master" }
+          }
+        },
+        {
+          "id": "rain",
+          "type": "game",
+          "kind": "RAIN",
+          "title": {
+            "en": "Word rain",
+            "uz": "So'z yomg'iri",
+            "ru": "Дождь из слов"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "rain" }
+          }
+        },
+        {
+          "id": "ninja",
+          "type": "game",
+          "kind": "NINJA",
+          "title": {
+            "en": "Typing Ninja",
+            "uz": "Typing Ninja",
+            "ru": "Typing Ninja"
+          },
+          "thumbnail": {
+            "svgId": "GRAPHEME_STAGE",
+            "parameters": { "motif": "ninja" }
+          }
+        }
+      ]
+    }
+  ]
+}
