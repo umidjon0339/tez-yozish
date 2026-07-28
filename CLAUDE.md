@@ -86,3 +86,179 @@ The game embeds its own inline `SoundSynthesizer` class (Web Audio API oscillato
 - All pages are `"use client"` — the UI is fully localized (en/uz/ru) and must react to the language switch. The selected locale lives in `localStorage` (`tz-locale`) behind the `useLocale()` hook in **`lib/locale.tsx`** (a `useSyncExternalStore`-based store, same pattern as `PaletteSwitcher`); chrome/page strings live in **`lib/uiStrings.ts`** (the lesson runtime keeps its own `UI` dict). The switcher UI is `components/LanguageSwitcher.tsx` (globe dropdown), used in the navbar (`components/NavBar.tsx`) and the lesson header. New user-facing text must be added in all three locales — use short, simple words (the audience is school students).
 - Header/toolbar icons come from `lucide-react` — no hand-rolled inline SVGs for standard glyphs.
 - Styling is Tailwind CSS v4 (via `@tailwindcss/postcss`), utility classes inline. The visual language is a monochrome "Notion-style" neutral palette (`#FAFAFA` background, `neutral-*`) with mono/sans fonts (`Inter`, `JetBrains_Mono`) wired in `app/layout.tsx`.
+se your typing speed? Typingbird is here to give you fun and engaging free typing games designed to get those fingers racing across the keyboard faster. We host unique and exclusive games for typing practise not found elsewhere, and ones that not only help kids to improve typing speed and accuracy but finger dexterity and letter recognition too.
+
+Google ClassroomSymbaloo BookmarksXFacebookPinterest￼
+￼
+Sort by Most Played
+Showing 1–12 of 48 results
+
+1 2 3 4 →
+￼
+NitroType Pro
+￼￼
+1k
+￼
+166.4k
+￼
+Alien Typing
+￼￼
+732
+￼
+160.7k
+￼
+Frogie Typing
+￼￼
+898
+￼
+157.7k
+￼
+Space Typing
+￼￼
+222
+￼
+155.6k
+￼
+Type The Alphabet
+￼￼
+753
+￼
+149.8k
+￼
+Typing Numbers
+￼￼
+382
+￼
+141.4k
+￼
+Rainbow Popcorn
+￼￼
+2.6k
+￼
+139.8k
+￼
+ZType 3D
+￼￼
+482
+￼
+136.5k
+￼
+Ninja Run
+￼￼
+1.1k
+￼
+133.9k
+￼
+Knight Fight
+￼￼
+2.3k
+￼
+134k
+￼
+MonkeyType Knockout
+￼￼
+282
+￼
+131.5k
+￼
+QWERTY Challenge
+￼￼
+1.6k
+￼
+125.6k
+￼
+Sort by Most Played
+Showing 1–12 of 48 results
+
+1 2 3 4 →
+Trending Typing Games
+￼
+NitroType Pro
+￼￼
+1k
+￼
+166.4k
+￼
+Alien Typing
+￼￼
+732
+￼
+160.7k
+￼
+Frogie Typing
+￼￼
+898
+￼
+157.7k
+￼
+Space Typing
+￼￼
+222
+￼
+155.6k
+￼
+Type The Alphabet
+￼￼
+753
+￼
+149.8k
+￼
+Typing Numbers
+￼￼
+382
+￼
+141.4k
+￼
+ZType 3D
+￼￼
+482
+￼
+136.5k
+￼
+Ninja Run
+￼￼
+1.1k
+￼
+133.9k
+￼
+MonkeyType Knockout
+￼￼
+282
+￼
+131.5k
+Discover the World’s Premier Typing Games
+Embark on a grand adventure with our large and growing library of free typing games that make it fun and easy to type speedily and accurately.
+
+Enhance your words per minute (WPM) through fun challenges like NitroType Pro, Save the Captain, Fast Type Racer and master the art of typing while enjoying every keystroke!
+
+Perfect for both kids and adults, typing games make practice an adrenaline-induced experience.
+
+Typingbird offers interactive keyboard games tailored specifically to match your typing ability, helping you master fast typing skills more easily than ever.
+
+No matter if you are an absolute beginner or looking to improve touch typing techniques, our games provide an effective way to advance at your own pace and improve at lightning speed. Get ready to type faster than ever.
+
+Best Typing Games for Newbies and Experienced Users
+Our Online keyboarding games can significantly help to increase keyboarding skills, no matter whether you are just starting out or already an old hand.
+
+Games on touch typing for beginners have structured difficulty levels that helps enhance their wpm.
+
+Experienced users may enjoy touch typing games featuring competitive elements or time trials which push speed and test reflexes further.
+
+These games are created to test and perfect existing skills, offering an exciting way to maintain and increase typing efficiency.
+
+Elementary School: The Catalyst for Early Typing Training
+Keyboarding engages all three senses at once.
+Kids use their vision to find keys while keeping an eye on the screen to track their progress as they type.
+The sound of each key being struck serves as confirmation of accurate input, reinforcing learning through auditory feedback.
+Tactile interaction allows students to press keys with their fingers for increased hand-eye coordination to ensure their accuracy.
+Keyboarding requires coordination between sight, sound and touch, making typing an all-encompassing skill in today’s world ruled by digital devices.
+In educational settings involving kindergarteners as well as elementary students, devices like laptops, Chromebooks, PCs or tablets have become indispensable resources (there is no running from it, sorry parents).
+
+Although young learners don’t need to touch-type immediately, becoming acquainted with a keyboard is very beneficial.
+
+Our educational curriculum provides fun typing game for PC that beginners can use to help them get acquainted with this skill. We even have a free typing tutor that can help to build concentration and keyboarding skills by engaging kids’ muscle memory through a collection of typing competition like games.
+
+Kids learn to pair words and letters on the keyboard without prior typing knowledge to lay a solid foundation for effective touch-typing in later years like high school.
+
+This positive gaming experience gives kids an enjoyable way to experience typing, setting them on their path toward advanced skills as best typing ninjas as they mature.
+
