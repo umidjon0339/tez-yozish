@@ -14,12 +14,13 @@ Detailed contracts, data flow, and invariants live in **`docs/`**. Before editin
 | `app/lesson/[id]/page.tsx`, `components/lesson/Rails.tsx` | `docs/lesson-runtime.md` |
 | `components/keyboard/*`, finger-zone CSS, `PaletteSwitcher` | `docs/keyboard.md` |
 | `app/typing-ninja/*` | `docs/typing-ninja.md` |
+| `app/rhino-dash/*` | `docs/rhino-dash.md` |
 | `lib/progress.ts` | `docs/progress.md` |
 | pages, `NavBar`, `lib/locale.tsx`, `lib/uiStrings.ts`, `app/globals.css` | `docs/app-shell.md` |
 | `lib/auth.ts`, `lib/firebase.ts`, `app/auth/*`, `UserMenu` | `docs/auth.md` |
 | `components/thumbnails/*` | `docs/thumbnails.md` |
 
-Directories with tricky invariants also carry a local `CLAUDE.md` (`data/`, `lib/`, `app/lesson/`, `app/typing-ninja/`, `app/auth/`, `components/keyboard/`, `components/lesson/`, `components/thumbnails/`) listing the hard rules for that directory.
+Directories with tricky invariants also carry a local `CLAUDE.md` (`data/`, `lib/`, `app/lesson/`, `app/typing-ninja/`, `app/rhino-dash/`, `app/auth/`, `components/keyboard/`, `components/lesson/`, `components/thumbnails/`) listing the hard rules for that directory.
 
 ## Next.js version warning
 
@@ -75,6 +76,8 @@ To add a thumbnail: write a `React.FC<SvgTemplateProps>` in `SvgLibrary.tsx` (pr
 - **`/typing-ninja`** → `app/typing-ninja/NinjaWorld.tsx` (~1400 lines; GLTF characters in `characters.tsx`, scenery/camera in `environment.tsx`, models in `public/models/`): 3D WebGL survival game using `@react-three/fiber` + `drei` + `three`. Loaded via `next/dynamic` with `ssr: false` (also embedded in the lesson runtime for `GAME_NINJA_RUN` steps — words from `step.content`, pace/mistake budget from `step.rules`; its `onComplete` reports no stats, so game steps don't feed lesson grading).
 
 The game embeds its own inline `SoundSynthesizer` class (Web Audio API oscillators), separate from the lesson runtime's mp3-file playback. Its simulation lives in a mutable `stateRef`, not React state — see `docs/typing-ninja.md` before touching it.
+
+- **`/rhino-dash`** → `app/rhino-dash/RhinoWorld.tsx`: a second arcade game on the same architecture (mutable `stateRef` + inline sound synth) — a cliff-top tug-of-war typing endurance duel: endless waves of stronger rivals with longer words, one life, linked from `/games`. Its character model `public/models/rhino.glb` is authored in-repo by `scripts/build-rhino-model.mjs` (`npm run model:rhino`). See `docs/rhino-dash.md` before touching it.
 
 ### Inert files (safe to ignore)
 

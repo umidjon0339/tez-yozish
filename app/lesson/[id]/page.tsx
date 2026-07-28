@@ -16,6 +16,8 @@ import { course as courseData } from "@/lib/curriculum";
 import { SectionNode, LessonNode, StepNode } from "@/types/lesson";
 import { NewKeyboard } from "@/components/keyboard/new_keyboard";
 import { Keyboard as HandsKeyboard } from "@/components/keyboard/hands";
+import { HandStyleSwitcher } from "@/components/keyboard/HandStyleSwitcher";
+import { getHandStyle, useHandStyle, type HandArtVariant } from "@/components/keyboard/handStyle";
 import { Mascot } from "@/components/Mascot";
 import { PaletteSwitcher } from "@/components/PaletteSwitcher";
 import { ChapterRail, LessonRail } from "@/components/lesson/Rails";
@@ -305,6 +307,28 @@ const playErrorSound = () => playSfx("/error2.mp3", 0.8);
 const KEYBOARD_CONFIG = { scale: 0.75, offsetX: 0, offsetY: 0 };
 const HANDS_CONFIG = { scale: 1.33, offsetX: 37, offsetY: 105 };
 
+/* Each reshaped hand is another full copy of the pose sheet (~470 KB of path
+   data), so they load as their own chunks only once someone picks them. All of
+   them share the classic art's props, viewBox and pose ids, so HANDS_CONFIG
+   covers every variant. */
+type HandsProps = {
+  expectedKey: string | string[] | null;
+  className?: string;
+  scale?: number;
+  offsetX?: number;
+  offsetY?: number;
+};
+
+const HANDS_BY_VARIANT: Record<HandArtVariant, React.ComponentType<HandsProps>> = {
+  classic: HandsKeyboard,
+  slim: dynamic(() => import("@/components/keyboard/handsSlim").then((m) => m.SlimKeyboard), {
+    ssr: false,
+  }),
+  female: dynamic(() => import("@/components/keyboard/handsFemale").then((m) => m.FemaleKeyboard), {
+    ssr: false,
+  }),
+};
+
 export interface LayoutConfig {
   keyboardScale: number;
   keyboardY: number;
@@ -340,6 +364,16 @@ function KeyboardWithHands({
   const hnScale = config?.handsScale ?? HANDS_CONFIG.scale;
   const hnY = config?.handsY ?? HANDS_CONFIG.offsetY;
 
+  const handStyle = getHandStyle(useHandStyle());
+  const Hands = HANDS_BY_VARIANT[handStyle.variant];
+  // A style with its own theme (the flesh look) defines light and dark itself,
+  // so it keeps `theme-dark` only as a modifier rather than being replaced by it.
+  const handsTheme = handStyle.theme
+    ? `${handStyle.theme}${isDark ? " theme-dark" : ""}`
+    : isDark
+      ? "theme-dark"
+      : "theme-bone";
+
   return (
     <div
       className={`kb-stage relative w-full max-w-4xl aspect-[683.3/254] mx-auto mt-auto ${isColorful ? "colorful-mode" : ""}`}
@@ -356,9 +390,9 @@ function KeyboardWithHands({
       </div>
       {isHandsVisible && (
         <div className="absolute top-0 left-0 z-10 pointer-events-none w-full h-full opacity-90 overflow-visible flex justify-center items-end">
-          <HandsKeyboard
+          <Hands
             expectedKey={expectedKey}
-            className={`w-full h-full overflow-visible ${isDark ? "theme-dark" : "theme-bone"}`}
+            className={`w-full h-full overflow-visible ${handsTheme}`}
             scale={hnScale}
             offsetX={HANDS_CONFIG.offsetX}
             offsetY={hnY}
@@ -2518,6 +2552,9 @@ export default function LessonPage() {
             >
               <Hand size={19} strokeWidth={2} />
             </button>
+
+            {/* Hand drawing picker — choosing one always brings the hands back */}
+            <HandStyleSwitcher onSelect={() => setIsHandsVisible(true)} />
 
             {/* Finger-zone palette picker — picking a palette always shows it */}
             <PaletteSwitcher onSelect={() => setIsColorful(true)} />

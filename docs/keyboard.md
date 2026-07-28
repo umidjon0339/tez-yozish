@@ -87,6 +87,112 @@ page: `KEYBOARD_CONFIG = { scale: 0.75 }` and `HANDS_CONFIG =
 { scale: 1.33, offsetX: 37, offsetY: 105 }`. Changing one layer's transform
 means re-tuning the other.
 
+## 3b. Hand styles — `classic`, `slim`, `realistic`, `female`
+
+The learner picks which hand drawing they get, from a dropdown in the lesson
+header. All four are the *same artwork*, so every pose still points at the key
+it was drawn for. Two independent axes vary — geometry and shading:
+
+| Style | Art variant (component) | Theme |
+|---|---|---|
+| `classic` | `hands.tsx` | light/dark pair |
+| `slim` | `handsSlim.tsx` | light/dark pair |
+| `realistic` | `handsSlim.tsx` | `theme-flesh` |
+| `female` | `handsFemale.tsx` | `theme-rose` |
+
+`realistic` adds no geometry at all — it is `slim` wearing a different theme.
+`HAND_STYLES` in `handStyle.ts` carries `variant` (which component) and
+optional `theme` (which replaces the usual light/dark pair, keeping
+`theme-dark` only as a modifier); the lesson page resolves the variant through
+`HANDS_BY_VARIANT`. Adding a style is one entry there plus a thumbnail — and a
+`PROFILES` entry too, if it needs new geometry.
+
+| File | Role |
+|---|---|
+| `hands.tsx` | the `classic` hand — **the source of truth, edit this one** |
+| `skinTones.mjs` | every skin-tone hex (flesh + rose) — **edit colors here** |
+| `handsSlim.tsx`, `handsFemale.tsx` | reshaped hands — **GENERATED, never hand-edit** |
+| `scripts/lib/hand-profiles.mjs` | the shapes: how deep to erode, per variant |
+| `handStyle.ts` | which style is active (`localStorage["tz-hand-style"]`) |
+| `HandStyleSwitcher.tsx` | the header dropdown |
+| `public/hands/*.svg` | standalone copies + the picker thumbnails |
+
+The generated components come from `npm run build:hands`, which rewrites only
+the path `d` data and copies classes, theme rules, the `--fz` guide colour and
+the pose-toggling effect through untouched. That parity is deliberate: the
+lesson page swaps `<Keyboard />` for another component and nothing else has to
+change — same props, same viewBox, so `HANDS_CONFIG` covers every variant.
+
+**After editing `hands.tsx`, run `npm run hands:rebuild`** or the reshaped
+variants silently keep the old geometry.
+
+How the reshaping works (`scripts/lib/hand-geometry.mjs`): each silhouette is
+eroded along its own normals, deepest at the fingertip end and tapering to
+almost nothing at the wrist, so fingers lose real width while the palm keeps
+its mass — that gradient *is* the taper. A pose is not one path, though: it is
+a silhouette, an outline tracing the same contour, tendon lines, guide
+highlights and shading blobs. Moving only the silhouette tears them apart, so
+its displacement becomes a field the other paths sample, fading with distance.
+
+| Profile | inset (fingers → wrist) | worst-case point movement |
+|---|---|---|
+| `slim` | 2.5 → 0.7 | 2.48 units = 4.9% of a key |
+| `female` | 4.1 → 1.5 | 4.07 units = 8.0% of a key |
+
+Those movement figures are the honesty check — measure them after any change to
+`PROFILES`, because they are what keep each pose pointing at its own key.
+
+Two traps if you retune it: tangents must be measured over an arc-length window
+(anchors here are spaced very unevenly, and adjacent-anchor tangents kink the
+offset at fingertips), and the displacement field needs *dense* samples or
+paths that used to sit on the contour drift off it.
+
+Each reshaped component is ~470 KB of path data, so the lesson page loads them
+through `next/dynamic` — verified that picking `classic` fetches none, `slim`
+and `realistic` fetch only `handsSlim`, and `female` only `handsFemale`.
+
+### The `theme-flesh` (realistic) and `theme-rose` (female) looks
+
+Every hex these looks use — gradients, crease lines, nails, the filter
+floods — lives in **`skinTones.mjs`** (`SKIN.flesh`, `SKIN.rose`,
+`SKIN_LIGHTING`). `hands.tsx` interpolates it into its style block and defs;
+`scripts/hands-previews.mjs` bakes it into the picker thumbnails;
+`scripts/extract-hands-svg.mjs` resolves the refs when exporting the
+standalone svg. To recolor a hand, change the palette there and run
+`npm run hands:rebuild` — never touch the hexes anywhere downstream.
+
+Skin tone plus two lighting filters in the `hands.tsx` `<defs>`. The
+non-obvious part is *why there are two*: the silhouette is a **single path**
+covering the whole hand, so edge shading can never separate one finger from the
+next — the gaps between fingers are `.st2` lines, not silhouette edges.
+
+- `#hands-flesh` on `.st1`: inverts the alpha, blurs it once, and keeps what
+  falls back inside — a dark band along every outer edge. The *same* blurred
+  buffer offset down-right lights the upper-left rim (offsetting before or
+  after a blur is equivalent, so one blur does both). A final `feFuncA` ramp,
+  not `fill-opacity`, sets the translucency, so the shading is computed at full
+  strength and faded once.
+- `#hands-crease` on `.st2`: gives each crease line an offset shadow and a
+  facing highlight, turning it into a rounded valley. This is what actually
+  makes the fingers read as separate tubes, which lets the drawn line drop to
+  `stroke-opacity: 0.45` instead of reading as ink.
+
+`theme-rose` reuses both filters over a pinker gradient, with a finer line and
+`.st3` lifted from 0.45 so the nail shapes the artwork already carries read.
+There are no *added* nails: fingertip detection on these contours (turning-angle
+and radial-maxima) both misfired badly enough that auto-placed nails would land
+mid-finger on some of the 58 poses, so nails would have to be authored per pose.
+
+**These re-rasterise on every keystroke**, so they are written for that budget:
+one Gaussian blur each, tight filter regions, and
+`color-interpolation-filters="sRGB"` — the linearRGB default converts the whole
+buffer twice per filter and cost as much as a blur here. Measured over 60 pose
+swaps, the filtered styles sit about one frame above `classic` — median 33-50 ms
+against 33.3 ms, where 33.3 ms is the double-`requestAnimationFrame`
+measurement floor, and p95 67 ms against 34-50 ms. Before optimisation
+`realistic` was 66.6/149.9 ms. If you touch
+these filters, re-measure — it is easy to add a frame without noticing.
+
 ## 4. `--fz` finger-zone theming (`app/globals.css` + `PaletteSwitcher`)
 
 - Nine per-finger variables `--fz-l-pinky … --fz-r-pinky` defined on

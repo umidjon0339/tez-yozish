@@ -10,6 +10,7 @@ Root `CLAUDE.md` holds the short overview; these hold the details.
 | [lesson-runtime.md](lesson-runtime.md) | The typing engine: viewports, character state, keystroke flow, sounds, progression, results | `app/lesson/[id]/page.tsx`, `components/lesson/Rails.tsx` |
 | [keyboard.md](keyboard.md) | Keycap + hands SVG layers, key-id contract, `--fz` finger-zone theming | `components/keyboard/*`, `app/globals.css`, `components/PaletteSwitcher.tsx` |
 | [typing-ninja.md](typing-ninja.md) | The 3D game: simulation model, embedded vs arcade, sound synth, GLTF characters | `app/typing-ninja/*`, `public/models/*` |
+| [rhino-dash.md](rhino-dash.md) | The 3D cliff-duel game: tug-of-war physics, phases, procedural rhinos, sound synth | `app/rhino-dash/*` |
 | [progress.md](progress.md) | localStorage progress store, star ladder, WPM/accuracy formulas, unlocking | `lib/progress.ts` |
 | [app-shell.md](app-shell.md) | Layout, NavBar, pages, localization (`useLocale`/`STR`), palette switcher, global CSS | `app/layout.tsx`, `app/page.tsx`, `app/courses/*`, `app/games/*`, `components/NavBar.tsx`, `lib/locale.tsx`, `lib/uiStrings.ts`, `app/globals.css` |
 | [auth.md](auth.md) | Firebase SSO with edify-student, auth store, callback route, UserMenu | `lib/firebase.ts`, `lib/auth.ts`, `app/auth/callback/page.tsx`, `components/UserMenu.tsx` |
@@ -25,4 +26,5 @@ Conventions used in these docs:
   is a bug even if the app still compiles.
 - Cross-cutting localStorage keys: `tz-progress-v1` (progress), `tz-locale`
   (language), `tz-fz-palette` (finger-zone palette), `tz-prefs-v1` (lesson
-  workspace toggles), `tz-ninja-highscore` (arcade only).
+  workspace toggles), `tz-ninja-highscore` (arcade only),
+  `tz-rhino-highscore` (rhino-dash).
