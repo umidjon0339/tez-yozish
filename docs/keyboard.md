@@ -7,8 +7,16 @@ as `HandsKeyboard`) at `z-10`. They share one id vocabulary defined in
 `keymap.ts` and are themed by the `--fz` finger-zone CSS variables in
 `app/globals.css`.
 
-The composite is `KeyboardWithHands` (defined inside
-`app/lesson/[id]/page.tsx`), the only consumer of both layers.
+The composite is `KeyboardWithHands` in
+**`components/keyboard/KeyboardStage.tsx`** — the only place that knows how
+the two different viewBox baselines line up (`KEYBOARD_CONFIG` /
+`HANDS_CONFIG`, retune together). Consumers: the lesson runtime
+(`app/lesson/[id]/page.tsx`, which overrides the numbers through its
+`config` / `LayoutConfig` prop) and the home page hero (`app/page.tsx`,
+lazy-loaded with `next/dynamic` so the landing page doesn't ship ~0.5 MB of
+path data up front). `components/english/stage-kit.tsx` still carries its own
+older copy for the English units (no hand styles/colors) — fold it into this
+one if you touch it.
 
 ## 1. `keymap.ts` — the single source of truth
 
@@ -87,20 +95,19 @@ page: `KEYBOARD_CONFIG = { scale: 0.75 }` and `HANDS_CONFIG =
 { scale: 1.33, offsetX: 37, offsetY: 105 }`. Changing one layer's transform
 means re-tuning the other.
 
-## 3b. Hand styles — `classic`, `slim`, `realistic`, `female`
+## 3b. Hand styles — `classic`, `female`
 
 The learner picks which hand drawing they get, from a dropdown in the lesson
-header. All four are the *same artwork*, so every pose still points at the key
-it was drawn for. Two independent axes vary — geometry and shading:
+header. Both styles are the *same* poses, so every pose still points at the
+key it was drawn for — but `female` draws with anatomically reshaped geometry
+(slender tapered fingers, narrower palm, slimmer wrist — modeled on average
+male/female hand differences) plus the rose skin:
 
-| Style | Art variant (component) | Theme |
+| Style | Art (component) | Theme |
 |---|---|---|
 | `classic` | `hands.tsx` | light/dark pair |
-| `slim` | `handsSlim.tsx` | light/dark pair |
-| `realistic` | `handsSlim.tsx` | `theme-flesh` |
-| `female` | `handsFemale.tsx` | `theme-rose` |
+| `female` | `handsFemale.tsx` (generated) | `theme-rose` |
 
-`realistic` adds no geometry at all — it is `slim` wearing a different theme.
 `HAND_STYLES` in `handStyle.ts` carries `variant` (which component) and
 optional `theme` (which replaces the usual light/dark pair, keeping
 `theme-dark` only as a modifier); the lesson page resolves the variant through
@@ -109,76 +116,116 @@ optional `theme` (which replaces the usual light/dark pair, keeping
 
 | File | Role |
 |---|---|
-| `hands.tsx` | the `classic` hand — **the source of truth, edit this one** |
-| `skinTones.mjs` | every skin-tone hex (flesh + rose) — **edit colors here** |
-| `handsSlim.tsx`, `handsFemale.tsx` | reshaped hands — **GENERATED, never hand-edit** |
-| `scripts/lib/hand-profiles.mjs` | the shapes: how deep to erode, per variant |
+| `hands.tsx` | the hand artwork — **the source of truth, edit this one** |
+| `skinTones.mjs` | every skin-tone hex (`SKIN.rose`) — **edit colors here** |
+| `handsFemale.tsx` | the reshaped hand — **GENERATED, never hand-edit** |
+| `scripts/lib/hand-profiles.mjs` | the shape: how deep to erode |
 | `handStyle.ts` | which style is active (`localStorage["tz-hand-style"]`) |
-| `HandStyleSwitcher.tsx` | the header dropdown |
+| `handColor.ts` | per-style custom color + opacity (`tz-hand-colors-v1`, `tz-hand-opacity-v1`) |
+| `HandStyleSwitcher.tsx` | the header dropdown (styles + color swatches) |
 | `public/hands/*.svg` | standalone copies + the picker thumbnails |
 
-The generated components come from `npm run build:hands`, which rewrites only
-the path `d` data and copies classes, theme rules, the `--fz` guide colour and
-the pose-toggling effect through untouched. That parity is deliberate: the
-lesson page swaps `<Keyboard />` for another component and nothing else has to
-change — same props, same viewBox, so `HANDS_CONFIG` covers every variant.
-
+The generated component comes from `npm run build:hands`, which rewrites only
+the path `d` data and copies classes, theme rules, the `--hand-*`/`--fz` color
+plumbing and the pose-toggling effect through untouched. That parity is
+deliberate: the lesson page swaps `<Keyboard />` for `<FemaleKeyboard />` and
+nothing else has to change — same props, same viewBox, so `HANDS_CONFIG`
+covers every variant and the custom-color variables land on the reshaped art
+too. It is ~480 KB of path data, so the lesson page loads it through
+`next/dynamic` — picking `classic` fetches nothing extra.
 **After editing `hands.tsx`, run `npm run hands:rebuild`** or the reshaped
-variants silently keep the old geometry.
+variant silently keeps the old geometry.
 
 How the reshaping works (`scripts/lib/hand-geometry.mjs`): each silhouette is
-eroded along its own normals, deepest at the fingertip end and tapering to
-almost nothing at the wrist, so fingers lose real width while the palm keeps
-its mass — that gradient *is* the taper. A pose is not one path, though: it is
-a silhouette, an outline tracing the same contour, tendon lines, guide
-highlights and shading blobs. Moving only the silhouette tears them apart, so
-its displacement becomes a field the other paths sample, fading with distance.
+eroded along its own normals, deepest at the fingertip end and tapering toward
+the wrist, so fingers lose real width while the palm keeps its mass — that
+gradient *is* the taper. A pose is not one path, though: it is a silhouette,
+an outline tracing the same contour, tendon lines, guide highlights and
+shading blobs. Moving only the silhouette tears them apart, so its
+displacement becomes a field the other paths sample, fading with distance.
+The `female` profile insets 3.2 units at the fingers → 1.3 at the wrist, with
+a widened tangent window (13) and extra displacement smoothing (5 passes) —
+wobble in the offset scales with depth, and at this depth the defaults leave
+fingers visibly lumpy. Keep the fingertip inset ≤ ~4 units (well under half a
+key width, ~25 units) so every pose keeps pointing at its own key. Two traps
+if you retune it: tangents must be measured over an arc-length window (anchors
+are spaced very unevenly, and adjacent-anchor tangents kink the offset at
+fingertips), and the displacement field needs *dense* samples or paths that
+used to sit on the contour drift off it.
 
-| Profile | inset (fingers → wrist) | worst-case point movement |
-|---|---|---|
-| `slim` | 2.5 → 0.7 | 2.48 units = 4.9% of a key |
-| `female` | 4.1 → 1.5 | 4.07 units = 8.0% of a key |
+Two guards against background-colored cracks between pressed-together fingers
+(the source art keeps hairline slits there — invisible under the translucent
+classic look, bright cracks under a skin fill, and erosion widens them):
+`closeGaps` in `hand-geometry.mjs` (profile `gapR`/`gapKeep`/`gapArcSep`)
+blends near-touching contour walls' displacements and pulls them to ~0.5 units
+apart — never let them overlap: the walls wind in opposite directions, so an
+overlap winds to zero and the fill rule punches a hole — and `.theme-rose
+.st1` additionally *strokes* the silhouette with its own skin gradient
+(width 2.8), sealing whatever hairline the geometry pass can't reach on any of
+the 58 poses.
 
-Those movement figures are the honesty check — measure them after any change to
-`PROFILES`, because they are what keep each pose pointing at its own key.
+### Custom hand colors (`handColor.ts`)
 
-Two traps if you retune it: tangents must be measured over an arc-length window
-(anchors here are spaced very unevenly, and adjacent-anchor tangents kink the
-offset at fingertips), and the displacement field needs *dense* samples or
-paths that used to sit on the contour drift off it.
+Each style can be painted any color. The switcher dropdown offers preset
+swatches (`HAND_COLOR_PRESETS`) plus a native `<input type="color">` for a free
+choice; the pick is stored per style in `localStorage["tz-hand-colors-v1"]`
+(same `useSyncExternalStore` idiom as `handStyle.ts`; no stored entry = the
+style's built-in look).
 
-Each reshaped component is ~470 KB of path data, so the lesson page loads them
-through `next/dynamic` — verified that picking `classic` fetches none, `slim`
-and `realistic` fetch only `handsSlim`, and `female` only `handsFemale`.
+Rendering: `handTintVars(styleId, hex)` mixes the one base hex into every
+derived shade the artwork needs — classic gets a translucent glass fill +
+darker outline; female gets gradient ends, crease, nail and all four filter
+floods — and returns them as `--hand-*` CSS variables. `KeyboardWithHands`
+passes them (memoized: `Keyboard` is `memo`'d, the style prop must stay
+referentially stable) as inline `style` on the hands svg. Every color rule in
+the `hands.tsx` style block reads `var(--hand-*, <built-in>)`, so unset
+variables render the original art; the rose gradient stops and `feFlood`s carry
+tiny hook classes (`.skin-top`, `.rose-shadow`, …) whose CSS overrides the
+attribute defaults (CSS beats presentation attributes). The attributes stay for
+the standalone export — `extract-hands-svg.mjs` strips the hook classes.
 
-### The `theme-flesh` (realistic) and `theme-rose` (female) looks
+Below the swatches sits an opacity slider (20–100%, default 90% — the
+`opacity-90` the hands wrapper used to hard-code, now `DEFAULT_HAND_OPACITY`).
+The value is stored per style in `localStorage["tz-hand-opacity-v1"]` (default
+values are not stored) and applied by `KeyboardWithHands` (KeyboardStage) as inline `opacity`
+on the hands wrapper div, so it fades the whole layer — hand fill, outlines
+and guide finger together.
 
-Every hex these looks use — gradients, crease lines, nails, the filter
-floods — lives in **`skinTones.mjs`** (`SKIN.flesh`, `SKIN.rose`,
-`SKIN_LIGHTING`). `hands.tsx` interpolates it into its style block and defs;
-`scripts/hands-previews.mjs` bakes it into the picker thumbnails;
-`scripts/extract-hands-svg.mjs` resolves the refs when exporting the
-standalone svg. To recolor a hand, change the palette there and run
-`npm run hands:rebuild` — never touch the hexes anywhere downstream.
+A stored style id that no longer exists (e.g. `slim`/`realistic` from an older
+visit) falls back to `classic` in `handStyle.ts`'s `getSnapshot`.
+
+**After editing `hands.tsx`, run `npm run hands:rebuild`** so the standalone
+svg and the picker thumbnails pick the change up.
+
+### The `theme-rose` (female) look
+
+Every hex this look uses — gradient, crease lines, nails, the filter floods —
+lives in **`skinTones.mjs`** (`SKIN.rose`, lighting included). `hands.tsx`
+interpolates it into its style block and defs; `scripts/hands-previews.mjs`
+bakes it into the picker thumbnails; `scripts/extract-hands-svg.mjs` resolves
+the refs when exporting the standalone svg. To recolor the hand, change the
+palette there and run `npm run hands:rebuild` — never touch the hexes anywhere
+downstream.
 
 Skin tone plus two lighting filters in the `hands.tsx` `<defs>`. The
 non-obvious part is *why there are two*: the silhouette is a **single path**
 covering the whole hand, so edge shading can never separate one finger from the
 next — the gaps between fingers are `.st2` lines, not silhouette edges.
 
-- `#hands-flesh` on `.st1`: inverts the alpha, blurs it once, and keeps what
+- `#hands-rose` on `.st1`: inverts the alpha, blurs it once, and keeps what
   falls back inside — a dark band along every outer edge. The *same* blurred
   buffer offset down-right lights the upper-left rim (offsetting before or
   after a blur is equivalent, so one blur does both). A final `feFuncA` ramp,
   not `fill-opacity`, sets the translucency, so the shading is computed at full
   strength and faded once.
-- `#hands-crease` on `.st2`: gives each crease line an offset shadow and a
+- `#hands-crease-rose` on `.st2`: gives each crease line an offset shadow and a
   facing highlight, turning it into a rounded valley. This is what actually
   makes the fingers read as separate tubes, which lets the drawn line drop to
   `stroke-opacity: 0.45` instead of reading as ink.
 
-`theme-rose` reuses both filters over a pinker gradient, with a finer line and
-`.st3` lifted from 0.45 so the nail shapes the artwork already carries read.
+The floods are `SKIN.rose`'s own rosy lighting (a warm-brown lighting set, as
+the old flesh theme used, reads muddy on the pink skin). `.st3` is lifted from
+0.45 so the nail shapes the artwork already carries read.
 There are no *added* nails: fingertip detection on these contours (turning-angle
 and radial-maxima) both misfired badly enough that auto-placed nails would land
 mid-finger on some of the 58 poses, so nails would have to be authored per pose.
@@ -187,10 +234,10 @@ mid-finger on some of the 58 poses, so nails would have to be authored per pose.
 one Gaussian blur each, tight filter regions, and
 `color-interpolation-filters="sRGB"` — the linearRGB default converts the whole
 buffer twice per filter and cost as much as a blur here. Measured over 60 pose
-swaps, the filtered styles sit about one frame above `classic` — median 33-50 ms
+swaps, the filtered style sits about one frame above `classic` — median 33-50 ms
 against 33.3 ms, where 33.3 ms is the double-`requestAnimationFrame`
-measurement floor, and p95 67 ms against 34-50 ms. Before optimisation
-`realistic` was 66.6/149.9 ms. If you touch
+measurement floor, and p95 67 ms against 34-50 ms. (Before optimisation the
+same filter pipeline was 66.6/149.9 ms.) If you touch
 these filters, re-measure — it is easy to add a frame without noticing.
 
 ## 4. `--fz` finger-zone theming (`app/globals.css` + `PaletteSwitcher`)
@@ -213,13 +260,25 @@ these filters, re-measure — it is easy to add a frame without noticing.
   swatch arrays **duplicate** the light `--fz-*` values — keep them in sync
   with globals.css by hand. It is mounted in the **lesson workspace
   header** (not the navbar), with `onSelect={() => setIsColorful(true)}`.
+- The same dropdown also offers **per-finger custom colors** ("My colors"):
+  one `<input type="color">` per zone (`FINGER_ZONES`), stored as
+  `localStorage["tz-fz-custom-v1"]` (`{zone: hex}`) and applied as inline
+  `--fz-<zone>` variables on `<html>` — inline style beats every palette rule
+  and the `.dark` variants, so a custom finger wins in both modes and on top
+  of any palette. The boot script re-applies them pre-paint. The inputs show
+  each zone's *live* computed color, so they always reflect palette + custom.
+  A "Reset to default" button clears the overrides and returns the palette to
+  Classic; the hand-style dropdown carries the same reset for hand settings
+  (style, per-style color, opacity — `resetHandAppearance()` in
+  `handColor.ts`).
 
 ## 5. Consumers
 
-- `KeyboardWithHands` (lesson page): renders `NewKeyboard` always and
+- `KeyboardWithHands` (`KeyboardStage.tsx`): renders `NewKeyboard` always and
   `HandsKeyboard` when `isHandsVisible`, toggling `theme-dark`/`theme-bone`
   by dark mode and `colorful-mode` on the `.kb-stage` div. Mounted by all
-  five non-game viewport arenas.
+  five non-game viewport arenas, and by the home page hero (dark, colorful
+  mode off, `className="max-w-4xl"` for stage width).
 - `Mascot` (`components/Mascot.tsx`): stateless SVG ninja mascot with
   `mood: happy | focused | oops | celebrate`; used on the lesson results /
   locked / 404 screens and the ninja game menu. Not part of the keyboard

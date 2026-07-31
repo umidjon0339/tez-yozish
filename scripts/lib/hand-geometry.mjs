@@ -24,9 +24,28 @@ export const DEFAULT_SHAPE = {
   /** arc length the contour tangent is measured over — anchors here are spaced
    *  very unevenly, so a short window picks up noise and kinks the offset */
   window: 7,
+  /** box-filter passes over the displacement ring. Wobble in the offset curve
+   *  scales with the inset depth (displacement = normal × depth), so deeper
+   *  profiles need more smoothing to keep finger edges straight. */
+  smoothPasses: 2,
   /** displacement field: full strength within r0, gone by r1 */
   r0: 4,
   r1: 42,
+  /** gap closing (0 = off): where two arc-distant parts of the contour sit
+   *  closer than this, their displacements are blended toward the pair
+   *  average AND the walls are pulled together, down to gapKeep apart. The
+   *  slot between two pressed-together fingers is such a pair — the source
+   *  art even leaves a ~1-2 unit slit there, invisible under the translucent
+   *  classic look but a bright background-colored crack under a skin fill. */
+  gapR: 0,
+  /** the residual wall separation gap closing aims for. Keep it > 0: walls of
+   *  one contour run in opposite directions, so letting them overlap makes
+   *  the overlap wind to zero and the fill rule punches a hole — the very
+   *  artifact this is meant to fix. */
+  gapKeep: 0.5,
+  /** ignore contour points closer than this along the arc — around a slot's
+   *  U-turn the walls are arc-neighbours and already move continuously */
+  gapArcSep: 18,
 };
 
 const TOKENS = /([MmLlHhVvCcSsQqTtAaZz])|([-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?)/g;
@@ -250,6 +269,84 @@ function smoothVectors(vs, closed, passes = 2) {
 const lerp2 = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
 
 /**
+ * Keep touching edges touching. The silhouette draws fingers pressed
+ * together: the slot between two fingers is two contour walls at (nearly)
+ * zero distance. Eroding both walls inward — toward their own finger — pulls
+ * them apart, opening a background-colored gap down the middle of the hand.
+ * For every anchor whose nearest arc-distant contour point is closer than
+ * `gapR` (measured on the ORIGINAL geometry), blend its displacement toward
+ * the average of the pair, so both walls travel together and the slot keeps
+ * its width. Free edges (nothing nearby) keep the full inset.
+ */
+function closeGaps(pts, segs, vs, closed, SHAPE) {
+  const gapR = SHAPE.gapR ?? 0;
+  if (!gapR || !segs.length) return vs;
+
+  // dense contour walk: position, fractional anchor index, arc position
+  const PER = 4;
+  const dense = [];
+  let arc = 0;
+  let a = pts[0];
+  let prev = a;
+  for (let i = 0; i < segs.length; i++) {
+    const s = segs[i];
+    for (let k = 0; k < PER; k++) {
+      const t = k / PER;
+      const p = t === 0 ? [...a] : cubicAt(a, s, t);
+      arc += Math.hypot(p[0] - prev[0], p[1] - prev[1]);
+      dense.push({ p, fi: i + t, arc });
+      prev = p;
+    }
+    a = s.p;
+  }
+  arc += Math.hypot(a[0] - prev[0], a[1] - prev[1]);
+  dense.push({ p: [...a], fi: segs.length, arc });
+  const total = arc;
+
+  const anchorArc = [];
+  for (const d of dense) if (Number.isInteger(d.fi)) anchorArc[d.fi] = d.arc;
+
+  const minSep = SHAPE.gapArcSep ?? 18;
+  const out = vs.map((v) => [...v]);
+  for (let i = 0; i < pts.length; i++) {
+    const pi = pts[i];
+    const ai = anchorArc[i] ?? 0;
+    let best = Infinity;
+    let bd = null;
+    for (const d of dense) {
+      let sep = Math.abs(d.arc - ai);
+      if (closed) sep = Math.min(sep, total - sep);
+      if (sep < minSep) continue;
+      const dx = pi[0] - d.p[0];
+      const dy = pi[1] - d.p[1];
+      const d2 = dx * dx + dy * dy;
+      if (d2 < best) {
+        best = d2;
+        bd = d;
+      }
+    }
+    if (!bd) continue;
+    const dist = Math.sqrt(best);
+    if (dist >= gapR) continue;
+    const w = 1 - smoothstep(dist / gapR); // 1 where walls touch, 0 at gapR
+    const lo = Math.min(Math.floor(bd.fi), vs.length - 1);
+    const hi = Math.min(lo + 1, vs.length - 1);
+    const vOther = lerp2(vs[lo], vs[hi], bd.fi - lo);
+    const avg = [(vs[i][0] + vOther[0]) / 2, (vs[i][1] + vOther[1]) / 2];
+    out[i] = lerp2(out[i], avg, w);
+    // …and close the slit itself: walk this wall toward the other, each side
+    // covering half the excess over gapKeep.
+    const keep = SHAPE.gapKeep ?? 0.5;
+    if (dist > keep) {
+      const pull = ((dist - keep) / 2) * w;
+      out[i][0] += ((bd.p[0] - pi[0]) / dist) * pull;
+      out[i][1] += ((bd.p[1] - pi[1]) / dist) * pull;
+    }
+  }
+  return out;
+}
+
+/**
  * Offsets a contour inward along its own normals and returns dense displacement
  * samples for the other paths to follow. The normal's sign is chosen by testing
  * which way shrinks the outline — no assumptions about winding order.
@@ -276,7 +373,12 @@ export function erode(subs, yTop, yBottom, SHAPE = DEFAULT_SHAPE) {
       const d = insetAt(p[1], yTop, yBottom, SHAPE) * sign;
       return [ns[i][0] * d, ns[i][1] * d];
     });
-    vs = smoothVectors(vs, closed);
+    // Smooth BEFORE closing gaps, not after: a smoothing pass afterwards
+    // would average the closing pull with free-edge neighbours and re-open
+    // the slit. The gap weights fade smoothly to zero at gapR, so the
+    // closing displacements introduce no kinks of their own.
+    vs = smoothVectors(vs, closed, SHAPE.smoothPasses ?? 2);
+    vs = closeGaps(pts, sub.segs, vs, closed, SHAPE);
 
     // Anchors move by their own vector; control points by an interpolated one,
     // so a segment whose ends turn sharply bends instead of shearing.

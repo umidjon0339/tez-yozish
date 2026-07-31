@@ -56,12 +56,51 @@ export const STR = {
       uz: " tugmalariga qo'y va boshla!",
       ru: " — и вперёд!",
     },
-    exploreCourses: {
-      en: "Explore Courses",
-      uz: "Kurslarni ko'rish",
-      ru: "Смотреть курсы",
+    learnKeyboard: {
+      en: "Learn the Keyboard",
+      uz: "Klaviaturani o'rganish",
+      ru: "Изучить клавиатуру",
     },
     playGames: { en: "Play Games", uz: "O'yin o'ynash", ru: "Играть в игры" },
+    /* Hero stage above the keyboard */
+    typeHint: {
+      en: "Type these keys — your hands will show you how",
+      uz: "Shu tugmalarni bos — qo'llar yo'l ko'rsatadi",
+      ru: "Нажми эти клавиши — руки покажут как",
+    },
+    typeDone: {
+      en: "Nice! Opening your first lesson…",
+      uz: "Zo'r! Birinchi dars ochilmoqda…",
+      ru: "Отлично! Открываем первый урок…",
+    },
+    startHere: { en: "Start here", uz: "Shu yerdan boshla", ru: "Начни здесь" },
+    /* Menu cards under the keyboard */
+    cardKeyboard: {
+      en: "Learn key by key",
+      uz: "Tugma-tugma o'rgan",
+      ru: "Клавиша за клавишей",
+    },
+    cardGames: {
+      en: "Play and get faster",
+      uz: "O'ynab tezlash",
+      ru: "Играй и ускоряйся",
+    },
+    cardEnglish: {
+      en: "Sounds and spelling",
+      uz: "Tovush va imlo",
+      ru: "Звуки и письмо",
+    },
+    cardSubjects: { en: "All courses", uz: "Barcha kurslar", ru: "Все курсы" },
+    cardCompete: {
+      en: "Race other typists",
+      uz: "Boshqalar bilan bellash",
+      ru: "Соревнуйся с другими",
+    },
+    cardStats: {
+      en: "See your progress",
+      uz: "O'sishingni ko'r",
+      ru: "Смотри свой рост",
+    },
   },
   courses: {
     title: { en: "Courses", uz: "Kurslar", ru: "Курсы" },

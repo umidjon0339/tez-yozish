@@ -11,10 +11,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parsePath, flatten } from "./lib/hand-geometry.mjs";
-import { SKIN, SKIN_LIGHTING } from "../components/keyboard/skinTones.mjs";
+import { SKIN } from "../components/keyboard/skinTones.mjs";
 
 const ROOT = path.resolve(new URL("..", import.meta.url).pathname);
-/* `realistic` is the slim art wearing the flesh theme — the thumbnail bakes
+/* `female` is the classic art wearing the rose theme — the thumbnail bakes
    that theme in as attributes, because these files carry no CSS. The colors
    come from skinTones.mjs, same as the `.theme-*` rules in hands.tsx. */
 const skinDefs = (skin) => `<defs>
@@ -25,12 +25,12 @@ const skinDefs = (skin) => `<defs>
       <feComponentTransfer in="SourceAlpha" result="i"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
       <feGaussianBlur in="i" stdDeviation="4" result="ab"/>
       <feComposite in="ab" in2="SourceAlpha" operator="in" result="am"/>
-      <feFlood flood-color="${SKIN_LIGHTING.shadow}" flood-opacity="0.5" result="ac"/>
+      <feFlood flood-color="${skin.shadow}" flood-opacity="0.5" result="ac"/>
       <feComposite in="ac" in2="am" operator="in" result="ao"/>
       <feOffset in="i" dx="4" dy="5" result="lo"/>
       <feGaussianBlur in="lo" stdDeviation="5" result="lb"/>
       <feComposite in="lb" in2="SourceAlpha" operator="in" result="lm"/>
-      <feFlood flood-color="${SKIN_LIGHTING.highlight}" flood-opacity="0.8" result="lc"/>
+      <feFlood flood-color="${skin.highlight}" flood-opacity="0.8" result="lc"/>
       <feComposite in="lc" in2="lm" operator="in" result="li"/>
       <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="ao"/><feMergeNode in="li"/></feMerge>
     </filter>
@@ -38,19 +38,9 @@ const skinDefs = (skin) => `<defs>
 
 const SOURCES = [
   { name: "classic", src: "public/hands/classic-hands.svg" },
-  { name: "slim", src: "public/hands/slim-hands.svg" },
   {
-    name: "realistic",
-    src: "public/hands/slim-hands.svg",
-    defs: skinDefs(SKIN.flesh),
-    restyle: [
-      [/fill="#ffffff" fill-opacity="0\.55"/g, 'fill="url(#skin)" filter="url(#flesh)"'],
-      [/stroke="#(?:8fa0b5|96a1ad)" stroke-width="[\d.]+"/g, `stroke="${SKIN.flesh.crease}" stroke-width="4"`],
-      [/fill="#94a3b8"/g, `fill="${SKIN.flesh.nail}"`],
-      [/ filter="url\(#hands-soft-shadow\)"/g, ""],
-    ],
-  },
-  {
+    // `female` is the reshaped art wearing the rose theme, so its thumbnail
+    // bakes that theme over female-hands.svg (rose lighting via skinDefs).
     name: "female",
     src: "public/hands/female-hands.svg",
     defs: skinDefs(SKIN.rose),

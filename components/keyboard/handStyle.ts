@@ -8,10 +8,10 @@ import { useSyncExternalStore } from "react";
 
 const STORAGE_KEY = "tz-hand-style";
 
-export type HandStyleId = "classic" | "slim" | "realistic" | "female";
+export type HandStyleId = "classic" | "female";
 
 /** Which set of pose art a style draws with. */
-export type HandArtVariant = "classic" | "slim" | "female";
+export type HandArtVariant = "classic" | "female";
 
 export interface HandStyle {
   id: HandStyleId;
@@ -35,21 +35,8 @@ export const HAND_STYLES: HandStyle[] = [
     preview: "/hands/preview-classic.svg",
   },
   {
-    id: "slim",
-    label: { en: "Slim", uz: "Ingichka", ru: "Тонкие" },
-    variant: "slim",
-    preview: "/hands/preview-slim.svg",
-  },
-  {
-    // Same slimmed art as `slim`; the difference is entirely in the shading.
-    id: "realistic",
-    label: { en: "Realistic", uz: "Tabiiy", ru: "Реалистичные" },
-    variant: "slim",
-    theme: "theme-flesh",
-    preview: "/hands/preview-realistic.svg",
-  },
-  {
-    // Slenderer, more tapered fingers than `slim`, under a rosier skin.
+    // Anatomically reshaped art (handsFemale.tsx: slender tapered fingers,
+    // narrower palm, slimmer wrist) under the rose skin.
     id: "female",
     label: { en: "Female", uz: "Ayol", ru: "Женские" },
     variant: "female",

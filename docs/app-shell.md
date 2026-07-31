@@ -23,8 +23,12 @@ the language switch at runtime.
 Sticky, localized, auth-aware. Left: `TY` chip + `tez/yozish` wordmark
 (link to `/`). Center links (all `STR.nav.*`):
 `/courses/course_core_typing` (hardcoded course id), `/english`, `/courses`,
-`/games`, `/pricing` — note `/english` and `/pricing` routes don't exist
-yet. Right: `<LanguageSwitcher />`; then auth cluster — renders `null` until
+`/games`, `/compete`, `/stats`, `/pricing` — note `/pricing` doesn't exist
+yet. The center link cluster is absolutely centered and can't wrap, so it is
+`hidden lg:flex` (on phones the home page's card menu is the way in). On `/`
+the bar renders dark: `usePathname() === "/"` adds a `dark` class plus an
+**opaque** `bg-neutral-950` (a translucent bar would let the light `<body>`
+show through as grey). Right: `<LanguageSwitcher />`; then auth cluster — renders `null` until
 auth is `ready` (no "Log in" flash), `<UserMenu user />` when signed in,
 otherwise Log in / Sign up buttons that leave to
 `edifyAuthUrl("login" | "signup")` (see auth.md).
@@ -36,7 +40,7 @@ workspace header only.
 
 | Route | File | Notes |
 |---|---|---|
-| `/` | `app/page.tsx` | Hero with the "type `tez` to launch" easter egg: a global keydown listener advances through `IGNITION_WORD`; completing it routes to the first lesson. Live `[ t e z ]` display; CTAs to `/courses` and `/games`. |
+| `/` | `app/page.tsx` | Dark full-bleed keyboard stage: the real `KeyboardWithHands` (lazy-loaded from `components/keyboard/KeyboardStage.tsx`, `isColorful={false}`) under a row of keycaps for the `HERO_KEYS` home-row drill (`f j d k s l`). A window keydown listener drives `expectedKey`/`lastPress` — so the hands point at the next key — advances on a hit, restarts on a typo, and on the last key routes to `FIRST_LESSON_ID`. Below: six menu cards (`CARDS`, lucide icons, first one accented "Start here") linking keyboard course / games / english / courses / compete / stats. The wrists fade into a bottom gradient at `z-[15]`; cards sit at `z-20`. |
 | `/courses` | `app/courses/page.tsx` | Single course card (`course` from `@/lib/curriculum`); thumbnail = `imageSrc` `<img>` else `DynamicThumbnail`. |
 | `/courses/[id]` | `app/courses/[id]/page.tsx` | **The `React.use()` example**: props type `params`/`searchParams` as Promises; it unwraps `searchParams` via `use(searchParams)` (`params` is currently unused — data comes from the curriculum singleton). Two views: chapter→section card grid (with emerald progress bars from `progress`), and per-section lesson list grouped by `LESSON_TYPE_ORDER` with unlock gating (`computeUnlocked`), star overlays, "up next" ring. Lesson thumbnail falls back to `TWO_KEYS_FOCUS`. |
 | `/games` | `app/games/page.tsx` | One card linking `/typing-ninja` with the `NINJA_ARENA_COVER` thumbnail. Title "Ninja Run" is hardcoded (not localized) — known gap. |

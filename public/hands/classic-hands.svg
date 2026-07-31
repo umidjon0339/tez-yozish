@@ -17,64 +17,58 @@
         </feMerge>
       </filter>
 
-      <linearGradient id="hands-skin" gradientUnits="userSpaceOnUse" x1="320" y1="120" x2="480" y2="390">
-        <stop offset="0" stop-color="#f2cfae" />
-        <stop offset="1" stop-color="#dfa87e" />
-      </linearGradient>
       <linearGradient id="hands-skin-rose" gradientUnits="userSpaceOnUse" x1="320" y1="120" x2="480" y2="390">
         <stop offset="0" stop-color="#fadbcf" />
         <stop offset="1" stop-color="#e8b0a2" />
       </linearGradient>
       
       <filter
-        id="hands-flesh"
+        id="hands-rose"
         x="-12%"
         y="-12%"
         width="124%"
         height="124%"
         color-interpolation-filters="sRGB"
       >
-        
-        <feComponentTransfer in="SourceAlpha" result="fl-inv">
+        <feComponentTransfer in="SourceAlpha" result="rs-inv">
           <feFuncA type="table" tableValues="1 0" />
         </feComponentTransfer>
-        <feGaussianBlur in="fl-inv" stdDeviation="4.5" result="fl-blur" />
-        <feComposite in="fl-blur" in2="SourceAlpha" operator="in" result="fl-aoMask" />
-        <feFlood flood-color="#8a5230" flood-opacity="0.5" result="fl-aoColor" />
-        <feComposite in="fl-aoColor" in2="fl-aoMask" operator="in" result="fl-ao" />
-        <feOffset in="fl-blur" dx="4" dy="5" result="fl-liteOff" />
-        <feComposite in="fl-liteOff" in2="SourceAlpha" operator="in" result="fl-liteMask" />
-        <feFlood flood-color="#fff6ec" flood-opacity="0.8" result="fl-liteColor" />
-        <feComposite in="fl-liteColor" in2="fl-liteMask" operator="in" result="fl-lite" />
-        <feMerge result="fl-skin">
+        <feGaussianBlur in="rs-inv" stdDeviation="4.5" result="rs-blur" />
+        <feComposite in="rs-blur" in2="SourceAlpha" operator="in" result="rs-aoMask" />
+        <feFlood flood-color="#8e4f5c" flood-opacity="0.5" result="rs-aoColor" />
+        <feComposite in="rs-aoColor" in2="rs-aoMask" operator="in" result="rs-ao" />
+        <feOffset in="rs-blur" dx="4" dy="5" result="rs-liteOff" />
+        <feComposite in="rs-liteOff" in2="SourceAlpha" operator="in" result="rs-liteMask" />
+        <feFlood flood-color="#fff1ee" flood-opacity="0.8" result="rs-liteColor" />
+        <feComposite in="rs-liteColor" in2="rs-liteMask" operator="in" result="rs-lite" />
+        <feMerge result="rs-skin">
           <feMergeNode in="SourceGraphic" />
-          <feMergeNode in="fl-ao" />
-          <feMergeNode in="fl-lite" />
+          <feMergeNode in="rs-ao" />
+          <feMergeNode in="rs-lite" />
         </feMerge>
-        
-        <feComponentTransfer in="fl-skin">
+        <feComponentTransfer in="rs-skin">
           <feFuncA type="linear" slope="0.6" />
         </feComponentTransfer>
       </filter>
 
       <filter
-        id="hands-crease"
+        id="hands-crease-rose"
         x="-40%"
         y="-40%"
         width="180%"
         height="180%"
         color-interpolation-filters="sRGB"
       >
-        <feGaussianBlur in="SourceAlpha" stdDeviation="2.6" result="cr-blur" />
-        <feOffset in="cr-blur" dx="2" dy="2.5" result="cr-shOff" />
-        <feFlood flood-color="#7a4a2c" flood-opacity="0.5" result="cr-shColor" />
-        <feComposite in="cr-shColor" in2="cr-shOff" operator="in" result="cr-shadow" />
-        <feOffset in="cr-blur" dx="-1.6" dy="-2" result="cr-liOff" />
-        <feFlood flood-color="#fff3e6" flood-opacity="0.55" result="cr-liColor" />
-        <feComposite in="cr-liColor" in2="cr-liOff" operator="in" result="cr-lite" />
+        <feGaussianBlur in="SourceAlpha" stdDeviation="2.6" result="rc-blur" />
+        <feOffset in="rc-blur" dx="2" dy="2.5" result="rc-shOff" />
+        <feFlood flood-color="#7c4351" flood-opacity="0.5" result="rc-shColor" />
+        <feComposite in="rc-shColor" in2="rc-shOff" operator="in" result="rc-shadow" />
+        <feOffset in="rc-blur" dx="-1.6" dy="-2" result="rc-liOff" />
+        <feFlood flood-color="#ffeef0" flood-opacity="0.55" result="rc-liColor" />
+        <feComposite in="rc-liColor" in2="rc-liOff" operator="in" result="rc-lite" />
         <feMerge>
-          <feMergeNode in="cr-shadow" />
-          <feMergeNode in="cr-lite" />
+          <feMergeNode in="rc-shadow" />
+          <feMergeNode in="rc-lite" />
           <feMergeNode in="SourceGraphic" />
         </feMerge>
       </filter>

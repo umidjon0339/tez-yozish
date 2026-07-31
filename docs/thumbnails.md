@@ -42,6 +42,7 @@ fallback — **never crash**.
 | `MINION_BOSS_COVER` | `accentColor` (def red), `enemyCount` (def 20 → `TARGETS: N` chip), `keys` | hover-animated variant of the ninja scene for lesson cards |
 | `COURSE_FOUNDATIONS_COVER` | none (ignores all) | static blue poster: F/G/H/J blocks, keyboard chassis, cartoon hands. Registered but currently unused by data |
 | `SECTION_KEYS_SHOWCASE` | `keys` (def `['f','j']`) | N keycaps over hard green floor shadows; staggered press on hover |
+| `BEAM_BREAK_COVER` | `keys` (def `['b','e','a','m']`, first 4) | always-animated dune-desert scene for `/beam-break`: bobbing UFO with a scanning tractor beam, a cute animal lifted inside it, big low sun, palms, and the keycap tile row in its typed/current/pending colours |
 
 Shared internal art helpers (not registered): `ninjaFigure`,
 `skeletonFigure`, `letterTag`, `keyLabel` (special-key → glyph). The ninja

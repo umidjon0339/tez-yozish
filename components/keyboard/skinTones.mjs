@@ -1,41 +1,27 @@
-// Single source of truth for the skin-tone hand palettes: `flesh` is the
-// "realistic" style (.theme-flesh), `rose` the "female" one (.theme-rose).
-// Plain .mjs so both the React components and the node build scripts can
+// Single source of truth for the skin-tone hand palette: `rose` is the
+// "female" style (.theme-rose), drawn on the classic art.
+// Plain .mjs so both the React component and the node build scripts can
 // import it. Everything that draws or bakes a skin-toned hand reads it:
 //
-//   components/keyboard/hands.tsx  — runtime <style> block + gradient/filter
-//     defs (copied into handsSlim.tsx / handsFemale.tsx by build:hands)
+//   components/keyboard/hands.tsx  — runtime <style> block + gradient/filter defs
 //   scripts/hands-previews.mjs     — bakes the picker thumbnails
 //   scripts/extract-hands-svg.mjs  — resolves the refs in classic-hands.svg
-//   scripts/lib/hand-profiles.mjs  — the female standalone svg's line color
 //
-// Change a color here, then run `npm run hands:rebuild` so the generated
-// components, standalone svgs and thumbnails all pick it up.
+// Change a color here, then run `npm run hands:rebuild` so the standalone
+// svg and thumbnails pick it up.
 
 export const SKIN = {
-  flesh: {
-    accent: "#e0793a", // --hands-accent: guide-finger fallback outside .kb-stage
-    top: "#f2cfae", // skin gradient, lit end (upper left)
-    bottom: "#dfa87e", // skin gradient, shaded end (lower right)
-    crease: "#9a6b4f", // .st2 finger-gap / crease lines
-    creaseDark: "#c08a63", // the same lines under .theme-dark
-    nail: "#b07a55", // .st4 nail shapes
-  },
   rose: {
-    accent: "#db2777",
-    top: "#fadbcf",
-    bottom: "#e8b0a2",
-    crease: "#a4818a",
-    creaseDark: "#c99aa2",
-    nail: "#e59aa6",
+    accent: "#db2777", // --hands-accent: guide-finger fallback outside .kb-stage
+    top: "#fadbcf", // skin gradient, lit end (upper left)
+    bottom: "#e8b0a2", // skin gradient, shaded end (lower right)
+    crease: "#a5646f", // deep rose, so the borders read as skin folds (not gray)
+    creaseDark: "#d09aa4", // the same lines under .theme-dark
+    nail: "#e59aa6", // .st4 nail shapes
+    // Rose lighting: flood colors of #hands-rose / #hands-crease-rose.
+    shadow: "#8e4f5c", // ambient-occlusion band along every outer edge
+    highlight: "#fff1ee", // upper-left rim light
+    creaseShadow: "#7c4351", // crease valley, shadow side
+    creaseHighlight: "#ffeef0", // crease valley, lit side
   },
-};
-
-/** The lighting pass both skins share: flood colors of the #hands-flesh
- *  (edge shading) and #hands-crease (line shading) filters. */
-export const SKIN_LIGHTING = {
-  shadow: "#8a5230", // ambient-occlusion band along every outer edge
-  highlight: "#fff6ec", // upper-left rim light
-  creaseShadow: "#7a4a2c", // crease valley, shadow side
-  creaseHighlight: "#fff3e6", // crease valley, lit side
 };

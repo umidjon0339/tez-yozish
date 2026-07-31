@@ -11,6 +11,9 @@ Root `CLAUDE.md` holds the short overview; these hold the details.
 | [keyboard.md](keyboard.md) | Keycap + hands SVG layers, key-id contract, `--fz` finger-zone theming | `components/keyboard/*`, `app/globals.css`, `components/PaletteSwitcher.tsx` |
 | [typing-ninja.md](typing-ninja.md) | The 3D game: simulation model, embedded vs arcade, sound synth, GLTF characters | `app/typing-ninja/*`, `public/models/*` |
 | [rhino-dash.md](rhino-dash.md) | The 3D cliff-duel game: tug-of-war physics, phases, procedural rhinos, sound synth | `app/rhino-dash/*` |
+| [sky-hop.md](sky-hop.md) | The 2D balloon-hop game: canvas renderer, flight/lift model, stages, crows, attract mode | `app/sky-hop/*` |
+| [tug-of-typing.md](tug-of-typing.md) | The 2D tug-of-war game: shared word race, honest rival WPM, endless levels, dig-in ramp, top-down kids | `app/tug-of-typing/*` |
+| [beam-break.md](beam-break.md) | The 2D UFO-beam game: tug-of-war model, sprung motion, the 10-animal parametric painter, levels, capture rings, no-shake / no-music rules | `app/beam-break/*` |
 | [progress.md](progress.md) | localStorage progress store, star ladder, WPM/accuracy formulas, unlocking | `lib/progress.ts` |
 | [app-shell.md](app-shell.md) | Layout, NavBar, pages, localization (`useLocale`/`STR`), palette switcher, global CSS | `app/layout.tsx`, `app/page.tsx`, `app/courses/*`, `app/games/*`, `components/NavBar.tsx`, `lib/locale.tsx`, `lib/uiStrings.ts`, `app/globals.css` |
 | [auth.md](auth.md) | Firebase SSO with edify-student, auth store, callback route, UserMenu | `lib/firebase.ts`, `lib/auth.ts`, `app/auth/callback/page.tsx`, `components/UserMenu.tsx` |
@@ -27,4 +30,6 @@ Conventions used in these docs:
 - Cross-cutting localStorage keys: `tz-progress-v1` (progress), `tz-locale`
   (language), `tz-fz-palette` (finger-zone palette), `tz-prefs-v1` (lesson
   workspace toggles), `tz-ninja-highscore` (arcade only),
-  `tz-rhino-highscore` (rhino-dash).
+  `tz-rhino-highscore` (rhino-dash),
+  `tz-skyhop-highscore` (sky-hop),
+  `tz-beambreak-best` (beam-break — best distance in metres).

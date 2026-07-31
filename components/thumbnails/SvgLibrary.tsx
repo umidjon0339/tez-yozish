@@ -1370,7 +1370,439 @@ export const RhinoDashCover: React.FC<SvgTemplateProps> = ({ params, className }
   );
 };
 
+/**
+ * Cover for the 2D balloon game at `/sky-hop`: the ninja dangling from a
+ * balloon with the labelled chain climbing away over the ocean.
+ * `params.keys` supplies the letters on the chain, `params.accentColor` is ignored
+ * (the sky palette is fixed so the card matches the game's first stage).
+ */
+export const SkyHopCover: React.FC<SvgTemplateProps> = ({ params, className }) => {
+  const letters = (params?.keys?.length ? params.keys : ['f', 'j', 'd', 'k']).slice(0, 4);
+  const idPrefix = React.useId().replace(/:/g, '');
+  const cls = `sh-${idPrefix}`;
+  const hues = [
+    { body: '#F2764F', dark: '#CF5533' },
+    { body: '#F7C34A', dark: '#D69A24' },
+    { body: '#7D6BE0', dark: '#5C4CBA' },
+    { body: '#4FBF7A', dark: '#2F9A58' },
+  ];
+
+  const balloon = (x: number, y: number, r: number, hue: { body: string; dark: string }, label?: string, glow?: boolean) => (
+    <g>
+      {glow && <circle cx={x} cy={y} r={r * 1.75} fill="#FFFFFF" opacity="0.28" />}
+      <path
+        d={`M ${x} ${y - r} C ${x + r * 1.02} ${y - r} ${x + r * 1.06} ${y + r * 0.35} ${x + r * 0.2} ${y + r * 1.22}
+            Q ${x} ${y + r * 1.38} ${x - r * 0.2} ${y + r * 1.22}
+            C ${x - r * 1.06} ${y + r * 0.35} ${x - r * 1.02} ${y - r} ${x} ${y - r} Z`}
+        fill={hue.body}
+      />
+      <path d={`M ${x} ${y - r} Q ${x - r * 0.8} ${y} ${x - r * 0.15} ${y + r * 1.22}`} stroke={hue.dark} strokeWidth="1.6" opacity="0.35" fill="none" />
+      <ellipse cx={x - r * 0.34} cy={y - r * 0.4} rx={r * 0.19} ry={r * 0.3} fill="#FFFFFF" opacity="0.5" transform={`rotate(-25 ${x - r * 0.34} ${y - r * 0.4})`} />
+      <path d={`M ${x - r * 0.16} ${y + r * 1.28} L ${x + r * 0.16} ${y + r * 1.28} L ${x} ${y + r * 1.5} Z`} fill={hue.dark} />
+      {label && (
+        <text x={x} y={y + r * 0.28} textAnchor="middle" fontSize={r * 0.95} fontWeight="900" fontFamily="monospace" style={{ fill: '#FFFFFF' }}>
+          {label.toUpperCase()}
+        </text>
+      )}
+    </g>
+  );
+
+  return (
+    <svg className={`${className || ''} ${cls}`} viewBox="0 0 400 240" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @media (prefers-reduced-motion: no-preference) {
+          .${cls} .sh-bob { animation: ${cls}-bob 2.8s ease-in-out infinite alternate; }
+          .${cls} .sh-bob2 { animation: ${cls}-bob 2.2s ease-in-out infinite alternate; }
+          .${cls} .sh-cloud { animation: ${cls}-cloud 9s linear infinite; }
+          .${cls} .sh-foam { animation: ${cls}-foam 3.4s ease-in-out infinite alternate; }
+          .${cls} .sh-glow { animation: ${cls}-glow 1.3s ease-in-out infinite alternate; }
+          @keyframes ${cls}-bob { to { transform: translateY(-7px); } }
+          @keyframes ${cls}-cloud { to { transform: translateX(-70px); } }
+          @keyframes ${cls}-foam { to { transform: translateX(12px); } }
+          @keyframes ${cls}-glow { to { opacity: .45; transform: scale(1.08); } }
+        }
+      `}</style>
+      <defs>
+        <clipPath id={`${idPrefix}-frame`}>
+          <rect width="400" height="240" rx="16" />
+        </clipPath>
+        <linearGradient id={`${idPrefix}-sky`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#5CB2EC" />
+          <stop offset="0.6" stopColor="#9ED8F6" />
+          <stop offset="1" stopColor="#D9F1FD" />
+        </linearGradient>
+        <linearGradient id={`${idPrefix}-sea`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#3BA3DD" />
+          <stop offset="1" stopColor="#1F7FBC" />
+        </linearGradient>
+      </defs>
+
+      <g clipPath={`url(#${idPrefix}-frame)`}>
+        <rect width="400" height="240" fill={`url(#${idPrefix}-sky)`} />
+        <circle cx="330" cy="40" r="40" fill="#FFF3C4" opacity="0.35" />
+        <circle cx="330" cy="40" r="20" fill="#FFF6D8" />
+
+        {/* clouds */}
+        <g className="sh-cloud" fill="#FFFFFF" opacity="0.75">
+          <ellipse cx="70" cy="52" rx="30" ry="14" />
+          <ellipse cx="92" cy="46" rx="20" ry="12" />
+          <ellipse cx="250" cy="30" rx="26" ry="12" />
+          <ellipse cx="420" cy="60" rx="28" ry="13" />
+        </g>
+
+        {/* far hills + sea */}
+        <path d="M0 196 Q 60 150 120 194 Q 190 148 260 194 Q 330 154 400 196 L 400 240 L 0 240 Z" fill="#8EC9E8" opacity="0.6" />
+        <rect x="0" y="196" width="400" height="44" fill={`url(#${idPrefix}-sea)`} />
+        <g className="sh-foam" fill="#DFF6FF" opacity="0.75">
+          <rect x="20" y="206" width="52" height="4" rx="2" />
+          <rect x="140" y="218" width="44" height="4" rx="2" />
+          <rect x="300" y="210" width="56" height="4" rx="2" />
+        </g>
+
+        {/* the labelled chain, climbing away to the right */}
+        <g className="sh-bob2">{balloon(196, 96, 25, hues[1], letters[1], true)}</g>
+        <g className="sh-bob">{balloon(268, 80, 22, hues[2], letters[2])}</g>
+        <g className="sh-bob2">{balloon(336, 66, 20, hues[3], letters[3])}</g>
+
+        {/* target chevrons */}
+        <g className="sh-glow" fill="#A3E635">
+          <path d="M164 96 L 156 89 L 156 103 Z" />
+          <path d="M228 96 L 236 89 L 236 103 Z" />
+        </g>
+
+        {/* the hero on the ridden balloon */}
+        <g className="sh-bob">
+          {balloon(104, 108, 28, hues[0])}
+          <path d="M97 146 Q 95 158 99 168" stroke="#7A542A" strokeWidth="2" fill="none" />
+          <path d="M111 146 Q 113 158 109 168" stroke="#7A542A" strokeWidth="2" fill="none" />
+          {/* ninja */}
+          <g>
+            <path d="M100 186 q -3 8 -9 12" stroke="#26374F" strokeWidth="6" strokeLinecap="round" fill="none" />
+            <path d="M108 186 q 3 8 9 11" stroke="#26374F" strokeWidth="6" strokeLinecap="round" fill="none" />
+            <rect x="96" y="170" width="16" height="18" rx="6" fill="#26374F" />
+            <rect x="96" y="180" width="16" height="4" rx="2" fill="#10B981" />
+            <path d="M100 170 q -6 -8 -2 -14" stroke="#26374F" strokeWidth="5" strokeLinecap="round" fill="none" />
+            <path d="M108 170 q 6 -8 2 -14" stroke="#26374F" strokeWidth="5" strokeLinecap="round" fill="none" />
+            <circle cx="104" cy="160" r="9" fill="#26374F" />
+            <rect x="97" y="157" width="14" height="7" rx="3.4" fill="#F2C9A0" />
+            <circle cx="101" cy="160.5" r="1.5" fill="#1F2937" />
+            <circle cx="107" cy="160.5" r="1.5" fill="#1F2937" />
+            <rect x="94.5" y="153" width="19" height="4" rx="2" fill="#10B981" />
+            <path d="M95 155 Q 84 156 76 162" stroke="#10B981" strokeWidth="3" strokeLinecap="round" fill="none" />
+          </g>
+        </g>
+
+        {/* a crow, far off */}
+        <g fill="#1F2733" opacity="0.55">
+          <ellipse cx="46" cy="96" rx="8" ry="4" />
+          <path d="M44 94 Q 46 84 56 82 Q 48 90 49 95 Z" fill="#2B3646" />
+        </g>
+      </g>
+    </svg>
+  );
+};
+
+/**
+ * Cover for `/beam-break`: the UFO holding a cute animal in its tractor beam
+ * over the dune desert, with the keycap tile row the game is played on.
+ */
+export const BeamBreakCover: React.FC<SvgTemplateProps> = ({ params, className }) => {
+  const letters = (params?.keys?.length ? params.keys : ['b', 'e', 'a', 'm']).slice(0, 4);
+  const idPrefix = React.useId().replace(/:/g, '');
+  const cls = `bb-${idPrefix}`;
+
+  // tile row, top right — same three states the game paints: typed / current / pending
+  const TILE = 34;
+  const GAP = 7;
+  const rowW = letters.length * TILE + (letters.length - 1) * GAP;
+  const rowX = 296 - rowW / 2;
+  const rowY = 26;
+
+  return (
+    <svg className={`${className || ''} ${cls}`} viewBox="0 0 400 240" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @media (prefers-reduced-motion: no-preference) {
+          .${cls} .bb-bob { animation: ${cls}-bob 3.2s ease-in-out infinite alternate; }
+          .${cls} .bb-lift { animation: ${cls}-lift 3.2s ease-in-out infinite alternate; }
+          .${cls} .bb-beam { animation: ${cls}-beam 2.4s ease-in-out infinite alternate; }
+          .${cls} .bb-scan { animation: ${cls}-scan 2.2s linear infinite; }
+          .${cls} .bb-lamp { animation: ${cls}-lamp 1.6s ease-in-out infinite alternate; }
+          @keyframes ${cls}-bob { to { transform: translateY(-6px); } }
+          @keyframes ${cls}-lift { to { transform: translateY(-9px); } }
+          @keyframes ${cls}-beam { to { opacity: .95; } }
+          @keyframes ${cls}-scan { from { transform: translateY(0); opacity: .85 } to { transform: translateY(96px); opacity: 0 } }
+          @keyframes ${cls}-lamp { to { opacity: .35; } }
+        }
+      `}</style>
+      <defs>
+        <clipPath id={`${idPrefix}-frame`}>
+          <rect width="400" height="240" rx="16" />
+        </clipPath>
+        <clipPath id={`${idPrefix}-cone`}>
+          <path d="M86 96 L124 96 L152 208 L58 208 Z" />
+        </clipPath>
+        <linearGradient id={`${idPrefix}-sky`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#6FBDE6" />
+          <stop offset="0.6" stopColor="#A8DCF2" />
+          <stop offset="1" stopColor="#E3F3FB" />
+        </linearGradient>
+        <linearGradient id={`${idPrefix}-sand`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#E0BB87" />
+          <stop offset="1" stopColor="#C49A64" />
+        </linearGradient>
+        <linearGradient id={`${idPrefix}-hull`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#EAF0F6" />
+          <stop offset="0.55" stopColor="#B9C6D2" />
+          <stop offset="1" stopColor="#7F8D9C" />
+        </linearGradient>
+        <linearGradient id={`${idPrefix}-ray`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#8EF2A8" stopOpacity="0.8" />
+          <stop offset="0.7" stopColor="#8EF2A8" stopOpacity="0.24" />
+          <stop offset="1" stopColor="#8EF2A8" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+
+      <g clipPath={`url(#${idPrefix}-frame)`}>
+        <rect width="400" height="240" fill={`url(#${idPrefix}-sky)`} />
+
+        {/* big low sun */}
+        <circle cx="250" cy="196" r="62" fill="#FACE5A" opacity="0.3" />
+        <circle cx="250" cy="196" r="34" fill="#F7C93F" />
+
+        {/* dunes */}
+        <path d="M0 208 Q 46 168 96 200 Q 150 232 208 194 Q 262 158 320 198 Q 362 226 400 200 L400 240 L0 240 Z" fill="#D9AB74" />
+        <path d="M0 224 Q 64 200 136 220 Q 210 240 288 214 Q 348 194 400 218 L400 240 L0 240 Z" fill="#C08D55" />
+        <rect y="208" width="400" height="32" fill={`url(#${idPrefix}-sand)`} />
+        <path d="M0 208 H400" stroke="#2B2436" strokeWidth="1.6" opacity="0.28" />
+
+        {/* palms */}
+        {[[212, 0.85], [352, 1]].map(([px, sc], i) => (
+          <g key={i} transform={`translate(${px} 208) scale(${sc})`}>
+            <path d="M0 0 Q 4 -22 8 -44" stroke="#9C6B42" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+            {[-2.5, -1.6, -0.7, 0.2].map((a, j) => (
+              <path
+                key={j}
+                d={`M8 -44 Q ${8 + Math.cos(a) * 14} ${-44 + Math.sin(a) * 14 - 5} ${8 + Math.cos(a) * 24} ${-44 + Math.sin(a) * 24 + 7}`}
+                stroke={j % 2 ? '#5AA758' : '#3F8043'}
+                strokeWidth="4"
+                strokeLinecap="round"
+                fill="none"
+              />
+            ))}
+          </g>
+        ))}
+
+        {/* the tractor beam */}
+        <g className="bb-beam" opacity="0.8">
+          <path d="M86 96 L124 96 L152 208 L58 208 Z" fill={`url(#${idPrefix}-ray)`} />
+          <g clipPath={`url(#${idPrefix}-cone)`}>
+            {[0, 0.73, 1.46].map((d, i) => (
+              <ellipse
+                key={i}
+                className="bb-scan"
+                cx="105"
+                cy="100"
+                rx="22"
+                ry="4.5"
+                fill="none"
+                stroke="#B6FFD0"
+                strokeWidth="2"
+                style={{ animationDelay: `${d}s` }}
+              />
+            ))}
+          </g>
+          <ellipse cx="105" cy="208" rx="46" ry="9" fill="#8EF2A8" opacity="0.35" />
+        </g>
+
+        {/* the captured animal. Placement and animation are on separate <g>s: a
+            CSS transform on an SVG node replaces its transform attribute. */}
+        <g transform="translate(105 156)">
+          <g className="bb-lift">
+            {/* ears */}
+            <circle cx="-15" cy="-13" r="11" fill="#9AA7B4" stroke="#2B2436" strokeWidth="2.2" />
+            <circle cx="15" cy="-13" r="11" fill="#9AA7B4" stroke="#2B2436" strokeWidth="2.2" />
+            <circle cx="-15" cy="-13" r="5.5" fill="#D9C8C4" />
+            <circle cx="15" cy="-13" r="5.5" fill="#D9C8C4" />
+            {/* legs */}
+            <rect x="-13" y="20" width="6" height="13" rx="3" fill="#74818F" stroke="#2B2436" strokeWidth="2" />
+            <rect x="7" y="20" width="6" height="13" rx="3" fill="#74818F" stroke="#2B2436" strokeWidth="2" />
+            {/* body + head */}
+            <ellipse cx="0" cy="12" rx="19" ry="16" fill="#9AA7B4" stroke="#2B2436" strokeWidth="2.4" />
+            <ellipse cx="2" cy="16" rx="11" ry="10" fill="#D9C8C4" opacity="0.8" />
+            <circle cx="0" cy="-4" r="15" fill="#9AA7B4" stroke="#2B2436" strokeWidth="2.4" />
+            {/* wide, worried eyes */}
+            <circle cx="-5" cy="-6" r="4.4" fill="#FFFFFF" stroke="#2B2436" strokeWidth="1.3" />
+            <circle cx="6" cy="-6" r="4.4" fill="#FFFFFF" stroke="#2B2436" strokeWidth="1.3" />
+            <circle cx="-4" cy="-8" r="2.3" fill="#2B2334" />
+            <circle cx="7" cy="-8" r="2.3" fill="#2B2334" />
+            {/* trunk */}
+            <path d="M1 3 C 7 8, 10 16, 5 21" stroke="#9AA7B4" strokeWidth="5.5" strokeLinecap="round" fill="none" />
+            {/* brows */}
+            <path d="M-10 -13 L-2 -11" stroke="#2B2436" strokeWidth="1.8" strokeLinecap="round" />
+            <path d="M11 -13 L3 -11" stroke="#2B2436" strokeWidth="1.8" strokeLinecap="round" />
+          </g>
+        </g>
+
+        {/* the saucer */}
+        <g className="bb-bob">
+          <ellipse cx="105" cy="92" rx="62" ry="16" fill="#8EF2A8" opacity="0.3" />
+          <path d="M88 74 A 18 17 0 0 1 122 74 Z" fill="#A8F2E4" stroke="#2B2436" strokeWidth="2.2" />
+          <ellipse cx="97" cy="68" rx="3" ry="4.5" fill="#FFFFFF" opacity="0.65" transform="rotate(-28 97 68)" />
+          <ellipse cx="105" cy="80" rx="48" ry="13" fill={`url(#${idPrefix}-hull)`} stroke="#2B2436" strokeWidth="2.4" />
+          <ellipse cx="105" cy="83" rx="36" ry="6" fill="#FFFFFF" opacity="0.3" />
+          <ellipse cx="105" cy="89" rx="18" ry="4.5" fill="#8EF2A8" stroke="#2B2436" strokeWidth="1.8" />
+          {[-36, -22, -8, 6, 20, 34].map((dx, i) => (
+            <circle
+              key={dx}
+              className="bb-lamp"
+              cx={105 + dx}
+              cy={85 - Math.abs(dx) * 0.05}
+              r="2.8"
+              fill={i % 2 ? '#FFE27A' : '#8EF2A8'}
+              style={{ animationDelay: `${i * 0.14}s` }}
+            />
+          ))}
+          <path d="M94 60 L89 51" stroke="#2B2436" strokeWidth="2.2" strokeLinecap="round" />
+          <path d="M116 60 L121 51" stroke="#2B2436" strokeWidth="2.2" strokeLinecap="round" />
+          <circle cx="89" cy="49" r="2.6" fill="#FF7D7D" />
+          <circle cx="121" cy="49" r="2.6" fill="#FF7D7D" />
+        </g>
+
+        {/* the keycap tile row you actually play on */}
+        {letters.map((ch, i) => {
+          const x = rowX + i * (TILE + GAP);
+          const typed = i === 0;
+          const current = i === 1;
+          const fill = typed ? '#3EC97A' : current ? '#FFC93C' : '#FFFDF6';
+          return (
+            <g key={i}>
+              {current && <rect x={x - 4} y={rowY - 4} width={TILE + 8} height={TILE + 8} rx="12" fill="#FFC93C" opacity="0.28" />}
+              <rect x={x} y={rowY + 3} width={TILE} height={TILE} rx="8" fill="#2B2436" opacity="0.85" />
+              <rect x={x} y={rowY} width={TILE} height={TILE} rx="8" fill={fill} stroke="#2B2436" strokeWidth="2.2" />
+              <rect x={x + 5} y={rowY + 4} width={TILE - 10} height={7} rx="3.5" fill="#FFFFFF" opacity="0.4" />
+              <text
+                x={x + TILE / 2}
+                y={rowY + TILE * 0.68}
+                textAnchor="middle"
+                fontSize={TILE * 0.52}
+                fontWeight="900"
+                fontFamily="ui-sans-serif, system-ui, sans-serif"
+                style={{ fill: typed ? '#FFFFFF' : '#2B2436' }}
+              >
+                {String(ch).toUpperCase()}
+              </text>
+            </g>
+          );
+        })}
+      </g>
+    </svg>
+  );
+};
+
+/**
+ * Cover for the top-down tug-of-war at `/tug-of-typing`: two pullers on a mown
+ * pitch with the word tiles above. `params.keys` supplies the word on the
+ * tiles; `params.accentColor` is ignored (the pitch palette is fixed).
+ */
+export const TugOfTypingCover: React.FC<SvgTemplateProps> = ({ params, className }) => {
+  const word = (params?.keys?.length ? params.keys.join('') : 'pull').toUpperCase().slice(0, 5);
+  const idPrefix = React.useId().replace(/:/g, '');
+  const cls = `tg-${idPrefix}`;
+  const tileW = 32;
+  const tilesX = 200 - (word.length * (tileW + 5) - 5) / 2;
+
+  // one puller, drawn facing left and mirrored by `dir` — same stance as the game
+  // `hair` doubles as the shoe/boot tone, matching the in-game kid
+  const puller = (cx: number, cy: number, dir: 1 | -1, suit: string, dark: string, band: string) => (
+    <g transform={`translate(${cx} ${cy}) scale(${dir} 1)`}>
+      <ellipse cx="4" cy="5" rx="30" ry="13" fill="#000000" opacity="0.18" />
+      {/* legs braced toward the rope */}
+      <path d="M5 8 L -8 16 L -21 15" stroke={suit} strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M5 -8 L -8 -16 L -21 -15" stroke={suit} strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <rect x="-31" y="9" width="14" height="9" rx="4" fill={band} />
+      <rect x="-31" y="-18" width="14" height="9" rx="4" fill={band} />
+      {/* torso */}
+      <rect x="2" y="-12" width="21" height="24" rx="10" fill={suit} />
+      <rect x="8" y="-12" width="6" height="24" rx="3" fill={dark} />
+      {/* arms to the rope */}
+      <path d="M18 8 Q 2 8 -23 3" stroke="#F2C9A0" strokeWidth="7" strokeLinecap="round" fill="none" />
+      <path d="M18 -8 Q 2 -8 -23 -3" stroke="#F2C9A0" strokeWidth="7" strokeLinecap="round" fill="none" />
+      {/* head: skin with hair capping the back, face toward the rope */}
+      <circle cx="31" cy="0" r="13" fill="#F2C9A0" />
+      <path d="M31 -13 A 13 13 0 0 1 31 13 L 33 0 Z" fill={band} />
+      <circle cx="25" cy="-4.5" r="3.4" fill="#FFFFFF" />
+      <circle cx="25" cy="4.5" r="3.4" fill="#FFFFFF" />
+      <circle cx="23.8" cy="-4.5" r="1.8" fill="#26313F" />
+      <circle cx="23.8" cy="4.5" r="1.8" fill="#26313F" />
+      <ellipse cx="19.5" cy="0" rx="2.4" ry="3" fill="#DFAE83" />
+    </g>
+  );
+
+  return (
+    <svg className={`${className || ''} ${cls}`} viewBox="0 0 400 240" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <style>{`
+        @media (prefers-reduced-motion: no-preference) {
+          .${cls} .tg-l { animation: ${cls}-l 1.1s ease-in-out infinite alternate; }
+          .${cls} .tg-r { animation: ${cls}-r 1.1s ease-in-out infinite alternate; }
+          .${cls} .tg-mark { animation: ${cls}-mark 1.1s ease-in-out infinite alternate; }
+          .${cls} .tg-tile { animation: ${cls}-tile 1.6s ease-in-out infinite; }
+          @keyframes ${cls}-l { to { transform: translateX(-7px); } }
+          @keyframes ${cls}-r { to { transform: translateX(-7px); } }
+          @keyframes ${cls}-mark { to { transform: translateX(-7px); } }
+          @keyframes ${cls}-tile { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        }
+      `}</style>
+      <defs>
+        <clipPath id={`${idPrefix}-frame`}>
+          <rect width="400" height="240" rx="16" />
+        </clipPath>
+      </defs>
+
+      <g clipPath={`url(#${idPrefix}-frame)`}>
+        {/* mown pitch */}
+        <rect width="400" height="240" fill="#3F8F38" />
+        {[0, 1, 2, 3, 4, 5, 6, 7].map(i => (
+          <rect key={i} x={i * 50} y="0" width="50" height="240" fill={i % 2 === 0 ? '#47A03D' : '#3C8734'} />
+        ))}
+        {/* stadium bands */}
+        <rect x="0" y="0" width="400" height="52" fill="#0C300E" opacity="0.55" />
+        <rect x="0" y="206" width="400" height="34" fill="#0C300E" opacity="0.55" />
+        <rect x="0" y="50" width="400" height="3" fill="#F4FBF2" opacity="0.85" />
+        <rect x="0" y="206" width="400" height="3" fill="#F4FBF2" opacity="0.85" />
+        {/* chalk lines */}
+        <rect x="110" y="52" width="7" height="154" fill="#F4FBF2" opacity="0.85" />
+        <rect x="283" y="52" width="7" height="154" fill="#F4FBF2" opacity="0.85" />
+        <rect x="198" y="52" width="4" height="154" fill="#F4FBF2" opacity="0.45" />
+
+        {/* rope + marker */}
+        <g className="tg-mark">
+          <rect x="150" y="126" width="100" height="7" rx="3.5" fill="#8A5F2B" />
+          <rect x="150" y="127" width="100" height="3" rx="1.5" fill="#D6A256" />
+          <rect x="193" y="121" width="15" height="15" rx="2" transform="rotate(45 200 129)" fill="#FACC15" stroke="#A16207" strokeWidth="2" />
+        </g>
+
+        {/* the two pullers */}
+        <g className="tg-l">{puller(120, 129, -1, '#E03B3B', '#B12727', '#C96A2A')}</g>
+        <g className="tg-r">{puller(280, 129, 1, '#2F7FD6', '#1F5DA1', '#3B2A20')}</g>
+
+        {/* word tiles */}
+        {word.split('').map((ch, i) => (
+          <g key={i} className="tg-tile" style={{ animationDelay: `${i * 120}ms` }}>
+            <rect x={tilesX + i * (tileW + 5)} y="10" width={tileW} height="34" rx="7" fill={i === 0 ? '#34D399' : i === 1 ? '#FBBF24' : '#FFFFFF'} stroke="#14344F" strokeWidth="2.5" />
+            <text x={tilesX + i * (tileW + 5) + tileW / 2} y="34" textAnchor="middle" fontSize="21" fontWeight="900" fontFamily="monospace" style={{ fill: '#14344F' }}>
+              {ch}
+            </text>
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+};
+
 export const ThumbnailRegistry: Record<string, React.FC<SvgTemplateProps>> = {
+  'SKY_HOP_COVER': SkyHopCover,
+  'TUG_OF_TYPING_COVER': TugOfTypingCover,
+  'BEAM_BREAK_COVER': BeamBreakCover,
   'LETTER_STAGE': LetterStageCover,
   'CODES_STAGE': CodesStageCover,
   'PHONEME_STAGE': PhonemeStageCover,

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, memo } from "react";
 import { KEY_ID_MAP, LEFT_HAND_KEYS, requiresShift, shiftIdFor } from "./keymap";
-import { SKIN, SKIN_LIGHTING } from "./skinTones.mjs";
+import { SKIN } from "./skinTones.mjs";
 
 function singleChar(char: string | string[] | null): string | null {
   if (!char) return null;
@@ -87,10 +87,14 @@ export const Keyboard = memo(function Keyboard({ expectedKey, offsetX = 0, offse
   >
     <style type="text/css">
       {`
+        /* Every skin/ink color reads a --hand-* variable with the built-in
+           look as the fallback. The variables come from handColor.ts
+           (handTintVars) as inline style on the svg root when the learner
+           picks a custom color; unset, everything below renders unchanged. */
         .st0 { display: none; }
         /* Frosted-glass hands: translucent fill keeps the key caps readable through the palm */
-        .st1 { display: inline; fill: rgba(255, 255, 255, 0.55); filter: url(#hands-soft-shadow); }
-        .st2 { display: inline; fill: none; stroke: #8fa0b5; stroke-width: 1.75; stroke-linecap: round; stroke-miterlimit: 10; }
+        .st1 { display: inline; fill: var(--hand-fill, rgba(255, 255, 255, 0.55)); filter: url(#hands-soft-shadow); }
+        .st2 { display: inline; fill: none; stroke: var(--hand-line, #8fa0b5); stroke-width: 1.75; stroke-linecap: round; stroke-miterlimit: 10; }
         .st3 { display: inline; opacity: 0.45; }
         .st4 { fill: #94a3b8; }
         /* Guide finger: colored with the finger's own zone color (--fz, set on
@@ -105,8 +109,8 @@ export const Keyboard = memo(function Keyboard({ expectedKey, offsetX = 0, offse
         }
 
         .theme-dark { --hands-accent: #8b5cf6; }
-        .theme-dark .st1 { fill: rgba(148, 163, 184, 0.14); }
-        .theme-dark .st2 { stroke: #94a3b8; stroke-width: 1.5; }
+        .theme-dark .st1 { fill: var(--hand-fill-dark, rgba(148, 163, 184, 0.14)); }
+        .theme-dark .st2 { stroke: var(--hand-line-dark, #94a3b8); stroke-width: 1.5; }
 
         .theme-robot { --hands-accent: #b238b7; }
         .theme-robot .st1 { fill: #b1b7ce; }
@@ -116,41 +120,46 @@ export const Keyboard = memo(function Keyboard({ expectedKey, offsetX = 0, offse
         .theme-kingfish .st1 { fill: #b5bac3; }
         .theme-kingfish .st2 { stroke: #00060c; stroke-width: 3.5; }
 
-        /* Flesh: skin tone plus a lighting pass (#hands-flesh) that darkens
-           toward every edge and lifts the upper-left — which is what makes a
-           narrow finger read as a tube instead of a flat sliver. Declared last
-           so it beats the .theme-dark rules above when both classes are set;
-           the filter's own alpha ramp, not fill-opacity, keeps the key caps
-           readable through the hand. */
-        .theme-flesh { --hands-accent: ${SKIN.flesh.accent}; }
-        .theme-flesh .st1 { fill: url(#hands-skin); filter: url(#hands-flesh); }
-        /* The silhouette is a single path — its edge shading cannot separate one
-           finger from the next, because the gaps between fingers are these .st2
-           lines, not silhouette edges. So the lines carry that shading: a soft
-           offset shadow plus a facing highlight (#hands-crease) turns each line
-           into a rounded valley, and the drawn line itself can then drop to a
-           whisper instead of reading as ink. */
-        .theme-flesh .st2 {
-          stroke: ${SKIN.flesh.crease}; stroke-width: 1; stroke-opacity: 0.45;
-          filter: url(#hands-crease);
-        }
-        .theme-flesh .st4 { fill: ${SKIN.flesh.nail}; }
-        .theme-flesh .st5 { stroke-width: 2.4; }
-        .theme-dark.theme-flesh .st2 { stroke: ${SKIN.flesh.creaseDark}; stroke-opacity: 0.4; }
-
-        /* Rose: the female hand. Same lighting as .theme-flesh over a cooler,
-           pinker skin, with a finer line — and .st3 lifted from 0.45 so the
-           nail shapes the artwork already carries actually read. */
+        /* Rose: the female hand. Skin tone plus a lighting pass (#hands-rose)
+           that darkens toward every edge and lifts the upper-left — which is
+           what makes a finger read as a tube instead of a flat sliver.
+           Declared last so it beats the .theme-dark rules above when both
+           classes are set; the filter's own alpha ramp, not fill-opacity,
+           keeps the key caps readable through the hand. The silhouette is a
+           single path, so the finger gaps are the .st2 lines — #hands-crease-rose
+           gives each an offset shadow and a facing highlight, turning it into
+           a rounded valley. .st3 is lifted from 0.45 so the nail shapes the
+           artwork already carries actually read. */
         .theme-rose { --hands-accent: ${SKIN.rose.accent}; }
-        .theme-rose .st1 { fill: url(#hands-skin-rose); filter: url(#hands-flesh); }
+        /* The silhouette is also STROKED with its own skin: the artwork keeps
+           hairline slits between pressed-together fingers (invisible under the
+           translucent classic look, a bright crack under a skin fill), and the
+           stroke's ±1.4 units seal them on every pose. The #hands-rose filter
+           flattens fill+stroke before its alpha ramp, so no seams show. */
+        .theme-rose .st1 {
+          fill: url(#hands-skin-rose); filter: url(#hands-rose);
+          stroke: url(#hands-skin-rose); stroke-width: 2.8;
+          stroke-linejoin: round; stroke-linecap: round;
+        }
         .theme-rose .st2 {
-          stroke: ${SKIN.rose.crease}; stroke-width: 0.95; stroke-opacity: 0.45;
-          filter: url(#hands-crease);
+          stroke: var(--hand-crease, ${SKIN.rose.crease}); stroke-width: 1; stroke-opacity: 0.45;
+          filter: url(#hands-crease-rose);
         }
         .theme-rose .st3 { opacity: 0.75; }
-        .theme-rose .st4 { fill: ${SKIN.rose.nail}; }
-        .theme-rose .st5 { stroke-width: 2.2; }
-        .theme-dark.theme-rose .st2 { stroke: ${SKIN.rose.creaseDark}; stroke-opacity: 0.4; }
+        .theme-rose .st4 { fill: var(--hand-nail, ${SKIN.rose.nail}); }
+        .theme-rose .st5 { stroke-width: 2.4; }
+        .theme-dark.theme-rose .st2 { stroke: var(--hand-crease-dark, ${SKIN.rose.creaseDark}); stroke-opacity: 0.4; }
+
+        /* The rose gradient stops and filter floods, recolorable the same way.
+           The attributes on the elements stay as the standalone-export values;
+           these rules (CSS beats presentation attributes) swap them for the
+           learner's color when the --hand-* variables are set. */
+        .skin-top { stop-color: var(--hand-skin-top, ${SKIN.rose.top}); }
+        .skin-bottom { stop-color: var(--hand-skin-bottom, ${SKIN.rose.bottom}); }
+        .rose-shadow { flood-color: var(--hand-shadow, ${SKIN.rose.shadow}); }
+        .rose-highlight { flood-color: var(--hand-highlight, ${SKIN.rose.highlight}); }
+        .rose-crease-shadow { flood-color: var(--hand-crease-shadow, ${SKIN.rose.creaseShadow}); }
+        .rose-crease-highlight { flood-color: var(--hand-crease-highlight, ${SKIN.rose.creaseHighlight}); }
       `}
     </style>
     <defs>
@@ -158,74 +167,70 @@ export const Keyboard = memo(function Keyboard({ expectedKey, offsetX = 0, offse
         <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#334155" floodOpacity="0.18" />
       </filter>
 
-      {/* Used only by .theme-flesh. Built from filter primitives rather than
+      {/* Used only by .theme-rose. Built from filter primitives rather than
           feDropShadow/CSS so the standalone SVG export stays portable. */}
-      <linearGradient id="hands-skin" gradientUnits="userSpaceOnUse" x1="320" y1="120" x2="480" y2="390">
-        <stop offset="0" stopColor={SKIN.flesh.top} />
-        <stop offset="1" stopColor={SKIN.flesh.bottom} />
-      </linearGradient>
       <linearGradient id="hands-skin-rose" gradientUnits="userSpaceOnUse" x1="320" y1="120" x2="480" y2="390">
-        <stop offset="0" stopColor={SKIN.rose.top} />
-        <stop offset="1" stopColor={SKIN.rose.bottom} />
+        <stop className="skin-top" offset="0" stopColor={SKIN.rose.top} />
+        <stop className="skin-bottom" offset="1" stopColor={SKIN.rose.bottom} />
       </linearGradient>
-      {/* Budget: this re-rasterises on every keystroke, so it runs ONE blur.
+      {/* Budget: these re-rasterise on every keystroke, so each runs ONE blur.
           `color-interpolation-filters="sRGB"` matters as much as the blur count
-          — the linearRGB default converts the whole buffer twice per filter. */}
+          — the linearRGB default converts the whole buffer twice per filter.
+          Inside #hands-rose: invert the alpha and blur it once — the part that
+          falls back inside the shape is a soft dark band along every edge
+          (ambient occlusion), and the same buffer offset down-right lights the
+          upper-left rim (offsetting before or after a blur is equivalent, so
+          one blur does both jobs); the final feFuncA ramp, not fill-opacity,
+          keeps the key caps readable. #hands-crease-rose turns a flat crease
+          line into a rounded valley: a shadow cast down-right and a highlight
+          up-left, matching #hands-rose's light direction. */}
       <filter
-        id="hands-flesh"
+        id="hands-rose"
         x="-12%"
         y="-12%"
         width="124%"
         height="124%"
         colorInterpolationFilters="sRGB"
       >
-        {/* Invert the alpha and blur it once: the part that falls back inside
-            the shape is a soft dark band along every edge (ambient occlusion),
-            and the same buffer offset down-right lights the upper-left rim.
-            Offsetting before or after a blur is equivalent, so one blur does
-            both jobs. */}
-        <feComponentTransfer in="SourceAlpha" result="fl-inv">
+        <feComponentTransfer in="SourceAlpha" result="rs-inv">
           <feFuncA type="table" tableValues="1 0" />
         </feComponentTransfer>
-        <feGaussianBlur in="fl-inv" stdDeviation="4.5" result="fl-blur" />
-        <feComposite in="fl-blur" in2="SourceAlpha" operator="in" result="fl-aoMask" />
-        <feFlood floodColor={SKIN_LIGHTING.shadow} floodOpacity="0.5" result="fl-aoColor" />
-        <feComposite in="fl-aoColor" in2="fl-aoMask" operator="in" result="fl-ao" />
-        <feOffset in="fl-blur" dx="4" dy="5" result="fl-liteOff" />
-        <feComposite in="fl-liteOff" in2="SourceAlpha" operator="in" result="fl-liteMask" />
-        <feFlood floodColor={SKIN_LIGHTING.highlight} floodOpacity="0.8" result="fl-liteColor" />
-        <feComposite in="fl-liteColor" in2="fl-liteMask" operator="in" result="fl-lite" />
-        <feMerge result="fl-skin">
+        <feGaussianBlur in="rs-inv" stdDeviation="4.5" result="rs-blur" />
+        <feComposite in="rs-blur" in2="SourceAlpha" operator="in" result="rs-aoMask" />
+        <feFlood className="rose-shadow" floodColor={SKIN.rose.shadow} floodOpacity="0.5" result="rs-aoColor" />
+        <feComposite in="rs-aoColor" in2="rs-aoMask" operator="in" result="rs-ao" />
+        <feOffset in="rs-blur" dx="4" dy="5" result="rs-liteOff" />
+        <feComposite in="rs-liteOff" in2="SourceAlpha" operator="in" result="rs-liteMask" />
+        <feFlood className="rose-highlight" floodColor={SKIN.rose.highlight} floodOpacity="0.8" result="rs-liteColor" />
+        <feComposite in="rs-liteColor" in2="rs-liteMask" operator="in" result="rs-lite" />
+        <feMerge result="rs-skin">
           <feMergeNode in="SourceGraphic" />
-          <feMergeNode in="fl-ao" />
-          <feMergeNode in="fl-lite" />
+          <feMergeNode in="rs-ao" />
+          <feMergeNode in="rs-lite" />
         </feMerge>
-        {/* one ramp over the finished shading — keeps the key caps readable */}
-        <feComponentTransfer in="fl-skin">
+        <feComponentTransfer in="rs-skin">
           <feFuncA type="linear" slope="0.6" />
         </feComponentTransfer>
       </filter>
 
-      {/* Turns a flat crease line into a rounded valley: a shadow cast down-right
-          and a highlight up-left, matching #hands-flesh's light direction. */}
       <filter
-        id="hands-crease"
+        id="hands-crease-rose"
         x="-40%"
         y="-40%"
         width="180%"
         height="180%"
         colorInterpolationFilters="sRGB"
       >
-        <feGaussianBlur in="SourceAlpha" stdDeviation="2.6" result="cr-blur" />
-        <feOffset in="cr-blur" dx="2" dy="2.5" result="cr-shOff" />
-        <feFlood floodColor={SKIN_LIGHTING.creaseShadow} floodOpacity="0.5" result="cr-shColor" />
-        <feComposite in="cr-shColor" in2="cr-shOff" operator="in" result="cr-shadow" />
-        <feOffset in="cr-blur" dx="-1.6" dy="-2" result="cr-liOff" />
-        <feFlood floodColor={SKIN_LIGHTING.creaseHighlight} floodOpacity="0.55" result="cr-liColor" />
-        <feComposite in="cr-liColor" in2="cr-liOff" operator="in" result="cr-lite" />
+        <feGaussianBlur in="SourceAlpha" stdDeviation="2.6" result="rc-blur" />
+        <feOffset in="rc-blur" dx="2" dy="2.5" result="rc-shOff" />
+        <feFlood className="rose-crease-shadow" floodColor={SKIN.rose.creaseShadow} floodOpacity="0.5" result="rc-shColor" />
+        <feComposite in="rc-shColor" in2="rc-shOff" operator="in" result="rc-shadow" />
+        <feOffset in="rc-blur" dx="-1.6" dy="-2" result="rc-liOff" />
+        <feFlood className="rose-crease-highlight" floodColor={SKIN.rose.creaseHighlight} floodOpacity="0.55" result="rc-liColor" />
+        <feComposite in="rc-liColor" in2="rc-liOff" operator="in" result="rc-lite" />
         <feMerge>
-          <feMergeNode in="cr-shadow" />
-          <feMergeNode in="cr-lite" />
+          <feMergeNode in="rc-shadow" />
+          <feMergeNode in="rc-lite" />
           <feMergeNode in="SourceGraphic" />
         </feMerge>
       </filter>

@@ -42,7 +42,7 @@ export function UserMenu({ user }: { user: User }) {
       draggable={false}
     />
   ) : (
-    <span className="w-6 h-6 rounded-full bg-neutral-950 text-white text-[11px] font-bold flex items-center justify-center">
+    <span className="w-6 h-6 rounded-full bg-neutral-950 text-white text-[11px] font-bold flex items-center justify-center dark:bg-white dark:text-neutral-950">
       {initial}
     </span>
   );
@@ -59,7 +59,7 @@ export function UserMenu({ user }: { user: User }) {
         onClick={() => setOpen((v) => !v)}
         aria-label={STR.nav.account[locale]}
         aria-expanded={open}
-        className="flex items-center gap-2 px-2 py-1 rounded-md text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100 transition-colors cursor-pointer"
+        className="flex items-center gap-2 px-2 py-1 rounded-md text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-white/10 transition-colors cursor-pointer"
       >
         {avatar}
         <span className="text-[13px] font-medium max-w-28 truncate">
@@ -76,9 +76,9 @@ export function UserMenu({ user }: { user: User }) {
       {/* pt-2 bridges the hover gap between the button and the panel */}
       {open && (
         <div className="absolute right-0 top-full pt-2 z-50">
-          <div className="w-56 bg-white border border-neutral-200 rounded-lg shadow-lg p-1.5">
+          <div className="w-56 bg-white border border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800 rounded-lg shadow-lg p-1.5">
             <div className="px-2.5 py-2">
-              <p className="text-[13px] font-semibold text-neutral-950 truncate">
+              <p className="text-[13px] font-semibold text-neutral-950 dark:text-white truncate">
                 {name}
               </p>
               {user.email && (
@@ -87,14 +87,14 @@ export function UserMenu({ user }: { user: User }) {
                 </p>
               )}
             </div>
-            <div className="h-px bg-neutral-100 my-1" />
+            <div className="h-px bg-neutral-100 dark:bg-neutral-800 my-1" />
             <button
               type="button"
               onClick={() => {
                 setOpen(false);
                 logout();
               }}
-              className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-left text-[13px] font-medium text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 transition-colors cursor-pointer"
+              className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-left text-[13px] font-medium text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950 dark:text-neutral-300 dark:hover:bg-neutral-800/60 dark:hover:text-white transition-colors cursor-pointer"
             >
               <LogOut size={14} strokeWidth={2} aria-hidden="true" />
               {STR.nav.logout[locale]}

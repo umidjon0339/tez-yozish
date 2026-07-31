@@ -12,7 +12,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { SKIN, SKIN_LIGHTING } from "../components/keyboard/skinTones.mjs";
+import { SKIN } from "../components/keyboard/skinTones.mjs";
 
 const ROOT = path.resolve(new URL("..", import.meta.url).pathname);
 const SRC = path.join(ROOT, "components/keyboard/hands.tsx");
@@ -76,6 +76,9 @@ s = s.replace(/className="(st\d)"/g, (m, cls) => {
   if (!CLASS_ATTRS[cls]) throw new Error(`unknown class ${cls}`);
   return CLASS_ATTRS[cls];
 });
+// The recolor hooks on the rose gradient stops / filter floods (handColor.ts)
+// carry no information here — the elements' own attributes are the defaults.
+s = s.replace(/\s*className="(?:skin|rose)-[a-z-]+"/g, "");
 const leftover = s.match(/className=[^\s>]*/g);
 if (leftover) throw new Error(`unconverted className: ${leftover.slice(0, 3)}`);
 
@@ -85,10 +88,10 @@ for (const [jsx, svg] of Object.entries(JSX_ATTRS)) {
 }
 
 /* ── 4b. skin-palette refs → literal colors ──────────────────────────────── */
-// hands.tsx reads its skin hexes from skinTones.mjs (attr={SKIN.flesh.top}) —
+// hands.tsx reads its skin hexes from skinTones.mjs (attr={SKIN.rose.top}) —
 // a standalone file needs the values themselves.
-s = s.replace(/=\{((?:SKIN|SKIN_LIGHTING)(?:\.\w+)+)\}/g, (m, expr) => {
-  const val = expr.split(".").reduce((o, k) => o?.[k], { SKIN, SKIN_LIGHTING });
+s = s.replace(/=\{(SKIN(?:\.\w+)+)\}/g, (m, expr) => {
+  const val = expr.split(".").reduce((o, k) => o?.[k], { SKIN });
   if (typeof val !== "string") throw new Error(`unresolvable palette ref ${expr}`);
   return `="${val}"`;
 });

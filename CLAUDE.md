@@ -15,12 +15,15 @@ Detailed contracts, data flow, and invariants live in **`docs/`**. Before editin
 | `components/keyboard/*`, finger-zone CSS, `PaletteSwitcher` | `docs/keyboard.md` |
 | `app/typing-ninja/*` | `docs/typing-ninja.md` |
 | `app/rhino-dash/*` | `docs/rhino-dash.md` |
+| `app/sky-hop/*` | `docs/sky-hop.md` |
+| `app/tug-of-typing/*` | `docs/tug-of-typing.md` |
+| `app/beam-break/*` | `docs/beam-break.md` |
 | `lib/progress.ts` | `docs/progress.md` |
 | pages, `NavBar`, `lib/locale.tsx`, `lib/uiStrings.ts`, `app/globals.css` | `docs/app-shell.md` |
 | `lib/auth.ts`, `lib/firebase.ts`, `app/auth/*`, `UserMenu` | `docs/auth.md` |
 | `components/thumbnails/*` | `docs/thumbnails.md` |
 
-Directories with tricky invariants also carry a local `CLAUDE.md` (`data/`, `lib/`, `app/lesson/`, `app/typing-ninja/`, `app/rhino-dash/`, `app/auth/`, `components/keyboard/`, `components/lesson/`, `components/thumbnails/`) listing the hard rules for that directory.
+Directories with tricky invariants also carry a local `CLAUDE.md` (`data/`, `lib/`, `app/lesson/`, `app/typing-ninja/`, `app/rhino-dash/`, `app/sky-hop/`, `app/beam-break/`, `app/tug-of-typing/`, `app/auth/`, `components/keyboard/`, `components/lesson/`, `components/thumbnails/`) listing the hard rules for that directory.
 
 ## Next.js version warning
 
@@ -71,13 +74,19 @@ Course/section/lesson cards reference a thumbnail by string id + params in the J
 
 To add a thumbnail: write a `React.FC<SvgTemplateProps>` in `SvgLibrary.tsx` (props typed in `types/thumbnail.ts`; **every `ThumbnailParams` field must stay optional** with a default), then register it in `ThumbnailRegistry`. A thumbnail can alternatively be a raster via `thumbnail.imageSrc` (e.g. the course cover uses `/course-cover.svg`).
 
-### The game (independent of the lesson engine)
+### The games (independent of the lesson engine)
 
 - **`/typing-ninja`** → `app/typing-ninja/NinjaWorld.tsx` (~1400 lines; GLTF characters in `characters.tsx`, scenery/camera in `environment.tsx`, models in `public/models/`): 3D WebGL survival game using `@react-three/fiber` + `drei` + `three`. Loaded via `next/dynamic` with `ssr: false` (also embedded in the lesson runtime for `GAME_NINJA_RUN` steps — words from `step.content`, pace/mistake budget from `step.rules`; its `onComplete` reports no stats, so game steps don't feed lesson grading).
 
 The game embeds its own inline `SoundSynthesizer` class (Web Audio API oscillators), separate from the lesson runtime's mp3-file playback. Its simulation lives in a mutable `stateRef`, not React state — see `docs/typing-ninja.md` before touching it.
 
 - **`/rhino-dash`** → `app/rhino-dash/RhinoWorld.tsx`: a second arcade game on the same architecture (mutable `stateRef` + inline sound synth) — a cliff-top tug-of-war typing endurance duel: endless waves of stronger rivals with longer words, one life, linked from `/games`. Its character model `public/models/rhino.glb` is authored in-repo by `scripts/build-rhino-model.mjs` (`npm run model:rhino`). See `docs/rhino-dash.md` before touching it.
+
+- **`/sky-hop`** → `app/sky-hop/` (`SkyHopWorld.tsx` + `sim.ts` / `render.ts` / `sound.ts`): the **2D** arcade game — a hand-drawn `<canvas>` scene (no three.js, no image assets, no mp3s) where the hero dangles from a balloon over the ocean and types the labels on a climbing chain of balloons to hop along it. Every correct key is a puff of lift against a constant air leak, so slow typing sinks you into the sea (3 lives); endless stages bring longer words, a faster leak, new skies, diving crows and golden balloons. Same mutable-`stateRef` architecture, but the typed word is painted straight from the ref (zero re-renders per keystroke). See `docs/sky-hop.md` before touching it.
+
+- **`/beam-break`** → `app/beam-break/` (`BeamBreakWorld.tsx` + `sim.ts` / `animals.ts` / `render.ts` / `sound.ts`): the second **2D** canvas game — a cute animal is caught in a UFO's tractor beam over a dune desert, and the word to type is a row of keycap tiles at the top of the screen. The beam raises `grab` every second; each correct key yanks it back down and finishing a word breaks the grip and shoves the world forward, so the score is the **distance** travelled (an integral of your keys/sec). Endless, 3 lives, levels every 10 words with capture rings and golden words. **A different one of 10 animals every run**, all drawn by one parametric painter in `animals.ts`. Three things make it unlike its siblings: it has **no screen shake and no music at all** by design (rising danger is shown, not heard), the animal's position is drawn from a **critically damped spring** (`grabView`) so fast typing never makes it judder, and typos are **flow mode** — they cost you ground but never block the word. See `docs/beam-break.md` before touching it.
+
+- **`/tug-of-typing`** → `app/tug-of-typing/` (`TugWorld.tsx` + `sim.ts` / `render.ts` / `sound.ts`): the top-down **2D** tug-of-war — you and a rival kid race on the **same word**, every correct letter pulls the rope your way, and whoever finishes first lands a heave. **Endless levels**: clear the rope and the next rival types 4 WPM faster, forever; lose it once and the run ends, so the level you die on *is* your typing speed. What separates it from rhino-dash (also a tug-of-war) is that the opponent types at a **stated WPM shown on screen** (starting 18 / 30 / 45), so the game is an honest speed target rather than an abstract enemy — anything that quietly slows the rival is a bug. There is no timer anywhere: a level that stalls is ended by the rival visibly digging in. See `docs/tug-of-typing.md` before touching it.
 
 ### Inert files (safe to ignore)
 

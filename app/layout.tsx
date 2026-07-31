@@ -39,11 +39,11 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-[#FAFAFA] text-neutral-950 antialiased selection:bg-neutral-950 selection:text-white font-sans">
 
-        {/* Apply the saved finger-zone palette and language before paint
-            (see PaletteSwitcher and lib/locale) */}
+        {/* Apply the saved finger-zone palette, per-finger custom colors and
+            language before paint (see PaletteSwitcher and lib/locale) */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var p=localStorage.getItem("tz-fz-palette");if(p&&p!=="classic")document.documentElement.setAttribute("data-fz",p);var l=localStorage.getItem("tz-locale");if(l==="uz"||l==="ru")document.documentElement.lang=l}catch(e){}`,
+            __html: `try{var p=localStorage.getItem("tz-fz-palette");if(p&&p!=="classic")document.documentElement.setAttribute("data-fz",p);var c=localStorage.getItem("tz-fz-custom-v1");if(c){var o=JSON.parse(c);for(var k in o)document.documentElement.style.setProperty("--fz-"+k,o[k])}var l=localStorage.getItem("tz-locale");if(l==="uz"||l==="ru")document.documentElement.lang=l}catch(e){}`,
           }}
         />
 
