@@ -37,13 +37,15 @@ export default function RootLayout({
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
-      <body className="min-h-screen flex flex-col bg-[#FAFAFA] text-neutral-950 antialiased selection:bg-neutral-950 selection:text-white font-sans">
+      <body className="min-h-screen flex flex-col bg-[#FAFAFA] dark:bg-neutral-950 text-neutral-950 dark:text-neutral-100 antialiased selection:bg-neutral-950 selection:text-white dark:selection:bg-white dark:selection:text-neutral-950 font-sans">
 
-        {/* Apply the saved finger-zone palette, per-finger custom colors and
-            language before paint (see PaletteSwitcher and lib/locale) */}
+        {/* Apply the saved theme, finger-zone palette, per-finger custom colors
+            and language before paint (see lib/theme, PaletteSwitcher and
+            lib/locale). The `dark` class must land before first paint or dark
+            users get a white flash on every navigation. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var p=localStorage.getItem("tz-fz-palette");if(p&&p!=="classic")document.documentElement.setAttribute("data-fz",p);var c=localStorage.getItem("tz-fz-custom-v1");if(c){var o=JSON.parse(c);for(var k in o)document.documentElement.style.setProperty("--fz-"+k,o[k])}var l=localStorage.getItem("tz-locale");if(l==="uz"||l==="ru")document.documentElement.lang=l}catch(e){}`,
+            __html: `try{var t=localStorage.getItem("tz-prefs-v1");if(t&&JSON.parse(t).dark)document.documentElement.classList.add("dark");var p=localStorage.getItem("tz-fz-palette");if(p&&p!=="classic")document.documentElement.setAttribute("data-fz",p);var c=localStorage.getItem("tz-fz-custom-v1");if(c){var o=JSON.parse(c);for(var k in o)document.documentElement.style.setProperty("--fz-"+k,o[k])}var l=localStorage.getItem("tz-locale");if(l==="uz"||l==="ru")document.documentElement.lang=l}catch(e){}`,
           }}
         />
 

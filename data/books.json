@@ -1,0 +1,28 @@
+{
+  "_readme": "Books shipped with the app. A book is chapters; a chapter either holds `text` (the typing run) or `topics`, never both. Keep a leaf around 110-140 words - that is one run. Text here must be original prose written for this app or genuinely public domain; learner-added books live in localStorage (tz-books-v1), never here.",
+
+  "books": [
+    {
+      "id": "lighthouse",
+      "tone": "sky",
+      "author": "tez/yozish",
+      "title": {
+        "en": "The Lighthouse Keeper",
+        "uz": "Mayoqchi",
+        "ru": "Смотритель маяка"
+      },
+      "chapters": [
+        {
+          "id": "c1",
+          "title": { "en": "The Lamp", "uz": "Chiroq", "ru": "Лампа" },
+          "text": "The lighthouse stood at the end of a long grey spit of rock, and for forty years an old man had kept its lamp burning. Every evening he climbed the ninety-one steps with a can of oil in his hand, and every evening he counted them under his breath, because counting was easier than thinking about how many were left in him. At the top he trimmed the wick, polished the great glass lens until it threw his own face back at him, and set the light turning. Then he sat by the window with a cup of black tea and watched the water. Ships passed far out, small and patient, and he liked to imagine the people asleep inside them, warm, and quite certain that the sea was safe."
+        },
+        {
+          "id": "c2",
+          "title": { "en": "The Storm", "uz": "Bo'ron", "ru": "Шторм" },
+          "text": "One winter a storm came in from the west and stayed for three days. The wind pushed against the tower until the whole building seemed to lean, and rain went sideways past the glass like handfuls of thrown gravel. On the second night the oil ran low. The old man went down the ninety-one steps, crossed the yard on his hands and knees because standing was impossible, and came back up with the last can, soaked through and shaking. He filled the lamp. He trimmed the wick. He set the light turning, and it swept out over the black water exactly as it had every night for forty years. Somewhere out there a ship saw it, changed course, and went home."
+        }
+      ]
+    }
+  ]
+}

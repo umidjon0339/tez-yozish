@@ -1,5 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
+import { useGameView } from '@/lib/gameStats';
 
 const TugWorld = dynamic(() => import('./TugWorld'), {
     ssr: false,
@@ -12,6 +13,7 @@ const TugWorld = dynamic(() => import('./TugWorld'), {
 });
 
 export default function TugOfTypingPage() {
+    useGameView('tug-of-typing');
     return (
         <div className="fixed inset-0 z-[99999] bg-[#3f8f38] overflow-hidden font-sans select-none">
             <TugWorld />

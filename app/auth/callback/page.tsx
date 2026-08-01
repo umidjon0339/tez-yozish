@@ -39,23 +39,23 @@ export default function AuthCallbackPage() {
   }, [router]);
 
   return (
-    <main className="min-h-dvh flex flex-col items-center justify-center gap-4 bg-[#FAFAFA] text-neutral-900 px-6">
+    <main className="min-h-dvh flex flex-col items-center justify-center gap-4 bg-[#FAFAFA] dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 px-6">
       {failed ? (
         <>
-          <p className="text-sm text-neutral-500 text-center max-w-sm">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 text-center max-w-sm">
             {STR.auth.signInFailed[locale]}
           </p>
           <div className="flex gap-3 mt-2">
             <button
               type="button"
               onClick={() => window.location.assign(edifyAuthUrl("login"))}
-              className="px-5 py-2.5 bg-neutral-900 text-white text-sm font-semibold rounded-lg hover:bg-neutral-700 transition-colors cursor-pointer"
+              className="px-5 py-2.5 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-950 text-sm font-semibold rounded-lg hover:bg-neutral-700 dark:hover:bg-neutral-300 transition-colors cursor-pointer"
             >
               {STR.auth.tryAgain[locale]}
             </button>
             <Link
               href="/"
-              className="px-5 py-2.5 border border-neutral-300 text-sm font-semibold rounded-lg hover:bg-neutral-100 transition-colors"
+              className="px-5 py-2.5 border border-neutral-300 dark:border-neutral-700 text-sm font-semibold rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
             >
               {STR.auth.backHome[locale]}
             </Link>
@@ -63,8 +63,8 @@ export default function AuthCallbackPage() {
         </>
       ) : (
         <>
-          <Loader2 size={28} className="animate-spin text-neutral-400" />
-          <p className="text-sm font-medium text-neutral-500">
+          <Loader2 size={28} className="animate-spin text-neutral-400 dark:text-neutral-500" />
+          <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
             {STR.auth.signingIn[locale]}
           </p>
         </>

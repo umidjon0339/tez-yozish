@@ -13,8 +13,10 @@ import {
   HAND_COLOR_PRESETS,
   MIN_HAND_OPACITY,
   resetHandAppearance,
+  setFingerColors,
   setHandColor,
   setHandOpacity,
+  useFingerColors,
   useHandColors,
   useHandOpacities,
 } from "./handColor";
@@ -25,6 +27,12 @@ const UI = {
   defaultColor: { en: "Default", uz: "Odatiy", ru: "Обычный" },
   anyColor: { en: "Pick any color", uz: "Istalgan rang", ru: "Любой цвет" },
   opacity: { en: "Opacity", uz: "Shaffoflik", ru: "Непрозрачность" },
+  fingers: { en: "Color every finger", uz: "Har bir barmoq rangi", ru: "Цвет каждого пальца" },
+  fingersHint: {
+    en: "Each finger gets the color of the keys it types",
+    uz: "Har bir barmoq o'zi bosadigan tugmalar rangida",
+    ru: "Каждый палец в цвете своих клавиш",
+  },
   reset: { en: "Reset to default", uz: "Asliga qaytarish", ru: "Сбросить настройки" },
 } as const;
 
@@ -56,6 +64,7 @@ export function HandStyleSwitcher({ onSelect }: { onSelect?: () => void }) {
   const activeColor = colors[activeStyle.id] ?? null;
   const opacities = useHandOpacities();
   const activeOpacity = opacities[activeStyle.id] ?? DEFAULT_HAND_OPACITY;
+  const fingerColors = useFingerColors();
 
   const select = (id: HandStyleId) => {
     setHandStyle(id);
@@ -200,6 +209,37 @@ export function HandStyleSwitcher({ onSelect }: { onSelect?: () => void }) {
                 className="w-full h-1.5 cursor-pointer accent-neutral-900 dark:accent-white"
               />
             </div>
+
+            {/* Teaching switch rather than a look: on, every finger is drawn
+                in the color of the keys it types, so the whole assignment is
+                readable at a glance instead of just the finger pressing now. */}
+            <button
+              type="button"
+              role="switch"
+              aria-checked={fingerColors}
+              onClick={() => {
+                setFingerColors(!fingerColors);
+                onSelect?.();
+              }}
+              title={UI.fingersHint[locale]}
+              className="w-full flex items-center gap-2 px-2.5 py-2 rounded-md text-left transition-colors cursor-pointer hover:bg-neutral-50 dark:hover:bg-neutral-800/60 border-t border-neutral-100 dark:border-neutral-800 rounded-t-none"
+            >
+              <span className="flex-1 text-[12px] font-medium text-neutral-700 dark:text-neutral-300">
+                {UI.fingers[locale]}
+              </span>
+              <span
+                aria-hidden="true"
+                className={`relative w-7 h-4 shrink-0 rounded-full transition-colors ${
+                  fingerColors ? "bg-neutral-900 dark:bg-white" : "bg-neutral-200 dark:bg-neutral-700"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 w-3 h-3 rounded-full bg-white dark:bg-neutral-900 transition-all ${
+                    fingerColors ? "left-3.5" : "left-0.5"
+                  }`}
+                />
+              </span>
+            </button>
 
             <button
               type="button"

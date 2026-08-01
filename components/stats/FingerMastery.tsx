@@ -9,8 +9,8 @@ import React from "react";
 import { FINGER_ORDER, type Finger } from "@/components/keyboard/keymap";
 import type { GroupStat } from "@/lib/stats";
 
-const MASTERY_RAMP = ["#d1fae5", "#6ee7b7", "#10b981", "#047857"];
-const NO_DATA = "#e5e5e5";
+const MASTERY_RAMP = ["var(--ramp-good-1)", "var(--ramp-good-2)", "var(--ramp-good-3)", "var(--ramp-good-4)"];
+const NO_DATA = "var(--chart-empty)";
 
 function masteryColor(stat: GroupStat | undefined): string {
   if (!stat || stat.total === 0) return NO_DATA;
@@ -72,7 +72,7 @@ function Hand({
           </g>
         ))}
         {/* palm */}
-        <rect x={4} y={64} width={95} height={50} rx={18} fill="#f0f0ef" />
+        <rect x={4} y={64} width={95} height={50} rx={18} fill="var(--chart-hand)" />
         {/* thumb */}
         <g transform="rotate(-32 106 84)">
           <rect x={97} y={62} width={19} height={46} rx={9.5} fill={colors[4]}>
@@ -124,10 +124,10 @@ export function FingerMastery({
                 className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ background: FZ_VAR[f] }}
               />
-              <span className="w-28 shrink-0 text-xs text-neutral-500 truncate">
+              <span className="w-28 shrink-0 text-xs text-neutral-500 dark:text-neutral-400 truncate">
                 {names[f]}
               </span>
-              <span className="flex-1 h-1.5 rounded-full bg-neutral-100 overflow-hidden">
+              <span className="flex-1 h-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
                 <span
                   className="block h-full rounded-full"
                   style={{
@@ -136,7 +136,7 @@ export function FingerMastery({
                   }}
                 />
               </span>
-              <span className="w-28 shrink-0 text-right font-mono text-[11px] text-neutral-500">
+              <span className="w-28 shrink-0 text-right font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                 {fmtValue(s)}
               </span>
             </div>

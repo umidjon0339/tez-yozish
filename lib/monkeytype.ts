@@ -153,6 +153,29 @@ export function percentileForWpm(
   return Math.min(99, Math.round((below / total) * 100));
 }
 
+// Where a result would land among the tests in the public histogram: how many
+// were faster, out of how many were sampled. It is a rank among *tests*, not
+// among people or leaderboard entries — the home page labels it as an estimate
+// for exactly that reason (docs/home-test.md §7).
+export function rankForWpm(
+  histogram: Record<string, number>,
+  wpm: number,
+): { faster: number; total: number; percentile: number } {
+  let below = 0;
+  let total = 0;
+  for (const [start, count] of Object.entries(histogram)) {
+    const lo = Number(start);
+    total += count;
+    if (wpm >= lo + 10) below += count;
+    else if (wpm > lo) below += count * ((wpm - lo) / 10);
+  }
+  return {
+    faster: Math.max(1, Math.round(total - below)),
+    total,
+    percentile: percentileForWpm(histogram, wpm),
+  };
+}
+
 export function discordAvatarUrl(e: MtEntry): string | null {
   if (!e.discordId || !e.discordAvatar) return null;
   return `https://cdn.discordapp.com/avatars/${e.discordId}/${e.discordAvatar}.png?size=64`;

@@ -7,8 +7,8 @@
 import React, { useMemo } from "react";
 import type { DayPoint } from "@/lib/stats";
 
-const RAMP = ["#d1fae5", "#6ee7b7", "#10b981", "#047857"];
-const EMPTY = "#ececec";
+const RAMP = ["var(--ramp-good-1)", "var(--ramp-good-2)", "var(--ramp-good-3)", "var(--ramp-good-4)"];
+const EMPTY = "var(--chart-empty)";
 
 function stepFor(d: DayPoint): number | null {
   if (d.keys <= 0 && d.ms <= 0) return null;
@@ -76,7 +76,7 @@ export function ActivityCalendar({
             {monthLabels.map((m, i) => (
               <span
                 key={i}
-                className="w-3 shrink-0 text-[9px] text-neutral-400 whitespace-nowrap overflow-visible"
+                className="w-3 shrink-0 text-[9px] text-neutral-400 dark:text-neutral-500 whitespace-nowrap overflow-visible"
               >
                 {m ?? ""}
               </span>
@@ -86,7 +86,7 @@ export function ActivityCalendar({
             {/* weekday labels */}
             <div className="flex flex-col justify-between py-px w-6 text-right">
               {weekdayLabels.map((w) => (
-                <span key={w} className="text-[9px] leading-3 text-neutral-400">
+                <span key={w} className="text-[9px] leading-3 text-neutral-400 dark:text-neutral-500">
                   {w}
                 </span>
               ))}
@@ -119,7 +119,7 @@ export function ActivityCalendar({
         </div>
       </div>
 
-      <div className="flex items-center justify-end gap-1.5 text-[10px] text-neutral-400">
+      <div className="flex items-center justify-end gap-1.5 text-[10px] text-neutral-400 dark:text-neutral-500">
         <span>{lessLabel}</span>
         <span className="w-3 h-3 rounded-[3px]" style={{ background: EMPTY }} />
         {RAMP.map((c) => (

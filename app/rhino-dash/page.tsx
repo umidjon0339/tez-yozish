@@ -1,5 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
+import { useGameView } from '@/lib/gameStats';
 
 const RhinoWorld = dynamic(() => import('./RhinoWorld'), {
     ssr: false,
@@ -12,6 +13,7 @@ const RhinoWorld = dynamic(() => import('./RhinoWorld'), {
 });
 
 export default function RhinoDashPage() {
+    useGameView('rhino-dash');
     return (
         <div className="fixed inset-0 z-[99999] bg-[#bfe5f8] overflow-hidden font-sans select-none">
             <RhinoWorld />

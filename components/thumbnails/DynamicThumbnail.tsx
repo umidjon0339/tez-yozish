@@ -16,7 +16,7 @@ export function DynamicThumbnail({ svgId, params, className = "w-full h-full" }:
   if (!SvgComponent) {
     console.warn(`Thumbnail template '${svgId}' not found in registry.`);
     return (
-      <div className={`bg-neutral-100 flex items-center justify-center text-neutral-400 font-mono text-xs ${className}`}>
+      <div className={`bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-400 dark:text-neutral-500 font-mono text-xs ${className}`}>
         Missing SVG: {svgId}
       </div>
     );

@@ -1,5 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
+import { useGameView } from '@/lib/gameStats';
 
 const BeamBreakWorld = dynamic(() => import('./BeamBreakWorld'), {
     ssr: false,
@@ -14,6 +15,7 @@ const BeamBreakWorld = dynamic(() => import('./BeamBreakWorld'), {
 });
 
 export default function BeamBreakPage() {
+    useGameView('beam-break');
     return (
         <div className="fixed inset-0 z-[99999] bg-[#a8dcf2] overflow-hidden font-sans select-none">
             <BeamBreakWorld />

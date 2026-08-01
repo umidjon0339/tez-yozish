@@ -1,0 +1,209 @@
+{
+  "_readme": "Exam catalogue for /courses. Each exam divides into its real sections. `scale` is the score range and is NOT translated. Facts here are the stable parts of each exam (its sections and its score range) - deliberately no minute counts or question counts, because those change with every format revision and would silently go stale. No lesson content yet: this is the map only.",
+
+  "exams": [
+    {
+      "id": "ielts",
+      "tone": "rose",
+      "icon": "Globe2",
+      "scale": "0 – 9",
+      "title": { "en": "IELTS", "uz": "IELTS", "ru": "IELTS" },
+      "summary": {
+        "en": "The English test most universities abroad ask for.",
+        "uz": "Chet el universitetlari ko'proq so'raydigan ingliz tili imtihoni.",
+        "ru": "Экзамен по английскому, который чаще всего просят вузы за рубежом."
+      },
+      "sections": [
+        {
+          "id": "listening",
+          "icon": "Headphones",
+          "title": { "en": "Listening", "uz": "Tinglash", "ru": "Аудирование" },
+          "detail": {
+            "en": "Four recordings, from a chat to a lecture.",
+            "uz": "To'rtta yozuv — suhbatdan ma'ruzagacha.",
+            "ru": "Четыре записи — от разговора до лекции."
+          }
+        },
+        {
+          "id": "reading",
+          "icon": "BookOpen",
+          "title": { "en": "Reading", "uz": "O'qish", "ru": "Чтение" },
+          "detail": {
+            "en": "Three long passages and the questions on them.",
+            "uz": "Uchta uzun matn va ularga savollar.",
+            "ru": "Три длинных текста и вопросы к ним."
+          }
+        },
+        {
+          "id": "writing",
+          "icon": "PenLine",
+          "title": { "en": "Writing", "uz": "Yozish", "ru": "Письмо" },
+          "detail": {
+            "en": "Describe a chart, then argue an essay. All typed.",
+            "uz": "Grafikni tasvirla, keyin esse yoz. Hammasi klaviaturada.",
+            "ru": "Опиши график, потом напиши эссе. Всё с клавиатуры."
+          }
+        },
+        {
+          "id": "speaking",
+          "icon": "Mic",
+          "title": { "en": "Speaking", "uz": "Gapirish", "ru": "Говорение" },
+          "detail": {
+            "en": "A face-to-face talk with the examiner.",
+            "uz": "Imtihon oluvchi bilan yuzma-yuz suhbat.",
+            "ru": "Разговор с экзаменатором один на один."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "sat",
+      "tone": "indigo",
+      "icon": "Target",
+      "scale": "400 – 1600",
+      "title": { "en": "SAT", "uz": "SAT", "ru": "SAT" },
+      "summary": {
+        "en": "The digital entrance test for universities in the USA.",
+        "uz": "AQSh universitetlariga kiradigan raqamli test.",
+        "ru": "Цифровой вступительный тест в вузы США."
+      },
+      "sections": [
+        {
+          "id": "reading-writing",
+          "icon": "FileText",
+          "title": {
+            "en": "Reading and Writing",
+            "uz": "O'qish va yozish",
+            "ru": "Чтение и письмо"
+          },
+          "detail": {
+            "en": "Short passages: meaning, structure, grammar.",
+            "uz": "Qisqa matnlar: ma'no, tuzilma, grammatika.",
+            "ru": "Короткие тексты: смысл, структура, грамматика."
+          }
+        },
+        {
+          "id": "math",
+          "icon": "Calculator",
+          "title": { "en": "Math", "uz": "Matematika", "ru": "Математика" },
+          "detail": {
+            "en": "Algebra, data, geometry — calculator allowed.",
+            "uz": "Algebra, ma'lumot, geometriya — kalkulyator ruxsat.",
+            "ru": "Алгебра, данные, геометрия — калькулятор разрешён."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "toefl",
+      "tone": "cyan",
+      "icon": "Languages",
+      "scale": "0 – 120",
+      "title": { "en": "TOEFL iBT", "uz": "TOEFL iBT", "ru": "TOEFL iBT" },
+      "summary": {
+        "en": "An English test taken entirely on a computer.",
+        "uz": "To'liq kompyuterda topshiriladigan ingliz tili imtihoni.",
+        "ru": "Экзамен по английскому целиком на компьютере."
+      },
+      "sections": [
+        {
+          "id": "reading",
+          "icon": "BookOpen",
+          "title": { "en": "Reading", "uz": "O'qish", "ru": "Чтение" },
+          "detail": {
+            "en": "Academic passages from university textbooks.",
+            "uz": "Universitet darsliklaridan akademik matnlar.",
+            "ru": "Академические тексты из университетских учебников."
+          }
+        },
+        {
+          "id": "listening",
+          "icon": "Headphones",
+          "title": { "en": "Listening", "uz": "Tinglash", "ru": "Аудирование" },
+          "detail": {
+            "en": "Lectures and campus conversations.",
+            "uz": "Ma'ruzalar va universitetdagi suhbatlar.",
+            "ru": "Лекции и разговоры на кампусе."
+          }
+        },
+        {
+          "id": "speaking",
+          "icon": "Mic",
+          "title": { "en": "Speaking", "uz": "Gapirish", "ru": "Говорение" },
+          "detail": {
+            "en": "You answer into a microphone, not to a person.",
+            "uz": "Odamga emas, mikrofonga javob berasan.",
+            "ru": "Отвечаешь в микрофон, а не человеку."
+          }
+        },
+        {
+          "id": "writing",
+          "icon": "PenLine",
+          "title": { "en": "Writing", "uz": "Yozish", "ru": "Письмо" },
+          "detail": {
+            "en": "Typed essays — speed and accuracy both count.",
+            "uz": "Klaviaturada esse — tezlik ham, aniqlik ham muhim.",
+            "ru": "Эссе с клавиатуры — важны и скорость, и точность."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "cefr",
+      "tone": "emerald",
+      "icon": "Award",
+      "scale": "A1 – C2",
+      "title": { "en": "CEFR", "uz": "CEFR", "ru": "CEFR" },
+      "summary": {
+        "en": "The level scale used across Europe and in Uzbekistan.",
+        "uz": "Yevropa va O'zbekistonda ishlatiladigan daraja shkalasi.",
+        "ru": "Шкала уровней, принятая в Европе и в Узбекистане."
+      },
+      "sections": [
+        {
+          "id": "listening",
+          "icon": "Headphones",
+          "title": { "en": "Listening", "uz": "Tinglash", "ru": "Аудирование" },
+          "detail": {
+            "en": "Understand speech at your level.",
+            "uz": "O'z darajangdagi nutqni tushun.",
+            "ru": "Понимай речь на своём уровне."
+          }
+        },
+        {
+          "id": "reading",
+          "icon": "BookOpen",
+          "title": { "en": "Reading", "uz": "O'qish", "ru": "Чтение" },
+          "detail": {
+            "en": "Texts that get longer as the level rises.",
+            "uz": "Daraja oshgan sari uzayadigan matnlar.",
+            "ru": "Тексты, которые растут вместе с уровнем."
+          }
+        },
+        {
+          "id": "writing",
+          "icon": "PenLine",
+          "title": { "en": "Writing", "uz": "Yozish", "ru": "Письмо" },
+          "detail": {
+            "en": "Letters and essays, written to the level.",
+            "uz": "Darajaga mos xat va esselar.",
+            "ru": "Письма и эссе по уровню."
+          }
+        },
+        {
+          "id": "speaking",
+          "icon": "Mic",
+          "title": { "en": "Speaking", "uz": "Gapirish", "ru": "Говорение" },
+          "detail": {
+            "en": "Talk through everyday and abstract topics.",
+            "uz": "Kundalik va mavhum mavzularda gapir.",
+            "ru": "Говори на бытовые и отвлечённые темы."
+          }
+        }
+      ]
+    }
+  ]
+}

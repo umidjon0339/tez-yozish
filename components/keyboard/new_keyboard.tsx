@@ -286,10 +286,13 @@ export const NewKeyboard = memo(function NewKeyboard({ expectedKey, activeKeys, 
         <path id="alt-left" className="edc-st0 hide-on-bone" d="M203.4,236c0,1.7-1.4,3-3,3h-46.5c-1.7,0-3-1.3-3-3v-42c0-1.7,1.3-3,3-3h46.5c1.6,0,3,1.3,3,3V236z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
         <path id="alt-right" className="edc-st0 hide-on-bone" d="M489.8,236c0,1.7-1.4,3-3,3h-46.5c-1.7,0-3-1.3-3-3v-42c0-1.7,1.3-3,3-3h46.5c1.6,0,3,1.3,3,3V236z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
         <path id="control-right" className="edc-st0 hide-on-bone" d="M534.8,236c0,1.7-1.4,3-3,3h-36.5c-1.7,0-3-1.3-3-3v-42c0-1.7,1.3-3,3-3h36.5c1.6,0,3,1.3,3,3V236z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
-        <path id="arrow-left" className="edc-st0 hide-on-bone" d="M579.5,236c0,1.6-1.3,3-3,3h-36.2c-1.6,0-3-1.4-3-3v-16.8c0-1.6,1.4-3,3-3h36.2c1.7,0,3,1.4,3,3V236z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
+        {/* ◀ and ▶ run the full 42-unit height of the bottom row (same shape as
+            control-right), the way a real MacBook cluster does — only ▲/▼ are
+            half-height. Anything shorter leaves dead case above them. */}
+        <path id="arrow-left" className="edc-st0 hide-on-bone" d="M579.5,236c0,1.7-1.4,3-3,3h-36.2c-1.7,0-3-1.3-3-3v-42c0-1.7,1.3-3,3-3h36.2c1.6,0,3,1.3,3,3V236z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
         <path id="arrow-up" className="edc-st0 hide-on-bone" d="M624.2,210.8c0,1.6-1.3,3-3,3H585c-1.6,0-3-1.4-3-3V194c0-1.6,1.4-3,3-3h36.2c1.7,0,3,1.4,3,3V210.8z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
         <path id="arrow-down" className="edc-st0 hide-on-bone" d="M624.2,236c0,1.6-1.3,3-3,3H585c-1.6,0-3-1.4-3-3v-16.8c0-1.6,1.4-3,3-3h36.2c1.7,0,3,1.4,3,3V236z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
-        <path id="arrow-right" className="edc-st0 hide-on-bone" d="M668.8,236c0,1.6-1.3,3-3,3h-36.1c-1.6,0-3-1.4-3-3v-16.8c0-1.6,1.4-3,3-3h36.1c1.7,0,3,1.4,3,3V236z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
+        <path id="arrow-right" className="edc-st0 hide-on-bone" d="M668.8,236c0,1.7-1.4,3-3,3h-36.1c-1.7,0-3-1.3-3-3v-42c0-1.7,1.3-3,3-3h36.1c1.6,0,3,1.3,3,3V236z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
         <path id="space" className="edc-st0" d="M431.8,191c1.6,0,3,1.4,3,3v42c0,1.7-1.4,3-3,3H208.9c-1.6,0-3-1.3-3-3v-42c0-1.6,1.4-3,3-3H431.8z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
         <path id="shift-right" className="edc-st0" d="M668.8,185.4c0,1.7-1.3,3-3,3h-94.5c-1.6,0-3-1.3-3-3v-35.3c0-1.6,1.4-3,3-3h94.5c1.7,0,3,1.4,3,3V185.4z" stroke="#777777" fill="none" strokeWidth="0.5px"></path>
       </g>
@@ -401,10 +404,12 @@ export const NewKeyboard = memo(function NewKeyboard({ expectedKey, activeKeys, 
         <text id="text-alt-left" transform="matrix(1 0 0 1 177.15 218.3)" className="edc-st1 sc edc-st2">Alt</text>
         <text id="text-alt-right" transform="matrix(1 0 0 1 463.55 218.3)" className="edc-st1 sc edc-st2">Alt</text>
         <text id="text-control-right" transform="matrix(1 0 0 1 513.55 218.3)" className="edc-st1 sc edc-st2">Ctrl</text>
-        <path className="edc-st2" d="M561.2,224.9l-5.6,2.7l5.6,2.7z"></path>
+        {/* ◀ / ▶ re-centred on the full-height caps (was y 224.9, the old
+            half-height centre); ▲ / ▼ keep theirs. */}
+        <path className="edc-st2" d="M561.2,212.3l-5.6,2.7l5.6,2.7z"></path>
         <path className="edc-st2" d="M600.4,205.1l2.7-5.6l2.7,5.6z"></path>
         <path className="edc-st2" d="M600.4,224.9h5.4l-2.7,5.6z"></path>
-        <path className="edc-st2" d="M645.6,224.9l5.6,2.7l-5.6,2.7z"></path>
+        <path className="edc-st2" d="M645.6,212.3l5.6,2.7l-5.6,2.7z"></path>
       </g>
     </svg>
   );

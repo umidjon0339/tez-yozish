@@ -9,7 +9,11 @@ export const STR = {
   nav: {
     keyboard: { en: "Keyboard", uz: "Klaviatura", ru: "Клавиатура" },
     english: { en: "English", uz: "Ingliz tili", ru: "Английский" },
+    /* "Кодинг", not "Программирование" — the long form is ~130px and would
+       cost the centred link row every laptop under ~1400px (app-shell.md §2). */
+    coding: { en: "Coding", uz: "Dasturlash", ru: "Кодинг" },
     subject: { en: "Subjects", uz: "Fanlar", ru: "Предметы" },
+    books: { en: "Books", uz: "Kitoblar", ru: "Книги" },
     games: { en: "Games", uz: "O'yinlar", ru: "Игры" },
     compete: { en: "Compete", uz: "Bellashuv", ru: "Соревнование" },
     stats: { en: "Stats", uz: "Statistika", ru: "Статистика" },
@@ -17,8 +21,12 @@ export const STR = {
     login: { en: "Log in", uz: "Kirish", ru: "Войти" },
     signup: { en: "Sign up", uz: "Ro'yxatdan o'tish", ru: "Регистрация" },
     language: { en: "Language", uz: "Til", ru: "Язык" },
+    darkMode: { en: "Dark mode", uz: "Qorong'i rejim", ru: "Тёмная тема" },
+    lightMode: { en: "Light mode", uz: "Yorug' rejim", ru: "Светлая тема" },
     logout: { en: "Log out", uz: "Chiqish", ru: "Выйти" },
     account: { en: "Account", uz: "Hisob", ru: "Аккаунт" },
+    menu: { en: "Menu", uz: "Menyu", ru: "Меню" },
+    closeMenu: { en: "Close menu", uz: "Menyuni yopish", ru: "Закрыть меню" },
   },
   auth: {
     signingIn: {
@@ -101,22 +109,231 @@ export const STR = {
       uz: "O'sishingni ko'r",
       ru: "Смотри свой рост",
     },
+    menuTitle: {
+      en: "Where do you want to go?",
+      uz: "Qayerga bormoqchisan?",
+      ru: "Куда хочешь пойти?",
+    },
+  },
+  /* The Monkeytype-style typing test on the home page (docs/home-test.md) */
+  test: {
+    punctuation: {
+      en: "punctuation",
+      uz: "tinish belgilari",
+      ru: "пунктуация",
+    },
+    numbers: { en: "numbers", uz: "raqamlar", ru: "цифры" },
+    time: { en: "time", uz: "vaqt", ru: "время" },
+    words: { en: "words", uz: "so'zlar", ru: "слова" },
+    quote: { en: "quote", uz: "iqtibos", ru: "цитата" },
+    /* The reference's `zen` slot is our school-subject picker instead. */
+    curriculum: { en: "subject", uz: "fan", ru: "предмет" },
+    custom: { en: "custom", uz: "o'zingniki", ru: "свой текст" },
+    short: { en: "short", uz: "qisqa", ru: "короткая" },
+    medium: { en: "medium", uz: "o'rta", ru: "средняя" },
+    long: { en: "long", uz: "uzun", ru: "длинная" },
+    all: { en: "all", uz: "hammasi", ru: "все" },
+    language: { en: "Text language", uz: "Matn tili", ru: "Язык текста" },
+    customTitle: {
+      en: "Type your own text",
+      uz: "O'z matningni yoz",
+      ru: "Свой текст",
+    },
+    customPlaceholder: {
+      en: "Paste or write the words you want to practise…",
+      uz: "Mashq qilmoqchi bo'lgan so'zlaringni yoz…",
+      ru: "Вставь или напиши слова для тренировки…",
+    },
+    save: { en: "Save", uz: "Saqlash", ru: "Сохранить" },
+    cancel: { en: "Cancel", uz: "Bekor qilish", ru: "Отмена" },
+    edit: { en: "edit", uz: "o'zgartirish", ru: "изменить" },
+    hintRestart: {
+      en: "tab — new test",
+      uz: "tab — yangi test",
+      ru: "tab — новый тест",
+    },
+    hintStart: {
+      en: "Just start typing",
+      uz: "Shunchaki yoza boshla",
+      ru: "Просто начни печатать",
+    },
+    /* Result screen */
+    wpm: { en: "wpm", uz: "so'z/daq", ru: "сл/мин" },
+    accuracy: { en: "accuracy", uz: "aniqlik", ru: "точность" },
+    raw: { en: "raw", uz: "xom tezlik", ru: "сырая" },
+    consistency: {
+      en: "consistency",
+      uz: "barqarorlik",
+      ru: "стабильность",
+    },
+    characters: { en: "characters", uz: "belgilar", ru: "символы" },
+    testType: { en: "test type", uz: "test turi", ru: "тип теста" },
+    duration: { en: "time", uz: "vaqt", ru: "время" },
+    nextTest: { en: "Next test", uz: "Yangi test", ru: "Новый тест" },
+    repeat: { en: "Repeat", uz: "Takrorlash", ru: "Повторить" },
+    charsHint: {
+      en: "correct / wrong / extra / missed",
+      uz: "to'g'ri / xato / ortiqcha / tushib qolgan",
+      ru: "верно / ошибки / лишние / пропущено",
+    },
+    /* The podium at the bottom of the result screen (Standing.tsx) */
+    /* Names the podium for what it is — the world's fastest typists — so the
+       list is not mistaken for anything local. */
+    worldRecord: {
+      en: "World record",
+      uz: "Jahon rekordi",
+      ru: "Мировой рекорд",
+    },
+    youLabel: { en: "you", uz: "sen", ru: "ты" },
+    /* Only the hover hint on the podium heading — the result screen prints no
+       caption under the board (STR.compete.fasterThan still does, on /compete). */
+    boardAllTime: { en: "all-time", uz: "barcha vaqt", ru: "за всё время" },
   },
   courses: {
     title: { en: "Courses", uz: "Kurslar", ru: "Курсы" },
-    coreDesc: {
-      en: "Learn fast typing step by step.",
-      uz: "Tez yozishni bosqichma-bosqich o'rgan.",
-      ru: "Учись быстрой печати шаг за шагом.",
-    },
     backToSections: {
       en: "Back to Sections",
       uz: "Bo'limlarga qaytish",
       ru: "К разделам",
     },
+    /* The exam catalogue (lib/exams.ts) */
+    examsGroup: { en: "Exams", uz: "Imtihonlar", ru: "Экзамены" },
+    examsDesc: {
+      en: "Know what each exam asks before you sit it.",
+      uz: "Imtihonga kirishdan oldin nima so'ralishini bil.",
+      ru: "Узнай, что спрашивают на экзамене, до того как сядешь.",
+    },
+    /* Counted ("4 parts") vs used as a heading — Russian needs a different
+       case for each, so they cannot be the same string. */
+    parts: { en: "parts", uz: "qism", ru: "частей" },
+    partsLabel: { en: "Parts", uz: "Qismlar", ru: "Части" },
+    score: { en: "Score", uz: "Ball", ru: "Балл" },
+    backToExams: {
+      en: "Back to Exams",
+      uz: "Imtihonlarga qaytish",
+      ru: "К экзаменам",
+    },
+    /* The K-12 grade → subject tree (lib/k12.ts) */
+    k12Group: {
+      en: "School subjects",
+      uz: "Maktab fanlari",
+      ru: "Школьные предметы",
+    },
+    k12Desc: {
+      en: "Pick your grade and see its subjects.",
+      uz: "Sinfingni tanla va fanlarini ko'r.",
+      ru: "Выбери свой класс и смотри предметы.",
+    },
+    backToGrades: {
+      en: "Back to Grades",
+      uz: "Sinflarga qaytish",
+      ru: "К классам",
+    },
+    subjectsGroup: {
+      en: "Subjects",
+      uz: "Fanlar",
+      ru: "Предметы",
+    },
+    subjectCount: {
+      en: "subjects",
+      uz: "ta fan",
+      ru: "предметов",
+    },
   },
   games: {
     title: { en: "Games", uz: "O'yinlar", ru: "Игры" },
+    /* Labels for the like heart and the play counter on a game card. The
+       counters are this browser's own (lib/gameStats.ts), so the words say
+       "you", not "players". */
+    like: { en: "I like this game", uz: "Bu o'yin menga yoqdi", ru: "Мне нравится эта игра" },
+    plays: { en: "times you played", uz: "marta o'ynading", ru: "раз ты играл" },
+  },
+  /* Typing practice over long-form text — lib/books.ts */
+  books: {
+    title: { en: "Books", uz: "Kitoblar", ru: "Книги" },
+    desc: {
+      en: "Type real pages, one at a time.",
+      uz: "Sahifama-sahifa yozib mashq qil.",
+      ru: "Набирай настоящие страницы, одну за другой.",
+    },
+    chapters: { en: "chapters", uz: "bob", ru: "глав" },
+    topics: { en: "topics", uz: "mavzu", ru: "тем" },
+    /* Fallback names for an unnamed chapter/topic — a plain paste with no
+       `#` markers gets one chapter, and it should not be titled "" */
+    chapter: { en: "Chapter", uz: "Bob", ru: "Глава" },
+    topic: { en: "Topic", uz: "Mavzu", ru: "Тема" },
+    words: { en: "words", uz: "so'z", ru: "слов" },
+    add: { en: "Add a book", uz: "Kitob qo'shish", ru: "Добавить книгу" },
+    bookTitle: { en: "Title", uz: "Nomi", ru: "Название" },
+    bookText: { en: "Paste the text", uz: "Matnni joylashtir", ru: "Вставь текст" },
+    save: { en: "Save", uz: "Saqlash", ru: "Сохранить" },
+    cancel: { en: "Cancel", uz: "Bekor qilish", ru: "Отмена" },
+    remove: { en: "Delete book", uz: "Kitobni o'chirish", ru: "Удалить книгу" },
+    backToBooks: { en: "Back to books", uz: "Kitoblarga", ru: "К книгам" },
+    backToChapters: { en: "Back to chapters", uz: "Boblarga", ru: "К главам" },
+    backToTopics: { en: "Back to topics", uz: "Mavzularga", ru: "К темам" },
+    yourBook: { en: "Your book", uz: "Sening kitobing", ru: "Твоя книга" },
+    /* The two ways a real book is split, picked before pasting */
+    structure: { en: "Split by", uz: "Bo'linishi", ru: "Деление" },
+    onlyChapters: { en: "Chapters", uz: "Boblar", ru: "Главы" },
+    chaptersTopics: {
+      en: "Chapters + topics",
+      uz: "Boblar + mavzular",
+      ru: "Главы + темы",
+    },
+    addChapter: { en: "Add chapter", uz: "Bob qo'shish", ru: "Добавить главу" },
+    addTopic: { en: "Add topic", uz: "Mavzu qo'shish", ru: "Добавить тему" },
+    chapterName: { en: "Chapter name", uz: "Bob nomi", ru: "Название главы" },
+    topicName: { en: "Topic name", uz: "Mavzu nomi", ru: "Название темы" },
+    removeItem: { en: "Remove", uz: "O'chirish", ru: "Убрать" },
+    editBook: { en: "Edit book", uz: "Kitobni tahrirlash", ru: "Изменить книгу" },
+    tooShort: {
+      en: "Add more than 20 words",
+      uz: "20 tadan ko'p so'z yoz",
+      ru: "Нужно больше 20 слов",
+    },
+    /* The anti-gaming gate: `a a a a a` types absurdly fast and would
+       poison the learner's own records. */
+    tooRepetitive: {
+      en: "Use real sentences — this text repeats too much",
+      uz: "Haqiqiy gaplar yoz — bu matn juda takrorlanadi",
+      ru: "Нужны настоящие предложения — здесь слишком много повторов",
+    },
+  },
+  /* The coding catalogue — stages → tracks → module blocks (lib/coding.ts) */
+  coding: {
+    title: { en: "Coding", uz: "Dasturlash", ru: "Кодинг" },
+    subtitle: {
+      en: "Learn to code and to type it fast — in the same place.",
+      uz: "Kod yozishni va uni tez terishni bir joyda o'rgan.",
+      ru: "Учись писать код и быстро его набирать — в одном месте.",
+    },
+    ladder: {
+      en: "From first click to master, step by step.",
+      uz: "Birinchi bosishdan ustalikkacha — bosqichma-bosqich.",
+      ru: "От первого клика до мастера — шаг за шагом.",
+    },
+    stagesLabel: { en: "stages", uz: "bosqich", ru: "ступеней" },
+    tracksLabel: { en: "tracks", uz: "yo'nalish", ru: "направлений" },
+    modulesLabel: { en: "blocks", uz: "blok", ru: "блоков" },
+    stage: { en: "Stage", uz: "Bosqich", ru: "Ступень" },
+    blocks: { en: "Blocks", uz: "Bloklar", ru: "Блоки" },
+    typingFocus: {
+      en: "Keys you will drill",
+      uz: "Mashq qilinadigan tugmalar",
+      ru: "Клавиши для отработки",
+    },
+    youWillType: { en: "You will type", uz: "Sen teradigan kod", ru: "Ты будешь набирать" },
+    backToTracks: {
+      en: "Back to all tracks",
+      uz: "Barcha yo'nalishlarga",
+      ru: "Ко всем направлениям",
+    },
+    notReady: {
+      en: "Lessons are still being written. This is the plan you will follow.",
+      uz: "Darslar hali yozilmoqda. Bu — sen boradigan reja.",
+      ru: "Уроки ещё пишутся. Это план, по которому ты пойдёшь.",
+    },
   },
   compete: {
     title: { en: "Compete", uz: "Bellashuv", ru: "Соревнование" },
@@ -1450,6 +1667,245 @@ export const STR = {
       uz: "Bir xil tovush bir necha usulda yoziladi. O'rganish uchun bos.",
       ru: "Один и тот же звук пишется по-разному. Нажми, чтобы выучить.",
     },
+  },
+  pricing: {
+    /* Header */
+    title: {
+      en: "One plan. Everything open.",
+      uz: "Bitta reja. Hammasi ochiq.",
+      ru: "Один план. Всё открыто.",
+    },
+    pillLessons: { en: "{n} lessons", uz: "{n} ta dars", ru: "{n} уроков" },
+    pillGames: { en: "{n} games", uz: "{n} ta o'yin", ru: "{n} игр" },
+    pillLangs: { en: "3 languages", uz: "3 ta til", ru: "3 языка" },
+    /* Feature showcase */
+    f1Label: { en: "Full course", uz: "To'liq kurs", ru: "Весь курс" },
+    f1Title: {
+      en: "The whole course, key by key",
+      uz: "Butun kurs — tugma-tugma",
+      ru: "Весь курс — клавиша за клавишей",
+    },
+    f1b1: {
+      en: "{n} lessons in {s} sections",
+      uz: "{s} ta bo'limda {n} ta dars",
+      ru: "{n} уроков в {s} разделах",
+    },
+    f1b2: {
+      en: "Letters, numbers, symbols and shortcuts",
+      uz: "Harflar, raqamlar, belgilar va tezkor tugmalar",
+      ru: "Буквы, цифры, символы и горячие клавиши",
+    },
+    f1b3: {
+      en: "Tests with stars after every block",
+      uz: "Har bir blokdan keyin yulduzli testlar",
+      ru: "Тесты со звёздами после каждого блока",
+    },
+    f2Label: { en: "7 games", uz: "7 o'yin", ru: "7 игр" },
+    f2Title: {
+      en: "Seven typing games",
+      uz: "Yettita yozish o'yini",
+      ru: "Семь игр на печать",
+    },
+    f2b1: {
+      en: "Star Type, Alien Drop, Beam Break, Sky Hop",
+      uz: "Star Type, Alien Drop, Beam Break, Sky Hop",
+      ru: "Star Type, Alien Drop, Beam Break, Sky Hop",
+    },
+    f2b2: {
+      en: "Ninja Run, Rhino Dash, Tug of Typing",
+      uz: "Ninja Run, Rhino Dash, Tug of Typing",
+      ru: "Ninja Run, Rhino Dash, Tug of Typing",
+    },
+    f2b3: {
+      en: "Every game speeds up as you do",
+      uz: "Sen tezlashsang, o'yin ham tezlashadi",
+      ru: "Чем быстрее ты — тем быстрее игра",
+    },
+    f3Label: {
+      en: "English lab",
+      uz: "Ingliz laboratoriyasi",
+      ru: "Английская лаборатория",
+    },
+    f3Title: {
+      en: "Letters, sounds and spelling",
+      uz: "Harflar, tovushlar va imlo",
+      ru: "Буквы, звуки и письмо",
+    },
+    f3b1: {
+      en: "26 letters with their codes: Morse, Braille, ASL",
+      uz: "26 harf va kodlari: Morze, Brayl, ASL",
+      ru: "26 букв с кодами: Морзе, Брайль, ASL",
+    },
+    f3b2: {
+      en: "50 sounds and their shades",
+      uz: "50 ta tovush va ularning tuslari",
+      ru: "50 звуков и их оттенки",
+    },
+    f3b3: {
+      en: "Sound → letters spelling practice",
+      uz: "Tovush → harflar: imlo mashqi",
+      ru: "Звук → буквы: тренировка письма",
+    },
+    f4Label: { en: "Hands guide", uz: "Qo'l yo'riqchisi", ru: "Подсказка рук" },
+    f4Title: {
+      en: "A live keyboard and live hands",
+      uz: "Jonli klaviatura va jonli qo'llar",
+      ru: "Живая клавиатура и живые руки",
+    },
+    f4b1: {
+      en: "A colour zone for every finger",
+      uz: "Har bir barmoq uchun rangli zona",
+      ru: "Своя цветная зона для каждого пальца",
+    },
+    f4b2: {
+      en: "4 colour palettes, 2 hand styles",
+      uz: "4 xil rang to'plami, 2 xil qo'l uslubi",
+      ru: "4 палитры, 2 стиля рук",
+    },
+    f4b3: {
+      en: "Key sounds you can switch off",
+      uz: "O'chirsa bo'ladigan tugma ovozlari",
+      ru: "Звук клавиш можно выключить",
+    },
+    f5Label: { en: "Statistics", uz: "Statistika", ru: "Статистика" },
+    f5Title: {
+      en: "Every keystroke, counted",
+      uz: "Har bir bosish hisobda",
+      ru: "Каждое нажатие посчитано",
+    },
+    f5b1: {
+      en: "Speed and accuracy history",
+      uz: "Tezlik va aniqlik tarixi",
+      ru: "История скорости и точности",
+    },
+    f5b2: {
+      en: "Error map for every key and finger",
+      uz: "Har tugma va barmoq bo'yicha xato xaritasi",
+      ru: "Карта ошибок по каждой клавише и пальцу",
+    },
+    f5b3: {
+      en: "Practice calendar and records",
+      uz: "Mashq taqvimi va rekordlar",
+      ru: "Календарь практики и рекорды",
+    },
+    f6Label: { en: "Compete", uz: "Bellashuv", ru: "Соревнование" },
+    f6Title: {
+      en: "See where you stand",
+      uz: "Qayerda turganingni ko'r",
+      ru: "Узнай, где ты",
+    },
+    f6b1: {
+      en: "Today and all-time leaderboards",
+      uz: "Bugungi va umumiy reyting",
+      ru: "Рейтинг за сегодня и за всё время",
+    },
+    f6b2: {
+      en: "A world speed map with your place on it",
+      uz: "Dunyo tezlik xaritasi va undagi o'rning",
+      ru: "Карта скоростей мира и твоё место на ней",
+    },
+    f6b3: {
+      en: "Your own record, always on top",
+      uz: "Shaxsiy rekording doim tepada",
+      ru: "Твой личный рекорд всегда сверху",
+    },
+    f7Label: { en: "Comfort", uz: "Qulaylik", ru: "Удобство" },
+    f7Title: {
+      en: "Made to sit with for an hour",
+      uz: "Bir soat o'tirib mashq qilgani qulay",
+      ru: "Чтобы сидеть за ним хоть час",
+    },
+    f7b1: {
+      en: "English, O'zbek, Русский",
+      uz: "English, O'zbek, Русский",
+      ru: "English, O'zbek, Русский",
+    },
+    f7b2: {
+      en: "Light and dark theme",
+      uz: "Yorug' va qorong'i mavzu",
+      ru: "Светлая и тёмная тема",
+    },
+    f7b3: {
+      en: "Works on a laptop, tablet or PC",
+      uz: "Noutbuk, planshet va kompyuterda ishlaydi",
+      ru: "Работает на ноутбуке, планшете и ПК",
+    },
+    /* Plan card */
+    planName: { en: "Pro", uz: "Pro", ru: "Pro" },
+    month1: { en: "1 month", uz: "1 oy", ru: "1 месяц" },
+    months6: { en: "6 months", uz: "6 oy", ru: "6 месяцев" },
+    months12: { en: "12 months", uz: "12 oy", ru: "12 месяцев" },
+    perMonth: { en: "{n} / month", uz: "{n} / oy", ru: "{n} / мес" },
+    bestValue: { en: "Best value", uz: "Eng foydali", ru: "Самое выгодное" },
+    popular: { en: "Most chosen", uz: "Ko'p tanlanadi", ru: "Чаще всего берут" },
+    youSave: { en: "You save {n}", uz: "{n} tejaysan", ru: "Экономия {n}" },
+    total: { en: "Total", uz: "Jami", ru: "Итого" },
+    oncePay: {
+      en: "One payment for the whole period",
+      uz: "Butun muddat uchun bitta to'lov",
+      ru: "Один платёж за весь срок",
+    },
+    monthlyPay: {
+      en: "Paid month by month",
+      uz: "Har oy to'lanadi",
+      ru: "Оплата помесячно",
+    },
+    cta: { en: "Get Pro", uz: "Pro olish", ru: "Купить Pro" },
+    orderTitle: { en: "Your order", uz: "Buyurtmang", ru: "Твой заказ" },
+    orderSoon: {
+      en: "Payment isn't connected yet — it will open right here.",
+      uz: "To'lov hali ulanmagan — u shu yerda ochiladi.",
+      ru: "Оплата ещё не подключена — она откроется прямо здесь.",
+    },
+    close: { en: "Close", uz: "Yopish", ru: "Закрыть" },
+    /* Included list + FAQ */
+    includedTitle: {
+      en: "Everything in Pro",
+      uz: "Pro ichida nima bor",
+      ru: "Что входит в Pro",
+    },
+    faqTitle: { en: "Questions", uz: "Savollar", ru: "Вопросы" },
+    q1: {
+      en: "Can I try it before I pay?",
+      uz: "To'lashdan oldin sinab ko'rsam bo'ladimi?",
+      ru: "Можно попробовать до оплаты?",
+    },
+    a1: {
+      en: "Yes. Open the first lessons and the games and see how they feel. Take Pro when you are ready to go all the way.",
+      uz: "Ha. Birinchi darslar va o'yinlarni ochib ko'r. Oxirigacha borishga tayyor bo'lganingda Pro ol.",
+      ru: "Да. Открой первые уроки и игры, посмотри, как они. А Pro возьми, когда решишь идти до конца.",
+    },
+    q2: {
+      en: "What happens when my period ends?",
+      uz: "Muddat tugagach nima bo'ladi?",
+      ru: "Что будет, когда срок закончится?",
+    },
+    a2: {
+      en: "Nothing is deleted. Your lessons, stars and statistics stay on your account — turn Pro back on and carry on from the same place.",
+      uz: "Hech narsa o'chmaydi. Darslaring, yulduzlaring va statistikang hisobingda qoladi — Pro'ni qayta yoqib, o'sha joydan davom etasan.",
+      ru: "Ничего не удаляется. Уроки, звёзды и статистика остаются в аккаунте — включи Pro снова и продолжай с того же места.",
+    },
+    q3: {
+      en: "Is the 6- or 12-month price a single payment?",
+      uz: "6 yoki 12 oylik narx bitta to'lovmi?",
+      ru: "6 или 12 месяцев — это один платёж?",
+    },
+    a3: {
+      en: "Yes. You pay once for the whole period and the discount is already inside the price. Nothing renews by itself.",
+      uz: "Ha. Butun muddat uchun bir marta to'laysan, chegirma narx ichida. Hech narsa o'z-o'zidan uzaytirilmaydi.",
+      ru: "Да. Ты платишь один раз за весь срок, скидка уже в цене. Ничего не продлевается само.",
+    },
+    q4: {
+      en: "Can two children share one account?",
+      uz: "Ikki bola bitta hisobdan foydalansa bo'ladimi?",
+      ru: "Могут ли два ребёнка пользоваться одним аккаунтом?",
+    },
+    a4: {
+      en: "Better not — speed, mistakes and stars are saved per account. With one account each, every child sees their own real progress.",
+      uz: "Yaxshisi yo'q — tezlik, xatolar va yulduzlar har bir hisobga alohida yoziladi. Alohida hisobda har bir bola o'z haqiqiy o'sishini ko'radi.",
+      ru: "Лучше нет — скорость, ошибки и звёзды пишутся в каждый аккаунт отдельно. С отдельными аккаунтами каждый видит свой настоящий рост.",
+    },
+    soum: { en: "so'm", uz: "so'm", ru: "сум" },
   },
   notFound: {
     title: { en: "Page not found", uz: "Sahifa topilmadi", ru: "Страница не найдена" },

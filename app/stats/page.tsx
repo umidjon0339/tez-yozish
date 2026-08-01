@@ -91,11 +91,11 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <section className="bg-white border border-neutral-200 rounded-2xl p-5 sm:p-6">
+    <section className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 sm:p-6">
       <div className="flex items-start justify-between gap-4 mb-5 flex-wrap">
         <div>
-          <h2 className="text-sm font-semibold text-neutral-900">{title}</h2>
-          {desc && <p className="text-xs text-neutral-400 mt-0.5">{desc}</p>}
+          <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">{title}</h2>
+          {desc && <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">{desc}</p>}
         </div>
         {right}
       </div>
@@ -116,15 +116,15 @@ function StatTile({
   icon?: React.ReactNode;
 }) {
   return (
-    <div className="bg-white border border-neutral-200 rounded-2xl px-5 py-4 flex flex-col gap-1">
-      <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-neutral-400 font-semibold">
+    <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl px-5 py-4 flex flex-col gap-1">
+      <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold">
         {icon}
         {label}
       </span>
-      <span className="font-mono text-2xl sm:text-[28px] font-bold text-neutral-900 leading-tight">
+      <span className="font-mono text-2xl sm:text-[28px] font-bold text-neutral-900 dark:text-neutral-100 leading-tight">
         {value}
       </span>
-      {sub && <span className="text-[11px] text-neutral-400">{sub}</span>}
+      {sub && <span className="text-[11px] text-neutral-400 dark:text-neutral-500">{sub}</span>}
     </div>
   );
 }
@@ -139,7 +139,7 @@ function Segmented<T extends string | number>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="flex items-center gap-0.5 bg-neutral-100 rounded-lg p-0.5">
+    <div className="flex items-center gap-0.5 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-0.5">
       {options.map((o) => (
         <button
           key={String(o.value)}
@@ -147,8 +147,8 @@ function Segmented<T extends string | number>({
           onClick={() => onChange(o.value)}
           className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer ${
             o.value === value
-              ? "bg-white text-neutral-900 shadow-sm border border-neutral-200"
-              : "text-neutral-500 hover:text-neutral-800"
+              ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 shadow-sm border border-neutral-200 dark:border-neutral-800"
+              : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200"
           }`}
         >
           {o.label}
@@ -340,20 +340,20 @@ export default function StatsPage() {
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
       <header className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-neutral-950">
+        <h1 className="text-2xl font-bold tracking-tight text-neutral-950 dark:text-white">
           {S.title[locale]}
         </h1>
-        <p className="text-sm text-neutral-400 mt-1">{S.subtitle[locale]}</p>
+        <p className="text-sm text-neutral-400 dark:text-neutral-500 mt-1">{S.subtitle[locale]}</p>
       </header>
 
       {!hasData ? (
-        <div className="bg-white border border-neutral-200 rounded-2xl px-6 py-16 flex flex-col items-center gap-4 text-center">
+        <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl px-6 py-16 flex flex-col items-center gap-4 text-center">
           <Mascot mood="happy" className="w-24 h-24" />
-          <h2 className="text-lg font-bold text-neutral-900">{S.emptyTitle[locale]}</h2>
-          <p className="text-sm text-neutral-500 max-w-sm">{S.emptyBody[locale]}</p>
+          <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">{S.emptyTitle[locale]}</h2>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 max-w-sm">{S.emptyBody[locale]}</p>
           <Link
             href="/courses/course_core_typing"
-            className="mt-2 text-[13px] font-medium bg-neutral-950 text-white hover:bg-neutral-800 px-5 py-2 rounded-md transition-colors shadow-sm"
+            className="mt-2 text-[13px] font-medium bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 hover:bg-neutral-800 dark:hover:bg-neutral-200 px-5 py-2 rounded-md transition-colors shadow-sm"
           >
             {S.emptyCta[locale]}
           </Link>
@@ -362,7 +362,7 @@ export default function StatsPage() {
         <div className="space-y-6">
           {/* ── this week ── */}
           <div>
-            <p className="text-[11px] uppercase tracking-widest text-neutral-400 font-semibold mb-2">
+            <p className="text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold mb-2">
               {S.thisWeek[locale]}
             </p>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -422,7 +422,7 @@ export default function StatsPage() {
             >
               <LineChart
                 data={wpmData}
-                color="#171717"
+                color="var(--chart-ink)"
                 unit={` ${S.wpmUnit[locale]}`}
                 emptyText={S.noChartData[locale]}
               />
@@ -430,7 +430,7 @@ export default function StatsPage() {
             <Card title={S.accHistory[locale]}>
               <LineChart
                 data={accData}
-                color="#171717"
+                color="var(--chart-ink)"
                 unit="%"
                 domain={[accMin, 100]}
                 emptyText={S.noChartData[locale]}
@@ -445,9 +445,9 @@ export default function StatsPage() {
             right={
               <div className="flex items-center gap-3 flex-wrap">
                 {week.worstKey && (
-                  <span className="flex items-center gap-1.5 text-xs text-neutral-400">
+                  <span className="flex items-center gap-1.5 text-xs text-neutral-400 dark:text-neutral-500">
                     {S.trickyKey[locale]}:
-                    <kbd className="font-mono font-bold text-neutral-900 bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 rounded uppercase text-[11px]">
+                    <kbd className="font-mono font-bold text-neutral-900 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-800 px-1.5 py-0.5 rounded uppercase text-[11px]">
                       {displayKey(week.worstKey)}
                     </kbd>
                   </span>
@@ -480,48 +480,48 @@ export default function StatsPage() {
 
             {/* key detail panel (#23) */}
             {selectedKey && (
-              <div className="mt-5 border-t border-neutral-100 pt-5 flex flex-wrap items-center gap-x-8 gap-y-3">
-                <span className="w-12 h-12 rounded-xl bg-neutral-950 text-white font-mono text-xl font-bold uppercase flex items-center justify-center">
+              <div className="mt-5 border-t border-neutral-100 dark:border-neutral-800 pt-5 flex flex-wrap items-center gap-x-8 gap-y-3">
+                <span className="w-12 h-12 rounded-xl bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 font-mono text-xl font-bold uppercase flex items-center justify-center">
                   {glyphFor(selectedKey)}
                 </span>
                 {!selectedCell || selectedCell.presses + selectedCell.errors === 0 ? (
-                  <span className="text-sm text-neutral-400">
+                  <span className="text-sm text-neutral-400 dark:text-neutral-500">
                     {S.noKeyData[locale]}
                   </span>
                 ) : (
                   <>
                     <div className="flex flex-col">
-                      <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold">
+                      <span className="text-[10px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold">
                         {S.presses[locale]}
                       </span>
-                      <span className="font-mono text-lg font-bold text-neutral-900">
+                      <span className="font-mono text-lg font-bold text-neutral-900 dark:text-neutral-100">
                         {nf.format(selectedCell.presses)}
                       </span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold">
+                      <span className="text-[10px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold">
                         {S.errorRate[locale]}
                       </span>
-                      <span className="font-mono text-lg font-bold text-neutral-900">
+                      <span className="font-mono text-lg font-bold text-neutral-900 dark:text-neutral-100">
                         {Math.round(selectedCell.errorRate * 100)}%
-                        <span className="text-xs text-neutral-400 font-normal">
+                        <span className="text-xs text-neutral-400 dark:text-neutral-500 font-normal">
                           {" "}
                           ({nf.format(selectedCell.errors)})
                         </span>
                       </span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold">
+                      <span className="text-[10px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold">
                         {S.metricSpeed[locale]}
                       </span>
-                      <span className="font-mono text-lg font-bold text-neutral-900">
+                      <span className="font-mono text-lg font-bold text-neutral-900 dark:text-neutral-100">
                         {selectedCell.keyWpm !== null
                           ? `${Math.round(selectedCell.keyWpm)} ${S.wpmUnit[locale]}`
                           : "—"}
                       </span>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold">
+                      <span className="text-[10px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold">
                         {S.metricConfidence[locale]}
                       </span>
                       {selectedCell.confidence !== null ? (
@@ -532,22 +532,22 @@ export default function StatsPage() {
                               style={{ width: `${selectedCell.confidence}%` }}
                             />
                           </span>
-                          <span className="font-mono text-xs font-bold text-neutral-900">
+                          <span className="font-mono text-xs font-bold text-neutral-900 dark:text-neutral-100">
                             {Math.round(selectedCell.confidence)}
                           </span>
                         </span>
                       ) : (
-                        <span className="text-xs text-neutral-400">
+                        <span className="text-xs text-neutral-400 dark:text-neutral-500">
                           {S.stillLearning[locale]}
                         </span>
                       )}
                     </div>
                     {FINGER_OF_KEY_ID[selectedKey] && (
                       <div className="flex flex-col">
-                        <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold">
+                        <span className="text-[10px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold">
                           {S.finger[locale]}
                         </span>
-                        <span className="text-sm font-medium text-neutral-700">
+                        <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                           {fingerNames[FINGER_OF_KEY_ID[selectedKey]]}
                         </span>
                       </div>
@@ -573,8 +573,8 @@ export default function StatsPage() {
                     }`
               }
             />
-            <div className="mt-7 border-t border-neutral-100 pt-5">
-              <p className="text-[11px] uppercase tracking-widest text-neutral-400 font-semibold mb-3">
+            <div className="mt-7 border-t border-neutral-100 dark:border-neutral-800 pt-5">
+              <p className="text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold mb-3">
                 {S.rowsTitle[locale]}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
@@ -583,16 +583,16 @@ export default function StatsPage() {
                   const acc = s && s.total > 0 ? s.accuracy : null;
                   return (
                     <div key={row} className="flex items-center gap-2.5">
-                      <span className="w-28 shrink-0 text-xs text-neutral-500">
+                      <span className="w-28 shrink-0 text-xs text-neutral-500 dark:text-neutral-400">
                         {rowNames[row]}
                       </span>
-                      <span className="flex-1 h-1.5 rounded-full bg-neutral-100 overflow-hidden">
+                      <span className="flex-1 h-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
                         <span
-                          className="block h-full rounded-full bg-neutral-800"
+                          className="block h-full rounded-full bg-neutral-800 dark:bg-neutral-200"
                           style={{ width: `${acc ?? 0}%` }}
                         />
                       </span>
-                      <span className="w-24 shrink-0 text-right font-mono text-[11px] text-neutral-500">
+                      <span className="w-24 shrink-0 text-right font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                         {acc !== null ? `${acc}% · ${nf.format(s.total)}` : "—"}
                       </span>
                     </div>
@@ -617,7 +617,7 @@ export default function StatsPage() {
 
           {/* ── records & totals ── */}
           <div>
-            <p className="text-[11px] uppercase tracking-widest text-neutral-400 font-semibold mb-2">
+            <p className="text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold mb-2">
               {S.recordsTitle[locale]}
             </p>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -655,7 +655,7 @@ export default function StatsPage() {
           </div>
 
           <div>
-            <p className="text-[11px] uppercase tracking-widest text-neutral-400 font-semibold mb-2">
+            <p className="text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold mb-2">
               {S.totalsTitle[locale]}
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -681,7 +681,7 @@ export default function StatsPage() {
                         cy="36"
                         r="26"
                         fill="none"
-                        stroke="#f0f0ef"
+                        stroke="var(--chart-grid)"
                         strokeWidth="7"
                       />
                       <circle
@@ -689,7 +689,7 @@ export default function StatsPage() {
                         cy="36"
                         r="26"
                         fill="none"
-                        stroke="#171717"
+                        stroke="var(--chart-ink)"
                         strokeWidth="7"
                         strokeLinecap="round"
                         strokeDasharray={`${pct * C} ${C}`}
@@ -699,16 +699,16 @@ export default function StatsPage() {
                         x="36"
                         y="40"
                         textAnchor="middle"
-                        className="fill-neutral-900 font-mono font-bold"
+                        className="fill-neutral-900 dark:fill-neutral-100 font-mono font-bold"
                         fontSize="14"
                       >
                         {Math.round(pct * 100)}%
                       </text>
                     </svg>
-                    <span className="text-xs font-medium text-neutral-700 text-center leading-tight">
+                    <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300 text-center leading-tight">
                       {ch.title}
                     </span>
-                    <span className="text-[10px] text-neutral-400 font-mono">
+                    <span className="text-[10px] text-neutral-400 dark:text-neutral-500 font-mono">
                       {ch.passed}/{ch.total} · {ch.stars}/{ch.maxStars} ★
                     </span>
                   </div>
@@ -740,8 +740,8 @@ export default function StatsPage() {
                         : hasKeyData
                           ? "bg-amber-200 text-amber-950"
                           : unlocked
-                            ? "bg-white border border-neutral-200 text-neutral-500"
-                            : "bg-neutral-100 text-neutral-300";
+                            ? "bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-500 dark:text-neutral-400"
+                            : "bg-neutral-100 dark:bg-neutral-800 text-neutral-300 dark:text-neutral-600";
                       const label = learned
                         ? S.legendLearned[locale]
                         : hasKeyData
@@ -762,7 +762,7 @@ export default function StatsPage() {
                   </div>
                 ))}
               </div>
-              <div className="flex items-center gap-4 text-[11px] text-neutral-500 flex-wrap justify-center">
+              <div className="flex items-center gap-4 text-[11px] text-neutral-500 dark:text-neutral-400 flex-wrap justify-center">
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-sm bg-emerald-500" />
                   {S.legendLearned[locale]}
@@ -772,11 +772,11 @@ export default function StatsPage() {
                   {S.legendLearning[locale]}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-sm bg-white border border-neutral-200" />
+                  <span className="w-3 h-3 rounded-sm bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800" />
                   {S.legendUnlocked[locale]}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-sm bg-neutral-100" />
+                  <span className="w-3 h-3 rounded-sm bg-neutral-100 dark:bg-neutral-800" />
                   {S.legendLocked[locale]}
                 </span>
               </div>
@@ -784,14 +784,14 @@ export default function StatsPage() {
           </Card>
 
           {/* ── footer ── */}
-          <div className="flex items-center justify-between pt-2 pb-6 text-xs text-neutral-400">
+          <div className="flex items-center justify-between pt-2 pb-6 text-xs text-neutral-400 dark:text-neutral-500">
             <span>{S.storedLocally[locale]}</span>
             <button
               type="button"
               onClick={() => {
                 if (window.confirm(S.resetConfirm[locale])) resetStats();
               }}
-              className="flex items-center gap-1.5 text-neutral-400 hover:text-red-500 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 text-neutral-400 dark:text-neutral-500 hover:text-red-500 transition-colors cursor-pointer"
             >
               <RotateCcw size={12} />
               {S.resetBtn[locale]}

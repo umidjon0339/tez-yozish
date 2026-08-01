@@ -130,8 +130,11 @@ Exports: `course: CourseNode` (the singleton, built once at import),
 
 Source → runtime transforms:
 
-- **Numbering**: `chapterNumber`/`sectionNumber`/`lessonNumber`/`stepNumber`
-  = array index + 1.
+- **Numbering**: `chapterNumber`/`lessonNumber`/`stepNumber` = array index + 1.
+  `sectionNumber` is **course-wide and continuous**: a single counter runs
+  across all chapters, so the first section of chapter 2 continues from the
+  last section of chapter 1 (home row 1–5 → top row 6–10 …), instead of
+  restarting at 1 per chapter.
 - **Step ids**: `stepId = \`${lesson.id}-s${i + 1}\``.
 - **Token splitting** (`splitText`): string → `split(/\s+/).filter(Boolean)`;
   array → `filter(Boolean)`.

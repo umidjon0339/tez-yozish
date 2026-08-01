@@ -75,6 +75,12 @@ for (const p of PROFILES) {
   );
   if (out === tsx.doc) throw new Error("could not find the Keyboard component to rename");
 
+  /* Each variant reads its own finger-band table: the bands are measured off
+     the geometry, and this one has just been reshaped. */
+  const bandsBefore = out;
+  out = out.replace('import("./fingerBands.classic.generated")', `import("./fingerBands.${p.id}.generated")`);
+  if (out === bandsBefore) throw new Error("could not find the finger-bands import to repoint");
+
   const banner = `// GENERATED FILE — do not edit by hand.
 // \`npm run build:hands\` rebuilds it from hands.tsx by reshaping the finger
 // geometry (scripts/lib/hand-profiles.mjs → "${p.id}"). Everything else —

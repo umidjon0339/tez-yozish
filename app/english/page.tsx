@@ -125,16 +125,16 @@ export default function EnglishPage() {
     <>
       {done > 0 && (
         <>
-          <span className="font-mono text-[12px] font-semibold text-neutral-500">
+          <span className="font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
             {done} / {total}
           </span>
-          <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500">
+          <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
             <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
             {stars}
           </span>
         </>
       )}
-      <ChevronRight className="w-4 h-4 text-neutral-400" />
+      <ChevronRight className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
     </>
   );
 
@@ -156,14 +156,14 @@ export default function EnglishPage() {
           {/* English Latin alphabet → /english/letters */}
           <Link
             href="/english/letters"
-            className="block rounded-lg border border-neutral-200 bg-white p-4 shadow-sm transition-all hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-md"
+            className="block rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm transition-all hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-md"
           >
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm font-bold text-neutral-900">
+              <span className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
                 {E.alphabet[locale]}
               </span>
               <span className="flex items-center gap-2.5">
-                <span className="font-mono text-[12px] font-semibold text-neutral-500">
+                <span className="font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
                   {E.countLetters[locale].replace(
                     "{n}",
                     String(ALPHABET.length),
@@ -171,28 +171,28 @@ export default function EnglishPage() {
                 </span>
                 {lettersDone > 0 && (
                   <>
-                    <span className="font-mono text-[12px] font-semibold text-neutral-500">
+                    <span className="font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
                       {lettersDone} / {LETTERS.length}
                     </span>
-                    <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500">
+                    <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
                       <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
                       {letterStars}
                     </span>
                   </>
                 )}
-                <ChevronRight className="w-4 h-4 text-neutral-400" />
+                <ChevronRight className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
               </span>
             </div>
             <div className="mt-3 flex flex-col gap-4">
               <TileGrid symbols={ALPHABET} />
               {/* vowel / consonant legend */}
-              <div className="flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-medium text-neutral-500">
+              <div className="flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-medium text-neutral-500 dark:text-neutral-400">
                 <span className="inline-flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-sm border border-emerald-500/30 bg-emerald-500/10" />
                   {STR.letters.filterVowels[locale]}
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-sm border border-neutral-300 bg-white" />
+                  <span className="w-3 h-3 rounded-sm border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900" />
                   {STR.letters.filterConsonants[locale]}
                 </span>
               </div>
@@ -202,10 +202,10 @@ export default function EnglishPage() {
           {/* International Phonetic Alphabet → /english/phonemes */}
           <Link
             href="/english/phonemes"
-            className="block rounded-lg border border-neutral-200 bg-white p-4 shadow-sm transition-all hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-md"
+            className="block rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm transition-all hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-md"
           >
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm font-bold text-neutral-900">
+              <span className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
                 {E.ipa[locale]}
               </span>
               <span className="flex items-center gap-2.5">
@@ -219,19 +219,19 @@ export default function EnglishPage() {
                 </span>
                 {soundsDone > 0 && (
                   <>
-                    <span className="font-mono text-[12px] font-semibold text-neutral-500">
+                    <span className="font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
                       {soundsDone} / {PHONEMES.length}
                     </span>
-                    <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500">
+                    <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
                       <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
                       {soundStars}
                     </span>
                   </>
                 )}
-                <ChevronRight className="w-4 h-4 text-neutral-400" />
+                <ChevronRight className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
               </span>
             </div>
-            <p className="mt-1.5 text-[12px] text-neutral-400">
+            <p className="mt-1.5 text-[12px] text-neutral-400 dark:text-neutral-500">
               {E.soundLessons[locale]}
             </p>
             <div className="mt-3 flex flex-col gap-4">
@@ -244,9 +244,9 @@ export default function EnglishPage() {
                 <IpaTileGrid symbols={IPA_CONSONANTS} />
               </div>
               {/* UK / US legend */}
-              <div className="flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-medium text-neutral-500">
+              <div className="flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-medium text-neutral-500 dark:text-neutral-400">
                 <span className="inline-flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded-sm border border-neutral-300 bg-white" />
+                  <span className="w-3 h-3 rounded-sm border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900" />
                   UK + US
                 </span>
                 <span className="inline-flex items-center gap-1.5">
@@ -258,7 +258,7 @@ export default function EnglishPage() {
                   {E.usOnly[locale]}
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <span className="font-mono text-[10px] font-semibold text-neutral-400">
+                  <span className="font-mono text-[10px] font-semibold text-neutral-400 dark:text-neutral-500">
                     [tʰ ʔ]
                   </span>
                   {E.allophones[locale]}
@@ -277,7 +277,7 @@ export default function EnglishPage() {
           {/* 1) Grapheme → phoneme: the spellings, size × vowel/consonant */}
           <Link
             href="/english/graphemes"
-            className="block rounded-lg border border-neutral-200 bg-white p-4 shadow-sm transition-all hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-md"
+            className="block rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm transition-all hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-md"
           >
             <SubHeader
               title={E.graphemeToPhoneme[locale]}
@@ -288,7 +288,7 @@ export default function EnglishPage() {
               <table className="w-full min-w-120 border-collapse">
                 <thead>
                   <tr>
-                    <th className="w-32 border border-neutral-200 bg-neutral-50 p-2" />
+                    <th className="w-32 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2" />
                     <HeadCell>{STR.letters.filterVowels[locale]}</HeadCell>
                     <HeadCell>{STR.letters.filterConsonants[locale]}</HeadCell>
                   </tr>
@@ -333,7 +333,7 @@ export default function EnglishPage() {
                       <RowLabel>{row.label}</RowLabel>
                       <BodyCell>
                         {!row.v || row.v.length === 0 ? (
-                          <span className="text-neutral-300">—</span>
+                          <span className="text-neutral-300 dark:text-neutral-600">—</span>
                         ) : row.lines || !row.vGrid ? (
                           <GraphemeLines tiles={row.v} tint="plain" />
                         ) : (
@@ -361,7 +361,7 @@ export default function EnglishPage() {
           {/* 2) Phoneme → grapheme: each sound with its common spellings */}
           <Link
             href="/english/spellings"
-            className="block rounded-lg border border-neutral-200 bg-white p-4 shadow-sm transition-all hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-md"
+            className="block rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm transition-all hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-md"
           >
             <SubHeader
               title={E.phonemeToGrapheme[locale]}
@@ -372,7 +372,7 @@ export default function EnglishPage() {
               <table className="w-full min-w-120 border-collapse">
                 <thead>
                   <tr>
-                    <th className="w-32 border border-neutral-200 bg-neutral-50 p-2" />
+                    <th className="w-32 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2" />
                     <HeadCell>{STR.letters.filterVowels[locale]}</HeadCell>
                     <HeadCell>{STR.letters.filterConsonants[locale]}</HeadCell>
                   </tr>
@@ -409,9 +409,9 @@ export default function EnglishPage() {
               </table>
             </div>
             {/* UK / US legend */}
-            <div className="mt-3 flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-medium text-neutral-500">
+            <div className="mt-3 flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-medium text-neutral-500 dark:text-neutral-400">
               <span className="inline-flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-sm border border-neutral-300 bg-white" />
+                <span className="w-3 h-3 rounded-sm border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900" />
                 UK + US
               </span>
               <span className="inline-flex items-center gap-1.5">
@@ -433,9 +433,9 @@ export default function EnglishPage() {
       example: (
         <div className="flex flex-col gap-4">
           {/* 1) By letters — orthographic */}
-          <div className="rounded-lg border border-neutral-200 bg-white p-4">
+          <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4">
             <div className="flex items-start justify-between gap-3 flex-wrap">
-              <span className="text-sm font-bold text-neutral-900">
+              <span className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
                 {E.syllByLetters[locale]}
               </span>
               <SyllableSplit
@@ -444,34 +444,34 @@ export default function EnglishPage() {
                 sep="-"
               />
             </div>
-            <p className="mt-1 text-[13px] text-neutral-500">
+            <p className="mt-1 text-[13px] text-neutral-500 dark:text-neutral-400">
               {E.syllByLettersDesc[locale]}
             </p>
 
             {/* Two ways to read a pattern: letters vs graphemes */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <GroupLabel strong>{E.twoWaysTitle[locale]}</GroupLabel>
-              <p className="mt-0.5 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[12px] text-neutral-400 dark:text-neutral-500">
                 {E.cvLegend[locale]}
               </p>
               <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {/* letter-based — every letter counts, so patterns never end */}
-                <div className="rounded-md border border-neutral-200 bg-neutral-50 p-2.5">
+                <div className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2.5">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <span className="flex items-baseline gap-1.5">
-                      <span className="text-[11px] font-bold text-neutral-700">
+                      <span className="text-[11px] font-bold text-neutral-700 dark:text-neutral-300">
                         {E.letterBased[locale]}
                       </span>
-                      <span className="text-[10px] text-neutral-400">
+                      <span className="text-[10px] text-neutral-400 dark:text-neutral-500">
                         {E.tagSimple[locale]}
                       </span>
                     </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-neutral-200/60 px-2 h-5 font-mono text-[10px] font-semibold text-neutral-500">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-neutral-200/60 dark:bg-neutral-700/60 px-2 h-5 font-mono text-[10px] font-semibold text-neutral-500 dark:text-neutral-400">
                       <span className="text-[13px] leading-none">∞</span>
                       {E.infinitePatterns[locale]}
                     </span>
                   </div>
-                  <p className="mt-0.5 text-[11px] leading-4 min-h-4 text-neutral-400">
+                  <p className="mt-0.5 text-[11px] leading-4 min-h-4 text-neutral-400 dark:text-neutral-500">
                     {E.letterBasedHint[locale]}
                   </p>
                   <div className="mt-1.5 flex flex-col gap-1">
@@ -514,24 +514,24 @@ export default function EnglishPage() {
                   </div>
                 </div>
                 {/* grapheme-based — a fixed set of graphemes keeps patterns short */}
-                <div className="rounded-md border border-neutral-200 bg-neutral-50 p-2.5">
+                <div className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2.5">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <span className="flex items-baseline gap-1.5">
-                      <span className="text-[11px] font-bold text-neutral-700">
+                      <span className="text-[11px] font-bold text-neutral-700 dark:text-neutral-300">
                         {E.graphemeBased[locale]}
                       </span>
-                      <span className="text-[10px] text-neutral-400">
+                      <span className="text-[10px] text-neutral-400 dark:text-neutral-500">
                         {E.tagPhonics[locale]}
                       </span>
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-neutral-200/60 px-2 h-5 font-mono text-[10px] font-semibold text-neutral-500">
+                    <span className="inline-flex items-center rounded-full bg-neutral-200/60 dark:bg-neutral-700/60 px-2 h-5 font-mono text-[10px] font-semibold text-neutral-500 dark:text-neutral-400">
                       {E.countGraphemes[locale].replace(
                         "{n}",
                         String(GRAPHEMES.length),
                       )}
                     </span>
                   </div>
-                  <p className="mt-0.5 text-[11px] leading-4 min-h-4 text-neutral-400">
+                  <p className="mt-0.5 text-[11px] leading-4 min-h-4 text-neutral-400 dark:text-neutral-500">
                     {E.graphemeBasedHint[locale]}
                   </p>
                   <div className="mt-1.5 flex flex-col gap-1">
@@ -577,20 +577,20 @@ export default function EnglishPage() {
             </div>
 
             {/* Syllable division rules — 3 of the 15, badge shows the total */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <GroupLabel strong>{E.syllDivTitle[locale]}</GroupLabel>
-                <span className="rounded-full bg-neutral-200/60 px-2 py-0.5 font-mono text-[10px] font-semibold text-neutral-500">
+                <span className="rounded-full bg-neutral-200/60 dark:bg-neutral-700/60 px-2 py-0.5 font-mono text-[10px] font-semibold text-neutral-500 dark:text-neutral-400">
                   {E.countRules[locale].replace("{n}", "15")}
                 </span>
               </div>
-              <p className="mt-0.5 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[12px] text-neutral-400 dark:text-neutral-500">
                 {E.syllDivCaption[locale]}
               </p>
               <div className="mt-2 overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
-                    <tr className="border-b border-neutral-200 text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
+                    <tr className="border-b border-neutral-200 dark:border-neutral-800 text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
                       <th className="py-1.5 pr-2">{E.colPattern[locale]}</th>
                       <th className="py-1.5 px-2">
                         {E.colPatternSplit[locale]}
@@ -620,7 +620,7 @@ export default function EnglishPage() {
                     ).map((r) => (
                       <tr
                         key={r.ex}
-                        className="border-b border-neutral-100 last:border-0"
+                        className="border-b border-neutral-100 dark:border-neutral-800 last:border-0"
                       >
                         <td className="py-1.5 pr-2">
                           <CvPattern pat={r.pat} />
@@ -628,7 +628,7 @@ export default function EnglishPage() {
                         <td className="py-1.5 px-2">
                           <SplitPattern tokens={r.split} />
                         </td>
-                        <td className="py-1.5 pl-2 font-mono text-[12px] font-semibold text-neutral-600 whitespace-nowrap">
+                        <td className="py-1.5 pl-2 font-mono text-[12px] font-semibold text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
                           {r.ex}
                         </td>
                       </tr>
@@ -639,28 +639,28 @@ export default function EnglishPage() {
             </div>
 
             {/* Table 2: 7 syllable types, grouped by category */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <GroupLabel strong>{E.syllTypesTitle[locale]}</GroupLabel>
-              <p className="mt-0.5 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[12px] text-neutral-400 dark:text-neutral-500">
                 {E.syllTypesCaption[locale]}
               </p>
               <div className="mt-2 overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
-                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colCategory[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colSyllType[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colPattern[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colReading[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.example[locale]}
                       </th>
                     </tr>
@@ -756,7 +756,7 @@ export default function EnglishPage() {
                           {i === 0 && (
                             <td
                               rowSpan={g.rows.length}
-                              className="border border-neutral-200 bg-neutral-50 p-2 align-middle text-center text-[11px] font-semibold text-neutral-500"
+                              className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 align-middle text-center text-[11px] font-semibold text-neutral-500 dark:text-neutral-400"
                             >
                               {g.cat.split(" ").map((w) => (
                                 <span key={w} className="block">
@@ -765,24 +765,24 @@ export default function EnglishPage() {
                               ))}
                             </td>
                           )}
-                          <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 whitespace-nowrap">
+                          <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                             {t.name}
                           </td>
-                          <td className="border border-neutral-200 p-2 align-middle">
+                          <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle">
                             <span className="flex flex-wrap justify-center gap-x-2 gap-y-0.5">
                               {t.pats.map((p) => (
                                 <CvPattern key={p} pat={p} />
                               ))}
                             </span>
                           </td>
-                          <td className="border border-neutral-200 p-2 align-middle text-center">
+                          <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                             {t.read.length > 0 ? (
                               <ReadMark tokens={t.read} />
                             ) : (
-                              <span className="text-neutral-300">—</span>
+                              <span className="text-neutral-300 dark:text-neutral-600">—</span>
                             )}
                           </td>
-                          <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[12px] font-semibold text-neutral-600 whitespace-nowrap">
+                          <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[12px] font-semibold text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
                             {t.ex}
                           </td>
                         </tr>
@@ -794,43 +794,43 @@ export default function EnglishPage() {
             </div>
 
             {/* stress in letters: capitals + size mark the stressed parts */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <GroupLabel strong>{E.syllStressTitle[locale]}</GroupLabel>
-              <p className="mt-0.5 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[12px] text-neutral-400 dark:text-neutral-500">
                 {E.stressCapsCaption[locale]}
               </p>
               <div className="mt-2 overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
-                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colStressType[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colSymbol[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colWhere[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.example[locale]}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 whitespace-nowrap">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                         {E.primaryStress[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <span className="font-mono">
                           <StressSeg t="abc" k="primary" variant={stressStyle} />
                         </span>
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] text-neutral-600">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] text-neutral-600 dark:text-neutral-400">
                         {E.stressWherePrimary[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <StressWord
                           variant={stressStyle}
                           segs={[
@@ -842,10 +842,10 @@ export default function EnglishPage() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 whitespace-nowrap">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                         {E.secondaryStress[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <span className="font-mono">
                           <StressSeg
                             t="abc"
@@ -854,10 +854,10 @@ export default function EnglishPage() {
                           />
                         </span>
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] text-neutral-600">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] text-neutral-600 dark:text-neutral-400">
                         {E.stressWhereSecondary[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <StressWord
                           variant={stressStyle}
                           segs={[
@@ -870,18 +870,18 @@ export default function EnglishPage() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 whitespace-nowrap">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                         {E.unstressedName[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
-                        <span className="font-mono text-[12px] font-medium text-neutral-400">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
+                        <span className="font-mono text-[12px] font-medium text-neutral-400 dark:text-neutral-500">
                           abc
                         </span>
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] text-neutral-600">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] text-neutral-600 dark:text-neutral-400">
                         {E.stressWhereUnstressed[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <StressWord
                           variant={stressStyle}
                           segs={[{ t: "a" }, { t: "bout", k: "primary" }]}
@@ -895,9 +895,9 @@ export default function EnglishPage() {
           </div>
 
           {/* 2) By sounds — phonological */}
-          <div className="rounded-lg border border-neutral-200 bg-white p-4">
+          <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4">
             <div className="flex items-start justify-between gap-3 flex-wrap">
-              <span className="text-sm font-bold text-neutral-900">
+              <span className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
                 {E.syllBySounds[locale]}
               </span>
               <SyllableSplit
@@ -906,29 +906,29 @@ export default function EnglishPage() {
                 sep="·"
               />
             </div>
-            <p className="mt-1 text-[13px] text-neutral-500">
+            <p className="mt-1 text-[13px] text-neutral-500 dark:text-neutral-400">
               {E.syllBySoundsDesc[locale]}
             </p>
 
             {/* syllable patterns — two mirrored cards, like the
                 orthographic "Two ways to read a pattern" pair */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <GroupLabel strong>{E.syllShapesTitle[locale]}</GroupLabel>
-              <p className="mt-0.5 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[12px] text-neutral-400 dark:text-neutral-500">
                 {E.cvLegend[locale]}
               </p>
               <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {/* simple — no consonant cluster */}
-                <div className="rounded-md border border-neutral-200 bg-neutral-50 p-2.5">
+                <div className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2.5">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <span className="text-[11px] font-bold text-neutral-700">
+                    <span className="text-[11px] font-bold text-neutral-700 dark:text-neutral-300">
                       {E.syllSimpleTitle[locale]}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-neutral-200/60 px-2 h-5 font-mono text-[10px] font-semibold text-neutral-500">
+                    <span className="inline-flex items-center rounded-full bg-neutral-200/60 dark:bg-neutral-700/60 px-2 h-5 font-mono text-[10px] font-semibold text-neutral-500 dark:text-neutral-400">
                       {E.countPatterns[locale].replace("{n}", "4")}
                     </span>
                   </div>
-                  <p className="mt-0.5 text-[11px] leading-4 min-h-4 text-neutral-400">
+                  <p className="mt-0.5 text-[11px] leading-4 min-h-4 text-neutral-400 dark:text-neutral-500">
                     {E.syllSimpleHint[locale]}
                   </p>
                   <div className="mt-1.5 flex flex-col gap-1">
@@ -941,7 +941,7 @@ export default function EnglishPage() {
                         key={r.pat}
                         className="flex items-center gap-1.5 justify-between h-6"
                       >
-                        <span className="font-mono text-[13px] font-semibold text-neutral-800">
+                        <span className="font-mono text-[13px] font-semibold text-neutral-800 dark:text-neutral-200">
                           /{r.ipa}/
                         </span>
                         <CvPattern pat={r.pat} />
@@ -950,16 +950,16 @@ export default function EnglishPage() {
                   </div>
                 </div>
                 {/* with clusters — mirrored: pattern first */}
-                <div className="rounded-md border border-neutral-200 bg-neutral-50 p-2.5">
+                <div className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2.5">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <span className="text-[11px] font-bold text-neutral-700">
+                    <span className="text-[11px] font-bold text-neutral-700 dark:text-neutral-300">
                       {E.syllClusterTitle[locale]}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-neutral-200/60 px-2 h-5 font-mono text-[10px] font-semibold text-neutral-500">
+                    <span className="inline-flex items-center rounded-full bg-neutral-200/60 dark:bg-neutral-700/60 px-2 h-5 font-mono text-[10px] font-semibold text-neutral-500 dark:text-neutral-400">
                       {E.countPatterns[locale].replace("{n}", "16")}
                     </span>
                   </div>
-                  <p className="mt-0.5 text-[11px] leading-4 min-h-4 text-neutral-400">
+                  <p className="mt-0.5 text-[11px] leading-4 min-h-4 text-neutral-400 dark:text-neutral-500">
                     {E.syllClusterHint[locale]}
                   </p>
                   <div className="mt-1.5 flex flex-col gap-1">
@@ -973,7 +973,7 @@ export default function EnglishPage() {
                         className="flex items-center gap-1.5 justify-between h-6"
                       >
                         <CvPattern pat={r.pat} />
-                        <span className="font-mono text-[13px] font-semibold text-neutral-800">
+                        <span className="font-mono text-[13px] font-semibold text-neutral-800 dark:text-neutral-200">
                           /{r.ipa}/
                         </span>
                       </div>
@@ -984,21 +984,21 @@ export default function EnglishPage() {
             </div>
 
             {/* inside a syllable: onset + rhyme (nucleus + coda) */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <GroupLabel strong>{E.syllStructTitle[locale]}</GroupLabel>
-              <p className="mt-0.5 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[12px] text-neutral-400 dark:text-neutral-500">
                 {E.syllStructCaption[locale]}
               </p>
               <div className="mt-2 flex flex-col gap-1.5">
-                <div className="rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-center">
-                  <span className="text-[10px] uppercase tracking-wide text-neutral-400 font-semibold">
+                <div className="rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-1.5 text-center">
+                  <span className="text-[10px] uppercase tracking-wide text-neutral-400 dark:text-neutral-500 font-semibold">
                     {E.syllable[locale]}
                   </span>
                 </div>
                 <div className="grid grid-cols-[1fr_2fr] gap-1.5">
                   {/* onset group — unlabeled wrapper mirrors the Rhyme box
                       so the three white cards sit on one line */}
-                  <div className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-2 flex flex-col items-center gap-1">
+                  <div className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-2 py-2 flex flex-col items-center gap-1">
                     <span
                       aria-hidden
                       className="invisible text-[10px] uppercase tracking-wide font-semibold"
@@ -1010,8 +1010,8 @@ export default function EnglishPage() {
                       forms={["–", "C", "CC", "CCC"]}
                     />
                   </div>
-                  <div className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-2 flex flex-col items-center gap-1">
-                    <span className="text-[10px] uppercase tracking-wide text-neutral-400 font-semibold">
+                  <div className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-2 py-2 flex flex-col items-center gap-1">
+                    <span className="text-[10px] uppercase tracking-wide text-neutral-400 dark:text-neutral-500 font-semibold">
                       {E.rhyme[locale]}
                     </span>
                     <div className="grid grid-cols-2 gap-1.5 w-full flex-1">
@@ -1028,37 +1028,37 @@ export default function EnglishPage() {
                 </div>
 
                 {/* the same tree read for one word: /kæt/ → /k/ + /æt/ */}
-                <div className="mt-1 rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-center">
-                  <span className="font-mono text-[13px] font-bold text-neutral-900">
+                <div className="mt-1 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-1.5 text-center">
+                  <span className="font-mono text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
                     /kæt/
                   </span>
                 </div>
                 <div className="grid grid-cols-[1fr_2fr] gap-1.5">
-                  <div className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-2 flex flex-col items-center gap-1">
+                  <div className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-2 py-2 flex flex-col items-center gap-1">
                     <span
                       aria-hidden
                       className="invisible font-mono text-[10px] font-semibold"
                     >
                       /æt/
                     </span>
-                    <div className="w-full flex-1 rounded border border-neutral-200 bg-white px-2 py-1 flex items-center justify-center">
-                      <span className="font-mono text-[13px] font-bold text-neutral-800">
+                    <div className="w-full flex-1 rounded border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2 py-1 flex items-center justify-center">
+                      <span className="font-mono text-[13px] font-bold text-neutral-800 dark:text-neutral-200">
                         /k/
                       </span>
                     </div>
                   </div>
-                  <div className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-2 flex flex-col items-center gap-1">
-                    <span className="font-mono text-[10px] font-semibold text-neutral-400">
+                  <div className="rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-2 py-2 flex flex-col items-center gap-1">
+                    <span className="font-mono text-[10px] font-semibold text-neutral-400 dark:text-neutral-500">
                       /æt/
                     </span>
                     <div className="grid grid-cols-2 gap-1.5 w-full flex-1">
-                      <div className="rounded border border-neutral-200 bg-white px-2 py-1 flex items-center justify-center">
-                        <span className="font-mono text-[13px] font-bold text-neutral-800">
+                      <div className="rounded border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2 py-1 flex items-center justify-center">
+                        <span className="font-mono text-[13px] font-bold text-neutral-800 dark:text-neutral-200">
                           /æ/
                         </span>
                       </div>
-                      <div className="rounded border border-neutral-200 bg-white px-2 py-1 flex items-center justify-center">
-                        <span className="font-mono text-[13px] font-bold text-neutral-800">
+                      <div className="rounded border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2 py-1 flex items-center justify-center">
+                        <span className="font-mono text-[13px] font-bold text-neutral-800 dark:text-neutral-200">
                           /t/
                         </span>
                       </div>
@@ -1070,22 +1070,22 @@ export default function EnglishPage() {
             </div>
 
             {/* open / closed — how the syllable ends (its coda) */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <GroupLabel strong>{E.colSyllType[locale]}</GroupLabel>
               <div className="mt-2 overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
-                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colSyllType[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colDescription[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colPattern[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.example[locale]}
                       </th>
                     </tr>
@@ -1119,23 +1119,23 @@ export default function EnglishPage() {
                       },
                     ].map((r) => (
                       <tr key={r.ex}>
-                        <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 whitespace-nowrap">
+                        <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                           {r.name}
                         </td>
-                        <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] text-neutral-600">
+                        <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] text-neutral-600 dark:text-neutral-400">
                           {r.desc}
-                          <span className="block font-semibold text-neutral-900">
+                          <span className="block font-semibold text-neutral-900 dark:text-neutral-100">
                             {r.coda}
                           </span>
                         </td>
-                        <td className="border border-neutral-200 p-2 align-middle">
+                        <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle">
                           <span className="flex flex-wrap justify-center gap-x-2 gap-y-0.5">
                             {r.pats.map((p) => (
                               <CvPattern key={p} pat={p} />
                             ))}
                           </span>
                         </td>
-                        <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[12px] font-semibold text-neutral-600 whitespace-nowrap">
+                        <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[12px] font-semibold text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
                           {r.ex}
                         </td>
                       </tr>
@@ -1146,43 +1146,43 @@ export default function EnglishPage() {
             </div>
 
             {/* stress in sounds: the IPA marks ˈ (primary) and ˌ (secondary) */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <GroupLabel strong>{E.syllStressTitle[locale]}</GroupLabel>
-              <p className="mt-0.5 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[12px] text-neutral-400 dark:text-neutral-500">
                 {E.stressMarksCaption[locale]}
               </p>
               <div className="mt-2 overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
-                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colStressType[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colSymbol[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colWhere[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.example[locale]}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 whitespace-nowrap">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                         {E.primaryStress[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <span className="font-mono text-lg font-extrabold text-red-800">
                           ˈ
                         </span>
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] text-neutral-600">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] text-neutral-600 dark:text-neutral-400">
                         {E.stressWherePrimary[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <StressIpaExample
                           word="computer"
                           uk="/kəmˈpjuː.tər/"
@@ -1191,18 +1191,18 @@ export default function EnglishPage() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 whitespace-nowrap">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                         {E.secondaryStress[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <span className="font-mono text-lg font-extrabold text-blue-600">
                           ˌ
                         </span>
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] text-neutral-600">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] text-neutral-600 dark:text-neutral-400">
                         {E.stressWhereSecondary[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <StressIpaExample
                           word="organization"
                           uk="/ˌɔː.ɡən.aɪˈzeɪ.ʃən/"
@@ -1211,16 +1211,16 @@ export default function EnglishPage() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 whitespace-nowrap">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] font-semibold text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
                         {E.unstressedName[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
-                        <span className="text-neutral-300">—</span>
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
+                        <span className="text-neutral-300 dark:text-neutral-600">—</span>
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[12px] text-neutral-600">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[12px] text-neutral-600 dark:text-neutral-400">
                         {E.stressWhereUnstressed[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                         <StressIpaExample
                           word="about"
                           uk="/əˈbaʊt/"
@@ -1234,22 +1234,22 @@ export default function EnglishPage() {
             </div>
 
             {/* how long words get: word counts per syllable count (Wiktionary) */}
-            <div className="mt-4 rounded-lg border border-neutral-200 p-3">
+            <div className="mt-4 rounded-lg border border-neutral-200 dark:border-neutral-800 p-3">
               <GroupLabel strong>{E.syllCountTitle[locale]}</GroupLabel>
-              <p className="mt-0.5 text-[12px] text-neutral-400">
+              <p className="mt-0.5 text-[12px] text-neutral-400 dark:text-neutral-500">
                 {E.syllCountCaption[locale]}
               </p>
               <div className="mt-2 overflow-x-auto">
                 <table className="w-full border-collapse text-left">
                   <thead>
-                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colNSyll[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.colWordCount[locale]}
                       </th>
-                      <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                         {E.example[locale]}
                       </th>
                     </tr>
@@ -1268,15 +1268,15 @@ export default function EnglishPage() {
                       ] as const
                     ).map((r) => (
                       <tr key={r.n}>
-                        <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[13px] font-bold text-neutral-800">
+                        <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[13px] font-bold text-neutral-800 dark:text-neutral-200">
                           {r.n}
                         </td>
-                        <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[12px] font-semibold text-neutral-600 whitespace-nowrap">
+                        <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[12px] font-semibold text-neutral-600 dark:text-neutral-400 whitespace-nowrap">
                           {r.count.toLocaleString(locale)}
                         </td>
-                        <td className="border border-neutral-200 p-2 align-middle text-center">
+                        <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center">
                           <span className="flex flex-col items-center">
-                            <span className="text-[12px] font-semibold text-neutral-700">
+                            <span className="text-[12px] font-semibold text-neutral-700 dark:text-neutral-300">
                               {r.word}
                             </span>
                             <StressIpa ipa={r.ipa} />
@@ -1287,7 +1287,7 @@ export default function EnglishPage() {
                   </tbody>
                 </table>
               </div>
-              <p className="mt-2 text-[11px] font-semibold text-neutral-500">
+              <p className="mt-2 text-[11px] font-semibold text-neutral-500 dark:text-neutral-400">
                 {E.syllCountOthers[locale]}
               </p>
               <div className="mt-1.5 flex flex-wrap gap-1.5">
@@ -1315,12 +1315,12 @@ export default function EnglishPage() {
                 ).map(([n, count]) => (
                   <span
                     key={n}
-                    className="inline-flex items-baseline gap-1 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-0.5 whitespace-nowrap"
+                    className="inline-flex items-baseline gap-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-2 py-0.5 whitespace-nowrap"
                   >
-                    <span className="font-mono text-[11px] font-bold text-neutral-800">
+                    <span className="font-mono text-[11px] font-bold text-neutral-800 dark:text-neutral-200">
                       {n}
                     </span>
-                    <span className="text-[10px] text-neutral-400">
+                    <span className="text-[10px] text-neutral-400 dark:text-neutral-500">
                       — {count.toLocaleString(locale)}{" "}
                       {E.syllCountBadgeWords[locale]}
                     </span>
@@ -1339,7 +1339,7 @@ export default function EnglishPage() {
         /* The classification tree, drawn left → right: morphemes → free /
            bound → their kinds. One shape + one example per leaf, one color
            per kind — compact enough to read in a single look. */
-        <div className="rounded-lg border border-neutral-200 bg-white p-4 overflow-x-auto">
+        <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 overflow-x-auto">
           <TreeBranch node={<TreeTag title={E.morpheme[locale]} accent />}>
             {/* ROOTS: the meaning part — free (words) or bound (bases) */}
             <TreeBranch
@@ -1461,7 +1461,7 @@ export default function EnglishPage() {
               {/* Extension line = one tag level (w-32 tag + w-4 stub +
                   pl-4), so Interfix starts on the Prefix/Suffix column. */}
               <div className="flex items-center">
-                <span aria-hidden className="h-px w-40 shrink-0 bg-neutral-300" />
+                <span aria-hidden className="h-px w-40 shrink-0 bg-neutral-300 dark:bg-neutral-600" />
                 <MorphLeaf
                   name={E.interfixName[locale]}
                   rare={E.tagRare[locale]}
@@ -1480,7 +1480,7 @@ export default function EnglishPage() {
                 w-4 stub + pl-4)), so the card starts on the leaf column
                 shared by Prefix / Suffix / Interfix. */}
             <div className="flex items-center">
-              <span aria-hidden className="h-px w-80 shrink-0 bg-neutral-300" />
+              <span aria-hidden className="h-px w-80 shrink-0 bg-neutral-300 dark:bg-neutral-600" />
               <MorphLeaf
                 name={E.contractedTitle[locale]}
                 count="7"
@@ -1504,20 +1504,20 @@ export default function EnglishPage() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-160 border-collapse text-left">
                 <thead>
-                  <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                    <th className="w-8 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                  <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                    <th className="w-8 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                       #
                     </th>
-                    <th className="w-28 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <th className="w-28 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                       {E.posColName[locale]}
                     </th>
-                    <th className="w-36 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <th className="w-36 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                       {E.posColDef[locale]}
                     </th>
-                    <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                       {E.posColClass[locale]}
                     </th>
-                    <th className="w-20 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                    <th className="w-20 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                       {E.example[locale]}
                     </th>
                   </tr>
@@ -1525,23 +1525,23 @@ export default function EnglishPage() {
                 <tbody>
                   {POS_TABLE.map((r, i) => (
                     <tr key={r.name.en}>
-                      <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400 dark:text-neutral-500">
                         {i + 1}
                       </td>
-                      <td className="border border-neutral-200 p-2 text-center align-middle">
-                        <span className="block text-[13px] font-bold text-neutral-900">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle">
+                        <span className="block text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
                           {r.name.en}
                         </span>
                         {locale !== "en" && (
-                          <span className="block text-[10px] text-neutral-400">
+                          <span className="block text-[10px] text-neutral-400 dark:text-neutral-500">
                             {r.name[locale]}
                           </span>
                         )}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center text-[11px] leading-4 text-neutral-500">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[11px] leading-4 text-neutral-500 dark:text-neutral-400">
                         {r.def[locale]}
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle">
                         <div className="flex flex-col gap-1">
                           {r.groups.map((g) => (
                             <div
@@ -1552,20 +1552,20 @@ export default function EnglishPage() {
                                   : "flex flex-wrap items-center gap-1"
                               }
                             >
-                              <span className="w-20 shrink-0 text-[9px] uppercase tracking-wider font-semibold text-neutral-400">
+                              <span className="w-20 shrink-0 text-[9px] uppercase tracking-wider font-semibold text-neutral-400 dark:text-neutral-500">
                                 {g.label[locale]}
                               </span>
                               {g.matrix ? (
                                 <table className="w-full table-fixed border-collapse">
                                   <thead>
                                     <tr>
-                                      <th className="w-14 border border-neutral-200 bg-neutral-50 px-1 py-0.5 text-center font-mono text-[9px] font-bold text-neutral-500">
+                                      <th className="w-14 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-1 py-0.5 text-center font-mono text-[9px] font-bold text-neutral-500 dark:text-neutral-400">
                                         12
                                       </th>
                                       {g.matrix.cols.map((c) => (
                                         <th
                                           key={c.en}
-                                          className="border border-neutral-200 bg-neutral-50 px-0.5 py-0.5 text-center text-[8px] uppercase font-semibold leading-tight text-neutral-400"
+                                          className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-0.5 py-0.5 text-center text-[8px] uppercase font-semibold leading-tight text-neutral-400 dark:text-neutral-500"
                                         >
                                           {c[locale]}
                                         </th>
@@ -1575,13 +1575,13 @@ export default function EnglishPage() {
                                   <tbody>
                                     {g.matrix.rows.map((row) => (
                                       <tr key={row.t.en}>
-                                        <th className="border border-neutral-200 bg-neutral-50 px-1.5 py-0.5 text-left text-[9px] uppercase tracking-wide font-semibold text-neutral-400">
+                                        <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-1.5 py-0.5 text-left text-[9px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
                                           {row.t[locale]}
                                         </th>
                                         {row.cells.map((c, ci) => (
                                           <td
                                             key={ci}
-                                            className="border border-neutral-200 px-1 py-0.5 text-center font-mono text-[10px] font-medium leading-tight text-neutral-700"
+                                            className="border border-neutral-200 dark:border-neutral-800 px-1 py-0.5 text-center font-mono text-[10px] font-medium leading-tight text-neutral-700 dark:text-neutral-300"
                                           >
                                             {c}
                                           </td>
@@ -1596,7 +1596,7 @@ export default function EnglishPage() {
                                 g.subs?.map((s) => (
                                   <span
                                     key={s.en}
-                                    className="rounded-full border border-neutral-200 bg-neutral-50 px-1.5 py-px text-[10px] font-medium text-neutral-700"
+                                    className="rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-1.5 py-px text-[10px] font-medium text-neutral-700 dark:text-neutral-300"
                                   >
                                     {s[locale]}
                                   </span>
@@ -1606,7 +1606,7 @@ export default function EnglishPage() {
                           ))}
                         </div>
                       </td>
-                      <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[12px] font-semibold text-neutral-700">
+                      <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[12px] font-semibold text-neutral-700 dark:text-neutral-300">
                         {r.ex.map((w) => (
                           <span key={w} className="block whitespace-nowrap">
                             {w}
@@ -1666,14 +1666,14 @@ export default function EnglishPage() {
           ).map((sub) => (
             <div
               key={sub.name}
-              className="rounded-lg border border-neutral-200 bg-white p-4 flex flex-col gap-1.5"
+              className="rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 flex flex-col gap-1.5"
             >
               <div className="flex items-baseline gap-2 flex-wrap">
-                <span className="text-sm font-bold text-neutral-900">
+                <span className="text-sm font-bold text-neutral-900 dark:text-neutral-100">
                   {sub.name}
                 </span>
                 {sub.desc && (
-                  <span className="text-[13px] text-neutral-500">
+                  <span className="text-[13px] text-neutral-500 dark:text-neutral-400">
                     {sub.desc}
                   </span>
                 )}
@@ -1682,14 +1682,14 @@ export default function EnglishPage() {
                 <div className="mt-1.5 overflow-x-auto">
                   <table className="w-full min-w-120 border-collapse text-left">
                     <thead>
-                      <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                        <th className="w-8 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                      <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                        <th className="w-8 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                           #
                         </th>
-                        <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                        <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                           {E.phrase[locale]}
                         </th>
-                        <th className="w-1/2 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                        <th className="w-1/2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                           {
                             {
                               en: "Structure",
@@ -1698,7 +1698,7 @@ export default function EnglishPage() {
                             }[locale]
                           }
                         </th>
-                        <th className="w-40 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                        <th className="w-40 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                           {POS_G.func[locale]}
                         </th>
                       </tr>
@@ -1706,25 +1706,25 @@ export default function EnglishPage() {
                     <tbody>
                       {sub.table.map((r, i) => (
                         <tr key={r.name.en}>
-                          <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400">
+                          <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400 dark:text-neutral-500">
                             {i + 1}
                           </td>
-                          <td className="border border-neutral-200 p-2 text-center align-middle">
-                            <span className="block text-[12px] font-bold text-neutral-900">
+                          <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle">
+                            <span className="block text-[12px] font-bold text-neutral-900 dark:text-neutral-100">
                               {r.name.en}
                             </span>
                             {locale !== "en" && (
-                              <span className="block text-[10px] text-neutral-400">
+                              <span className="block text-[10px] text-neutral-400 dark:text-neutral-500">
                                 {r.name[locale]}
                               </span>
                             )}
                             {r.sub && (
-                              <span className="block text-[10px] text-neutral-400">
+                              <span className="block text-[10px] text-neutral-400 dark:text-neutral-500">
                                 {r.sub}
                               </span>
                             )}
                           </td>
-                          <td className="border border-neutral-200 p-1.5 align-middle">
+                          <td className="border border-neutral-200 dark:border-neutral-800 p-1.5 align-middle">
                             <table className="w-full table-fixed border-collapse">
                               <thead>
                                 <tr>
@@ -1732,10 +1732,10 @@ export default function EnglishPage() {
                                     <th
                                       key={s.t.en}
                                       className={[
-                                        "border border-neutral-200 px-1 py-0.5 text-center text-[9px] font-semibold leading-tight",
+                                        "border border-neutral-200 dark:border-neutral-800 px-1 py-0.5 text-center text-[9px] font-semibold leading-tight",
                                         s.req
-                                          ? "bg-neutral-200 text-neutral-800"
-                                          : "bg-neutral-50 text-neutral-400",
+                                          ? "bg-neutral-200 dark:bg-neutral-700 text-neutral-800 dark:text-neutral-200"
+                                          : "bg-neutral-50 dark:bg-neutral-900 text-neutral-400 dark:text-neutral-500",
                                       ].join(" ")}
                                     >
                                       {s.t[locale]}
@@ -1749,10 +1749,10 @@ export default function EnglishPage() {
                                     <td
                                       key={s.t.en}
                                       className={[
-                                        "border border-neutral-200 px-1 py-0.5 text-center font-mono text-[10px] font-medium leading-tight",
+                                        "border border-neutral-200 dark:border-neutral-800 px-1 py-0.5 text-center font-mono text-[10px] font-medium leading-tight",
                                         s.ex
-                                          ? "text-neutral-700"
-                                          : "text-neutral-300",
+                                          ? "text-neutral-700 dark:text-neutral-300"
+                                          : "text-neutral-300 dark:text-neutral-600",
                                       ].join(" ")}
                                     >
                                       {s.ex ?? "—"}
@@ -1762,12 +1762,12 @@ export default function EnglishPage() {
                               </tbody>
                             </table>
                           </td>
-                          <td className="border border-neutral-200 p-2 align-middle">
+                          <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle">
                             <div className="flex flex-wrap items-center justify-center gap-1">
                               {r.func.map((f) => (
                                 <span
                                   key={f.en}
-                                  className="rounded-full border border-neutral-200 bg-neutral-50 px-1.5 py-px text-[10px] font-medium text-neutral-700 whitespace-nowrap"
+                                  className="rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-1.5 py-px text-[10px] font-medium text-neutral-700 dark:text-neutral-300 whitespace-nowrap"
                                 >
                                   {f[locale]}
                                 </span>
@@ -1779,9 +1779,9 @@ export default function EnglishPage() {
                     </tbody>
                   </table>
                   {/* obligatory / optional legend for the structure cells */}
-                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] font-medium text-neutral-500">
+                  <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] font-medium text-neutral-500 dark:text-neutral-400">
                     <span className="inline-flex items-center gap-1.5">
-                      <span className="h-3 w-3 rounded-sm bg-neutral-200" />
+                      <span className="h-3 w-3 rounded-sm bg-neutral-200 dark:bg-neutral-700" />
                       {
                         {
                           en: "obligatory element",
@@ -1791,7 +1791,7 @@ export default function EnglishPage() {
                       }
                     </span>
                     <span className="inline-flex items-center gap-1.5">
-                      <span className="h-3 w-3 rounded-sm border border-neutral-200 bg-neutral-50" />
+                      <span className="h-3 w-3 rounded-sm border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900" />
                       {
                         {
                           en: "optional element",
@@ -1807,7 +1807,7 @@ export default function EnglishPage() {
                 <div className="mt-1.5 flex flex-col gap-3">
                   {/* anatomy strip: every clause = Subject + Predicate */}
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-[11px] font-medium text-neutral-500">
+                    <span className="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">
                       {
                         {
                           en: "Every clause =",
@@ -1822,7 +1822,7 @@ export default function EnglishPage() {
                           {CLAUSE_ANATOMY.map((s) => (
                             <th
                               key={s.en}
-                              className="border border-neutral-200 bg-neutral-200 px-2 py-0.5 text-center text-[9px] font-semibold leading-tight text-neutral-800"
+                              className="border border-neutral-200 dark:border-neutral-800 bg-neutral-200 dark:bg-neutral-700 px-2 py-0.5 text-center text-[9px] font-semibold leading-tight text-neutral-800 dark:text-neutral-200"
                             >
                               {s[locale]}
                             </th>
@@ -1834,23 +1834,23 @@ export default function EnglishPage() {
                   <div className="overflow-x-auto">
                     <table className="w-full min-w-120 border-collapse text-left">
                       <thead>
-                        <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                          <th className="w-8 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                        <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                          <th className="w-8 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                             #
                           </th>
-                          <th className="w-28 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                          <th className="w-28 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                             {E.clause[locale]}
                           </th>
-                          <th className="w-28 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                          <th className="w-28 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                             {E.posColDef[locale]}
                           </th>
-                          <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                          <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                             {POS_G.begins[locale]}
                           </th>
-                          <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                          <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                             {POS_G.func[locale]}
                           </th>
-                          <th className="w-40 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                          <th className="w-40 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                             {E.example[locale]}
                           </th>
                         </tr>
@@ -1864,9 +1864,9 @@ export default function EnglishPage() {
                               <tr>
                                 <td
                                   colSpan={6}
-                                  className="border border-neutral-200 bg-neutral-100 px-2 py-1"
+                                  className="border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-800 px-2 py-1"
                                 >
-                                  <span className="flex items-center text-[9px] font-semibold uppercase tracking-wider text-neutral-500">
+                                  <span className="flex items-center text-[9px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
                                     {r.dep
                                       ? {
                                           en: "Dependent — needs a main clause",
@@ -1883,68 +1883,68 @@ export default function EnglishPage() {
                               </tr>
                             )}
                             <tr>
-                            <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400">
+                            <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400 dark:text-neutral-500">
                               {/* numbering restarts inside each group */}
                               {rows
                                 .slice(0, i + 1)
                                 .filter((x) => !!x.dep === !!r.dep).length}
                             </td>
-                            <td className="border border-neutral-200 p-2 text-center align-middle">
-                              <span className="block text-[12px] font-bold text-neutral-900">
+                            <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle">
+                              <span className="block text-[12px] font-bold text-neutral-900 dark:text-neutral-100">
                                 {r.name.en}
                               </span>
                               {locale !== "en" && (
-                                <span className="block text-[10px] text-neutral-400">
+                                <span className="block text-[10px] text-neutral-400 dark:text-neutral-500">
                                   {r.name[locale]}
                                 </span>
                               )}
                               {r.sub && (
-                                <span className="block text-[10px] text-neutral-400">
+                                <span className="block text-[10px] text-neutral-400 dark:text-neutral-500">
                                   {r.sub}
                                 </span>
                               )}
                             </td>
-                            <td className="border border-neutral-200 p-2 align-middle text-center text-[11px] leading-4 text-neutral-500">
+                            <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[11px] leading-4 text-neutral-500 dark:text-neutral-400">
                               {r.def[locale]}
                             </td>
-                            <td className="border border-neutral-200 p-2 align-middle">
+                            <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle">
                               {r.begins ? (
                                 <div className="flex flex-wrap items-center justify-center gap-1">
                                   {r.begins.map((s) => (
                                     <span
                                       key={s.en}
-                                      className="rounded-full border border-neutral-200 bg-neutral-50 px-1.5 py-px text-[10px] font-medium text-neutral-700"
+                                      className="rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-1.5 py-px text-[10px] font-medium text-neutral-700 dark:text-neutral-300"
                                     >
                                       {s[locale]}
                                     </span>
                                   ))}
                                 </div>
                               ) : (
-                                <span className="block text-center text-[11px] text-neutral-300">
+                                <span className="block text-center text-[11px] text-neutral-300 dark:text-neutral-600">
                                   —
                                 </span>
                               )}
                             </td>
-                            <td className="border border-neutral-200 p-2 align-middle">
+                            <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle">
                               <div className="flex flex-wrap items-center justify-center gap-1">
                                 {r.func.map((s) => (
                                   <span
                                     key={s.en}
-                                    className="rounded-full border border-neutral-200 bg-neutral-50 px-1.5 py-px text-[10px] font-medium text-neutral-700"
+                                    className="rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-1.5 py-px text-[10px] font-medium text-neutral-700 dark:text-neutral-300"
                                   >
                                     {s[locale]}
                                   </span>
                                 ))}
                               </div>
                             </td>
-                            <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[11px] leading-snug">
-                              <span className="text-neutral-400">
+                            <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[11px] leading-snug">
+                              <span className="text-neutral-400 dark:text-neutral-500">
                                 {r.ex[0]}
                               </span>
-                              <span className="font-bold text-neutral-900 underline decoration-neutral-300 underline-offset-2">
+                              <span className="font-bold text-neutral-900 dark:text-neutral-100 underline decoration-neutral-300 dark:decoration-neutral-600 underline-offset-2">
                                 {r.ex[1]}
                               </span>
-                              <span className="text-neutral-400">
+                              <span className="text-neutral-400 dark:text-neutral-500">
                                 {r.ex[2]}
                               </span>
                             </td>
@@ -1961,9 +1961,9 @@ export default function EnglishPage() {
                   {/* patterns card: one sentence split into its two halves,
                       the predicate opened up into its parts, and the
                       pattern formulas those parts combine into */}
-                  <div className="rounded-lg border border-neutral-200 p-4 flex flex-col gap-1.5">
+                  <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 flex flex-col gap-1.5">
                     <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-[13px] font-bold text-neutral-900">
+                      <span className="text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
                         {
                           {
                             en: "Patterns",
@@ -1972,7 +1972,7 @@ export default function EnglishPage() {
                           }[locale]
                         }
                       </span>
-                      <span className="text-[12px] text-neutral-500">
+                      <span className="text-[12px] text-neutral-500 dark:text-neutral-400">
                         {
                           {
                             en: "How the parts line up in a sentence.",
@@ -1987,16 +1987,16 @@ export default function EnglishPage() {
                     <div className="mt-1 overflow-x-auto">
                       <table className="w-full min-w-120 border-collapse text-left">
                         <thead>
-                          <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
+                          <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
                             <th
                               rowSpan={2}
-                              className="w-8 border border-neutral-200 bg-neutral-50 p-2 text-center align-middle"
+                              className="w-8 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center align-middle"
                             >
                               #
                             </th>
                             <th
                               rowSpan={2}
-                              className="w-36 border border-neutral-200 bg-neutral-50 p-2 text-center align-middle"
+                              className="w-36 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center align-middle"
                             >
                               {
                                 {
@@ -2006,23 +2006,23 @@ export default function EnglishPage() {
                                 }[locale]
                               }
                             </th>
-                            <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {SP_CARDS[0].title[locale]}
                             </th>
                             <th
                               colSpan={4}
-                              className="border border-neutral-200 bg-neutral-50 p-2 text-center"
+                              className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center"
                             >
                               {SP_CARDS[1].title[locale]}
                             </th>
                           </tr>
-                          <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                            <th className="border border-neutral-200 bg-neutral-50 p-1.5" />
+                          <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                            <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-1.5" />
                             {[SENT_EL.v, SENT_EL.o, SENT_EL.c, SENT_EL.a].map(
                               (t) => (
                                 <th
                                   key={t.en}
-                                  className="border border-neutral-200 bg-neutral-50 p-1.5 text-center"
+                                  className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-1.5 text-center"
                                 >
                                   {t[locale]}
                                 </th>
@@ -2053,20 +2053,20 @@ export default function EnglishPage() {
                             ];
                             return (
                               <tr key={r.code}>
-                                <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400">
+                                <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400 dark:text-neutral-500">
                                   {i + 1}
                                 </td>
-                                <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[11px] font-bold text-neutral-800 whitespace-nowrap">
+                                <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[11px] font-bold text-neutral-800 dark:text-neutral-200 whitespace-nowrap">
                                   {r.code}
                                 </td>
                                 {cells.map((x, j) => (
                                   <td
                                     key={j}
                                     className={[
-                                      "border border-neutral-200 p-2 text-center align-middle font-mono text-[11px] leading-tight",
+                                      "border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[11px] leading-tight",
                                       x
-                                        ? "font-medium text-neutral-700"
-                                        : "text-neutral-300",
+                                        ? "font-medium text-neutral-700 dark:text-neutral-300"
+                                        : "text-neutral-300 dark:text-neutral-600",
                                     ].join(" ")}
                                   >
                                     {x ?? "—"}
@@ -2078,7 +2078,7 @@ export default function EnglishPage() {
                         </tbody>
                       </table>
                     </div>
-                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-neutral-500">
+                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-neutral-500 dark:text-neutral-400">
                       {(
                         [
                           ["S", SENT_EL.s],
@@ -2089,7 +2089,7 @@ export default function EnglishPage() {
                         ] as [string, L3][]
                       ).map(([l, t]) => (
                         <span key={l}>
-                          <span className="font-mono font-bold text-neutral-700">
+                          <span className="font-mono font-bold text-neutral-700 dark:text-neutral-300">
                             {l}
                           </span>{" "}
                           = {t[locale]}
@@ -2100,30 +2100,30 @@ export default function EnglishPage() {
                   {SP_CARDS.map((c) => (
                     <div
                       key={c.title.en}
-                      className="rounded-lg border border-neutral-200 p-4 flex flex-col gap-1.5"
+                      className="rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 flex flex-col gap-1.5"
                     >
                       <div className="flex items-baseline gap-2 flex-wrap">
-                        <span className="text-[13px] font-bold text-neutral-900">
+                        <span className="text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
                           {c.title[locale]}
                         </span>
-                        <span className="text-[12px] text-neutral-500">
+                        <span className="text-[12px] text-neutral-500 dark:text-neutral-400">
                           {c.desc[locale]}
                         </span>
                       </div>
                       <div className="mt-1 overflow-x-auto">
                         <table className="w-full min-w-120 border-collapse text-left">
                           <thead>
-                            <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                              <th className="w-8 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                              <th className="w-8 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                                 #
                               </th>
-                              <th className="w-28 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                              <th className="w-28 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                                 {POS_G.types[locale]}
                               </th>
-                              <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                              <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                                 {E.posColDef[locale]}
                               </th>
-                              <th className="w-56 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                              <th className="w-56 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                                 {E.example[locale]}
                               </th>
                             </tr>
@@ -2131,30 +2131,30 @@ export default function EnglishPage() {
                           <tbody>
                             {c.kinds.map((k, i) => (
                               <tr key={k.name.en}>
-                                <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400">
+                                <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400 dark:text-neutral-500">
                                   {i + 1}
                                 </td>
-                                <td className="border border-neutral-200 p-2 text-center align-middle">
-                                  <span className="block text-[12px] font-bold text-neutral-900">
+                                <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle">
+                                  <span className="block text-[12px] font-bold text-neutral-900 dark:text-neutral-100">
                                     {k.name.en}
                                   </span>
                                   {locale !== "en" && (
-                                    <span className="block text-[10px] text-neutral-400">
+                                    <span className="block text-[10px] text-neutral-400 dark:text-neutral-500">
                                       {k.name[locale]}
                                     </span>
                                   )}
                                 </td>
-                                <td className="border border-neutral-200 p-2 align-middle text-center text-[11px] leading-4 text-neutral-500">
+                                <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[11px] leading-4 text-neutral-500 dark:text-neutral-400">
                                   {k.def[locale]}
                                 </td>
-                                <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[11px] leading-snug">
-                                  <span className="text-neutral-400">
+                                <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[11px] leading-snug">
+                                  <span className="text-neutral-400 dark:text-neutral-500">
                                     {k.ex[0]}
                                   </span>
-                                  <span className="font-bold text-neutral-900 underline decoration-neutral-300 underline-offset-2">
+                                  <span className="font-bold text-neutral-900 dark:text-neutral-100 underline decoration-neutral-300 dark:decoration-neutral-600 underline-offset-2">
                                     {k.ex[1]}
                                   </span>
-                                  <span className="text-neutral-400">
+                                  <span className="text-neutral-400 dark:text-neutral-500">
                                     {k.ex[2]}
                                   </span>
                                 </td>
@@ -2165,7 +2165,7 @@ export default function EnglishPage() {
                       </div>
                       {c.forms && (
                         <div className="mt-2 flex flex-col gap-1">
-                          <span className="text-[9px] uppercase tracking-wider font-semibold text-neutral-400">
+                          <span className="text-[9px] uppercase tracking-wider font-semibold text-neutral-400 dark:text-neutral-500">
                             {
                               {
                                 en: "What can be a subject",
@@ -2179,17 +2179,17 @@ export default function EnglishPage() {
                               <tbody>
                                 {c.forms.map((f) => (
                                   <tr key={f.t.en}>
-                                    <td className="w-36 border border-neutral-200 p-1.5 text-center align-middle text-[11px] font-semibold text-neutral-700">
+                                    <td className="w-36 border border-neutral-200 dark:border-neutral-800 p-1.5 text-center align-middle text-[11px] font-semibold text-neutral-700 dark:text-neutral-300">
                                       {f.t[locale]}
                                     </td>
-                                    <td className="border border-neutral-200 p-1.5 align-middle text-center font-mono text-[11px] leading-snug">
-                                      <span className="text-neutral-400">
+                                    <td className="border border-neutral-200 dark:border-neutral-800 p-1.5 align-middle text-center font-mono text-[11px] leading-snug">
+                                      <span className="text-neutral-400 dark:text-neutral-500">
                                         {f.ex[0]}
                                       </span>
-                                      <span className="font-bold text-neutral-900 underline decoration-neutral-300 underline-offset-2">
+                                      <span className="font-bold text-neutral-900 dark:text-neutral-100 underline decoration-neutral-300 dark:decoration-neutral-600 underline-offset-2">
                                         {f.ex[1]}
                                       </span>
-                                      <span className="text-neutral-400">
+                                      <span className="text-neutral-400 dark:text-neutral-500">
                                         {f.ex[2]}
                                       </span>
                                     </td>
@@ -2207,9 +2207,9 @@ export default function EnglishPage() {
               {sub.sent && (
                 <div className="mt-1.5 flex flex-col gap-3">
                   {/* 1 — Structure: how clauses combine */}
-                  <div className="rounded-lg border border-neutral-200 p-4 flex flex-col gap-1.5">
+                  <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 flex flex-col gap-1.5">
                     <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-[13px] font-bold text-neutral-900">
+                      <span className="text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
                         {
                           {
                             en: "Structure",
@@ -2218,7 +2218,7 @@ export default function EnglishPage() {
                           }[locale]
                         }
                       </span>
-                      <span className="text-[12px] text-neutral-500">
+                      <span className="text-[12px] text-neutral-500 dark:text-neutral-400">
                         {
                           {
                             en: "How many clauses and how they join.",
@@ -2231,11 +2231,11 @@ export default function EnglishPage() {
                     <div className="mt-1 overflow-x-auto">
                       <table className="w-full min-w-120 border-collapse text-left">
                         <thead>
-                          <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                            <th className="w-8 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                          <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                            <th className="w-8 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               #
                             </th>
-                            <th className="w-36 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="w-36 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {
                                 {
                                   en: "Structure",
@@ -2244,7 +2244,7 @@ export default function EnglishPage() {
                                 }[locale]
                               }
                             </th>
-                            <th className="w-24 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="w-24 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {
                                 {
                                   en: "Main clause",
@@ -2253,7 +2253,7 @@ export default function EnglishPage() {
                                 }[locale]
                               }
                             </th>
-                            <th className="w-24 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="w-24 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {
                                 {
                                   en: "Dependent clause",
@@ -2262,7 +2262,7 @@ export default function EnglishPage() {
                                 }[locale]
                               }
                             </th>
-                            <th className="w-56 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="w-56 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {E.example[locale]}
                             </th>
                           </tr>
@@ -2270,39 +2270,39 @@ export default function EnglishPage() {
                         <tbody>
                           {SENT_STRUCT.map((r, i) => (
                             <tr key={r.name.en}>
-                              <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400 dark:text-neutral-500">
                                 {i + 1}
                               </td>
-                              <td className="border border-neutral-200 p-2 text-center align-middle">
-                                <span className="block text-[12px] font-bold text-neutral-900">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle">
+                                <span className="block text-[12px] font-bold text-neutral-900 dark:text-neutral-100">
                                   {r.name.en}
                                 </span>
                                 {locale !== "en" && (
-                                  <span className="block text-[10px] text-neutral-400">
+                                  <span className="block text-[10px] text-neutral-400 dark:text-neutral-500">
                                     {r.name[locale]}
                                   </span>
                                 )}
                               </td>
-                              <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[13px] font-bold text-neutral-800">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[13px] font-bold text-neutral-800 dark:text-neutral-200">
                                 {r.m}
                               </td>
-                              <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[13px] font-bold text-neutral-800">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[13px] font-bold text-neutral-800 dark:text-neutral-200">
                                 {r.d ?? (
-                                  <span className="font-sans text-[11px] font-normal text-neutral-300">
+                                  <span className="font-sans text-[11px] font-normal text-neutral-300 dark:text-neutral-600">
                                     —
                                   </span>
                                 )}
                               </td>
-                              <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[11px] leading-snug">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[11px] leading-snug">
                                 {r.ex.map((s, j) => (
                                   <span
                                     key={j}
                                     className={
                                       s.k === "m"
-                                        ? "font-bold text-neutral-900"
+                                        ? "font-bold text-neutral-900 dark:text-neutral-100"
                                         : s.k === "d"
-                                          ? "text-neutral-700 underline decoration-neutral-300 underline-offset-2"
-                                          : "text-neutral-400"
+                                          ? "text-neutral-700 dark:text-neutral-300 underline decoration-neutral-300 dark:decoration-neutral-600 underline-offset-2"
+                                          : "text-neutral-400 dark:text-neutral-500"
                                     }
                                   >
                                     {s.t}
@@ -2316,12 +2316,12 @@ export default function EnglishPage() {
                     </div>
                   </div>
                   {/* 2 — Types: what the sentence does */}
-                  <div className="rounded-lg border border-neutral-200 p-4 flex flex-col gap-1.5">
+                  <div className="rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 flex flex-col gap-1.5">
                     <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-[13px] font-bold text-neutral-900">
+                      <span className="text-[13px] font-bold text-neutral-900 dark:text-neutral-100">
                         {POS_G.types[locale]}
                       </span>
-                      <span className="text-[12px] text-neutral-500">
+                      <span className="text-[12px] text-neutral-500 dark:text-neutral-400">
                         {
                           {
                             en: "What the sentence does.",
@@ -2334,14 +2334,14 @@ export default function EnglishPage() {
                     <div className="mt-1 overflow-x-auto">
                       <table className="w-full min-w-120 border-collapse text-left">
                         <thead>
-                          <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400">
-                            <th className="w-8 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                          <tr className="text-[10px] uppercase tracking-wide font-semibold text-neutral-400 dark:text-neutral-500">
+                            <th className="w-8 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               #
                             </th>
-                            <th className="w-36 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="w-36 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {POS_G.types[locale]}
                             </th>
-                            <th className="border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {
                                 {
                                   en: "Purpose",
@@ -2350,7 +2350,7 @@ export default function EnglishPage() {
                                 }[locale]
                               }
                             </th>
-                            <th className="w-20 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="w-20 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {
                                 {
                                   en: "Ends with",
@@ -2359,7 +2359,7 @@ export default function EnglishPage() {
                                 }[locale]
                               }
                             </th>
-                            <th className="w-44 border border-neutral-200 bg-neutral-50 p-2 text-center">
+                            <th className="w-44 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-center">
                               {E.example[locale]}
                             </th>
                           </tr>
@@ -2367,26 +2367,26 @@ export default function EnglishPage() {
                         <tbody>
                           {SENT_TYPES.map((r, i) => (
                             <tr key={r.name.en}>
-                              <td className="border border-neutral-200 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle font-mono text-[12px] font-bold text-neutral-400 dark:text-neutral-500">
                                 {i + 1}
                               </td>
-                              <td className="border border-neutral-200 p-2 text-center align-middle">
-                                <span className="block text-[12px] font-bold text-neutral-900">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 text-center align-middle">
+                                <span className="block text-[12px] font-bold text-neutral-900 dark:text-neutral-100">
                                   {r.name.en}
                                 </span>
                                 {locale !== "en" && (
-                                  <span className="block text-[10px] text-neutral-400">
+                                  <span className="block text-[10px] text-neutral-400 dark:text-neutral-500">
                                     {r.name[locale]}
                                   </span>
                                 )}
                               </td>
-                              <td className="border border-neutral-200 p-2 align-middle text-center text-[11px] leading-4 text-neutral-500">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center text-[11px] leading-4 text-neutral-500 dark:text-neutral-400">
                                 {r.def[locale]}
                               </td>
-                              <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[15px] font-bold text-neutral-800">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[15px] font-bold text-neutral-800 dark:text-neutral-200">
                                 {r.mark}
                               </td>
-                              <td className="border border-neutral-200 p-2 align-middle text-center font-mono text-[11px] font-medium text-neutral-700">
+                              <td className="border border-neutral-200 dark:border-neutral-800 p-2 align-middle text-center font-mono text-[11px] font-medium text-neutral-700 dark:text-neutral-300">
                                 {r.ex}
                               </td>
                             </tr>
@@ -2451,22 +2451,22 @@ export default function EnglishPage() {
   ];
 
   return (
-    <div className="flex-1 bg-[#FAFAFA] min-h-screen pt-16 pb-24 px-6">
+    <div className="flex-1 bg-[#FAFAFA] dark:bg-neutral-950 min-h-screen pt-16 pb-24 px-6">
       <div className="max-w-4xl mx-auto w-full">
-        <h1 className="text-3xl font-extrabold text-neutral-900 tracking-tight">
+        <h1 className="text-3xl font-extrabold text-neutral-900 dark:text-neutral-100 tracking-tight">
           {E.title[locale]}
         </h1>
 
         {/* Overview chain: smallest → biggest */}
-        <div className="mt-6 rounded-lg border border-neutral-200 bg-white p-4">
+        <div className="mt-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4">
           <div className="flex items-start flex-wrap gap-y-3">
             {chain.map(({ name, branch, color }, i) => (
               <React.Fragment key={name}>
                 {i > 0 && (
-                  <ArrowRight className="w-3.5 h-3.5 mx-1.5 mt-1 text-neutral-300 shrink-0" />
+                  <ArrowRight className="w-3.5 h-3.5 mx-1.5 mt-1 text-neutral-300 dark:text-neutral-600 shrink-0" />
                 )}
                 <span className="flex flex-col items-center gap-1">
-                  <span className="font-mono text-[13px] font-medium text-neutral-700 bg-neutral-100 rounded px-1.5 py-0.5">
+                  <span className="font-mono text-[13px] font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800 rounded px-1.5 py-0.5">
                     {name.toLowerCase()}
                   </span>
                   <span
@@ -2478,7 +2478,7 @@ export default function EnglishPage() {
               </React.Fragment>
             ))}
           </div>
-          <div className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-wider text-neutral-400 font-medium">
+          <div className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-medium">
             <span>{E.smallest[locale]}</span>
             <span>{E.biggest[locale]}</span>
           </div>
@@ -2489,48 +2489,48 @@ export default function EnglishPage() {
           {/* vertical rail connecting the numbers */}
           <div
             aria-hidden
-            className="absolute left-3.75 top-4 bottom-4 w-px bg-neutral-200"
+            className="absolute left-3.75 top-4 bottom-4 w-px bg-neutral-200 dark:bg-neutral-700"
           />
           {units.map((unit, i) => {
             const card = (
               <div
                 className={[
-                  "bg-white border border-neutral-200 rounded-lg shadow-sm p-5 transition-all",
+                  "bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm p-5 transition-all",
                   unit.href
-                    ? "hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-md cursor-pointer"
+                    ? "hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-md cursor-pointer"
                     : "",
                 ].join(" ")}
               >
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className="text-lg font-bold text-neutral-900">
+                  <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
                     {unit.name}
                   </h2>
                   {unit.href && (
                     <span className="flex items-center gap-2.5">
                       {lettersDone > 0 && (
                         <>
-                          <span className="font-mono text-[12px] font-semibold text-neutral-500">
+                          <span className="font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
                             {lettersDone} / {LETTERS.length}
                           </span>
-                          <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500">
+                          <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
                             <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
                             {letterStars}
                           </span>
                         </>
                       )}
-                      <ChevronRight className="w-5 h-5 text-neutral-400" />
+                      <ChevronRight className="w-5 h-5 text-neutral-400 dark:text-neutral-500" />
                     </span>
                   )}
                 </div>
                 {unit.desc && (
-                  <p className="mt-1 text-[14px] text-neutral-600 leading-relaxed">
+                  <p className="mt-1 text-[14px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
                     {unit.desc}
                   </p>
                 )}
                 {unit.plain ? (
                   <div className="mt-4">{unit.example}</div>
                 ) : (
-                  <div className="mt-4 rounded-lg bg-neutral-50 border border-neutral-100 p-4">
+                  <div className="mt-4 rounded-lg bg-neutral-50 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 p-4">
                     {unit.example}
                   </div>
                 )}
@@ -2550,7 +2550,7 @@ export default function EnglishPage() {
                   containIntrinsicSize: i === 0 ? undefined : "auto 700px",
                 }}
               >
-                <span className="absolute left-0 top-0 w-8 h-8 rounded-full bg-neutral-950 text-white font-mono text-sm font-bold flex items-center justify-center shadow-sm">
+                <span className="absolute left-0 top-0 w-8 h-8 rounded-full bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 font-mono text-sm font-bold flex items-center justify-center shadow-sm">
                   {i + 1}
                 </span>
                 {unit.href ? <Link href={unit.href}>{card}</Link> : card}

@@ -1,0 +1,713 @@
+{
+  "_readme": "Coding catalogue. Six stages, beginner -> master; each stage holds tracks (fields), each track holds module blocks. Modules use PARALLEL en/uz/ru arrays (index i = same module), the same shape as k-12-curriculum.json. `sample` and `typingFocus` are code, never translated - they are what the typing engine will drill. No lesson content yet: this file is the classification only.",
+
+  "stages": [
+    {
+      "id": "foundations",
+      "tone": "sky",
+      "title": { "en": "Foundations", "uz": "Poydevor", "ru": "Основы" },
+      "goal": {
+        "en": "Understand the machine and learn to think in steps.",
+        "uz": "Kompyuterni tushun va bosqichma-bosqich fikrlashni o'rgan.",
+        "ru": "Пойми компьютер и научись мыслить по шагам."
+      },
+      "tracks": [
+        {
+          "id": "computer-basics",
+          "icon": "Monitor",
+          "tone": "sky",
+          "typingFocus": "a-z 0-9 . ,",
+          "sample": "my-first-folder/notes.txt",
+          "title": { "en": "Computer & Internet", "uz": "Kompyuter va Internet", "ru": "Компьютер и интернет" },
+          "summary": {
+            "en": "What a computer is made of and how the web works.",
+            "uz": "Kompyuter nimalardan tuzilgan va internet qanday ishlaydi.",
+            "ru": "Из чего состоит компьютер и как работает интернет."
+          },
+          "modules": {
+            "en": ["How a computer works", "Files and folders", "The internet and the web", "Browsers and search", "Staying safe online"],
+            "uz": ["Kompyuter qanday ishlaydi", "Fayl va papkalar", "Internet va veb", "Brauzer va qidiruv", "Internetda xavfsizlik"],
+            "ru": ["Как работает компьютер", "Файлы и папки", "Интернет и веб", "Браузер и поиск", "Безопасность в сети"]
+          }
+        },
+        {
+          "id": "typing-for-coders",
+          "icon": "Keyboard",
+          "tone": "emerald",
+          "typingFocus": "( ) { } [ ] ; = _",
+          "sample": "if (x > 0) { return x; }",
+          "title": { "en": "Typing for Coders", "uz": "Dasturchi uchun yozuv", "ru": "Печать для кодера" },
+          "summary": {
+            "en": "The symbol keys code needs most, without looking down.",
+            "uz": "Kodda eng ko'p kerak bo'ladigan belgilar - klaviaturaga qaramay.",
+            "ru": "Символы, нужные коду чаще всего, — не глядя на клавиши."
+          },
+          "modules": {
+            "en": ["Home row for code", "Brackets and braces", "Operators and symbols", "The number row", "Speed drills on real code"],
+            "uz": ["Kod uchun asosiy qator", "Qavslar va figurali qavslar", "Amallar va belgilar", "Raqamlar qatori", "Haqiqiy kodda tezlik mashqi"],
+            "ru": ["Основной ряд для кода", "Скобки всех видов", "Операторы и символы", "Ряд цифр", "Скоростные заезды по коду"]
+          }
+        },
+        {
+          "id": "thinking-like-a-programmer",
+          "icon": "Lightbulb",
+          "tone": "amber",
+          "typingFocus": "1 2 3 -> ?",
+          "sample": "step 1 -> step 2 -> repeat 3 times",
+          "title": { "en": "Thinking Like a Programmer", "uz": "Dasturchidek fikrlash", "ru": "Мышление программиста" },
+          "summary": {
+            "en": "Algorithms in plain words, before any language.",
+            "uz": "Til o'rganishdan oldin - oddiy so'zlarda algoritm.",
+            "ru": "Алгоритмы простыми словами, до всякого языка."
+          },
+          "modules": {
+            "en": ["Steps and instructions", "Order matters", "Making choices", "Repeating work", "Breaking a big problem down"],
+            "uz": ["Qadam va ko'rsatma", "Tartib muhim", "Tanlov qilish", "Takrorlash", "Katta masalani bo'lish"],
+            "ru": ["Шаги и инструкции", "Порядок важен", "Выбор и условия", "Повторение", "Разбить большую задачу"]
+          }
+        },
+        {
+          "id": "block-coding",
+          "icon": "Blocks",
+          "tone": "violet",
+          "typingFocus": "a-z 0-9",
+          "sample": "when green flag clicked -> move 10 steps",
+          "title": { "en": "Block Coding", "uz": "Bloklar bilan kod", "ru": "Блочное программирование" },
+          "summary": {
+            "en": "Your first working program, built from drag-and-drop blocks.",
+            "uz": "Birinchi ishlaydigan dasturing - bloklardan yig'iladi.",
+            "ru": "Первая рабочая программа — из блоков мышкой."
+          },
+          "modules": {
+            "en": ["Sprites and the stage", "Motion and looks", "Events and messages", "Loops and conditions", "Build a small game"],
+            "uz": ["Sprayt va sahna", "Harakat va ko'rinish", "Hodisa va xabarlar", "Sikl va shartlar", "Kichik o'yin yasash"],
+            "ru": ["Спрайты и сцена", "Движение и внешность", "События и сообщения", "Циклы и условия", "Собери маленькую игру"]
+          }
+        },
+        {
+          "id": "terminal",
+          "icon": "SquareTerminal",
+          "tone": "slate",
+          "typingFocus": "/ - . ~ |",
+          "sample": "cd projects && ls -la",
+          "title": { "en": "The Terminal", "uz": "Terminal", "ru": "Терминал" },
+          "summary": {
+            "en": "Drive the computer with words instead of clicks.",
+            "uz": "Kompyuterni sichqoncha emas, so'z bilan boshqar.",
+            "ru": "Управляй компьютером словами, а не мышкой."
+          },
+          "modules": {
+            "en": ["Opening a shell", "Moving between folders", "Creating and deleting", "Running a program", "Commands worth knowing"],
+            "uz": ["Terminalni ochish", "Papkalar orasida yurish", "Yaratish va o'chirish", "Dasturni ishga tushirish", "Foydali buyruqlar"],
+            "ru": ["Открыть терминал", "Переходы по папкам", "Создать и удалить", "Запустить программу", "Полезные команды"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "first-code",
+      "tone": "emerald",
+      "title": { "en": "First Code", "uz": "Birinchi kod", "ru": "Первый код" },
+      "goal": {
+        "en": "Write, run and fix real programs in a real language.",
+        "uz": "Haqiqiy tilda dastur yoz, ishga tushir va tuzat.",
+        "ru": "Пиши, запускай и чини настоящие программы."
+      },
+      "tracks": [
+        {
+          "id": "python-basics",
+          "icon": "FileCode2",
+          "tone": "emerald",
+          "typingFocus": "( ) : = _ \"",
+          "sample": "def greet(name): print(f\"Hi, {name}!\")",
+          "title": { "en": "Python Basics", "uz": "Python asoslari", "ru": "Основы Python" },
+          "summary": {
+            "en": "The friendliest first language, from variables to functions.",
+            "uz": "Eng qulay birinchi til - o'zgaruvchidan funksiyagacha.",
+            "ru": "Самый дружелюбный первый язык — от переменных до функций."
+          },
+          "modules": {
+            "en": ["Variables and types", "Input and output", "if / else", "Loops", "Lists and dictionaries", "Functions"],
+            "uz": ["O'zgaruvchi va turlar", "Kirish va chiqish", "if / else", "Sikllar", "Ro'yxat va lug'at", "Funksiyalar"],
+            "ru": ["Переменные и типы", "Ввод и вывод", "if / else", "Циклы", "Списки и словари", "Функции"]
+          }
+        },
+        {
+          "id": "javascript-basics",
+          "icon": "Braces",
+          "tone": "amber",
+          "typingFocus": "( ) => ; { }",
+          "sample": "const sum = (a, b) => a + b;",
+          "title": { "en": "JavaScript Basics", "uz": "JavaScript asoslari", "ru": "Основы JavaScript" },
+          "summary": {
+            "en": "The language every browser already speaks.",
+            "uz": "Har bir brauzer tushunadigan til.",
+            "ru": "Язык, который понимает любой браузер."
+          },
+          "modules": {
+            "en": ["Variables and types", "Functions", "Arrays and objects", "Conditions and loops", "The browser console"],
+            "uz": ["O'zgaruvchi va turlar", "Funksiyalar", "Massiv va obyektlar", "Shart va sikllar", "Brauzer konsoli"],
+            "ru": ["Переменные и типы", "Функции", "Массивы и объекты", "Условия и циклы", "Консоль браузера"]
+          }
+        },
+        {
+          "id": "html-css",
+          "icon": "LayoutTemplate",
+          "tone": "orange",
+          "typingFocus": "< > / \" = #",
+          "sample": "<h1 class=\"title\">Hello</h1>",
+          "title": { "en": "HTML & CSS", "uz": "HTML va CSS", "ru": "HTML и CSS" },
+          "summary": {
+            "en": "Build a page you can show anyone with a link.",
+            "uz": "Havola orqali ko'rsatsa bo'ladigan sahifa yasa.",
+            "ru": "Собери страницу, которую можно открыть по ссылке."
+          },
+          "modules": {
+            "en": ["Tags and structure", "Text and links", "Images and lists", "CSS selectors", "Colour and fonts", "Boxes and spacing"],
+            "uz": ["Teglar va tuzilma", "Matn va havolalar", "Rasm va ro'yxat", "CSS selektorlari", "Rang va shrift", "Quti va oraliq"],
+            "ru": ["Теги и структура", "Текст и ссылки", "Картинки и списки", "Селекторы CSS", "Цвет и шрифты", "Блоки и отступы"]
+          }
+        },
+        {
+          "id": "git-github",
+          "icon": "GitBranch",
+          "tone": "rose",
+          "typingFocus": "- \" . /",
+          "sample": "git commit -m \"add login page\"",
+          "title": { "en": "Git & GitHub", "uz": "Git va GitHub", "ru": "Git и GitHub" },
+          "summary": {
+            "en": "Save every version of your work and never lose it.",
+            "uz": "Ishingning har bir nusxasini saqla va yo'qotma.",
+            "ru": "Сохраняй каждую версию работы и не теряй её."
+          },
+          "modules": {
+            "en": ["Why version control", "Commits", "Branches", "Push and pull", "Pull requests"],
+            "uz": ["Versiya nazorati nega kerak", "Commit", "Branch", "Push va pull", "Pull request"],
+            "ru": ["Зачем нужен контроль версий", "Коммиты", "Ветки", "Push и pull", "Pull request"]
+          }
+        },
+        {
+          "id": "debugging",
+          "icon": "Bug",
+          "tone": "lime",
+          "typingFocus": "( ) . _",
+          "sample": "print(\"here:\", value)",
+          "title": { "en": "Finding & Fixing Bugs", "uz": "Xatolarni topish va tuzatish", "ru": "Поиск и починка ошибок" },
+          "summary": {
+            "en": "Every programmer's real daily skill.",
+            "uz": "Har bir dasturchining kundalik asosiy ko'nikmasi.",
+            "ru": "Главный ежедневный навык программиста."
+          },
+          "modules": {
+            "en": ["Reading an error message", "Printing to check", "Using a debugger", "The most common mistakes", "Asking a good question"],
+            "uz": ["Xato xabarini o'qish", "Print bilan tekshirish", "Debugger'dan foydalanish", "Eng ko'p uchraydigan xatolar", "To'g'ri savol berish"],
+            "ru": ["Читать сообщение об ошибке", "Проверка через print", "Работа с отладчиком", "Самые частые ошибки", "Как задать хороший вопрос"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "building",
+      "tone": "violet",
+      "title": { "en": "Building Things", "uz": "Loyiha qurish", "ru": "Создаём проекты" },
+      "goal": {
+        "en": "Ship something other people can actually use.",
+        "uz": "Boshqalar ishlata oladigan mahsulot yarat.",
+        "ru": "Сделай то, чем смогут пользоваться другие."
+      },
+      "tracks": [
+        {
+          "id": "frontend-react",
+          "icon": "Component",
+          "tone": "cyan",
+          "typingFocus": "< / > { } ( )",
+          "sample": "const [count, setCount] = useState(0);",
+          "title": { "en": "Frontend with React", "uz": "React bilan frontend", "ru": "Фронтенд на React" },
+          "summary": {
+            "en": "Interfaces built from small reusable pieces.",
+            "uz": "Kichik qismlardan yig'ilgan interfeys.",
+            "ru": "Интерфейс, собранный из маленьких кусочков."
+          },
+          "modules": {
+            "en": ["Components", "Props and state", "Handling events", "Lists and keys", "Forms", "Loading data"],
+            "uz": ["Komponentlar", "Props va state", "Hodisalar", "Ro'yxat va key", "Formalar", "Ma'lumot yuklash"],
+            "ru": ["Компоненты", "Props и state", "События", "Списки и ключи", "Формы", "Загрузка данных"]
+          }
+        },
+        {
+          "id": "backend-apis",
+          "icon": "Server",
+          "tone": "indigo",
+          "typingFocus": "/ : ( ) => \"",
+          "sample": "app.get(\"/users\", (req, res) => {})",
+          "title": { "en": "Backend & APIs", "uz": "Backend va API", "ru": "Бэкенд и API" },
+          "summary": {
+            "en": "The part that lives on a server and answers requests.",
+            "uz": "Serverda turib so'rovlarga javob beradigan qism.",
+            "ru": "Та часть, что живёт на сервере и отвечает на запросы."
+          },
+          "modules": {
+            "en": ["What a server does", "Routes", "Requests and responses", "JSON APIs", "Logins and tokens"],
+            "uz": ["Server nima qiladi", "Yo'nalishlar (route)", "So'rov va javob", "JSON API", "Kirish va token"],
+            "ru": ["Что делает сервер", "Маршруты", "Запрос и ответ", "JSON API", "Вход и токены"]
+          }
+        },
+        {
+          "id": "databases-sql",
+          "icon": "Database",
+          "tone": "teal",
+          "typingFocus": "* = ; ' ( )",
+          "sample": "SELECT name FROM users WHERE age > 18;",
+          "title": { "en": "Databases & SQL", "uz": "Ma'lumotlar bazasi va SQL", "ru": "Базы данных и SQL" },
+          "summary": {
+            "en": "Where the data actually lives, and how to ask it questions.",
+            "uz": "Ma'lumot qayerda saqlanadi va undan qanday so'raladi.",
+            "ru": "Где на самом деле лежат данные и как их спросить."
+          },
+          "modules": {
+            "en": ["Tables and rows", "SELECT", "WHERE and ORDER BY", "JOIN", "INSERT and UPDATE", "Designing tables"],
+            "uz": ["Jadval va qatorlar", "SELECT", "WHERE va ORDER BY", "JOIN", "INSERT va UPDATE", "Jadval loyihalash"],
+            "ru": ["Таблицы и строки", "SELECT", "WHERE и ORDER BY", "JOIN", "INSERT и UPDATE", "Проектирование таблиц"]
+          }
+        },
+        {
+          "id": "mobile-apps",
+          "icon": "Smartphone",
+          "tone": "fuchsia",
+          "typingFocus": "< > { } .",
+          "sample": "<Button onPress={save} title=\"Save\" />",
+          "title": { "en": "Mobile Apps", "uz": "Mobil ilovalar", "ru": "Мобильные приложения" },
+          "summary": {
+            "en": "An app that lives in a pocket, not a browser tab.",
+            "uz": "Brauzerda emas, cho'ntakda yashaydigan ilova.",
+            "ru": "Приложение, которое живёт в кармане, а не во вкладке."
+          },
+          "modules": {
+            "en": ["Screens and navigation", "Layouts", "Touch and gestures", "Saving data on the phone", "Publishing an app"],
+            "uz": ["Ekran va navigatsiya", "Joylashuv", "Teginish va imolar", "Telefonda ma'lumot saqlash", "Ilovani chiqarish"],
+            "ru": ["Экраны и навигация", "Вёрстка", "Касания и жесты", "Хранение данных на телефоне", "Публикация приложения"]
+          }
+        },
+        {
+          "id": "game-development",
+          "icon": "Gamepad2",
+          "tone": "rose",
+          "typingFocus": "+ - * . ( )",
+          "sample": "player.x += speed * dt;",
+          "title": { "en": "Game Development", "uz": "O'yin yaratish", "ru": "Разработка игр" },
+          "summary": {
+            "en": "Loops, sprites and collisions - the games on this site.",
+            "uz": "Sikl, sprayt va to'qnashuv - shu saytdagi o'yinlar kabi.",
+            "ru": "Циклы, спрайты и столкновения — как игры на этом сайте."
+          },
+          "modules": {
+            "en": ["The game loop", "Sprites and movement", "Collisions", "Score and levels", "Sound and feel"],
+            "uz": ["O'yin sikli", "Sprayt va harakat", "To'qnashuvlar", "Ochko va bosqichlar", "Ovoz va his"],
+            "ru": ["Игровой цикл", "Спрайты и движение", "Столкновения", "Очки и уровни", "Звук и ощущение"]
+          }
+        },
+        {
+          "id": "design-ux",
+          "icon": "Palette",
+          "tone": "amber",
+          "typingFocus": ": ; # -",
+          "sample": "color: #18181b; padding: 12px;",
+          "title": { "en": "Design & UX Basics", "uz": "Dizayn va UX asoslari", "ru": "Основы дизайна и UX" },
+          "summary": {
+            "en": "Make it clear and pleasant, not just working.",
+            "uz": "Nafaqat ishlasin - tushunarli va yoqimli bo'lsin.",
+            "ru": "Чтобы не просто работало, а было понятно и приятно."
+          },
+          "modules": {
+            "en": ["Layout and grids", "Colour and contrast", "Type and reading", "Accessibility", "Prototyping an idea"],
+            "uz": ["Joylashuv va setka", "Rang va kontrast", "Shrift va o'qish", "Qulaylik (accessibility)", "G'oyani prototiplash"],
+            "ru": ["Композиция и сетка", "Цвет и контраст", "Шрифт и читаемость", "Доступность", "Прототип идеи"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "engineering",
+      "tone": "amber",
+      "title": { "en": "Engineering", "uz": "Muhandislik", "ru": "Инженерия" },
+      "goal": {
+        "en": "Write code that stays fast, correct and readable at scale.",
+        "uz": "Tez, to'g'ri va o'qishli - kattalashsa ham buzilmaydigan kod yoz.",
+        "ru": "Пиши код, который остаётся быстрым, верным и читаемым."
+      },
+      "tracks": [
+        {
+          "id": "data-structures",
+          "icon": "Boxes",
+          "tone": "sky",
+          "typingFocus": "[ ] . -> ( )",
+          "sample": "stack.push(node.next);",
+          "title": { "en": "Data Structures", "uz": "Ma'lumot tuzilmalari", "ru": "Структуры данных" },
+          "summary": {
+            "en": "The containers every serious program is built from.",
+            "uz": "Har bir jiddiy dastur quriladigan idishlar.",
+            "ru": "Контейнеры, из которых собрана любая серьёзная программа."
+          },
+          "modules": {
+            "en": ["Arrays and strings", "Stacks and queues", "Linked lists", "Trees", "Hash maps", "Graphs"],
+            "uz": ["Massiv va satrlar", "Stek va navbat", "Bog'langan ro'yxat", "Daraxtlar", "Hash-jadval", "Graflar"],
+            "ru": ["Массивы и строки", "Стек и очередь", "Связные списки", "Деревья", "Хеш-таблицы", "Графы"]
+          }
+        },
+        {
+          "id": "algorithms",
+          "icon": "Workflow",
+          "tone": "emerald",
+          "typingFocus": "< > = ( ) [ ]",
+          "sample": "while (lo <= hi) { mid = (lo + hi) / 2; }",
+          "title": { "en": "Algorithms", "uz": "Algoritmlar", "ru": "Алгоритмы" },
+          "summary": {
+            "en": "Solve it correctly - then solve it fast.",
+            "uz": "Avval to'g'ri yech - keyin tez yech.",
+            "ru": "Сначала правильно — потом быстро."
+          },
+          "modules": {
+            "en": ["Big-O and cost", "Searching", "Sorting", "Recursion", "Greedy methods", "Dynamic programming"],
+            "uz": ["Big-O va narx", "Qidiruv", "Saralash", "Rekursiya", "Ochko'z usul", "Dinamik dasturlash"],
+            "ru": ["Big-O и стоимость", "Поиск", "Сортировка", "Рекурсия", "Жадные методы", "Динамическое программирование"]
+          }
+        },
+        {
+          "id": "oop-clean-code",
+          "icon": "Layers",
+          "tone": "violet",
+          "typingFocus": ". : ( ) { }",
+          "sample": "class Player extends Entity { }",
+          "title": { "en": "OOP & Clean Code", "uz": "OOP va toza kod", "ru": "ООП и чистый код" },
+          "summary": {
+            "en": "Shape a big program so a human can still read it.",
+            "uz": "Katta dasturni odam o'qiy oladigan qilib tuz.",
+            "ru": "Организуй большую программу так, чтобы её читал человек."
+          },
+          "modules": {
+            "en": ["Classes and objects", "Inheritance", "Interfaces", "SOLID principles", "Refactoring", "Naming things"],
+            "uz": ["Klass va obyekt", "Meros", "Interfeys", "SOLID tamoyillari", "Refaktoring", "Nom berish"],
+            "ru": ["Классы и объекты", "Наследование", "Интерфейсы", "Принципы SOLID", "Рефакторинг", "Имена в коде"]
+          }
+        },
+        {
+          "id": "testing",
+          "icon": "TestTubeDiagonal",
+          "tone": "lime",
+          "typingFocus": "( ) . \" ,",
+          "sample": "expect(sum(2, 2)).toBe(4);",
+          "title": { "en": "Testing", "uz": "Testlash", "ru": "Тестирование" },
+          "summary": {
+            "en": "Prove it works, and keep it working tomorrow.",
+            "uz": "Ishlayotganini isbotla va ertaga ham buzilmasin.",
+            "ru": "Докажи, что работает — и что не сломается завтра."
+          },
+          "modules": {
+            "en": ["Why we test", "Unit tests", "Fakes and mocks", "Integration tests", "Test-first coding"],
+            "uz": ["Nega test kerak", "Unit testlar", "Soxta obyektlar", "Integratsion testlar", "Avval test yozish"],
+            "ru": ["Зачем тесты", "Модульные тесты", "Заглушки и моки", "Интеграционные тесты", "Сначала тест"]
+          }
+        },
+        {
+          "id": "devops-cloud",
+          "icon": "Cloud",
+          "tone": "cyan",
+          "typingFocus": "- . / : _",
+          "sample": "docker build -t my-app .",
+          "title": { "en": "DevOps & Cloud", "uz": "DevOps va bulut", "ru": "DevOps и облако" },
+          "summary": {
+            "en": "Get your code off your laptop and onto the internet.",
+            "uz": "Kodni noutbukdan olib, internetga chiqar.",
+            "ru": "Вынеси код с ноутбука в интернет."
+          },
+          "modules": {
+            "en": ["Linux servers", "Containers and Docker", "CI/CD pipelines", "Deploying safely", "Logs and monitoring"],
+            "uz": ["Linux serverlar", "Konteyner va Docker", "CI/CD quvuri", "Xavfsiz joylash", "Log va monitoring"],
+            "ru": ["Linux-серверы", "Контейнеры и Docker", "CI/CD конвейер", "Безопасный деплой", "Логи и мониторинг"]
+          }
+        },
+        {
+          "id": "system-design",
+          "icon": "Network",
+          "tone": "indigo",
+          "typingFocus": "- > | +",
+          "sample": "client -> cache -> database",
+          "title": { "en": "System Design", "uz": "Tizim loyihalash", "ru": "Проектирование систем" },
+          "summary": {
+            "en": "Draw the whole system before writing a line of it.",
+            "uz": "Bir qator kod yozishdan avval butun tizimni chiz.",
+            "ru": "Нарисуй систему целиком до первой строки кода."
+          },
+          "modules": {
+            "en": ["Client and server", "Caching", "Load balancing", "Queues and jobs", "Scaling up", "Trade-offs"],
+            "uz": ["Klient va server", "Keshlash", "Yuk taqsimlash", "Navbat va vazifalar", "Kengaytirish", "Murosalar"],
+            "ru": ["Клиент и сервер", "Кеширование", "Балансировка нагрузки", "Очереди и задачи", "Масштабирование", "Компромиссы"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "specialist",
+      "tone": "rose",
+      "title": { "en": "Specialist Fields", "uz": "Yo'nalishlar", "ru": "Специализации" },
+      "goal": {
+        "en": "Pick a field you love and go deep into it.",
+        "uz": "Yoqqan yo'nalishni tanla va chuqur o'rgan.",
+        "ru": "Выбери направление по душе и уйди в него вглубь."
+      },
+      "tracks": [
+        {
+          "id": "cybersecurity",
+          "icon": "ShieldCheck",
+          "tone": "teal",
+          "typingFocus": "@ # $ % & *",
+          "sample": "hash = sha256(password + salt)",
+          "title": { "en": "Cybersecurity", "uz": "Kiberxavfsizlik", "ru": "Кибербезопасность" },
+          "summary": {
+            "en": "How systems are attacked - so you can defend yours.",
+            "uz": "Tizimlar qanday hujumga uchraydi - himoya qila bilish uchun.",
+            "ru": "Как атакуют системы — чтобы ты умел защищать свою."
+          },
+          "modules": {
+            "en": ["Threats and attackers", "Passwords and hashing", "Encryption basics", "Networks and firewalls", "Writing safe code"],
+            "uz": ["Tahdid va hujumchilar", "Parol va heshlash", "Shifrlash asoslari", "Tarmoq va firewall", "Xavfsiz kod yozish"],
+            "ru": ["Угрозы и атакующие", "Пароли и хеширование", "Основы шифрования", "Сети и фаерволы", "Безопасный код"]
+          }
+        },
+        {
+          "id": "ethical-hacking",
+          "icon": "Fingerprint",
+          "tone": "rose",
+          "typingFocus": "- / . : @",
+          "sample": "nmap -sV scanme.nmap.org",
+          "title": { "en": "Ethical Hacking", "uz": "Etik xakerlik", "ru": "Этичный хакинг" },
+          "summary": {
+            "en": "Break into systems you are allowed to - and report it.",
+            "uz": "Faqat ruxsat berilgan tizimni sina va hisobot yoz.",
+            "ru": "Взламывай только то, что разрешено — и пиши отчёт."
+          },
+          "modules": {
+            "en": ["Rules, law and permission", "Reconnaissance", "Scanning and enumeration", "Common web weaknesses", "Password attacks", "Writing the report"],
+            "uz": ["Qoida, qonun va ruxsat", "Ma'lumot yig'ish", "Skanerlash va sanash", "Vebdagi keng tarqalgan zaifliklar", "Parolga hujum", "Hisobot yozish"],
+            "ru": ["Правила, закон и разрешение", "Разведка", "Сканирование и перечисление", "Частые веб-уязвимости", "Атаки на пароли", "Написание отчёта"]
+          }
+        },
+        {
+          "id": "artificial-intelligence",
+          "icon": "BrainCircuit",
+          "tone": "violet",
+          "typingFocus": "= ( ) [ ] .",
+          "sample": "model.fit(x_train, y_train)",
+          "title": { "en": "Artificial Intelligence", "uz": "Sun'iy intellekt", "ru": "Искусственный интеллект" },
+          "summary": {
+            "en": "Teach a machine from examples instead of rules.",
+            "uz": "Mashinani qoida emas, misollar bilan o'rgat.",
+            "ru": "Учи машину примерами, а не правилами."
+          },
+          "modules": {
+            "en": ["What AI really is", "Machine learning basics", "Neural networks", "Data and training", "Language models and prompts", "Ethics and limits"],
+            "uz": ["Sun'iy intellekt aslida nima", "Mashina o'rganish asoslari", "Neyron tarmoqlar", "Ma'lumot va o'qitish", "Til modellari va promptlar", "Axloq va chegaralar"],
+            "ru": ["Что такое ИИ на самом деле", "Основы машинного обучения", "Нейросети", "Данные и обучение", "Языковые модели и промпты", "Этика и границы"]
+          }
+        },
+        {
+          "id": "data-science",
+          "icon": "ChartColumn",
+          "tone": "sky",
+          "typingFocus": ". ( ) [ ] ,",
+          "sample": "df.groupby(\"city\").mean()",
+          "title": { "en": "Data Science", "uz": "Ma'lumotlar tahlili", "ru": "Наука о данных" },
+          "summary": {
+            "en": "Turn a pile of numbers into an answer.",
+            "uz": "Raqamlar uyumidan javob chiqar.",
+            "ru": "Преврати гору чисел в ответ."
+          },
+          "modules": {
+            "en": ["Collecting data", "Cleaning messy data", "Tables and dataframes", "Statistics you need", "Charts that tell the truth", "Telling the story"],
+            "uz": ["Ma'lumot yig'ish", "Ifloslangan ma'lumotni tozalash", "Jadval va dataframe", "Kerakli statistika", "Rost gapiradigan grafiklar", "Xulosani gapirib berish"],
+            "ru": ["Сбор данных", "Очистка грязных данных", "Таблицы и датафреймы", "Нужная статистика", "Честные графики", "Рассказать историю"]
+          }
+        },
+        {
+          "id": "robotics-iot",
+          "icon": "Cpu",
+          "tone": "orange",
+          "typingFocus": "( ) ; , _",
+          "sample": "digitalWrite(LED_PIN, HIGH);",
+          "title": { "en": "Robotics & IoT", "uz": "Robototexnika va IoT", "ru": "Робототехника и IoT" },
+          "summary": {
+            "en": "Code that moves things in the real world.",
+            "uz": "Haqiqiy dunyoda narsalarni harakatga soladigan kod.",
+            "ru": "Код, который двигает вещи в реальном мире."
+          },
+          "modules": {
+            "en": ["Microcontrollers", "Sensors", "Motors and movement", "Circuits and wiring", "Reading signals", "Build a small robot"],
+            "uz": ["Mikrokontrollerlar", "Sensorlar", "Motor va harakat", "Sxema va ulanish", "Signalni o'qish", "Kichik robot yasash"],
+            "ru": ["Микроконтроллеры", "Датчики", "Моторы и движение", "Схемы и провода", "Чтение сигналов", "Собрать робота"]
+          }
+        },
+        {
+          "id": "computer-graphics",
+          "icon": "Shapes",
+          "tone": "fuchsia",
+          "typingFocus": "( ) , . *",
+          "sample": "ctx.arc(x, y, r, 0, Math.PI * 2);",
+          "title": { "en": "Computer Graphics", "uz": "Kompyuter grafikasi", "ru": "Компьютерная графика" },
+          "summary": {
+            "en": "Make the machine draw, move and light a scene.",
+            "uz": "Mashinaga chizish, harakat va yorug'likni o'rgat.",
+            "ru": "Заставь машину рисовать, двигать и освещать сцену."
+          },
+          "modules": {
+            "en": ["Pixels and canvas", "Drawing in 2D", "Transforms", "Into 3D", "Shaders and light", "Animation"],
+            "uz": ["Piksel va kanvas", "2D chizish", "Transformatsiya", "3D olamiga", "Shader va yorug'lik", "Animatsiya"],
+            "ru": ["Пиксели и канвас", "Рисование в 2D", "Трансформации", "Переход в 3D", "Шейдеры и свет", "Анимация"]
+          }
+        },
+        {
+          "id": "blockchain",
+          "icon": "Link2",
+          "tone": "amber",
+          "typingFocus": "( ) { } ; =",
+          "sample": "function transfer(address to, uint amount)",
+          "title": { "en": "Blockchain", "uz": "Blokcheyn", "ru": "Блокчейн" },
+          "summary": {
+            "en": "A ledger nobody owns and nobody can quietly edit.",
+            "uz": "Egasi yo'q va yashirin o'zgartirib bo'lmaydigan daftar.",
+            "ru": "Реестр, у которого нет хозяина и который не подправить тихо."
+          },
+          "modules": {
+            "en": ["What a ledger is", "Hashes and blocks", "Wallets and keys", "Smart contracts", "Risks and scams"],
+            "uz": ["Daftar (ledger) nima", "Hesh va bloklar", "Hamyon va kalitlar", "Aqlli shartnomalar", "Xatar va firibgarlik"],
+            "ru": ["Что такое реестр", "Хеши и блоки", "Кошельки и ключи", "Смарт-контракты", "Риски и мошенничество"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "mastery",
+      "tone": "indigo",
+      "title": { "en": "Mastery", "uz": "Ustalik", "ru": "Мастерство" },
+      "goal": {
+        "en": "Work at the level of the machine, and of the team.",
+        "uz": "Mashina darajasida ham, jamoa darajasida ham ishla.",
+        "ru": "Работай на уровне машины — и на уровне команды."
+      },
+      "tracks": [
+        {
+          "id": "competitive-programming",
+          "icon": "Trophy",
+          "tone": "amber",
+          "typingFocus": "< > + - [ ]",
+          "sample": "for (int i = 0; i < n; ++i) sum += a[i];",
+          "title": { "en": "Competitive Programming", "uz": "Sport dasturlash", "ru": "Спортивное программирование" },
+          "summary": {
+            "en": "Hard problems, a clock, and a leaderboard.",
+            "uz": "Qiyin masala, soat va reyting jadvali.",
+            "ru": "Сложные задачи, таймер и таблица лидеров."
+          },
+          "modules": {
+            "en": ["How contests work", "Complexity tricks", "Number theory", "Graph problems", "A practice plan"],
+            "uz": ["Musobaqa qanday o'tadi", "Murakkablik hiylalari", "Sonlar nazariyasi", "Graf masalalari", "Mashq rejasi"],
+            "ru": ["Как устроены контесты", "Приёмы по сложности", "Теория чисел", "Задачи на графы", "План тренировок"]
+          }
+        },
+        {
+          "id": "operating-systems",
+          "icon": "HardDrive",
+          "tone": "slate",
+          "typingFocus": "_ ( ) * &",
+          "sample": "pid_t pid = fork();",
+          "title": { "en": "Operating Systems", "uz": "Operatsion tizimlar", "ru": "Операционные системы" },
+          "summary": {
+            "en": "What actually happens under every program you run.",
+            "uz": "Har bir dastur ostida aslida nima sodir bo'ladi.",
+            "ru": "Что на самом деле происходит под каждой программой."
+          },
+          "modules": {
+            "en": ["Processes and threads", "Memory", "File systems", "Scheduling", "System calls"],
+            "uz": ["Jarayon va oqimlar", "Xotira", "Fayl tizimlari", "Rejalashtirish", "Tizim chaqiruvlari"],
+            "ru": ["Процессы и потоки", "Память", "Файловые системы", "Планировщик", "Системные вызовы"]
+          }
+        },
+        {
+          "id": "compilers",
+          "icon": "Binary",
+          "tone": "emerald",
+          "typingFocus": "< > | * +",
+          "sample": "expr := term (\"+\" term)*",
+          "title": { "en": "Compilers & Languages", "uz": "Kompilyator va tillar", "ru": "Компиляторы и языки" },
+          "summary": {
+            "en": "Build the tool that turns text into a running program.",
+            "uz": "Matnni ishlaydigan dasturga aylantiruvchi vositani yasa.",
+            "ru": "Сделай инструмент, превращающий текст в программу."
+          },
+          "modules": {
+            "en": ["Tokens and lexing", "Parsing", "Syntax trees", "Generating code", "Write a tiny language"],
+            "uz": ["Token va leksika", "Parsing", "Sintaksis daraxti", "Kod generatsiyasi", "Kichik til yozish"],
+            "ru": ["Токены и лексер", "Разбор (парсинг)", "Синтаксическое дерево", "Генерация кода", "Свой мини-язык"]
+          }
+        },
+        {
+          "id": "distributed-systems",
+          "icon": "Waypoints",
+          "tone": "cyan",
+          "typingFocus": "- > : / .",
+          "sample": "node-1 -> node-2 : replicate(log)",
+          "title": { "en": "Distributed Systems", "uz": "Taqsimlangan tizimlar", "ru": "Распределённые системы" },
+          "summary": {
+            "en": "Many machines pretending, convincingly, to be one.",
+            "uz": "Ko'p mashina - bitta tizimdek ishlaydi.",
+            "ru": "Много машин, убедительно притворяющихся одной."
+          },
+          "modules": {
+            "en": ["Why more than one machine", "Consistency", "Replication", "Consensus", "When things fail"],
+            "uz": ["Nega bitta mashina yetmaydi", "Izchillik", "Replikatsiya", "Konsensus", "Nosozlik yuz berganda"],
+            "ru": ["Зачем больше одной машины", "Согласованность", "Репликация", "Консенсус", "Когда всё падает"]
+          }
+        },
+        {
+          "id": "reverse-engineering",
+          "icon": "SearchCode",
+          "tone": "rose",
+          "typingFocus": "0x % , [ ]",
+          "sample": "mov eax, [ebp-0x4]",
+          "title": { "en": "Reverse Engineering", "uz": "Teskari muhandislik", "ru": "Обратная разработка" },
+          "summary": {
+            "en": "Read a program that came without its source code.",
+            "uz": "Manba kodi yo'q dasturni o'qishni o'rgan.",
+            "ru": "Читай программу, к которой не дали исходников."
+          },
+          "modules": {
+            "en": ["Binaries and assembly", "Disassemblers", "Debugging without source", "Handling malware safely", "CTF challenges"],
+            "uz": ["Binar fayl va assembler", "Disassembler", "Manbasiz debug qilish", "Zararli kod bilan xavfsiz ishlash", "CTF topshiriqlari"],
+            "ru": ["Бинарники и ассемблер", "Дизассемблеры", "Отладка без исходников", "Безопасная работа с вредоносом", "CTF-задачи"]
+          }
+        },
+        {
+          "id": "open-source-career",
+          "icon": "Briefcase",
+          "tone": "lime",
+          "typingFocus": "@ / - # .",
+          "sample": "git checkout -b fix/typo-in-readme",
+          "title": { "en": "Open Source & Career", "uz": "Ochiq kod va karyera", "ru": "Открытый код и карьера" },
+          "summary": {
+            "en": "Join real projects and get paid to write code.",
+            "uz": "Haqiqiy loyihalarga qo'shil va kod yozib ishla.",
+            "ru": "Влейся в реальные проекты и работай за код."
+          },
+          "modules": {
+            "en": ["Reading a big codebase", "Your first contribution", "Code review", "Building a portfolio", "Interviews"],
+            "uz": ["Katta kod bazasini o'qish", "Birinchi hissang", "Kod ko'rigi", "Portfolio yig'ish", "Suhbatlar"],
+            "ru": ["Чтение большой кодовой базы", "Первый вклад", "Код-ревью", "Портфолио", "Собеседования"]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -29,7 +29,7 @@ function niceMax(v: number): number {
 
 export function LineChart({
   data,
-  color = "#171717",
+  color = "var(--chart-ink)",
   height = 200,
   unit = "",
   domain,
@@ -131,7 +131,7 @@ export function LineChart({
     return (
       <div
         ref={wrapRef}
-        className="flex items-center justify-center text-sm text-neutral-400"
+        className="flex items-center justify-center text-sm text-neutral-400 dark:text-neutral-500"
         style={{ height }}
       >
         {emptyText}
@@ -156,7 +156,7 @@ export function LineChart({
               x2={PAD_L + innerW}
               y1={y(t)}
               y2={y(t)}
-              stroke="#eeeeee"
+              stroke="var(--chart-grid)"
               strokeWidth={1}
             />
             <text
@@ -202,7 +202,7 @@ export function LineChart({
               cy={y(p.value)}
               r={3.5}
               fill={color}
-              stroke="#ffffff"
+              stroke="var(--chart-surface)"
               strokeWidth={2}
             />
           ))}
@@ -214,7 +214,7 @@ export function LineChart({
               x2={x(hover as number)}
               y1={PAD_T}
               y2={PAD_T + innerH}
-              stroke="#d4d4d4"
+              stroke="var(--chart-muted)"
               strokeWidth={1}
             />
             <circle
@@ -222,7 +222,7 @@ export function LineChart({
               cy={y(hovered.value)}
               r={4.5}
               fill={color}
-              stroke="#ffffff"
+              stroke="var(--chart-surface)"
               strokeWidth={2}
             />
           </g>
@@ -231,16 +231,16 @@ export function LineChart({
       {/* tooltip */}
       {hovered && hovered.value !== null && (
         <div
-          className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 shadow-sm"
+          className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1.5 shadow-sm"
           style={{
             left: Math.min(Math.max(x(hover as number), 50), width - 50),
             top: Math.max(0, y(hovered.value) - 44),
           }}
         >
-          <div className="whitespace-nowrap text-[10px] text-neutral-400">
+          <div className="whitespace-nowrap text-[10px] text-neutral-400 dark:text-neutral-500">
             {hovered.label}
           </div>
-          <div className="whitespace-nowrap font-mono text-xs font-bold text-neutral-900">
+          <div className="whitespace-nowrap font-mono text-xs font-bold text-neutral-900 dark:text-neutral-100">
             {Math.round(hovered.value)}
             {unit}
           </div>

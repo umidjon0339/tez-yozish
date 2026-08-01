@@ -1,5 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
+import { useGameView } from '@/lib/gameStats';
 
 const NinjaWorld = dynamic(() => import('./NinjaWorld'), {
     ssr: false,
@@ -12,6 +13,7 @@ const NinjaWorld = dynamic(() => import('./NinjaWorld'), {
 });
 
 export default function TypingNinjaPage() {
+    useGameView('typing-ninja');
     return (
         <div className="fixed inset-0 z-[99999] bg-[#f4e0c5] overflow-hidden font-sans select-none">
             <NinjaWorld />

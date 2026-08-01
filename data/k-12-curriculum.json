@@ -1,0 +1,57 @@
+{
+  "1": {
+    "uz": ["Alifbe", "Ona tili", "O‘qish savodxonligi", "Matematika", "Tabiiy fan", "Texnologiya", "Tasviriy san’at", "Musiqa", "Jismoniy tarbiya", "Tarbiya", "Ingliz tili"],
+    "en": ["Alphabet & Literacy", "Mother Tongue", "Reading Literacy", "Mathematics", "Natural Science", "Technology", "Visual Arts", "Music", "Physical Education", "Character Education", "English Language"],
+    "ru": ["Азбука", "Родной язык", "Читательская грамотность", "Математика", "Естествознание", "Технология", "Изобразительное искусство", "Музыка", "Физическая культура", "Воспитание", "Английский язык"]
+  },
+  "2": {
+    "uz": ["Ona tili", "O‘qish", "Matematika", "Tabiiy fan", "Texnologiya", "Tasviriy san’at", "Musiqa", "Jismoniy tarbiya", "Tarbiya", "Ingliz tili", "Rus tili"],
+    "en": ["Mother Tongue", "Reading", "Mathematics", "Natural Science", "Technology", "Visual Arts", "Music", "Physical Education", "Character Education", "English Language", "Russian Language"],
+    "ru": ["Родной язык", "Чтение", "Математика", "Естествознание", "Технология", "Изобразительное искусство", "Музыка", "Физическая культура", "Воспитание", "Английский язык", "Русский язык"]
+  },
+  "3": {
+    "uz": ["Ona tili", "O‘qish", "Matematika", "Tabiiy fan", "Texnologiya", "Tasviriy san’at", "Musiqa", "Jismoniy tarbiya", "Tarbiya", "Odobnoma", "Ingliz tili", "Rus tili"],
+    "en": ["Mother Tongue", "Reading", "Mathematics", "Natural Science", "Technology", "Visual Arts", "Music", "Physical Education", "Character Education", "Etiquette", "English Language", "Russian Language"],
+    "ru": ["Родной язык", "Чтение", "Математика", "Естествознание", "Технология", "Изобразительное искусство", "Музыка", "Физическая культура", "Воспитание", "Этикет", "Английский язык", "Русский язык"]
+  },
+  "4": {
+    "uz": ["Ona tili", "O‘qish", "Matematika", "Tabiiy fan", "Texnologiya", "Tasviriy san’at", "Musiqa", "Jismoniy tarbiya", "Tarbiya", "Ingliz tili", "Rus tili"],
+    "en": ["Mother Tongue", "Reading", "Mathematics", "Natural Science", "Technology", "Visual Arts", "Music", "Physical Education", "Character Education", "English Language", "Russian Language"],
+    "ru": ["Родной язык", "Чтение", "Математика", "Естествознание", "Технология", "Изобразительное искусство", "Музыка", "Физическая культура", "Воспитание", "Английский язык", "Русский язык"]
+  },
+  "5": {
+    "uz": ["Ona tili", "Adabiyot", "Matematika", "Informatika", "Geografiya", "Biologiya", "Tarixdan hikoyalar", "Texnologiya", "Tasviriy san’at", "Musiqa", "Jismoniy tarbiya", "Vatan tuyg‘usi", "Ingliz tili", "Rus tili"],
+    "en": ["Mother Tongue", "Literature", "Mathematics", "Computer Science", "Geography", "Biology", "History Stories", "Technology", "Visual Arts", "Music", "Physical Education", "Patriotism", "English Language", "Russian Language"],
+    "ru": ["Родной язык", "Литература", "Математика", "Информатика", "География", "Биология", "Рассказы по истории", "Технология", "Изобразительное искусство", "Музыка", "Физическая культура", "Чувство Родины", "Английский язык", "Русский язык"]
+  },
+  "6": {
+    "uz": ["Ona tili", "Adabiyot", "Matematika", "Biologiya", "Geografiya", "Tarix", "Texnologiya", "Tasviriy san’at", "Musiqa", "Informatika", "Jismoniy tarbiya", "Ingliz tili", "Rus tili"],
+    "en": ["Mother Tongue", "Literature", "Mathematics", "Biology", "Geography", "History", "Technology", "Visual Arts", "Music", "Computer Science", "Physical Education", "English Language", "Russian Language"],
+    "ru": ["Родной язык", "Литература", "Математика", "Биология", "География", "История", "Технология", "Изобразительное искусство", "Музыка", "Информатика", "Физическая культура", "Английский язык", "Русский язык"]
+  },
+  "7": {
+    "uz": ["Ona tili", "Adabiyot", "Algebra", "Geometriya", "Fizika", "Biologiya", "Geografiya", "Jahon tarixi", "O‘zbekiston tarixi", "Informatika", "Texnologiya", "Jismoniy tarbiya", "Ingliz tili", "Rus tili"],
+    "en": ["Mother Tongue", "Literature", "Algebra", "Geometry", "Physics", "Biology", "Geography", "World History", "History of Uzbekistan", "Computer Science", "Technology", "Physical Education", "English Language", "Russian Language"],
+    "ru": ["Родной язык", "Литература", "Алгебра", "Геометрия", "Физика", "Биология", "География", "Всемирная история", "История Узбекистана", "Информатика", "Технология", "Физическая культура", "Английский язык", "Русский язык"]
+  },
+  "8": {
+    "uz": ["Ona tili", "Adabiyot", "Algebra", "Geometriya", "Fizika", "Kimyo", "Biologiya", "Geografiya", "O‘zbekiston tarixi", "Jahon tarixi", "Informatika", "Texnologiya", "Chizmachilik", "Jismoniy tarbiya", "Huquq asoslari", "Iqtisodiy bilim asoslari", "Milliy istiqlol g‘oyasi", "Ingliz tili", "Rus tili"],
+    "en": ["Mother Tongue", "Literature", "Algebra", "Geometry", "Physics", "Chemistry", "Biology", "Geography", "History of Uzbekistan", "World History", "Computer Science", "Technology", "Technical Drawing", "Physical Education", "Fundamentals of Law", "Fundamentals of Economics", "National Ideology", "English Language", "Russian Language"],
+    "ru": ["Родной язык", "Литература", "Алгебра", "Геометрия", "Физика", "Химия", "Биология", "География", "История Узбекистана", "Всемирная история", "Информатика", "Технология", "Черчение", "Физическая культура", "Основы права", "Основы экономики", "Национальная идея", "Английский язык", "Русский язык"]
+  },
+  "9": {
+    "uz": ["Ona tili", "Adabiyot", "Algebra", "Geometriya", "Fizika", "Kimyo", "Biologiya", "Geografiya", "O‘zbekiston tarixi", "Jahon tarixi", "Informatika", "Texnologiya", "Huquq asoslari", "Jismoniy tarbiya", "Ingliz tili"],
+    "en": ["Mother Tongue", "Literature", "Algebra", "Geometry", "Physics", "Chemistry", "Biology", "Geography", "History of Uzbekistan", "World History", "Computer Science", "Technology", "Fundamentals of Law", "Physical Education", "English Language"],
+    "ru": ["Родной язык", "Литература", "Алгебра", "Геометрия", "Физика", "Химия", "Биология", "География", "История Узбекистана", "Всемирная история", "Информатика", "Технология", "Основы права", "Физическая культура", "Английский язык"]
+  },
+  "10": {
+    "uz": ["Ona tili", "Adabiyot", "Algebra", "Geometriya", "Fizika", "Kimyo", "Biologiya", "Geografiya", "O‘zbekiston tarixi", "Jahon tarixi", "Informatika", "Iqtisodiyot", "Tadbirkorlik asoslari", "Huquq", "Jismoniy tarbiya", "Ingliz tili"],
+    "en": ["Mother Tongue", "Literature", "Algebra", "Geometry", "Physics", "Chemistry", "Biology", "Geography", "History of Uzbekistan", "World History", "Computer Science", "Economics", "Entrepreneurship", "Law", "Physical Education", "English Language"],
+    "ru": ["Родной язык", "Литература", "Алгебра", "Геометрия", "Физика", "Химия", "Биология", "География", "История Узбекистана", "Всемирная история", "Информатика", "Экономика", "Основы предпринимательства", "Право", "Физическая культура", "Английский язык"]
+  },
+  "11": {
+    "uz": ["Ona tili", "Adabiyot", "Algebra", "Geometriya", "Fizika", "Kimyo", "Biologiya", "Geografiya", "O‘zbekiston tarixi", "Jahon tarixi", "Informatika", "Iqtisodiyot", "Huquq", "Jismoniy tarbiya", "Ingliz tili"],
+    "en": ["Mother Tongue", "Literature", "Algebra", "Geometry", "Physics", "Chemistry", "Biology", "Geography", "History of Uzbekistan", "World History", "Computer Science", "Economics", "Law", "Physical Education", "English Language"],
+    "ru": ["Родной язык", "Литература", "Алгебра", "Геометрия", "Физика", "Химия", "Биология", "География", "История Узбекистана", "Всемирная история", "Информатика", "Экономика", "Право", "Физическая культура", "Английский язык"]
+  }
+}

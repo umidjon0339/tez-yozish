@@ -1,0 +1,1044 @@
+{
+  "_readme": [
+    "EVERY word and sentence the home-page typing test can produce lives in this file.",
+    "Edit it freely - nothing here is generated, and no text is hardcoded anywhere else.",
+    "",
+    "  words   : the general word bank for the time / words modes.",
+    "  quotes  : the quote mode. `text` is typed, `source` is printed under the result.",
+    "  bands   : which school grades count as primary / middle / senior.",
+    "  subjects: the `subject` mode. Keys are the subject SLUGS from lib/k12.ts",
+    "            (the English name, lowercased and hyphenated) - the same keys its",
+    "            SUBJECT_ART table uses, so a subject is named once for the whole app.",
+    "            A key may carry a band suffix - \"mathematics@primary\" next to",
+    "            \"mathematics\" - so young children can get easier sentences.",
+    "",
+    "Each language block holds `words` and `sentences`. The test prefers a sentence;",
+    "if a subject has none it builds a word drill instead. Latin script only (en/uz):",
+    "the on-screen keyboard is US QWERTY, so Cyrillic would light up nothing.",
+    "",
+    "Two things to know before editing:",
+    "  - There is no grade picker on the home page any more, so ALL bands of a",
+    "    subject are POOLED into one pot. The band suffix is kept for the day a",
+    "    picker returns; today it changes nothing about what a learner sees.",
+    "  - The config bar offers only the five subjects listed in FEATURED_SUBJECTS",
+    "    (lib/typingTest.ts). Every other subject here is written and checked but",
+    "    unreachable until that list names it. Add to that list, not just here."
+  ],
+  "bands": {
+    "primary": [
+      1, 2, 3, 4
+    ],
+    "middle": [
+      5, 6, 7, 8, 9
+    ],
+    "senior": [
+      10, 11
+    ]
+  },
+  "words": {
+    "en": [
+      "the", "be", "of", "and", "a", "to", "in", "he", "have", "it", "that", "for", "they", "i",
+      "with", "as", "not", "on", "she", "at", "by", "this", "we", "you", "do", "but", "from",
+      "or", "which", "one", "would", "all", "will", "there", "say", "who", "make", "when", "can",
+      "more", "if", "no", "man", "out", "other", "so", "what", "time", "up", "go", "about",
+      "than", "into", "could", "state", "only", "new", "year", "some", "take", "come", "these",
+      "know", "see", "use", "get", "like", "then", "first", "any", "work", "now", "may", "such",
+      "give", "over", "think", "most", "even", "find", "day", "also", "after", "way", "many",
+      "must", "look", "before", "great", "back", "through", "long", "where", "much", "should",
+      "well", "people", "down", "own", "just", "because", "good", "each", "those", "feel",
+      "seem", "how", "high", "too", "place", "little", "world", "very", "still", "nation",
+      "hand", "old", "life", "tell", "write", "become", "here", "show", "house", "both",
+      "between", "need", "mean", "call", "develop", "under", "last", "right", "move", "thing",
+      "general", "school", "never", "same", "another", "begin", "while", "number", "part",
+      "turn", "real", "leave", "might", "want", "point", "form", "off", "child", "few", "small",
+      "since", "against", "ask", "late", "home", "interest", "large", "person", "end", "open",
+      "public", "follow", "during", "present", "without", "again", "hold", "govern", "around",
+      "possible", "head", "consider", "word", "program", "problem", "however", "lead", "system",
+      "set", "order", "eye", "plan", "run", "keep", "face", "fact", "group", "play", "stand",
+      "increase", "early", "course", "change", "help", "line"
+    ],
+    "uz": [
+      "va", "bu", "u", "men", "sen", "biz", "siz", "ular", "bor", "yo'q", "bir", "ikki", "uch",
+      "to'rt", "besh", "olti", "yetti", "sakkiz", "to'qqiz", "o'n", "kun", "tun", "yil", "oy",
+      "hafta", "soat", "vaqt", "bugun", "ertaga", "kecha", "uy", "maktab", "dars", "kitob",
+      "daftar", "qalam", "ruchka", "stol", "stul", "deraza", "eshik", "ona", "ota", "aka", "uka",
+      "opa", "singil", "bola", "do'st", "ish", "o'qish", "yozish", "gapirish", "tinglash",
+      "ko'rish", "bilish", "kelish", "ketish", "bermoq", "olmoq", "qilmoq", "bo'lmoq", "yaxshi",
+      "yomon", "katta", "kichik", "uzun", "qisqa", "baland", "past", "tez", "sekin", "issiq",
+      "sovuq", "yangi", "eski", "oq", "qora", "qizil", "ko'k", "yashil", "sariq", "non", "suv",
+      "choy", "sut", "olma", "uzum", "tarvuz", "qovun", "sabzi", "kartoshka", "go'sht", "guruch",
+      "shakar", "tuz", "shahar", "qishloq", "ko'cha", "bog'", "daryo", "tog'", "dengiz", "osmon",
+      "quyosh", "yulduz", "shamol", "yomg'ir", "qor", "gul", "daraxt", "barg", "ot", "it",
+      "mushuk", "qush", "baliq", "sigir", "qo'y", "tovuq", "til", "so'z", "harf", "raqam",
+      "savol", "javob", "misol", "mashq", "imtihon", "baho", "sinf", "guruh", "odam", "inson",
+      "mamlakat", "davlat", "tarix", "fan", "matematika", "musiqa", "rasm", "sport", "o'yin",
+      "kompyuter", "telefon", "internet", "xat", "xabar", "hikoya", "she'r", "qo'shiq", "ertak",
+      "hayot", "sevgi", "baxt", "orzu", "kuch", "aql", "yurak", "qo'l", "oyoq", "bosh", "ko'z",
+      "quloq", "burun", "og'iz", "soch", "yuz", "keyin", "oldin", "hozir", "doim", "hech",
+      "juda", "ham", "lekin", "ammo", "chunki", "agar", "qanday", "qachon", "qayer", "nima",
+      "kim", "necha", "qancha", "salom", "rahmat", "marhamat", "kechirasiz", "xayr", "barmoq",
+      "klaviatura", "ekran", "sahifa", "yordam"
+    ]
+  },
+  "quotes": {
+    "en": [
+      {"text": "The best way to predict the future is to invent it.", "source": "Alan Kay"},
+      {"text": "Simplicity is the soul of efficiency.", "source": "Austin Freeman"},
+      {"text": "It always seems impossible until it is done.", "source": "Nelson Mandela"},
+      {"text": "A journey of a thousand miles begins with a single step.", "source": "Lao Tzu"},
+      {"text": "The only way to learn a new programming language is by writing programs in it. The first program to write is the same for all languages: print the words hello world.", "source": "Kernighan and Ritchie"},
+      {"text": "Practice does not make perfect. Only perfect practice makes perfect. If you practise a thing the wrong way, you will get very good at doing it wrong, and that is much harder to undo than to learn it well the first time.", "source": "Vince Lombardi"},
+      {"text": "We are what we repeatedly do. Excellence, then, is not an act, but a habit. The hand that has learned a movement well no longer needs the eye to guide it, and the mind is free at last to think about the thing it wanted to say.", "source": "Will Durant"},
+      {"text": "The computer is a bicycle for the mind. It does not think for you, and it never will. What it does is take the small, slow, repeated work off your hands, so that the part of you that is genuinely rare, the part that has ideas, is the only part still doing any work. A tool is good exactly when it disappears while you use it, and you are left alone with the problem you actually care about solving.", "source": "Steve Jobs, adapted"},
+      {"text": "Reading is a conversation. All books talk. But a good book listens as well. When you have read enough of them, you begin to notice that the words on the page arrive faster than you can say them aloud, and that is when reading stops being work and starts being thinking. Typing is the same skill turned around: the fingers stop being in the way, and the sentence goes straight from the head to the screen.", "source": "Mark Haddon, adapted"}
+    ],
+    "uz": [
+      {"text": "Bilim - eng katta boylik.", "source": "Maqol"},
+      {"text": "Mehnat qilgan murodga yetar.", "source": "Maqol"},
+      {"text": "Bir kunlik yo'l ham bir qadamdan boshlanadi.", "source": "Maqol"},
+      {"text": "Sabr qilgan - murod topgan, sabr tagi sariq oltin.", "source": "Maqol"},
+      {"text": "Har bir ish o'z vaqtida chiroyli. Bugun qila oladigan ishingni ertaga qoldirma, chunki ertaga o'zining ishi bilan keladi va sen ikki yukni birdan ko'tarolmaysan.", "source": "Xalq hikmati"},
+      {"text": "O'qish - bu suhbat. Kitob gapiradi, yaxshi kitob esa tinglaydi ham. Ko'p o'qigan odam bir kuni so'zlar ovozdan tez kelayotganini sezadi. O'shanda o'qish mehnat bo'lishdan to'xtaydi va fikrga aylanadi.", "source": "Adabiy hikmat"},
+      {"text": "Barmoqlar yo'lni yodlab olsa, ko'z klaviaturaga qaramaydi. Shunda aql bo'sh qoladi va nihoyat aytmoqchi bo'lgan fikring haqida o'ylay boshlaydi. Tez yozishning butun ma'nosi shu: qo'l xalaqit bermasin, gap boshdan to'g'ri ekranga tushsin.", "source": "Tez yozish"},
+      {"text": "Mashq qilish yetarli emas, to'g'ri mashq qilish kerak. Agar bir ishni noto'g'ri takrorlasang, sen o'sha ishni noto'g'ri qilishga usta bo'lasan. Buni keyin tuzatish esa boshidan to'g'ri o'rganishdan ko'ra ancha qiyin bo'ladi. Shuning uchun sekin, lekin xatosiz boshla; tezlik keyin o'zi keladi.", "source": "Vins Lombardi, moslashtirilgan"}
+    ]
+  },
+  "subjects": {
+    "alphabet-literacy": {
+      "en": {
+        "words": [
+          "letter", "sound", "vowel", "read", "write", "word", "book", "page", "line", "name",
+          "big", "small"
+        ],
+        "sentences": [
+          "Every word is made of letters and every letter has a sound.",
+          "I can read my own name and write it on the page.",
+          "We read one line, then the next line, from left to right."
+        ]
+      },
+      "uz": {
+        "words": [
+          "harf", "tovush", "unli", "undosh", "o'qish", "yozish", "so'z", "kitob", "sahifa",
+          "qator", "ism", "bo'g'in"
+        ],
+        "sentences": [
+          "Har bir so'z harflardan tuziladi va har bir harfning tovushi bor.",
+          "Men o'z ismimni o'qiy olaman va daftarga yoza olaman.",
+          "Biz bir qatorni chapdan o'ngga qarab o'qiymiz."
+        ]
+      }
+    },
+    "mother-tongue@primary": {
+      "en": {
+        "words": [
+          "word", "letter", "sentence", "name", "story", "speak", "listen", "ask", "answer",
+          "book", "write", "read"
+        ],
+        "sentences": [
+          "A sentence starts with a big letter and ends with a dot.",
+          "I ask a question and my friend gives me an answer.",
+          "We write short stories about our family and our home."
+        ]
+      },
+      "uz": {
+        "words": [
+          "so'z", "harf", "gap", "ism", "hikoya", "gapirish", "tinglash", "savol", "javob",
+          "kitob", "yozmoq", "o'qimoq"
+        ],
+        "sentences": [
+          "Gap katta harf bilan boshlanadi va nuqta bilan tugaydi.",
+          "Men savol beraman, do'stim menga javob qaytaradi.",
+          "Biz oilamiz va uyimiz haqida qisqa hikoya yozamiz."
+        ]
+      }
+    },
+    "mother-tongue": {
+      "en": {
+        "words": [
+          "noun", "verb", "adjective", "subject", "predicate", "syllable", "suffix", "meaning",
+          "grammar", "spelling", "text", "style"
+        ],
+        "sentences": [
+          "A noun names a thing and a verb tells us what the thing does.",
+          "The subject and the predicate are the two main parts of a sentence.",
+          "Correct spelling makes a text easy to read and hard to misunderstand."
+        ]
+      },
+      "uz": {
+        "words": [
+          "ot", "fe'l", "sifat", "ega", "kesim", "bo'g'in", "qo'shimcha", "ma'no", "grammatika",
+          "imlo", "matn", "uslub"
+        ],
+        "sentences": [
+          "Ot narsani ataydi, fe'l esa uning harakatini bildiradi.",
+          "Ega va kesim gapning ikki bosh bo'lagi hisoblanadi.",
+          "To'g'ri imlo matnni oson o'qiladigan va tushunarli qiladi."
+        ]
+      }
+    },
+    "reading-literacy": {
+      "en": {
+        "words": [
+          "story", "page", "title", "hero", "end", "read", "aloud", "quiet", "picture",
+          "question", "answer", "book"
+        ],
+        "sentences": [
+          "I read the title first, then I look at the picture.",
+          "The hero of this story is a brave little girl.",
+          "After reading I answer three questions about the text."
+        ]
+      },
+      "uz": {
+        "words": [
+          "hikoya", "sahifa", "sarlavha", "qahramon", "oxir", "o'qish", "ovoz", "rasm", "savol",
+          "javob", "kitob", "ertak"
+        ],
+        "sentences": [
+          "Avval sarlavhani o'qiyman, keyin rasmga qarayman.",
+          "Bu hikoyaning qahramoni jasur kichkina qiz.",
+          "O'qib bo'lgach, matn bo'yicha uchta savolga javob beraman."
+        ]
+      }
+    },
+    "reading": {
+      "en": {
+        "words": [
+          "text", "story", "poem", "author", "hero", "idea", "title", "chapter", "quiet",
+          "aloud", "meaning", "retell"
+        ],
+        "sentences": [
+          "A good reader stops to think about what the author means.",
+          "I can retell the story in my own words.",
+          "This poem has four lines and every line rhymes with the next."
+        ]
+      },
+      "uz": {
+        "words": [
+          "matn", "hikoya", "she'r", "muallif", "qahramon", "fikr", "sarlavha", "bob", "ovoz",
+          "ma'no", "so'zlash", "mazmun"
+        ],
+        "sentences": [
+          "Yaxshi o'quvchi to'xtab, muallif nima demoqchi bo'lganini o'ylaydi.",
+          "Men hikoyani o'z so'zlarim bilan so'zlab bera olaman.",
+          "Bu she'r to'rt qatordan iborat va qatorlar qofiyalanadi."
+        ]
+      }
+    },
+    "mathematics@primary": {
+      "en": {
+        "words": [
+          "number", "add", "take", "sum", "equal", "count", "shape", "circle", "square", "half",
+          "more", "less"
+        ],
+        "sentences": [
+          "Two plus three is equal to five.",
+          "A square has four sides and all of them are the same.",
+          "I count to twenty and then I count back to one."
+        ]
+      },
+      "uz": {
+        "words": [
+          "son", "qo'shish", "ayirish", "yig'indi", "teng", "sanash", "shakl", "doira",
+          "kvadrat", "yarim", "ko'p", "kam"
+        ],
+        "sentences": [
+          "Ikki qo'shuv uch teng besh.",
+          "Kvadratning to'rtta tomoni bor va ular bir xil.",
+          "Men yigirmagacha sanayman, keyin birgacha qaytib sanayman."
+        ]
+      }
+    },
+    "mathematics": {
+      "en": {
+        "words": [
+          "number", "sum", "product", "divide", "fraction", "decimal", "percent", "equation",
+          "angle", "area", "volume", "average"
+        ],
+        "sentences": [
+          "To find the area of a rectangle we multiply its length by its width.",
+          "A fraction shows how many equal parts of a whole we are taking.",
+          "Ten percent of two hundred is twenty."
+        ]
+      },
+      "uz": {
+        "words": [
+          "son", "yig'indi", "ko'paytma", "bo'lish", "kasr", "o'nlik", "foiz", "tenglama",
+          "burchak", "yuza", "hajm", "o'rtacha"
+        ],
+        "sentences": [
+          "To'rtburchak yuzasini topish uchun uzunlikni enga ko'paytiramiz.",
+          "Kasr butunning nechta teng qismini olayotganimizni ko'rsatadi.",
+          "Ikki yuzning o'n foizi yigirmaga teng."
+        ]
+      }
+    },
+    "natural-science": {
+      "en": {
+        "words": [
+          "water", "air", "plant", "animal", "sun", "soil", "seed", "root", "leaf", "season",
+          "weather", "grow"
+        ],
+        "sentences": [
+          "A plant needs water, light and air to grow.",
+          "The sun warms the soil and the seed begins to wake up.",
+          "In autumn the leaves change colour and fall to the ground."
+        ]
+      },
+      "uz": {
+        "words": [
+          "suv", "havo", "o'simlik", "hayvon", "quyosh", "tuproq", "urug'", "ildiz", "barg",
+          "fasl", "ob-havo", "o'sish"
+        ],
+        "sentences": [
+          "O'simlikning o'sishi uchun suv, yorug'lik va havo kerak.",
+          "Quyosh tuproqni isitadi va urug' uyg'ona boshlaydi.",
+          "Kuzda barglar rangini o'zgartiradi va yerga to'kiladi."
+        ]
+      }
+    },
+    "technology@primary": {
+      "en": {
+        "words": [
+          "paper", "glue", "scissors", "cut", "fold", "colour", "model", "hand", "safe", "clean",
+          "make", "plan"
+        ],
+        "sentences": [
+          "First I draw the plan, then I cut the paper.",
+          "We keep the scissors closed when we carry them.",
+          "I made a small paper house and painted the roof red."
+        ]
+      },
+      "uz": {
+        "words": [
+          "qog'oz", "yelim", "qaychi", "kesish", "buklash", "rang", "model", "qo'l", "xavfsiz",
+          "toza", "yasash", "reja"
+        ],
+        "sentences": [
+          "Avval rejani chizaman, keyin qog'ozni kesaman.",
+          "Qaychini olib yurganda uni yopiq ushlaymiz.",
+          "Men kichkina qog'oz uy yasadim va tomini qizilga bo'yadim."
+        ]
+      }
+    },
+    "technology": {
+      "en": {
+        "words": [
+          "tool", "material", "design", "measure", "safety", "wood", "metal", "sketch",
+          "assemble", "quality", "craft", "workshop"
+        ],
+        "sentences": [
+          "Measure twice and cut once is the oldest rule in the workshop.",
+          "A good design is easy to make and easy to repair.",
+          "Before using any tool we check that it is clean and safe."
+        ]
+      },
+      "uz": {
+        "words": [
+          "asbob", "material", "loyiha", "o'lchash", "xavfsizlik", "yog'och", "metall", "chizma",
+          "yig'ish", "sifat", "hunar", "ustaxona"
+        ],
+        "sentences": [
+          "Ikki marta o'lcha, bir marta kes - ustaxonaning eng eski qoidasi.",
+          "Yaxshi loyiha oson yasaladi va oson ta'mirlanadi.",
+          "Har qanday asbobni ishlatishdan oldin uning butligini tekshiramiz."
+        ]
+      }
+    },
+    "visual-arts": {
+      "en": {
+        "words": [
+          "colour", "line", "shape", "brush", "paint", "paper", "shadow", "light", "draw",
+          "pattern", "warm", "cool"
+        ],
+        "sentences": [
+          "Red, yellow and blue are the three colours we start from.",
+          "A thin line looks far away and a thick line looks near.",
+          "Light comes from one side, so the shadow falls on the other."
+        ]
+      },
+      "uz": {
+        "words": [
+          "rang", "chiziq", "shakl", "mo'yqalam", "bo'yoq", "qog'oz", "soya", "yorug'lik",
+          "chizish", "naqsh", "iliq", "sovuq"
+        ],
+        "sentences": [
+          "Qizil, sariq va ko'k - biz boshlaydigan uchta asosiy rang.",
+          "Ingichka chiziq uzoqdek, yo'g'on chiziq yaqindek ko'rinadi.",
+          "Yorug'lik bir tomondan tushadi, soya esa ikkinchi tomonga tushadi."
+        ]
+      }
+    },
+    "music": {
+      "en": {
+        "words": [
+          "song", "note", "rhythm", "voice", "loud", "quiet", "high", "low", "drum", "string",
+          "listen", "sing"
+        ],
+        "sentences": [
+          "We clap the rhythm first and only then we sing the song.",
+          "A high note sounds thin and a low note sounds full.",
+          "Music is made of sound and of the silence between the sounds."
+        ]
+      },
+      "uz": {
+        "words": [
+          "qo'shiq", "nota", "ritm", "ovoz", "baland", "past", "sekin", "doira", "tor",
+          "cholg'u", "tinglash", "kuylash"
+        ],
+        "sentences": [
+          "Avval ritmni qarsak bilan uramiz, keyin qo'shiqni kuylaymiz.",
+          "Baland nota ingichka, past nota esa to'liq eshitiladi.",
+          "Musiqa tovushdan va tovushlar orasidagi sukunatdan tuziladi."
+        ]
+      }
+    },
+    "physical-education@primary": {
+      "en": {
+        "words": [
+          "run", "jump", "ball", "game", "team", "start", "stop", "fast", "slow", "warm", "rest",
+          "play"
+        ],
+        "sentences": [
+          "We warm up first so that we do not hurt ourselves.",
+          "Throw the ball to a friend and then run to the line.",
+          "A good team helps the player who is the slowest."
+        ]
+      },
+      "uz": {
+        "words": [
+          "yugurish", "sakrash", "to'p", "o'yin", "jamoa", "boshlash", "to'xtash", "tez",
+          "sekin", "isinish", "dam", "mashq"
+        ],
+        "sentences": [
+          "Avval isinamiz, shunda jarohat olmaymiz.",
+          "To'pni do'stingga uzat, keyin chiziq tomon yugur.",
+          "Yaxshi jamoa eng sekin yuguruvchiga ham yordam beradi."
+        ]
+      }
+    },
+    "physical-education": {
+      "en": {
+        "words": [
+          "muscle", "endurance", "strength", "balance", "posture", "training", "record",
+          "distance", "speed", "recovery", "athlete", "discipline"
+        ],
+        "sentences": [
+          "Endurance is built slowly, over weeks, and lost very quickly.",
+          "Good posture protects the back during every kind of training.",
+          "Rest is part of the training, not a break from it."
+        ]
+      },
+      "uz": {
+        "words": [
+          "mushak", "chidamlilik", "kuch", "muvozanat", "gavda", "mashg'ulot", "rekord",
+          "masofa", "tezlik", "tiklanish", "sportchi", "intizom"
+        ],
+        "sentences": [
+          "Chidamlilik haftalar davomida sekin ortadi va juda tez yo'qoladi.",
+          "To'g'ri gavda holati mashg'ulot vaqtida belni asraydi.",
+          "Dam olish mashg'ulotning bir qismi, undan tanaffus emas."
+        ]
+      }
+    },
+    "character-education": {
+      "en": {
+        "words": [
+          "kind", "honest", "help", "share", "thank", "sorry", "respect", "promise", "friend",
+          "brave", "patient", "care"
+        ],
+        "sentences": [
+          "A kind word costs nothing and is remembered for a long time.",
+          "If I promise something, I keep the promise.",
+          "Being brave does not mean you are not afraid."
+        ]
+      },
+      "uz": {
+        "words": [
+          "mehribon", "halol", "yordam", "ulashish", "rahmat", "kechirim", "hurmat", "va'da",
+          "do'st", "jasur", "sabrli", "g'amxo'r"
+        ],
+        "sentences": [
+          "Yaxshi so'z hech narsa turmaydi, lekin uzoq esda qoladi.",
+          "Agar men va'da bergan bo'lsam, va'damning ustidan chiqaman.",
+          "Jasur bo'lish qo'rqmaslik degani emas."
+        ]
+      }
+    },
+    "etiquette": {
+      "en": {
+        "words": [
+          "greet", "please", "thank", "listen", "wait", "guest", "table", "quiet", "tidy",
+          "polite", "excuse", "elder"
+        ],
+        "sentences": [
+          "We greet the elder first and wait until he answers.",
+          "At the table we wait for everybody before we start.",
+          "Listening without interrupting is the most polite thing you can do."
+        ]
+      },
+      "uz": {
+        "words": [
+          "salomlashish", "iltimos", "rahmat", "tinglash", "kutish", "mehmon", "dasturxon",
+          "sokin", "ozoda", "odobli", "kechirasiz", "katta"
+        ],
+        "sentences": [
+          "Avval kattaga salom beramiz va javobini kutamiz.",
+          "Dasturxonda hammani kutib, keyin ovqatlanishni boshlaymiz.",
+          "So'zini bo'lmay tinglash - eng katta odob."
+        ]
+      }
+    },
+    "english-language@primary": {
+      "en": {
+        "words": [
+          "hello", "please", "thank", "yes", "no", "name", "family", "colour", "number",
+          "friend", "school", "learn"
+        ],
+        "sentences": [
+          "Hello, my name is Aziz and I am nine years old.",
+          "This is my family: my mother, my father and my sister.",
+          "I learn five new words every day."
+        ]
+      },
+      "uz": {
+        "words": [
+          "salom", "iltimos", "rahmat", "ha", "yo'q", "ism", "oila", "rang", "raqam", "do'st",
+          "maktab", "o'rganish"
+        ],
+        "sentences": [
+          "Salom, mening ismim Aziz, men to'qqiz yoshdaman.",
+          "Bu mening oilam: onam, otam va singlim.",
+          "Men har kuni beshta yangi so'z o'rganaman."
+        ]
+      }
+    },
+    "english-language": {
+      "en": {
+        "words": [
+          "grammar", "vocabulary", "translate", "pronounce", "fluent", "practice", "listening",
+          "speaking", "dialogue", "phrase", "accent", "meaning"
+        ],
+        "sentences": [
+          "You learn a language by using it, not by reading about it.",
+          "A dictionary gives the meaning, but only practice gives the feeling.",
+          "Speaking slowly and clearly beats speaking fast and wrong."
+        ]
+      },
+      "uz": {
+        "words": [
+          "grammatika", "lug'at", "tarjima", "talaffuz", "ravon", "mashq", "tinglash",
+          "gapirish", "muloqot", "ibora", "urg'u", "ma'no"
+        ],
+        "sentences": [
+          "Tilni u haqda o'qib emas, undan foydalanib o'rganasan.",
+          "Lug'at ma'noni beradi, his-tuyg'uni esa faqat mashq beradi.",
+          "Sekin va aniq gapirish tez va xato gapirishdan yaxshiroq."
+        ]
+      }
+    },
+    "russian-language": {
+      "en": {
+        "words": [
+          "letter", "word", "sentence", "case", "gender", "verb", "noun", "stress", "reading",
+          "writing", "translate", "dictionary"
+        ],
+        "sentences": [
+          "Russian nouns change their ending depending on the case.",
+          "The stress in a word can change its meaning completely.",
+          "I read a short text and then translate it sentence by sentence."
+        ]
+      },
+      "uz": {
+        "words": [
+          "harf", "so'z", "gap", "kelishik", "rod", "fe'l", "ot", "urg'u", "o'qish", "yozish",
+          "tarjima", "lug'at"
+        ],
+        "sentences": [
+          "Rus tilida otlar kelishikka qarab qo'shimchasini o'zgartiradi.",
+          "So'zdagi urg'u uning ma'nosini butunlay o'zgartirishi mumkin.",
+          "Qisqa matnni o'qiyman, so'ng uni gapma-gap tarjima qilaman."
+        ]
+      }
+    },
+    "literature": {
+      "en": {
+        "words": [
+          "poem", "novel", "author", "hero", "plot", "theme", "image", "metaphor", "verse",
+          "prose", "tragedy", "meaning"
+        ],
+        "sentences": [
+          "The plot is what happens; the theme is what it is about.",
+          "A metaphor says one thing and means another, and we understand both.",
+          "Great books do not give answers, they teach better questions."
+        ]
+      },
+      "uz": {
+        "words": [
+          "she'r", "roman", "muallif", "qahramon", "syujet", "mavzu", "obraz", "metafora",
+          "nazm", "nasr", "fojia", "ma'no"
+        ],
+        "sentences": [
+          "Syujet - nima sodir bo'lgani, mavzu - asar nima haqda ekani.",
+          "Metafora bir narsani aytib, boshqasini anglatadi va biz ikkalasini ham tushunamiz.",
+          "Buyuk kitoblar javob bermaydi, ular yaxshiroq savol berishni o'rgatadi."
+        ]
+      }
+    },
+    "computer-science": {
+      "en": {
+        "words": [
+          "computer", "program", "keyboard", "file", "folder", "memory", "network", "algorithm",
+          "data", "input", "output", "loop"
+        ],
+        "sentences": [
+          "An algorithm is a list of steps that always ends with an answer.",
+          "The computer takes an input, does the work, and gives an output.",
+          "Save your file often, because memory is lost when the power goes."
+        ]
+      },
+      "uz": {
+        "words": [
+          "kompyuter", "dastur", "klaviatura", "fayl", "papka", "xotira", "tarmoq", "algoritm",
+          "ma'lumot", "kirish", "chiqish", "takror"
+        ],
+        "sentences": [
+          "Algoritm - bu doim javob bilan tugaydigan qadamlar ketma-ketligi.",
+          "Kompyuter ma'lumotni oladi, ishlov beradi va natijani chiqaradi.",
+          "Faylni tez-tez saqlang, chunki tok o'chsa xotira o'chadi."
+        ]
+      }
+    },
+    "geography": {
+      "en": {
+        "words": [
+          "map", "river", "mountain", "desert", "climate", "region", "border", "capital",
+          "ocean", "valley", "population", "scale"
+        ],
+        "sentences": [
+          "A map is smaller than the land, and the scale tells us how much smaller.",
+          "Rivers begin in the mountains and end in a sea or a lake.",
+          "Climate is the weather of a place measured over many years."
+        ]
+      },
+      "uz": {
+        "words": [
+          "xarita", "daryo", "tog'", "cho'l", "iqlim", "hudud", "chegara", "poytaxt", "okean",
+          "vodiy", "aholi", "masshtab"
+        ],
+        "sentences": [
+          "Xarita yerdan kichik, masshtab esa qanchalik kichikligini ko'rsatadi.",
+          "Daryolar tog'dan boshlanib, dengiz yoki ko'lga quyiladi.",
+          "Iqlim - bu joyning ko'p yillar davomida o'lchangan ob-havosi."
+        ]
+      }
+    },
+    "biology": {
+      "en": {
+        "words": [
+          "cell", "plant", "animal", "organ", "blood", "oxygen", "leaf", "root", "species",
+          "growth", "nature", "life"
+        ],
+        "sentences": [
+          "Every living thing is built from cells, and most cells are too small to see.",
+          "Leaves take in light and air and give the plant its food.",
+          "Blood carries oxygen from the lungs to every part of the body."
+        ]
+      },
+      "uz": {
+        "words": [
+          "hujayra", "o'simlik", "hayvon", "a'zo", "qon", "kislorod", "barg", "ildiz", "tur",
+          "o'sish", "tabiat", "hayot"
+        ],
+        "sentences": [
+          "Har bir tirik organizm hujayralardan tuzilgan, ko'pchiligi ko'zga ko'rinmaydi.",
+          "Barglar yorug'lik va havoni olib, o'simlikka oziq beradi.",
+          "Qon o'pkadan kislorodni tananing har bir qismiga yetkazadi."
+        ]
+      }
+    },
+    "history-stories": {
+      "en": {
+        "words": [
+          "story", "past", "hero", "city", "king", "battle", "legend", "ancient", "ruler",
+          "people", "memory", "time"
+        ],
+        "sentences": [
+          "Long ago this valley held a city with high walls and deep wells.",
+          "A legend is a story that people kept telling until it became theirs.",
+          "We remember the past so that we understand the present."
+        ]
+      },
+      "uz": {
+        "words": [
+          "hikoya", "o'tmish", "qahramon", "shahar", "podshoh", "jang", "afsona", "qadimiy",
+          "hukmdor", "xalq", "xotira", "zamon"
+        ],
+        "sentences": [
+          "Qadimda bu vodiyda baland devorli va chuqur quduqli shahar bo'lgan.",
+          "Afsona - xalq aytaverib o'ziniki qilib olgan hikoya.",
+          "Biz o'tmishni bugungi kunni tushunish uchun eslaymiz."
+        ]
+      }
+    },
+    "patriotism": {
+      "en": {
+        "words": [
+          "country", "flag", "anthem", "people", "language", "home", "duty", "peace", "respect",
+          "unity", "future", "proud"
+        ],
+        "sentences": [
+          "Loving your country begins with taking care of your own street.",
+          "The flag and the anthem belong to everybody who lives here.",
+          "Peace is easier to keep than it is to build again."
+        ]
+      },
+      "uz": {
+        "words": [
+          "vatan", "bayroq", "madhiya", "xalq", "til", "uy", "burch", "tinchlik", "hurmat",
+          "birlik", "kelajak", "faxr"
+        ],
+        "sentences": [
+          "Vatanni sevish o'z ko'changni asrashdan boshlanadi.",
+          "Bayroq va madhiya bu yerda yashovchi har bir kishiga tegishli.",
+          "Tinchlikni saqlash uni qaytadan qurishdan osonroq."
+        ]
+      }
+    },
+    "history": {
+      "en": {
+        "words": [
+          "century", "source", "empire", "trade", "ruler", "war", "peace", "culture", "record",
+          "ancient", "modern", "change"
+        ],
+        "sentences": [
+          "A historian trusts a source only after asking who wrote it and why.",
+          "Trade moved goods along the road, and ideas travelled with them.",
+          "Every empire looked permanent to the people living inside it."
+        ]
+      },
+      "uz": {
+        "words": [
+          "asr", "manba", "imperiya", "savdo", "hukmdor", "urush", "tinchlik", "madaniyat",
+          "yozma", "qadimiy", "zamonaviy", "o'zgarish"
+        ],
+        "sentences": [
+          "Tarixchi manbaga uni kim va nima uchun yozganini so'ragandan keyin ishonadi.",
+          "Savdo yo'l bo'ylab mollarni olib yurdi, ular bilan birga g'oyalar ham yurdi.",
+          "Har bir imperiya ichida yashaganlarga abadiydek tuyulgan."
+        ]
+      }
+    },
+    "algebra": {
+      "en": {
+        "words": [
+          "equation", "variable", "function", "graph", "root", "power", "formula", "solve",
+          "linear", "square", "value", "proof"
+        ],
+        "sentences": [
+          "A variable is a letter standing in for a number we do not know yet.",
+          "Whatever you do to one side of an equation you must do to the other.",
+          "The graph of a linear function is always a straight line."
+        ]
+      },
+      "uz": {
+        "words": [
+          "tenglama", "o'zgaruvchi", "funksiya", "grafik", "ildiz", "daraja", "formula",
+          "yechish", "chiziqli", "kvadrat", "qiymat", "isbot"
+        ],
+        "sentences": [
+          "O'zgaruvchi - bu biz hali bilmagan sonning o'rnida turgan harf.",
+          "Tenglamaning bir tomoniga nima qilsang, ikkinchi tomoniga ham shuni qil.",
+          "Chiziqli funksiyaning grafigi doimo to'g'ri chiziq bo'ladi."
+        ]
+      }
+    },
+    "geometry": {
+      "en": {
+        "words": [
+          "point", "line", "angle", "triangle", "circle", "radius", "parallel", "proof",
+          "theorem", "area", "volume", "symmetry"
+        ],
+        "sentences": [
+          "Two lines in a plane either meet once or never meet at all.",
+          "The three angles of any triangle add up to one hundred eighty degrees.",
+          "A proof is an argument that leaves the reader no way out."
+        ]
+      },
+      "uz": {
+        "words": [
+          "nuqta", "chiziq", "burchak", "uchburchak", "doira", "radius", "parallel", "isbot",
+          "teorema", "yuza", "hajm", "simmetriya"
+        ],
+        "sentences": [
+          "Tekislikdagi ikki chiziq yo bir marta kesishadi, yo umuman kesishmaydi.",
+          "Har qanday uchburchakning uch burchagi yig'indisi bir yuz sakson daraja.",
+          "Isbot - bu o'quvchiga boshqa yo'l qoldirmaydigan mulohaza."
+        ]
+      }
+    },
+    "physics": {
+      "en": {
+        "words": [
+          "force", "energy", "motion", "speed", "mass", "gravity", "friction", "wave", "current",
+          "voltage", "heat", "experiment"
+        ],
+        "sentences": [
+          "A body keeps moving in a straight line until a force acts on it.",
+          "Energy is never created and never destroyed, only moved and changed.",
+          "Friction turns motion into heat, which is why the brakes get hot."
+        ]
+      },
+      "uz": {
+        "words": [
+          "kuch", "energiya", "harakat", "tezlik", "massa", "tortishish", "ishqalanish",
+          "to'lqin", "tok", "kuchlanish", "issiqlik", "tajriba"
+        ],
+        "sentences": [
+          "Jism unga kuch ta'sir qilmaguncha to'g'ri chiziq bo'ylab harakatda qoladi.",
+          "Energiya yo'qdan paydo bo'lmaydi va yo'qolmaydi, faqat shaklini o'zgartiradi.",
+          "Ishqalanish harakatni issiqlikka aylantiradi, shuning uchun tormoz qiziydi."
+        ]
+      }
+    },
+    "chemistry": {
+      "en": {
+        "words": [
+          "atom", "molecule", "element", "reaction", "acid", "base", "solution", "metal", "gas",
+          "liquid", "mixture", "formula"
+        ],
+        "sentences": [
+          "An atom is the smallest piece of an element that is still that element.",
+          "In a reaction nothing disappears; the atoms are only rearranged.",
+          "Water is a molecule of two hydrogen atoms and one oxygen atom."
+        ]
+      },
+      "uz": {
+        "words": [
+          "atom", "molekula", "element", "reaksiya", "kislota", "asos", "eritma", "metall",
+          "gaz", "suyuqlik", "aralashma", "formula"
+        ],
+        "sentences": [
+          "Atom - elementning shu element bo'lib qoladigan eng kichik zarrasi.",
+          "Reaksiyada hech narsa yo'qolmaydi, atomlar faqat qayta joylashadi.",
+          "Suv ikkita vodorod va bitta kislorod atomidan iborat molekula."
+        ]
+      }
+    },
+    "world-history": {
+      "en": {
+        "words": [
+          "empire", "revolution", "treaty", "colony", "republic", "century", "reform",
+          "conflict", "alliance", "industry", "society", "source"
+        ],
+        "sentences": [
+          "A revolution changes not only who rules but what ruling means.",
+          "Treaties end wars on paper long before they end them in people.",
+          "Industry moved millions of people from the village into the city."
+        ]
+      },
+      "uz": {
+        "words": [
+          "imperiya", "inqilob", "shartnoma", "mustamlaka", "respublika", "asr", "islohot",
+          "nizo", "ittifoq", "sanoat", "jamiyat", "manba"
+        ],
+        "sentences": [
+          "Inqilob nafaqat kim boshqarishini, balki boshqaruv ma'nosini ham o'zgartiradi.",
+          "Shartnomalar urushni qog'ozda odamlar qalbidagidan ancha oldin tugatadi.",
+          "Sanoat millionlab odamlarni qishloqdan shaharga ko'chirdi."
+        ]
+      }
+    },
+    "history-of-uzbekistan": {
+      "en": {
+        "words": [
+          "Samarkand", "Bukhara", "Khiva", "silk", "road", "caravan", "khanate", "scholar",
+          "manuscript", "heritage", "independence", "monument"
+        ],
+        "sentences": [
+          "The Silk Road did not carry only silk; it carried paper, numbers and ideas.",
+          "Samarkand and Bukhara were centres of learning for the whole region.",
+          "A manuscript copied by hand could take a scholar a whole year."
+        ]
+      },
+      "uz": {
+        "words": [
+          "Samarqand", "Buxoro", "Xiva", "ipak", "yo'l", "karvon", "xonlik", "olim", "qo'lyozma",
+          "meros", "mustaqillik", "yodgorlik"
+        ],
+        "sentences": [
+          "Ipak yo'li faqat ipak emas, qog'oz, raqam va g'oyalarni ham olib yurgan.",
+          "Samarqand va Buxoro butun mintaqa uchun ilm markazi bo'lgan.",
+          "Qo'lda ko'chirilgan bitta qo'lyozma olimning bir yilini olishi mumkin edi."
+        ]
+      }
+    },
+    "technical-drawing": {
+      "en": {
+        "words": [
+          "drawing", "scale", "ruler", "compass", "projection", "section", "dimension", "axis",
+          "sketch", "precision", "outline", "angle"
+        ],
+        "sentences": [
+          "A technical drawing has no style; it has only precision.",
+          "Every dimension on the sheet must be written exactly once.",
+          "Three projections describe a solid object on a flat page."
+        ]
+      },
+      "uz": {
+        "words": [
+          "chizma", "masshtab", "chizg'ich", "sirkul", "proyeksiya", "kesim", "o'lcham", "o'q",
+          "eskiz", "aniqlik", "kontur", "burchak"
+        ],
+        "sentences": [
+          "Texnik chizmada uslub bo'lmaydi, unda faqat aniqlik bo'ladi.",
+          "Varaqdagi har bir o'lcham faqat bir marta yozilishi kerak.",
+          "Uchta proyeksiya hajmli buyumni tekis varaqda tasvirlaydi."
+        ]
+      }
+    },
+    "fundamentals-of-law": {
+      "en": {
+        "words": [
+          "law", "right", "duty", "court", "judge", "citizen", "contract", "evidence", "justice",
+          "rule", "equal", "protect"
+        ],
+        "sentences": [
+          "A right that nobody can enforce is not yet a right.",
+          "The same rule must apply to the strong and to the weak.",
+          "A court decides on evidence, not on who speaks louder."
+        ]
+      },
+      "uz": {
+        "words": [
+          "qonun", "huquq", "burch", "sud", "sudya", "fuqaro", "shartnoma", "dalil", "adolat",
+          "qoida", "teng", "himoya"
+        ],
+        "sentences": [
+          "Hech kim ta'minlay olmaydigan huquq hali huquq emas.",
+          "Bir xil qoida kuchliga ham, kuchsizga ham baravar amal qiladi.",
+          "Sud kim balandroq gapirganiga emas, dalilga qarab hal qiladi."
+        ]
+      }
+    },
+    "law": {
+      "en": {
+        "words": [
+          "constitution", "legislation", "court", "citizen", "obligation", "liability",
+          "procedure", "appeal", "verdict", "statute", "freedom", "justice"
+        ],
+        "sentences": [
+          "The constitution limits power; everything else follows from that.",
+          "Procedure exists so that the result does not depend on who you are.",
+          "A verdict may be appealed, and that possibility is part of justice."
+        ]
+      },
+      "uz": {
+        "words": [
+          "konstitutsiya", "qonunchilik", "sud", "fuqaro", "majburiyat", "javobgarlik", "tartib",
+          "shikoyat", "hukm", "modda", "erkinlik", "adolat"
+        ],
+        "sentences": [
+          "Konstitutsiya hokimiyatni cheklaydi, qolgan hamma narsa shundan kelib chiqadi.",
+          "Tartib natija kimligingga bog'liq bo'lmasligi uchun mavjud.",
+          "Hukm ustidan shikoyat qilish mumkin va bu imkoniyat adolatning bir qismi."
+        ]
+      }
+    },
+    "fundamentals-of-economics": {
+      "en": {
+        "words": [
+          "money", "price", "market", "demand", "supply", "budget", "saving", "cost", "profit",
+          "trade", "resource", "choice"
+        ],
+        "sentences": [
+          "Every choice has a cost: the best thing you gave up to make it.",
+          "When demand rises and supply does not, the price goes up.",
+          "A budget is a plan for money you have not spent yet."
+        ]
+      },
+      "uz": {
+        "words": [
+          "pul", "narx", "bozor", "talab", "taklif", "byudjet", "jamg'arma", "xarajat", "foyda",
+          "savdo", "resurs", "tanlov"
+        ],
+        "sentences": [
+          "Har bir tanlovning narxi bor: u uchun voz kechgan eng yaxshi imkoniyating.",
+          "Talab oshib, taklif o'zgarmasa, narx ko'tariladi.",
+          "Byudjet - bu hali sarflamagan pulingiz uchun tuzilgan reja."
+        ]
+      }
+    },
+    "economics": {
+      "en": {
+        "words": [
+          "inflation", "capital", "investment", "labour", "productivity", "exchange", "interest",
+          "growth", "deficit", "tax", "incentive", "efficiency"
+        ],
+        "sentences": [
+          "Inflation is not prices rising; it is money losing its meaning.",
+          "Productivity is the only reliable source of long-term growth.",
+          "People respond to incentives, and every rule creates one."
+        ]
+      },
+      "uz": {
+        "words": [
+          "inflatsiya", "kapital", "investitsiya", "mehnat", "unumdorlik", "ayirboshlash",
+          "foiz", "o'sish", "taqchillik", "soliq", "rag'bat", "samaradorlik"
+        ],
+        "sentences": [
+          "Inflatsiya - narx oshishi emas, pulning ma'nosini yo'qotishi.",
+          "Unumdorlik uzoq muddatli o'sishning yagona ishonchli manbai.",
+          "Odamlar rag'batga javob beradi va har bir qoida rag'bat yaratadi."
+        ]
+      }
+    },
+    "entrepreneurship": {
+      "en": {
+        "words": [
+          "idea", "customer", "product", "market", "startup", "risk", "value", "revenue", "team",
+          "plan", "growth", "failure"
+        ],
+        "sentences": [
+          "A business starts with a customer's problem, not with your idea.",
+          "The first plan is always wrong; the point is to find out cheaply.",
+          "Revenue is proof that somebody chose you over the alternative."
+        ]
+      },
+      "uz": {
+        "words": [
+          "g'oya", "mijoz", "mahsulot", "bozor", "startap", "tavakkal", "qiymat", "daromad",
+          "jamoa", "reja", "o'sish", "muvaffaqiyatsizlik"
+        ],
+        "sentences": [
+          "Biznes sening g'oyangdan emas, mijozning muammosidan boshlanadi.",
+          "Birinchi reja doim xato bo'ladi, muhimi buni arzon yo'l bilan bilib olish.",
+          "Daromad - kimdir boshqasi o'rniga seni tanlaganining isboti."
+        ]
+      }
+    },
+    "national-ideology": {
+      "en": {
+        "words": [
+          "value", "society", "family", "respect", "tolerance", "heritage", "duty", "unity",
+          "dialogue", "identity", "future", "responsibility"
+        ],
+        "sentences": [
+          "A society is held together by what its people agree to respect.",
+          "Tolerance is not agreeing with everyone; it is letting them speak.",
+          "Every generation inherits a country and leaves a different one."
+        ]
+      },
+      "uz": {
+        "words": [
+          "qadriyat", "jamiyat", "oila", "hurmat", "bag'rikenglik", "meros", "burch", "birlik",
+          "muloqot", "o'zlik", "kelajak", "mas'uliyat"
+        ],
+        "sentences": [
+          "Jamiyatni odamlar hurmat qilishga kelishgan narsalar birlashtiradi.",
+          "Bag'rikenglik hamma bilan rozi bo'lish emas, ularga gapirishga yo'l berish.",
+          "Har bir avlod bir mamlakatni meros oladi va boshqasini qoldiradi."
+        ]
+      }
+    }
+  }
+}

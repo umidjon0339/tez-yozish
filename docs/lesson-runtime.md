@@ -162,8 +162,7 @@ Backspace, any single-char keystroke, or outside pointerdown (`useDrawer`).
   `LESSON_TYPE_ORDER`; locked lessons render as non-links
   (`computeUnlocked`).
 
-Both are pure overlays fed by props (`progress`, `locale`, `dimmed`) — no
-own storage.
+Both are pure overlays fed by props (`progress`, `locale`) — no own storage.
 
 ## 9. Prefs, locale, guards
 
@@ -171,7 +170,9 @@ own storage.
   toggles; loaded once (guarded by a `prefsLoaded` ref), saved on change.
 - Locale via `useLocale()` (`tz-locale`); the lesson chrome uses the local
   `UI` dict, not `lib/uiStrings.ts`.
-- Focus mode: any typing key fades chrome to 30%; pointer movement restores.
+- **No focus mode.** The header, footer and rails keep full opacity while
+  typing — deliberately removed; don't reintroduce dimming/blurring of the
+  chrome on keystroke.
 - Cyrillic layout detection (`/[Ѐ-ӿ]/` on `e.key`) shows a warning toast;
   touch-only devices (`pointer: coarse` without `fine`) get a full-screen
   "need a real keyboard" notice.

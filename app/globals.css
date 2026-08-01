@@ -50,6 +50,44 @@ html {
   .letter-pop, .letter-shake { animation: none; }
 }
 
+/* Caret of the home-page typing test (components/home/TestWords.tsx).
+   Two rules are what make it read like the reference instead of a text cursor:
+
+   1. 100ms LINEAR, not a short ease-out. An ease-out covers ~80% of the gap in
+      the first frame, which the eye reads as a jump; linear spends the whole
+      100ms crossing, so the caret is visibly travelling between letters.
+   2. The word block carries the SAME transition, because the caret is a child
+      of it. On a line break the caret moves +1 line while the block scrolls
+      -1 line — identical durations make the two cancel exactly, so the caret
+      holds still while the text slides under it. Change one duration without
+      the other and a wobble appears at every line break. */
+.tz-caret,
+.tz-words { transition: transform 100ms linear; }
+
+/* Blinking is a *resting* state: the component strips this class on every
+   keystroke and puts it back after a pause. A smooth fade, not a hard step. */
+@keyframes tz-caret-flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.tz-caret-idle { animation: tz-caret-flash 1s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tz-caret, .tz-words { transition: none; }
+  .tz-caret-idle { animation: none; }
+}
+
+/* A scroller with no visible bar. `TestWords variant="full"` (books) is the
+   one place text scrolls *while you type*, and a bar sitting beside the
+   words — jumping every time the caret pulls the box down — is movement in
+   the corner of your eye at exactly the wrong moment. Wheel, trackpad, keys
+   and the component's own caret-follow all still work. */
+.tz-noscrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.tz-noscrollbar::-webkit-scrollbar { width: 0; height: 0; }
+
 /* Star-burst particles on the lesson results screen */
 @keyframes burst-fly {
   0% {
@@ -104,6 +142,108 @@ html {
     opacity: 0;
   }
 }
+/* ===== Card thumbnail ink =====
+   The keycap-style thumbnails in components/thumbnails/SvgLibrary.tsx are UI
+   drawn as SVG (panel + keycaps + legends), not pictures, so they must follow
+   the theme like the rest of the chrome — a white keycap panel on a dark card
+   reads as a bright hole. Fill/stroke attributes can't take Tailwind classes,
+   hence variables.
+
+   Dark values keep a high legend contrast (ink on keycap ≈ 10:1) and give the
+   cap a lighter edge so it still separates from the panel behind it. The game
+   covers (ninja, sky-hop, beam-break, …) are illustrations and deliberately
+   keep their own painted palettes. */
+:root {
+  --thumb-panel: #f4f4f5;       /* card background */
+  --thumb-panel-cool: #f1f5f9;  /* slate-tinted variant */
+  --thumb-panel-warm: #fffbeb;  /* amber-tinted variant (speedometer) */
+  --thumb-key: #ffffff;         /* keycap face */
+  --thumb-key-2: #fafafa;       /* inset/second face */
+  --thumb-edge: #e4e4e7;        /* keycap edge, tracks */
+  --thumb-edge-cool: #e2e8f0;
+  --thumb-dim: #d4d4d8;         /* inactive dots, dashed rules */
+  --thumb-ink: #18181b;         /* legends */
+  --thumb-ink-cool: #0f172a;
+  --thumb-ink-soft: #a1a1aa;    /* secondary legends */
+  --thumb-amber-track: #fde68a; /* unfilled speedometer arc */
+  --thumb-amber-ink: #d97706;
+  --thumb-amber-ink-2: #f59e0b;
+}
+.dark {
+  --thumb-panel: #17171a;
+  --thumb-panel-cool: #14161a;
+  --thumb-panel-warm: #221a08;
+  --thumb-key: #3f3f46;
+  --thumb-key-2: #52525b;
+  --thumb-edge: #71717a;
+  --thumb-edge-cool: #64748b;
+  --thumb-dim: #52525b;
+  --thumb-ink: #fafafa;
+  --thumb-ink-cool: #f8fafc;
+  --thumb-ink-soft: #c4c4cc;
+  --thumb-amber-track: #4a3a12;
+  --thumb-amber-ink: #fcd34d;
+  --thumb-amber-ink-2: #fde68a;
+}
+
+/* ===== Chart ink =====
+   The hand-built SVG charts in components/stats/ paint with these instead of
+   hard-coded hex, so the /stats page follows the light/dark switch. Ramps run
+   pale→deep on white and deep→bright on black: on either background the last
+   step must be the loudest cell. */
+:root {
+  --chart-ink: #171717;      /* axes, markers, the line itself */
+  --chart-grid: #eeeeee;     /* gridlines */
+  --chart-surface: #ffffff;  /* halo/gap color punched between marks */
+  --chart-muted: #d4d4d4;
+  --chart-muted-2: #a3a3a3;
+  --chart-muted-3: #737373;
+  --chart-empty: #ececec;    /* "no data" cell */
+  --chart-hand: #f0f0ef;     /* palm silhouette in FingerMastery */
+  --ramp-good-1: #d1fae5;
+  --ramp-good-2: #6ee7b7;
+  --ramp-good-3: #10b981;
+  --ramp-good-4: #047857;
+  --ramp-bad-1: #fee2e2;
+  --ramp-bad-2: #fca5a5;
+  --ramp-bad-3: #ef4444;
+  --ramp-bad-4: #b91c1c;
+  --ramp-cool-1: #e0f2fe;
+  --ramp-cool-2: #7dd3fc;
+  --ramp-cool-3: #0ea5e9;
+  --ramp-cool-4: #0369a1;
+  --ramp-mono-1: #e5e5e5;
+  --ramp-mono-2: #a3a3a3;
+  --ramp-mono-3: #525252;
+  --ramp-mono-4: #171717;
+}
+.dark {
+  --chart-ink: #f5f5f5;
+  --chart-grid: #262626;
+  --chart-surface: #171717;
+  --chart-muted: #525252;
+  --chart-muted-2: #737373;
+  --chart-muted-3: #a3a3a3;
+  --chart-empty: #262626;
+  --chart-hand: #262626;
+  --ramp-good-1: #064e3b;
+  --ramp-good-2: #047857;
+  --ramp-good-3: #10b981;
+  --ramp-good-4: #6ee7b7;
+  --ramp-bad-1: #450a0a;
+  --ramp-bad-2: #991b1b;
+  --ramp-bad-3: #ef4444;
+  --ramp-bad-4: #fca5a5;
+  --ramp-cool-1: #082f49;
+  --ramp-cool-2: #0369a1;
+  --ramp-cool-3: #0ea5e9;
+  --ramp-cool-4: #7dd3fc;
+  --ramp-mono-1: #404040;
+  --ramp-mono-2: #737373;
+  --ramp-mono-3: #a3a3a3;
+  --ramp-mono-4: #f5f5f5;
+}
+
 /* ===== Finger-zone palette =====
    One color per finger, shared by the target-key highlight (new_keyboard.tsx),
    the colorful-mode keycap tints, and the hands guide-finger ring (hands.tsx).

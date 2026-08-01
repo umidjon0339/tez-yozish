@@ -67,7 +67,7 @@ function Avatar({ entry, size = "w-7 h-7" }: { entry: MtEntry; size?: string }) 
   if (!url || broken) {
     return (
       <div
-        className={`${size} rounded-full bg-neutral-100 border border-neutral-200 flex items-center justify-center text-[11px] font-semibold text-neutral-500 shrink-0`}
+        className={`${size} rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 shrink-0`}
       >
         {entry.name.charAt(0).toUpperCase()}
       </div>
@@ -79,7 +79,7 @@ function Avatar({ entry, size = "w-7 h-7" }: { entry: MtEntry; size?: string }) 
       src={url}
       alt=""
       onError={() => setBroken(true)}
-      className={`${size} rounded-full border border-neutral-200 shrink-0 object-cover`}
+      className={`${size} rounded-full border border-neutral-200 dark:border-neutral-800 shrink-0 object-cover`}
     />
   );
 }
@@ -87,7 +87,7 @@ function Avatar({ entry, size = "w-7 h-7" }: { entry: MtEntry; size?: string }) 
 function LetterAvatar({ name, size = "w-7 h-7" }: { name: string; size?: string }) {
   return (
     <div
-      className={`${size} rounded-full bg-neutral-100 border border-neutral-200 flex items-center justify-center text-[11px] font-semibold text-neutral-500 shrink-0`}
+      className={`${size} rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center text-[11px] font-semibold text-neutral-500 dark:text-neutral-400 shrink-0`}
     >
       {name.charAt(0).toUpperCase()}
     </div>
@@ -104,7 +104,7 @@ function SegmentedControl<T extends string>({
   onChange: (id: T) => void;
 }) {
   return (
-    <div className="inline-flex items-center bg-white border border-neutral-200 rounded-lg p-0.5">
+    <div className="inline-flex items-center bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg p-0.5">
       {options.map((o) => (
         <button
           key={o.id}
@@ -112,8 +112,8 @@ function SegmentedControl<T extends string>({
           onClick={() => onChange(o.id)}
           className={`px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors cursor-pointer ${
             value === o.id
-              ? "bg-neutral-950 text-white shadow-sm"
-              : "text-neutral-500 hover:text-neutral-950"
+              ? "bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 shadow-sm"
+              : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white"
           }`}
         >
           {o.label}
@@ -123,7 +123,7 @@ function SegmentedControl<T extends string>({
   );
 }
 
-const MEDAL_TINT = ["text-amber-500", "text-neutral-400", "text-amber-700"];
+const MEDAL_TINT = ["text-amber-500", "text-neutral-400 dark:text-neutral-500", "text-amber-700"];
 
 function Podium({ entries, locale }: { entries: MtEntry[]; locale: Locale }) {
   return (
@@ -131,8 +131,8 @@ function Podium({ entries, locale }: { entries: MtEntry[]; locale: Locale }) {
       {entries.map((e, i) => (
         <div
           key={e.rank}
-          className={`bg-white border rounded-2xl px-5 py-4 flex items-center gap-3 ${
-            i === 0 ? "border-amber-200" : "border-neutral-200"
+          className={`bg-white dark:bg-neutral-900 border rounded-2xl px-5 py-4 flex items-center gap-3 ${
+            i === 0 ? "border-amber-200" : "border-neutral-200 dark:border-neutral-800"
           }`}
         >
           {i === 0 ? (
@@ -142,11 +142,11 @@ function Podium({ entries, locale }: { entries: MtEntry[]; locale: Locale }) {
           )}
           <Avatar entry={e} size="w-9 h-9" />
           <div className="min-w-0">
-            <div className="text-sm font-semibold text-neutral-900 truncate">
+            <div className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 truncate">
               {e.name}
             </div>
-            <div className="text-xs text-neutral-400">
-              <span className="font-mono font-semibold text-neutral-950 text-sm">
+            <div className="text-xs text-neutral-400 dark:text-neutral-500">
+              <span className="font-mono font-semibold text-neutral-950 dark:text-white text-sm">
                 {Math.round(e.wpm)}
               </span>{" "}
               {STR.stats.wpmUnit[locale]} · {e.acc.toFixed(1)}%
@@ -168,35 +168,35 @@ function YouCard({
   percentile: number | null;
 }) {
   return (
-    <div className="bg-white border border-neutral-200 rounded-2xl px-5 py-4 flex flex-wrap items-center gap-x-6 gap-y-3">
+    <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl px-5 py-4 flex flex-wrap items-center gap-x-6 gap-y-3">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-neutral-950 text-white flex items-center justify-center shrink-0">
+        <div className="w-9 h-9 rounded-full bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 flex items-center justify-center shrink-0">
           <Trophy className="w-4 h-4" />
         </div>
         <div>
-          <div className="text-[11px] uppercase tracking-widest text-neutral-400 font-semibold">
+          <div className="text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 font-semibold">
             {C.yourBest[locale]}
           </div>
           {bestWpm > 0 ? (
-            <div className="text-sm text-neutral-900">
+            <div className="text-sm text-neutral-900 dark:text-neutral-100">
               <span className="font-mono font-bold text-lg">
                 {Math.round(bestWpm)}
               </span>{" "}
               {STR.stats.wpmUnit[locale]}
             </div>
           ) : (
-            <div className="text-sm text-neutral-500">{C.noPersonal[locale]}</div>
+            <div className="text-sm text-neutral-500 dark:text-neutral-400">{C.noPersonal[locale]}</div>
           )}
         </div>
       </div>
       {bestWpm > 0 && percentile !== null && (
         <div className="flex-1 min-w-50">
-          <div className="text-xs text-neutral-500 mb-1.5">
+          <div className="text-xs text-neutral-500 dark:text-neutral-400 mb-1.5">
             {tpl(C.fasterThan[locale], { p: percentile })}
           </div>
-          <div className="h-2 rounded-full bg-neutral-100 overflow-hidden">
+          <div className="h-2 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
             <div
-              className="h-full rounded-full bg-neutral-950 transition-all duration-700"
+              className="h-full rounded-full bg-neutral-950 dark:bg-white transition-all duration-700"
               style={{ width: `${percentile}%` }}
             />
           </div>
@@ -320,10 +320,10 @@ export default function CompetePage() {
     <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10 animate-in fade-in duration-300">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight text-neutral-950">
+        <h1 className="text-2xl font-bold tracking-tight text-neutral-950 dark:text-white">
           {C.title[locale]}
         </h1>
-        <p className="text-sm text-neutral-500 mt-1">{C.subtitle[locale]}</p>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">{C.subtitle[locale]}</p>
       </div>
 
       <div className="mb-4">
@@ -343,7 +343,7 @@ export default function CompetePage() {
         />
         <div className="flex items-center gap-3">
           {count !== undefined && (
-            <span className="text-xs text-neutral-400">
+            <span className="text-xs text-neutral-400 dark:text-neutral-500">
               {numFmt.format(count)} {C.players[locale]}
               {board === "daily" && speed?.minWpm ? (
                 <> · {tpl(C.entryBar[locale], { n: Math.round(speed.minWpm) })}</>
@@ -365,15 +365,15 @@ export default function CompetePage() {
 
       {/* Error state */}
       {error && (
-        <div className="bg-white border border-neutral-200 rounded-2xl px-6 py-10 text-center">
-          <div className="text-sm font-semibold text-neutral-900 mb-1">
+        <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl px-6 py-10 text-center">
+          <div className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-1">
             {C.errorTitle[locale]}
           </div>
-          <p className="text-xs text-neutral-400 mb-4">{C.errorBody[locale]}</p>
+          <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-4">{C.errorBody[locale]}</p>
           <button
             type="button"
             onClick={() => setReloadKey((k) => k + 1)}
-            className="text-[13px] font-medium bg-neutral-950 text-white hover:bg-neutral-800 px-4 py-1.5 rounded-md transition-colors cursor-pointer"
+            className="text-[13px] font-medium bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 hover:bg-neutral-800 dark:hover:bg-neutral-200 px-4 py-1.5 rounded-md transition-colors cursor-pointer"
           >
             {C.retry[locale]}
           </button>
@@ -384,7 +384,7 @@ export default function CompetePage() {
       {!error && !hasData && (
         <div className="space-y-2 animate-pulse">
           {Array.from({ length: 10 }, (_, i) => (
-            <div key={i} className="h-11 bg-neutral-200/60 rounded-xl" />
+            <div key={i} className="h-11 bg-neutral-200/60 dark:bg-neutral-700/60 rounded-xl" />
           ))}
         </div>
       )}
@@ -398,10 +398,10 @@ export default function CompetePage() {
           )}
 
           {/* Table */}
-          <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-[11px] uppercase tracking-widest text-neutral-400 border-b border-neutral-100">
+                <tr className="text-[11px] uppercase tracking-widest text-neutral-400 dark:text-neutral-500 border-b border-neutral-100 dark:border-neutral-800">
                   <th className="text-right font-semibold py-2.5 pl-5 pr-3 w-14">#</th>
                   <th className="text-left font-semibold py-2.5 px-3">
                     {C.colPlayer[locale]}
@@ -438,26 +438,26 @@ export default function CompetePage() {
                   ? xp?.entries.map((e) => (
                       <tr
                         key={`${e.rank}-${e.name}`}
-                        className="border-b border-neutral-50 last:border-0 hover:bg-neutral-50 transition-colors"
+                        className="border-b border-neutral-50 dark:border-neutral-800 last:border-0 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
                       >
-                        <td className="py-2 pl-5 pr-3 text-right font-mono text-neutral-400">
+                        <td className="py-2 pl-5 pr-3 text-right font-mono text-neutral-400 dark:text-neutral-500">
                           {e.rank}
                         </td>
                         <td className="py-2 px-3">
                           <div className="flex items-center gap-2.5 min-w-0">
                             <LetterAvatar name={e.name} />
-                            <span className="font-medium text-neutral-900 truncate">
+                            <span className="font-medium text-neutral-900 dark:text-neutral-100 truncate">
                               {e.name}
                             </span>
                           </div>
                         </td>
-                        <td className="py-2 px-3 text-right font-mono font-semibold text-neutral-950">
+                        <td className="py-2 px-3 text-right font-mono font-semibold text-neutral-950 dark:text-white">
                           {numFmt.format(e.totalXp)}
                         </td>
-                        <td className="py-2 px-3 text-right font-mono text-neutral-500">
+                        <td className="py-2 px-3 text-right font-mono text-neutral-500 dark:text-neutral-400">
                           {fmtHoursMin(e.timeTypedSeconds, locale)}
                         </td>
-                        <td className="py-2 pl-3 pr-5 text-right text-xs text-neutral-400 hidden sm:table-cell">
+                        <td className="py-2 pl-3 pr-5 text-right text-xs text-neutral-400 dark:text-neutral-500 hidden sm:table-cell">
                           {fmtWhen(e.lastActivityTimestamp, locale)}
                         </td>
                       </tr>
@@ -465,26 +465,26 @@ export default function CompetePage() {
                   : speedRows.map((e) => (
                       <tr
                         key={`${e.rank}-${e.name}`}
-                        className="border-b border-neutral-50 last:border-0 hover:bg-neutral-50 transition-colors"
+                        className="border-b border-neutral-50 dark:border-neutral-800 last:border-0 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
                       >
-                        <td className="py-2 pl-5 pr-3 text-right font-mono text-neutral-400">
+                        <td className="py-2 pl-5 pr-3 text-right font-mono text-neutral-400 dark:text-neutral-500">
                           {e.rank}
                         </td>
                         <td className="py-2 px-3">
                           <div className="flex items-center gap-2.5 min-w-0">
                             <Avatar entry={e} />
-                            <span className="font-medium text-neutral-900 truncate">
+                            <span className="font-medium text-neutral-900 dark:text-neutral-100 truncate">
                               {e.name}
                             </span>
                           </div>
                         </td>
-                        <td className="py-2 px-3 text-right font-mono font-semibold text-neutral-950">
+                        <td className="py-2 px-3 text-right font-mono font-semibold text-neutral-950 dark:text-white">
                           {Math.round(e.wpm)}
                         </td>
-                        <td className="py-2 px-3 text-right font-mono text-neutral-500">
+                        <td className="py-2 px-3 text-right font-mono text-neutral-500 dark:text-neutral-400">
                           {e.acc.toFixed(1)}%
                         </td>
-                        <td className="py-2 pl-3 pr-5 text-right text-xs text-neutral-400 hidden sm:table-cell">
+                        <td className="py-2 pl-3 pr-5 text-right text-xs text-neutral-400 dark:text-neutral-500 hidden sm:table-cell">
                           {fmtWhen(e.timestamp, locale)}
                         </td>
                       </tr>
@@ -495,7 +495,7 @@ export default function CompetePage() {
 
           {/* Pagination */}
           <div className="flex items-center justify-between mt-4">
-            <span className="text-xs text-neutral-400">
+            <span className="text-xs text-neutral-400 dark:text-neutral-500">
               {tpl(C.pageOf[locale], { a: page + 1, b: numFmt.format(totalPages) })}
             </span>
             <div className="flex items-center gap-1">
@@ -504,7 +504,7 @@ export default function CompetePage() {
                 aria-label={C.prevPage[locale]}
                 disabled={page === 0 || loading}
                 onClick={() => setPage((p) => Math.max(0, p - 1))}
-                className="p-1.5 rounded-md border border-neutral-200 bg-white text-neutral-600 hover:text-neutral-950 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
+                className="p-1.5 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -513,7 +513,7 @@ export default function CompetePage() {
                 aria-label={C.nextPage[locale]}
                 disabled={page >= totalPages - 1 || loading}
                 onClick={() => setPage((p) => p + 1)}
-                className="p-1.5 rounded-md border border-neutral-200 bg-white text-neutral-600 hover:text-neutral-950 hover:bg-neutral-50 transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
+                className="p-1.5 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -524,12 +524,12 @@ export default function CompetePage() {
 
       {/* World speed distribution */}
       {histBuckets.length > 0 && (
-        <section className="bg-white border border-neutral-200 rounded-2xl p-5 sm:p-6 mt-6">
+        <section className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 sm:p-6 mt-6">
           <div className="mb-4">
-            <h2 className="text-sm font-semibold text-neutral-900">
+            <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
               {C.histTitle[locale]}
             </h2>
-            <p className="text-xs text-neutral-400 mt-0.5">{C.histDesc[locale]}</p>
+            <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">{C.histDesc[locale]}</p>
           </div>
           <Histogram
             buckets={histBuckets}
@@ -544,15 +544,15 @@ export default function CompetePage() {
 
       {/* Site-wide pulse */}
       {pulse && (
-        <div className="flex flex-wrap justify-center gap-x-10 gap-y-2 mt-8 text-xs text-neutral-400">
+        <div className="flex flex-wrap justify-center gap-x-10 gap-y-2 mt-8 text-xs text-neutral-400 dark:text-neutral-500">
           <span>
-            <span className="font-mono font-semibold text-neutral-700">
+            <span className="font-mono font-semibold text-neutral-700 dark:text-neutral-300">
               {numFmt.format(pulse.testsCompleted)}
             </span>{" "}
             {C.pulseTests[locale]}
           </span>
           <span>
-            <span className="font-mono font-semibold text-neutral-700">
+            <span className="font-mono font-semibold text-neutral-700 dark:text-neutral-300">
               {numFmt.format(Math.round(pulse.timeTyping / SECONDS_PER_YEAR))}
             </span>{" "}
             {C.pulseYears[locale]}
@@ -560,12 +560,12 @@ export default function CompetePage() {
         </div>
       )}
 
-      <p className="text-center text-[11px] text-neutral-300 mt-6">
+      <p className="text-center text-[11px] text-neutral-300 dark:text-neutral-600 mt-6">
         <a
           href="https://monkeytype.com"
           target="_blank"
           rel="noreferrer"
-          className="hover:text-neutral-500 transition-colors"
+          className="hover:text-neutral-500 dark:hover:text-neutral-400 transition-colors"
         >
           {C.liveFrom[locale]}
         </a>

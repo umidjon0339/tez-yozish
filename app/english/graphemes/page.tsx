@@ -82,7 +82,7 @@ export default function GraphemesPage() {
 
   const starBadge = (stars: number) =>
     stars > 0 && (
-      <span className="inline-flex items-center gap-0.5 font-mono text-[10px] font-semibold text-neutral-500">
+      <span className="inline-flex items-center gap-0.5 font-mono text-[10px] font-semibold text-neutral-500 dark:text-neutral-400">
         <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
         {stars}
       </span>
@@ -96,20 +96,20 @@ export default function GraphemesPage() {
       <Link
         key={x.slug}
         href={graphemeHubHref("graphemes", x.slug)}
-        className={`relative flex flex-col items-center justify-center px-2 py-1.5 rounded-md border shadow-sm transition-all hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 ${
+        className={`relative flex flex-col items-center justify-center px-2 py-1.5 rounded-md border shadow-sm transition-all hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white ${
           x.kind === "vowel"
             ? "bg-emerald-500/10 border-emerald-500/30"
-            : "bg-white border-neutral-300"
+            : "bg-white dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700"
         }`}
       >
         <span
           className={`font-mono text-base font-semibold leading-tight ${
-            x.kind === "vowel" ? "text-emerald-900" : "text-neutral-900"
+            x.kind === "vowel" ? "text-emerald-900" : "text-neutral-900 dark:text-neutral-100"
           }`}
         >
           {x.spelling}
         </span>
-        <span className="font-mono text-[10px] font-medium text-neutral-500 leading-tight whitespace-nowrap">
+        <span className="font-mono text-[10px] font-medium text-neutral-500 dark:text-neutral-400 leading-tight whitespace-nowrap">
           {x.sounds.map((s) => `/${s.ipa}/`).join(" ")}
         </span>
         {starBadge(stars)}
@@ -121,7 +121,7 @@ export default function GraphemesPage() {
   const soundChip = (ipa: string) => (
     <span
       key={ipa}
-      className="flex-1 inline-flex items-center justify-center rounded-md border border-neutral-200 bg-white px-1.5 py-0.5 font-mono text-[12px] font-semibold text-neutral-600 shadow-sm"
+      className="flex-1 inline-flex items-center justify-center rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-1.5 py-0.5 font-mono text-[12px] font-semibold text-neutral-600 dark:text-neutral-400 shadow-sm"
     >
       /{ipa}/
     </span>
@@ -165,7 +165,7 @@ export default function GraphemesPage() {
             ) : i === 1 ? (
               vMark("long")
             ) : (
-              <span className="font-mono text-[13px] font-bold text-neutral-300">
+              <span className="font-mono text-[13px] font-bold text-neutral-300 dark:text-neutral-600">
                 …
               </span>
             )}
@@ -189,13 +189,13 @@ export default function GraphemesPage() {
       <div key={x.slug} className="flex items-center gap-1.5">
         <Link
           href={graphemeHubHref("graphemes", x.slug)}
-          className="relative inline-flex items-center justify-center gap-1 min-w-11 px-2 py-1.5 rounded-md border font-mono text-base font-semibold shadow-sm transition-all hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 bg-emerald-500/10 text-emerald-900 border-emerald-500/30"
+          className="relative inline-flex items-center justify-center gap-1 min-w-11 px-2 py-1.5 rounded-md border font-mono text-base font-semibold shadow-sm transition-all hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white bg-emerald-500/10 text-emerald-900 border-emerald-500/30"
         >
           {x.spelling}
           {starBadge(stars)}
           {done && doneDot}
         </Link>
-        <span className="text-neutral-300">→</span>
+        <span className="text-neutral-300 dark:text-neutral-600">→</span>
         {x.sounds.filter((s) => s.ipa !== "ə").map((s) => soundChip(s.ipa))}
         {x.sounds.some((s) => s.ipa === "ə") && soundChip("ə")}
       </div>
@@ -205,29 +205,29 @@ export default function GraphemesPage() {
   const multiSound = GRAPHEMES.filter((x) => x.sounds.length >= 2);
 
   return (
-    <div className="flex-1 bg-[#FAFAFA] min-h-screen pt-12 pb-24 px-6">
+    <div className="flex-1 bg-[#FAFAFA] dark:bg-neutral-950 min-h-screen pt-12 pb-24 px-6">
       <div className="max-w-4xl mx-auto w-full">
         <Link
           href="/english"
-          className="text-[13px] font-medium text-neutral-400 hover:text-neutral-900 transition-colors"
+          className="text-[13px] font-medium text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
         >
           {L.backToUnits[locale]}
         </Link>
 
-        <h1 className="mt-4 text-3xl font-extrabold text-neutral-900 tracking-tight">
+        <h1 className="mt-4 text-3xl font-extrabold text-neutral-900 dark:text-neutral-100 tracking-tight">
           {G.title[locale]}
         </h1>
-        <p className="mt-1 text-[14px] text-neutral-600">
+        <p className="mt-1 text-[14px] text-neutral-600 dark:text-neutral-400">
           {G.subtitle[locale]}
         </p>
 
         {/* Progress + continue */}
-        <div className="mt-6 rounded-lg border border-neutral-200 bg-white p-4 flex items-center justify-between gap-4 flex-wrap">
+        <div className="mt-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4 flex-1 min-w-48">
-            <span className="font-mono text-[13px] font-semibold text-neutral-500 whitespace-nowrap">
+            <span className="font-mono text-[13px] font-semibold text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
               {doneCount} / {GRAPHEMES.length}
             </span>
-            <div className="flex-1 h-1.5 rounded-full bg-neutral-100 overflow-hidden">
+            <div className="flex-1 h-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
               <div
                 className="h-full bg-emerald-500 rounded-full transition-all"
                 style={{
@@ -236,7 +236,7 @@ export default function GraphemesPage() {
               />
             </div>
             {totalStars > 0 && (
-              <span className="inline-flex items-center gap-1 font-mono text-[13px] font-semibold text-neutral-500 whitespace-nowrap">
+              <span className="inline-flex items-center gap-1 font-mono text-[13px] font-semibold text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
                 <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                 {totalStars}
               </span>
@@ -244,7 +244,7 @@ export default function GraphemesPage() {
           </div>
           <Link
             href={graphemeHubHref("graphemes", next.slug)}
-            className="inline-flex items-center gap-1.5 text-[13px] font-semibold bg-neutral-950 text-white hover:bg-neutral-800 px-3.5 py-1.5 rounded-md transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 text-[13px] font-semibold bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 hover:bg-neutral-800 dark:hover:bg-neutral-200 px-3.5 py-1.5 rounded-md transition-colors shadow-sm"
           >
             {doneCount > 0 ? L.continueBtn[locale] : L.startBtn[locale]}:{" "}
             <span className="font-mono">{next.spelling}</span>
@@ -253,15 +253,15 @@ export default function GraphemesPage() {
         </div>
 
         {/* The classified table: size × vowel/consonant */}
-        <div className="mt-6 rounded-lg border border-neutral-200 bg-white p-4 overflow-x-auto">
+        <div className="mt-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 overflow-x-auto">
           <table className="w-full min-w-120 border-collapse">
             <thead>
               <tr>
-                <th className="w-32 border border-neutral-200 bg-neutral-50 p-2" />
-                <th className="border border-neutral-200 bg-emerald-500/10 p-2 text-[11px] uppercase tracking-wider font-semibold text-emerald-900">
+                <th className="w-32 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2" />
+                <th className="border border-neutral-200 dark:border-neutral-800 bg-emerald-500/10 p-2 text-[11px] uppercase tracking-wider font-semibold text-emerald-900">
                   {L.filterVowels[locale]}
                 </th>
-                <th className="border border-neutral-200 bg-neutral-50 p-2 text-[11px] uppercase tracking-wider font-semibold text-neutral-600">
+                <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-[11px] uppercase tracking-wider font-semibold text-neutral-600 dark:text-neutral-400">
                   {L.filterConsonants[locale]}
                 </th>
               </tr>
@@ -305,10 +305,10 @@ export default function GraphemesPage() {
                 );
                 return (
                   <tr key={row.label}>
-                    <th className="border border-neutral-200 bg-neutral-50 p-2 text-left align-top text-[11px] uppercase tracking-wider font-medium text-neutral-400">
+                    <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-left align-top text-[11px] uppercase tracking-wider font-medium text-neutral-400 dark:text-neutral-500">
                       {row.label}
                     </th>
-                    <td className="w-1/2 border border-neutral-200 p-2 align-top">
+                    <td className="w-1/2 border border-neutral-200 dark:border-neutral-800 p-2 align-top">
                       {row.lines ? (
                         <div className="flex flex-col gap-1.5">
                           {lineHeader(vowels)}
@@ -320,7 +320,7 @@ export default function GraphemesPage() {
                         </div>
                       )}
                     </td>
-                    <td className="w-1/2 border border-neutral-200 p-2 align-top">
+                    <td className="w-1/2 border border-neutral-200 dark:border-neutral-800 p-2 align-top">
                       <div className={`grid ${row.cCols} gap-1.5`}>
                         {consonants.map(tile)}
                       </div>
@@ -335,23 +335,23 @@ export default function GraphemesPage() {
         {/* Consonant blends — NOT graphemes: each letter keeps its own
             sound (st = /s/+/t/, unlike the digraph sh = /ʃ/), so they sit
             outside the table and carry no lesson hubs. */}
-        <div className="mt-6 rounded-lg border border-neutral-200 bg-white p-5">
-          <h2 className="text-lg font-bold text-neutral-900">
+        <div className="mt-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
+          <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
             {E.blends[locale]}
           </h2>
-          <p className="mt-1 text-[13px] text-neutral-500">
+          <p className="mt-1 text-[13px] text-neutral-500 dark:text-neutral-400">
             {E.blendsCaption[locale]}
           </p>
           <div className="mt-4 grid grid-cols-4 sm:grid-cols-6 md:grid-cols-9 gap-1.5">
             {BLENDS.map((b) => (
               <span
                 key={b.s}
-                className="flex flex-col items-center justify-center px-2 py-1.5 rounded-md border border-neutral-300 bg-white shadow-sm"
+                className="flex flex-col items-center justify-center px-2 py-1.5 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-sm"
               >
-                <span className="font-mono text-base font-semibold leading-tight text-neutral-900 whitespace-nowrap">
+                <span className="font-mono text-base font-semibold leading-tight text-neutral-900 dark:text-neutral-100 whitespace-nowrap">
                   {b.s}
                 </span>
-                <span className="font-mono text-[10px] font-medium text-neutral-500 leading-tight whitespace-nowrap">
+                <span className="font-mono text-[10px] font-medium text-neutral-500 dark:text-neutral-400 leading-tight whitespace-nowrap">
                   /{b.ipa}/
                 </span>
               </span>
@@ -360,11 +360,11 @@ export default function GraphemesPage() {
         </div>
 
         {/* One spelling — two sounds */}
-        <div className="mt-6 rounded-lg border border-neutral-200 bg-white p-5">
-          <h2 className="text-lg font-bold text-neutral-900">
+        <div className="mt-6 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-5">
+          <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
             {G.multiSoundTitle[locale]}
           </h2>
-          <p className="mt-1 text-[13px] text-neutral-500">
+          <p className="mt-1 text-[13px] text-neutral-500 dark:text-neutral-400">
             {G.multiSoundCaption[locale]}
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -372,16 +372,16 @@ export default function GraphemesPage() {
               <Link
                 key={x.slug}
                 href={graphemeHubHref("graphemes", x.slug)}
-                className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 shadow-sm transition-all hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950"
+                className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 shadow-sm transition-all hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white"
               >
-                <span className="font-mono text-base font-bold text-neutral-900">
+                <span className="font-mono text-base font-bold text-neutral-900 dark:text-neutral-100">
                   {x.spelling}
                 </span>
-                <span className="text-neutral-300">→</span>
+                <span className="text-neutral-300 dark:text-neutral-600">→</span>
                 {x.sounds.map((s) => (
                   <span
                     key={s.ipa}
-                    className="font-mono text-[13px] font-semibold text-neutral-500"
+                    className="font-mono text-[13px] font-semibold text-neutral-500 dark:text-neutral-400"
                   >
                     /{s.ipa}/
                   </span>

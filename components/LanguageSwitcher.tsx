@@ -8,7 +8,7 @@ import { STR } from "@/lib/uiStrings";
 /* Flag + code button that opens a flag/native-name dropdown on hover
    (click also toggles it, for touch screens). Used in the global navbar
    and the lesson workspace header (hence the dark: variants). */
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ compact = false }: { compact?: boolean } = {}) {
   const { locale, setLocale } = useLocale();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -51,9 +51,15 @@ export function LanguageSwitcher() {
           className="w-5 h-3.5 rounded-[3px] object-cover shadow-sm"
           draggable={false}
         />
-        <span className="font-mono text-[11px] font-bold tracking-wide">
-          {active.short}
-        </span>
+        {/* The navbar drops the code: with nine links the right cluster has to
+            stay narrow enough that the centred row still clears it. The flag
+            plus the dropdown's native names carry the meaning, and the button
+            keeps its aria-label either way. */}
+        {!compact && (
+          <span className="font-mono text-[11px] font-bold tracking-wide">
+            {active.short}
+          </span>
+        )}
         <ChevronDown
           size={12}
           strokeWidth={2}

@@ -64,7 +64,7 @@ export default function CourseDetailPage({
   const totalStars = gradedLessons.length * 5;
 
   return (
-    <div className={`flex-1 flex flex-col bg-[#FAFAFA] text-neutral-950 font-sans min-h-screen pt-7 px-6 transition-opacity duration-200 ${isRouting ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`flex-1 flex flex-col bg-[#FAFAFA] dark:bg-neutral-950 text-neutral-950 dark:text-white font-sans min-h-screen pt-7 px-6 transition-opacity duration-200 ${isRouting ? 'opacity-0' : 'opacity-100'}`}>
       <div className="max-w-5xl mx-auto w-full">
         <section className="w-full pb-32">
           
@@ -72,7 +72,7 @@ export default function CourseDetailPage({
              <div className="mb-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
                <button 
                  onClick={() => setActiveSectionId(null)} 
-                 className="text-neutral-500 hover:text-neutral-900 font-medium text-sm flex items-center gap-2 mb-8 transition-colors bg-white px-4 py-2 rounded-lg border border-neutral-200 shadow-sm hover:shadow"
+                 className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 font-medium text-sm flex items-center gap-2 mb-8 transition-colors bg-white dark:bg-neutral-900 px-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow"
                >
                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                  {STR.courses.backToSections[locale]}
@@ -116,15 +116,15 @@ export default function CourseDetailPage({
                      key={lesson.lessonId}
                      onClick={locked ? undefined : () => launchLesson(lesson.lessonId)}
                      aria-disabled={locked}
-                     className={`group bg-white border rounded-lg shadow-sm transition-all duration-200 flex flex-col overflow-hidden relative ${
+                     className={`group bg-white dark:bg-neutral-900 border rounded-lg shadow-sm transition-all duration-200 flex flex-col overflow-hidden relative ${
                        locked
-                         ? 'border-neutral-200 cursor-not-allowed'
+                         ? 'border-neutral-200 dark:border-neutral-800 cursor-not-allowed'
                          : isNextUp
                            ? 'border-emerald-500 ring-2 ring-emerald-500 hover:shadow-md cursor-pointer'
-                           : 'border-neutral-200 hover:border-neutral-400 hover:shadow-md cursor-pointer'
+                           : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-md cursor-pointer'
                      }`}
                    >
-                     <div className="w-full aspect-[16/10] bg-neutral-50 relative overflow-hidden">
+                     <div className="w-full aspect-[16/10] bg-neutral-50 dark:bg-neutral-900 relative overflow-hidden">
                        <DynamicThumbnail
                          svgId={lesson.thumbnail?.svgId || 'TWO_KEYS_FOCUS'}
                          params={lesson.thumbnail?.parameters}
@@ -137,7 +137,7 @@ export default function CourseDetailPage({
                        {showStars && !locked && (
                          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 z-10 text-base sm:text-lg tracking-wide leading-none drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)]">
                            <span className="text-amber-400">{'★'.repeat(prog.stars)}</span>
-                           <span className="text-neutral-300/90">{'★'.repeat(5 - prog.stars)}</span>
+                           <span className="text-neutral-300/90 dark:text-neutral-600/90">{'★'.repeat(5 - prog.stars)}</span>
                          </div>
                        )}
 
@@ -150,15 +150,15 @@ export default function CourseDetailPage({
 
                        {/* Padlock badge — top-right, so the artwork stays visible */}
                        {locked && (
-                         <div className="absolute top-2 right-2 z-10 w-7 h-7 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md ring-1 ring-black/5">
-                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-500"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                         <div className="absolute top-2 right-2 z-10 w-7 h-7 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md ring-1 ring-black/5">
+                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-500 dark:text-neutral-400"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
                          </div>
                        )}
                      </div>
 
-                     <div className="border-t border-neutral-100 py-2 sm:py-3 px-2 text-center bg-white flex flex-col items-center justify-center min-h-[44px] gap-0.5">
+                     <div className="border-t border-neutral-100 dark:border-neutral-800 py-2 sm:py-3 px-2 text-center bg-white dark:bg-neutral-900 flex flex-col items-center justify-center min-h-[44px] gap-0.5">
                        <span className={`text-[10px] sm:text-xs font-medium truncate transition-colors ${
-                         locked ? 'text-neutral-300' : 'text-neutral-500 group-hover:text-neutral-800'
+                         locked ? 'text-neutral-300 dark:text-neutral-600' : 'text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-200'
                        }`}>
                          {lesson.lessonTitle[locale]}
                        </span>
@@ -171,7 +171,7 @@ export default function CourseDetailPage({
                    <div className="flex flex-col gap-8">
                      {groups.map(({ type, cfg, lessons }) => (
                        <div key={type}>
-                         <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3 pl-1">
+                         <h3 className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-3 pl-1">
                            {cfg.label[locale]}
                          </h3>
                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
@@ -187,7 +187,7 @@ export default function CourseDetailPage({
              <div className="animate-in fade-in duration-300">
                {course.chapters?.map((chapter) => (
                  <div key={chapter.chapterId} className="mb-10">
-                   <h2 className="text-2xl font-black text-neutral-900 mb-5">{chapter.chapterTitle[locale]}</h2>
+                   <h2 className="text-2xl font-black text-neutral-900 dark:text-neutral-100 mb-5">{chapter.chapterTitle[locale]}</h2>
                    
                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
                      {chapter.sections?.map((section) => {
@@ -198,26 +198,29 @@ export default function CourseDetailPage({
                        <div
                          key={section.sectionId}
                          onClick={() => setActiveSectionId(section.sectionId)}
-                         className="group bg-white border border-neutral-200 hover:border-neutral-400 hover:shadow-md rounded-lg shadow-sm transition-all duration-200 cursor-pointer flex flex-col overflow-hidden relative"
+                         className="group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-md rounded-lg shadow-sm transition-all duration-200 cursor-pointer flex flex-col overflow-hidden relative"
                        >
-                         <div className="absolute top-2 left-3 sm:top-3 sm:left-4 text-xl sm:text-2xl font-extrabold text-neutral-500/80 group-hover:text-neutral-700 transition-colors z-10 mix-blend-multiply">
+                         {/* multiply keeps the number sitting *in* the light
+                             artwork; on a dark thumbnail it would erase it, so
+                             dark mode paints it normally in near-white. */}
+                         <div className="absolute top-2 left-3 sm:top-3 sm:left-4 text-xl sm:text-2xl font-extrabold text-neutral-500/80 group-hover:text-neutral-700 mix-blend-multiply dark:mix-blend-normal dark:text-neutral-300 dark:group-hover:text-white transition-colors z-10">
                            {section.sectionNumber}
                          </div>
 
-                         <div className="w-full aspect-[16/10] bg-neutral-50 relative overflow-hidden">
+                         <div className="w-full aspect-[16/10] bg-neutral-50 dark:bg-neutral-900 relative overflow-hidden">
                            {section.thumbnail?.imageSrc ? (
                                <img src={section.thumbnail.imageSrc} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" />
                            ) : section.thumbnail?.svgId ? (
                                <DynamicThumbnail svgId={section.thumbnail.svgId} params={section.thumbnail.parameters} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" />
                            ) : (
-                               <div className="w-full h-full flex items-center justify-center bg-neutral-100 text-neutral-300">
+                               <div className="w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-300 dark:text-neutral-600">
                                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
                                </div>
                            )}
                          </div>
 
                          {totalLessons > 0 && doneLessons > 0 && (
-                           <div className="h-1 w-full bg-neutral-100">
+                           <div className="h-1 w-full bg-neutral-100 dark:bg-neutral-800">
                              <div
                                className="h-full bg-emerald-500 transition-all duration-500"
                                style={{ width: `${(doneLessons / totalLessons) * 100}%` }}

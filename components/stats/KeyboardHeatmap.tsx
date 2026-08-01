@@ -87,10 +87,10 @@ const ROW_INDENT = [0, 14, 22, 34, 120];
 
 // Sequential 4-step ramps (light → dark), one hue per metric
 const RAMPS: Record<HeatmapMetric, string[]> = {
-  errors: ["#fee2e2", "#fca5a5", "#ef4444", "#b91c1c"],
-  speed: ["#e0f2fe", "#7dd3fc", "#0ea5e9", "#0369a1"],
-  usage: ["#e5e5e5", "#a3a3a3", "#525252", "#171717"],
-  confidence: ["#d1fae5", "#6ee7b7", "#10b981", "#047857"],
+  errors: ["var(--ramp-bad-1)", "var(--ramp-bad-2)", "var(--ramp-bad-3)", "var(--ramp-bad-4)"],
+  speed: ["var(--ramp-cool-1)", "var(--ramp-cool-2)", "var(--ramp-cool-3)", "var(--ramp-cool-4)"],
+  usage: ["var(--ramp-mono-1)", "var(--ramp-mono-2)", "var(--ramp-mono-3)", "var(--ramp-mono-4)"],
+  confidence: ["var(--ramp-good-1)", "var(--ramp-good-2)", "var(--ramp-good-3)", "var(--ramp-good-4)"],
 };
 
 // Bucket a key into a ramp step; null = no colored step (empty/clean state)
@@ -161,19 +161,19 @@ export function KeyboardHeatmap({
 
               let style: React.CSSProperties = {};
               let cls =
-                "bg-neutral-100 text-neutral-300 border border-transparent";
+                "bg-neutral-100 dark:bg-neutral-800 text-neutral-300 dark:text-neutral-600 border border-transparent";
               if (step !== null) {
                 style = { background: ramp[step] };
                 cls =
                   step >= 2
                     ? "text-white border border-transparent"
-                    : "text-neutral-800 border border-transparent";
+                    : "text-neutral-800 dark:text-neutral-200 border border-transparent";
               } else if (hasData) {
                 // has data but no colored step (e.g. zero errors → clean)
                 cls =
                   metric === "errors"
-                    ? "bg-white text-emerald-600 border border-neutral-200"
-                    : "bg-white text-neutral-400 border border-neutral-200";
+                    ? "bg-white dark:bg-neutral-900 text-emerald-600 border border-neutral-200 dark:border-neutral-800"
+                    : "bg-white dark:bg-neutral-900 text-neutral-400 dark:text-neutral-500 border border-neutral-200 dark:border-neutral-800";
               }
 
               return (
@@ -198,7 +198,7 @@ export function KeyboardHeatmap({
       </div>
 
       {/* ramp legend */}
-      <div className="flex items-center gap-1.5 text-[10px] text-neutral-400">
+      <div className="flex items-center gap-1.5 text-[10px] text-neutral-400 dark:text-neutral-500">
         <span>{lowLabel}</span>
         {ramp.map((c) => (
           <span key={c} className="w-4 h-2.5 rounded-sm" style={{ background: c }} />

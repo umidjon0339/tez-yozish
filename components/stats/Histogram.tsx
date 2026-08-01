@@ -20,10 +20,10 @@ const PAD_R = 12;
 const PAD_T = 26; // room for the marker pill
 const PAD_B = 22;
 
-const BAR_REST = "#d4d4d4"; // neutral-300
-const BAR_BELOW = "#a3a3a3"; // neutral-400 — mass slower than the marker
-const BAR_HOVER = "#737373"; // neutral-500
-const INK = "#171717";
+const BAR_REST = "var(--chart-muted)"; // neutral-300
+const BAR_BELOW = "var(--chart-muted-2)"; // neutral-400 — mass slower than the marker
+const BAR_HOVER = "var(--chart-muted-3)"; // neutral-500
+const INK = "var(--chart-ink)";
 
 export function Histogram({
   buckets,
@@ -133,7 +133,7 @@ export function Histogram({
               x2={PAD_L + innerW}
               y1={y(t.share)}
               y2={y(t.share)}
-              stroke="#eeeeee"
+              stroke="var(--chart-grid)"
               strokeWidth={1}
             />
             <text
@@ -198,7 +198,7 @@ export function Histogram({
       {/* marker pill (HTML for crisp text) */}
       {marker !== null && (
         <div
-          className="pointer-events-none absolute -translate-x-1/2 rounded-full bg-neutral-950 px-2 py-0.5 text-[10px] font-semibold text-white whitespace-nowrap"
+          className="pointer-events-none absolute -translate-x-1/2 rounded-full bg-neutral-950 dark:bg-white px-2 py-0.5 text-[10px] font-semibold text-white dark:text-neutral-950 whitespace-nowrap"
           style={{
             left: Math.min(Math.max(x(marker), 30), width - 30),
             top: 2,
@@ -210,7 +210,7 @@ export function Histogram({
       {/* tooltip */}
       {hovered && (
         <div
-          className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 shadow-sm"
+          className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1.5 shadow-sm"
           style={{
             left: Math.min(
               Math.max(x(hovered.lo + bucketSize / 2), 60),
@@ -219,12 +219,12 @@ export function Histogram({
             top: Math.max(0, y(hovered.count / total) - 46),
           }}
         >
-          <div className="whitespace-nowrap text-[10px] text-neutral-400">
+          <div className="whitespace-nowrap text-[10px] text-neutral-400 dark:text-neutral-500">
             {hovered.lo}–{hovered.lo + bucketSize - 1} {unit}
           </div>
-          <div className="whitespace-nowrap font-mono text-xs font-bold text-neutral-900">
+          <div className="whitespace-nowrap font-mono text-xs font-bold text-neutral-900 dark:text-neutral-100">
             {((hovered.count / total) * 100).toFixed(1)}%{" "}
-            <span className="font-sans font-normal text-neutral-400">
+            <span className="font-sans font-normal text-neutral-400 dark:text-neutral-500">
               · {hovered.count.toLocaleString()} {countWord}
             </span>
           </div>

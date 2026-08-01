@@ -145,15 +145,15 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
             : () => router.push(graphemeLessonHref(track, slug, lesson.id))
         }
         aria-disabled={locked}
-        className={`group bg-white border rounded-lg shadow-sm transition-all duration-200 flex flex-col overflow-hidden relative ${
+        className={`group bg-white dark:bg-neutral-900 border rounded-lg shadow-sm transition-all duration-200 flex flex-col overflow-hidden relative ${
           locked
-            ? "border-neutral-200 cursor-not-allowed"
+            ? "border-neutral-200 dark:border-neutral-800 cursor-not-allowed"
             : isNextUp
               ? "border-emerald-500 ring-2 ring-emerald-500 hover:shadow-md cursor-pointer"
-              : "border-neutral-200 hover:border-neutral-400 hover:shadow-md cursor-pointer"
+              : "border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-md cursor-pointer"
         }`}
       >
-        <div className="w-full aspect-[16/10] bg-neutral-50 relative overflow-hidden">
+        <div className="w-full aspect-[16/10] bg-neutral-50 dark:bg-neutral-900 relative overflow-hidden">
           <DynamicThumbnail
             svgId={lesson.thumbnail.svgId}
             params={{ ...lesson.thumbnail.parameters, symbol: view.head }}
@@ -166,7 +166,7 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
           {showStars && !locked && (
             <div className="absolute top-1.5 left-1/2 -translate-x-1/2 z-10 text-base sm:text-lg tracking-wide leading-none drop-shadow-[0_1px_3px_rgba(0,0,0,0.35)]">
               <span className="text-amber-400">{"★".repeat(prog.stars)}</span>
-              <span className="text-neutral-300/90">
+              <span className="text-neutral-300/90 dark:text-neutral-600/90">
                 {"★".repeat(5 - prog.stars)}
               </span>
             </div>
@@ -192,12 +192,12 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
 
           {/* Coming-soon chip or padlock — top-right */}
           {soon ? (
-            <div className="absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full bg-white/95 backdrop-blur-sm shadow-md ring-1 ring-black/5 text-[10px] font-semibold uppercase tracking-wide text-neutral-500">
+            <div className="absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm shadow-md ring-1 ring-black/5 text-[10px] font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               {L.comingSoon[locale]}
             </div>
           ) : (
             locked && (
-              <div className="absolute top-2 right-2 z-10 w-7 h-7 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md ring-1 ring-black/5">
+              <div className="absolute top-2 right-2 z-10 w-7 h-7 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md ring-1 ring-black/5">
                 <svg
                   width="14"
                   height="14"
@@ -207,7 +207,7 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
                   strokeWidth="2.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-neutral-500"
+                  className="text-neutral-500 dark:text-neutral-400"
                 >
                   <rect x="3" y="11" width="18" height="11" rx="2" />
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -217,12 +217,12 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
           )}
         </div>
 
-        <div className="border-t border-neutral-100 py-2 sm:py-3 px-2 text-center bg-white flex flex-col items-center justify-center min-h-[44px] gap-0.5">
+        <div className="border-t border-neutral-100 dark:border-neutral-800 py-2 sm:py-3 px-2 text-center bg-white dark:bg-neutral-900 flex flex-col items-center justify-center min-h-[44px] gap-0.5">
           <span
             className={`text-[10px] sm:text-xs font-medium truncate transition-colors ${
               locked
-                ? "text-neutral-300"
-                : "text-neutral-500 group-hover:text-neutral-800"
+                ? "text-neutral-300 dark:text-neutral-600"
+                : "text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-200"
             }`}
           >
             {lesson.title[locale]}
@@ -233,11 +233,11 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
   };
 
   return (
-    <div className="flex-1 bg-[#FAFAFA] min-h-screen pt-12 pb-24 px-6">
+    <div className="flex-1 bg-[#FAFAFA] dark:bg-neutral-950 min-h-screen pt-12 pb-24 px-6">
       <div className="max-w-5xl mx-auto w-full">
         <Link
           href={view.backHref}
-          className="inline-flex items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-[13px] font-semibold text-neutral-600 shadow-sm transition-all hover:border-neutral-400 hover:text-neutral-900 hover:shadow active:scale-95"
+          className="inline-flex items-center gap-1.5 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-3 py-1.5 text-[13px] font-semibold text-neutral-600 dark:text-neutral-400 shadow-sm transition-all hover:border-neutral-400 dark:hover:border-neutral-600 hover:text-neutral-900 dark:hover:text-neutral-100 hover:shadow active:scale-95"
         >
           <ChevronLeft className="w-4 h-4" strokeWidth={2.5} />
           {view.backLabel}
@@ -246,15 +246,15 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
         {/* Element header */}
         <div className="mt-4 flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4">
-            <span className="min-w-16 h-16 px-3 rounded-xl border border-neutral-200 bg-white shadow-sm flex items-center justify-center font-mono text-2xl font-bold text-neutral-900 whitespace-nowrap">
+            <span className="min-w-16 h-16 px-3 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm flex items-center justify-center font-mono text-2xl font-bold text-neutral-900 dark:text-neutral-100 whitespace-nowrap">
               {view.head}
             </span>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-neutral-100 tracking-tight">
                 {view.trackTitle} —{" "}
                 <span className="font-mono">{view.head}</span>
               </h1>
-              <p className="text-[13px] text-neutral-400 font-medium">
+              <p className="text-[13px] text-neutral-400 dark:text-neutral-500 font-medium">
                 {view.typeLabel} · {L.soundAsIn[locale]} {view.asIn}
                 {view.region !== "both" && (
                   <>
@@ -277,24 +277,24 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
 
           <div className="flex items-center gap-3">
             {totalStars > 0 && (
-              <span className="inline-flex items-center gap-1 font-mono text-[13px] font-semibold text-neutral-500 whitespace-nowrap">
+              <span className="inline-flex items-center gap-1 font-mono text-[13px] font-semibold text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
                 <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                 {earnedStars} / {totalStars}
               </span>
             )}
-            <span className="inline-flex items-center rounded-lg border border-neutral-200 bg-white shadow-sm">
+            <span className="inline-flex items-center rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
               <Link
                 href={graphemeHubHref(track, view.prevSlug)}
                 title={G.prev[locale]}
-                className="p-2 text-neutral-400 hover:text-neutral-900 transition-colors"
+                className="p-2 text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" strokeWidth={2.5} />
               </Link>
-              <span className="w-px h-5 bg-neutral-200" aria-hidden />
+              <span className="w-px h-5 bg-neutral-200 dark:bg-neutral-700" aria-hidden />
               <Link
                 href={graphemeHubHref(track, view.nextSlug)}
                 title={G.next[locale]}
-                className="p-2 text-neutral-400 hover:text-neutral-900 transition-colors"
+                className="p-2 text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               >
                 <ChevronRight className="w-4 h-4" strokeWidth={2.5} />
               </Link>
@@ -306,7 +306,7 @@ export function GraphemeLessonHub({ el }: { el: GraphemeElement }) {
         <div className="mt-8 flex flex-col gap-8">
           {groups.map(({ type, cfg, lessons }) => (
             <div key={type}>
-              <h3 className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3 pl-1">
+              <h3 className="text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-3 pl-1">
                 {cfg.label[locale]}
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">

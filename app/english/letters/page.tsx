@@ -36,7 +36,7 @@ function Segmented<T extends string>({
   options: { id: T; label: React.ReactNode }[];
 }) {
   return (
-    <div className="inline-flex items-center rounded-lg border border-neutral-200 bg-white p-0.5 shadow-sm">
+    <div className="inline-flex items-center rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-0.5 shadow-sm">
       {options.map((o) => (
         <button
           key={o.id}
@@ -45,8 +45,8 @@ function Segmented<T extends string>({
           className={[
             "px-3 py-1 rounded-md text-[13px] font-medium transition-colors cursor-pointer",
             value === o.id
-              ? "bg-neutral-950 text-white"
-              : "text-neutral-500 hover:text-neutral-900",
+              ? "bg-neutral-950 dark:bg-white text-white dark:text-neutral-950"
+              : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100",
           ].join(" ")}
         >
           {o.label}
@@ -62,9 +62,9 @@ function Segmented<T extends string>({
    full-column hover targets with a tooltip, no legend. Clicking a bar
    opens that letter's practice page. Filtered-out letters are dimmed AND
    their labels fade — identity never rides on color alone. */
-const BAR_REST = "#d4d4d4"; // neutral-300
-const BAR_DIM = "#e5e5e5"; // neutral-200 (filtered out)
-const BAR_HOVER = "#737373"; // neutral-500
+const BAR_REST = "var(--chart-muted)"; // neutral-300
+const BAR_DIM = "var(--chart-empty)"; // neutral-200 (filtered out)
+const BAR_HOVER = "var(--chart-muted-3)"; // neutral-500
 
 function FrequencyChart({
   sort,
@@ -134,7 +134,7 @@ function FrequencyChart({
                 x2={PAD_L + innerW}
                 y1={y(v)}
                 y2={y(v)}
-                stroke="#eeeeee"
+                stroke="var(--chart-grid)"
                 strokeWidth={1}
               />
               <text
@@ -206,16 +206,16 @@ function FrequencyChart({
       {/* tooltip */}
       {hovered && hover !== null && (
         <div
-          className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 shadow-sm"
+          className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2.5 py-1.5 shadow-sm"
           style={{
             left: Math.min(Math.max(xMid(hover), 60), width - 60),
             top: Math.max(0, y(hovered.freq) - 52),
           }}
         >
-          <div className="whitespace-nowrap font-mono text-xs font-bold text-neutral-900">
+          <div className="whitespace-nowrap font-mono text-xs font-bold text-neutral-900 dark:text-neutral-100">
             {hovered.char.toUpperCase()} · {hovered.freq}%
           </div>
-          <div className="whitespace-nowrap text-[10px] text-neutral-400">
+          <div className="whitespace-nowrap text-[10px] text-neutral-400 dark:text-neutral-500">
             {ofAllLetters}
           </div>
         </div>
@@ -235,7 +235,7 @@ function MorseCode({ code }: { code: string }) {
         <span
           key={i}
           className={[
-            "h-2 rounded-full bg-neutral-800",
+            "h-2 rounded-full bg-neutral-800 dark:bg-neutral-200",
             s === "-" ? "w-5" : "w-2",
           ].join(" ")}
         />
@@ -255,7 +255,7 @@ function BrailleCell({ dots, big = false }: { dots: number[]; big?: boolean }) {
           className={[
             big ? "w-3 h-3" : "w-2 h-2",
             "rounded-full",
-            dots.includes(n) ? "bg-neutral-900" : "bg-neutral-200",
+            dots.includes(n) ? "bg-neutral-900 dark:bg-neutral-100" : "bg-neutral-200 dark:bg-neutral-700",
           ].join(" ")}
         />
       ))}
@@ -278,7 +278,7 @@ function AsciiTable({ char }: { char: string }) {
   });
   return (
     <div className="mt-4 font-mono text-end">
-      <div className="grid grid-cols-[1.1rem_2.2rem_2.2rem_1fr] gap-x-2 text-[9px] uppercase tracking-wider text-neutral-400">
+      <div className="grid grid-cols-[1.1rem_2.2rem_2.2rem_1fr] gap-x-2 text-[9px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
         <span />
         <span>Dec</span>
         <span>Hex</span>
@@ -289,10 +289,10 @@ function AsciiTable({ char }: { char: string }) {
           key={r.c}
           className="grid grid-cols-[1.1rem_2.2rem_2.2rem_1fr] gap-x-2 text-[11px] leading-5"
         >
-          <span className="font-bold text-neutral-900">{r.c}</span>
-          <span className="text-neutral-600">{r.dec}</span>
-          <span className="text-neutral-600">{r.hex}</span>
-          <span className="text-neutral-600 tracking-tight">{r.bin}</span>
+          <span className="font-bold text-neutral-900 dark:text-neutral-100">{r.c}</span>
+          <span className="text-neutral-600 dark:text-neutral-400">{r.dec}</span>
+          <span className="text-neutral-600 dark:text-neutral-400">{r.hex}</span>
+          <span className="text-neutral-600 dark:text-neutral-400 tracking-tight">{r.bin}</span>
         </div>
       ))}
     </div>
@@ -315,17 +315,17 @@ export default function LettersPage() {
   const nextChar = LETTERS.find((l) => !letterDone(progress, l.char))?.char;
 
   return (
-    <div className="flex-1 bg-[#FAFAFA] min-h-screen pt-12 pb-24 px-6">
+    <div className="flex-1 bg-[#FAFAFA] dark:bg-neutral-950 min-h-screen pt-12 pb-24 px-6">
       <div className="max-w-3xl mx-auto w-full">
         {/* Header */}
         <Link
           href="/english"
-          className="text-[13px] font-medium text-neutral-400 hover:text-neutral-900 transition-colors"
+          className="text-[13px] font-medium text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
         >
           {L.backToUnits[locale]}
         </Link>
         <div className="mt-3 flex items-center justify-between gap-4 flex-wrap">
-          <h1 className="text-3xl font-extrabold text-neutral-900 tracking-tight">
+          <h1 className="text-3xl font-extrabold text-neutral-900 dark:text-neutral-100 tracking-tight">
             {L.title[locale]}
           </h1>
           <Segmented
@@ -352,17 +352,17 @@ export default function LettersPage() {
 
         {/* Progress + continue */}
         <div className="mt-5 flex items-center gap-4">
-          <div className="flex-1 h-2 rounded-full bg-neutral-200/70 overflow-hidden">
+          <div className="flex-1 h-2 rounded-full bg-neutral-200/70 dark:bg-neutral-700/70 overflow-hidden">
             <div
               className="h-full bg-emerald-500 rounded-full transition-[width] duration-500"
               style={{ width: `${(doneCount / LETTERS.length) * 100}%` }}
             />
           </div>
-          <span className="font-mono text-[13px] font-semibold text-neutral-500 whitespace-nowrap">
+          <span className="font-mono text-[13px] font-semibold text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
             {doneCount} / {LETTERS.length}
           </span>
           {totalStars > 0 && (
-            <span className="inline-flex items-center gap-1 font-mono text-[13px] font-semibold text-neutral-500 whitespace-nowrap">
+            <span className="inline-flex items-center gap-1 font-mono text-[13px] font-semibold text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
               <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
               {totalStars}
             </span>
@@ -370,7 +370,7 @@ export default function LettersPage() {
           {nextChar && (
             <Link
               href={`/english/letters/${nextChar}`}
-              className="inline-flex items-center gap-1.5 text-[13px] font-semibold bg-neutral-950 text-white hover:bg-neutral-800 px-4 py-2 rounded-md transition-colors shadow-sm active:scale-95 whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 text-[13px] font-semibold bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 hover:bg-neutral-800 dark:hover:bg-neutral-200 px-4 py-2 rounded-md transition-colors shadow-sm active:scale-95 whitespace-nowrap"
             >
               {doneCount > 0 ? L.continueBtn[locale] : L.startBtn[locale]}:{" "}
               {nextChar.toUpperCase()}
@@ -392,12 +392,12 @@ export default function LettersPage() {
                 key={l.char}
                 href={`/english/letters/${l.char}`}
                 className={[
-                  "relative rounded-lg bg-white p-3 text-center transition-all cursor-pointer",
+                  "relative rounded-lg bg-white dark:bg-neutral-900 p-3 text-center transition-all cursor-pointer",
                   isSometimes
-                    ? "border border-dashed border-neutral-300"
-                    : "border border-neutral-200",
+                    ? "border border-dashed border-neutral-300 dark:border-neutral-700"
+                    : "border border-neutral-200 dark:border-neutral-800",
                   active ? "" : "opacity-35 blur-[1px] hover:opacity-100 hover:blur-none",
-                  "hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-sm",
+                  "hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-sm",
                 ].join(" ")}
               >
                 {l.vowel && (
@@ -406,15 +406,15 @@ export default function LettersPage() {
                     className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-300"
                   />
                 )}
-                <span className="block font-mono text-2xl font-bold text-neutral-900 leading-none">
+                <span className="block font-mono text-2xl font-bold text-neutral-900 dark:text-neutral-100 leading-none">
                   {l.char.toUpperCase()}
                   {l.char}
                 </span>
-                <span className="mt-2 block text-[11px] text-neutral-400 truncate">
+                <span className="mt-2 block text-[11px] text-neutral-400 dark:text-neutral-500 truncate">
                   {l.name}
                 </span>
                 {/* Test + game stars, 0–10 per letter, shown as a count */}
-                <span className="mt-1.5 flex items-center justify-center gap-1 h-2.5 font-mono text-[10px] font-semibold text-neutral-400">
+                <span className="mt-1.5 flex items-center justify-center gap-1 h-2.5 font-mono text-[10px] font-semibold text-neutral-400 dark:text-neutral-500">
                   {stars > 0 && (
                     <>
                       <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
@@ -428,9 +428,9 @@ export default function LettersPage() {
         </div>
 
         {/* Frequency chart */}
-        <div className="mt-8 bg-white border border-neutral-200 rounded-lg shadow-sm p-5 sm:p-6">
+        <div className="mt-8 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm p-5 sm:p-6">
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <h2 className="text-lg font-bold text-neutral-900">
+            <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
               {L.chartTitle[locale]}
             </h2>
             <Segmented
@@ -454,11 +454,11 @@ export default function LettersPage() {
 
         {/* Alphabet history — the poster is dark, so it sits in its own
             rounded frame inside the standard white card. */}
-        <div className="mt-8 bg-white border border-neutral-200 rounded-lg shadow-sm p-5 sm:p-6">
-          <h2 className="text-lg font-bold text-neutral-900">
+        <div className="mt-8 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm p-5 sm:p-6">
+          <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
             {L.historyTitle[locale]}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+          <p className="mt-2 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
             {L.historyCaption[locale]}
           </p>
           <img
@@ -467,19 +467,19 @@ export default function LettersPage() {
             width={1280}
             height={960}
             loading="lazy"
-            className="mt-4 w-full h-auto rounded-lg border border-neutral-200"
+            className="mt-4 w-full h-auto rounded-lg border border-neutral-200 dark:border-neutral-800"
           />
-          <p className="mt-2 text-right text-[11px] text-neutral-400">
+          <p className="mt-2 text-right text-[11px] text-neutral-400 dark:text-neutral-500">
             Matt Baker · usefulcharts.com
           </p>
         </div>
 
         {/* Signal codes — NATO code word, Morse and Braille per letter */}
-        <div className="mt-8 bg-white border border-neutral-200 rounded-lg shadow-sm p-5 sm:p-6">
-          <h2 className="text-lg font-bold text-neutral-900">
+        <div className="mt-8 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm p-5 sm:p-6">
+          <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
             {L.signalsTitle[locale]}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+          <p className="mt-2 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
             {L.signalsCaption[locale]}
           </p>
           <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -487,7 +487,7 @@ export default function LettersPage() {
               <Link
                 key={l.char}
                 href={`/english/codes/${l.char}`}
-                className="relative rounded-lg bg-neutral-50 border border-neutral-200 p-4 transition-all cursor-pointer hover:bg-white hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-sm"
+                className="relative rounded-lg bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-4 transition-all cursor-pointer hover:bg-white dark:hover:bg-neutral-900 hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-sm"
               >
                 {l.vowel && (
                   <span
@@ -498,21 +498,21 @@ export default function LettersPage() {
                 {/* Header row: letter + code word left, Morse top-right */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-baseline gap-2 min-w-0">
-                    <span className="font-mono text-3xl font-bold text-neutral-900 leading-none">
+                    <span className="font-mono text-3xl font-bold text-neutral-900 dark:text-neutral-100 leading-none">
                       {l.char.toUpperCase()}
                     </span>
                     <span className="min-w-0">
-                      <span className="block text-sm font-semibold text-neutral-900 truncate">
+                      <span className="block text-sm font-semibold text-neutral-900 dark:text-neutral-100 truncate">
                         {l.nato}
                       </span>
-                      <span className="block text-[11px] text-neutral-400 truncate">
+                      <span className="block text-[11px] text-neutral-400 dark:text-neutral-500 truncate">
                         ({l.say})
                       </span>
                     </span>
                   </div>
                   <span className="flex flex-col items-end gap-1.5 shrink-0 pt-1">
                     <MorseCode code={l.morse} />
-                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">
+                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400 dark:text-neutral-500">
                       {L.morseLabel[locale]}
                     </span>
                   </span>
@@ -521,7 +521,7 @@ export default function LettersPage() {
                 <div className="mt-4 grid grid-cols-2 gap-x-4">
                   <span className="flex flex-col justify-end gap-1.5 items-center">
                     <SignalFlag char={l.char} className="h-10 w-10" />
-                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">
+                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400 dark:text-neutral-500">
                       {L.flagLabel[locale]}
                     </span>
                   </span>
@@ -530,7 +530,7 @@ export default function LettersPage() {
                       angles={l.semaphore}
                       className="h-11 w-11"
                     />
-                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">
+                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400 dark:text-neutral-500">
                       {L.semaphoreLabel[locale]}
                     </span>
                   </span>
@@ -543,11 +543,11 @@ export default function LettersPage() {
         {/* Fingers & dots — ASL fingerspelling + Braille per letter.
             Hand SVGs are the public-domain set in public/asl/ (Wikimedia
             Commons "Sign language A…Z", via wpclipart.com). */}
-        <div className="mt-8 bg-white border border-neutral-200 rounded-lg shadow-sm p-5 sm:p-6">
-          <h2 className="text-lg font-bold text-neutral-900">
+        <div className="mt-8 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm p-5 sm:p-6">
+          <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
             {L.fingersTitle[locale]}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+          <p className="mt-2 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
             {L.fingersCaption[locale]}
           </p>
           <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -555,7 +555,7 @@ export default function LettersPage() {
               <Link
                 key={l.char}
                 href={`/english/codes/${l.char}`}
-                className="relative rounded-lg bg-neutral-50 border border-neutral-200 p-4 transition-all cursor-pointer hover:bg-white hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-sm"
+                className="relative rounded-lg bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-4 transition-all cursor-pointer hover:bg-white dark:hover:bg-neutral-900 hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-sm"
               >
                 {l.vowel && (
                   <span
@@ -563,14 +563,14 @@ export default function LettersPage() {
                     className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-300"
                   />
                 )}
-                <span className="block font-mono text-3xl font-bold text-neutral-900 leading-none">
+                <span className="block font-mono text-3xl font-bold text-neutral-900 dark:text-neutral-100 leading-none">
                   {l.char.toUpperCase()}
                   {l.char}
                 </span>
                 <div className="mt-4 grid grid-cols-2 gap-x-4">
                   <span className="flex flex-col justify-end gap-1.5 items-center">
                     <BrailleCell dots={l.braille} big />
-                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">
+                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400 dark:text-neutral-500">
                       {L.brailleLabel[locale]}
                     </span>
                   </span>
@@ -581,7 +581,7 @@ export default function LettersPage() {
                       loading="lazy"
                       className="h-16 w-16 object-contain"
                     />
-                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">
+                    <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400 dark:text-neutral-500">
                       {L.aslLabel[locale]}
                     </span>
                   </span>
@@ -592,11 +592,11 @@ export default function LettersPage() {
         </div>
 
         {/* Inside the computer — the ASCII codes per letter */}
-        <div className="mt-8 bg-white border border-neutral-200 rounded-lg shadow-sm p-5 sm:p-6">
-          <h2 className="text-lg font-bold text-neutral-900">
+        <div className="mt-8 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm p-5 sm:p-6">
+          <h2 className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
             {L.asciiTitle[locale]}
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+          <p className="mt-2 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
             {L.asciiCaption[locale]}
           </p>
           <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -604,7 +604,7 @@ export default function LettersPage() {
               <Link
                 key={l.char}
                 href={`/english/codes/${l.char}`}
-                className="relative rounded-lg bg-neutral-50 border border-neutral-200 p-4 transition-all cursor-pointer hover:bg-white hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-sm"
+                className="relative rounded-lg bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-4 transition-all cursor-pointer hover:bg-white dark:hover:bg-neutral-900 hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-sm"
               >
                 {l.vowel && (
                   <span
@@ -612,7 +612,7 @@ export default function LettersPage() {
                     className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-300"
                   />
                 )}
-                <span className="block font-mono text-3xl font-bold text-neutral-900 leading-none">
+                <span className="block font-mono text-3xl font-bold text-neutral-900 dark:text-neutral-100 leading-none">
                   {l.char.toUpperCase()}
                   {l.char}
                 </span>

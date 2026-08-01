@@ -1,5 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
+import { useGameView } from '@/lib/gameStats';
 
 const SkyHopWorld = dynamic(() => import('./SkyHopWorld'), {
     ssr: false,
@@ -12,6 +13,7 @@ const SkyHopWorld = dynamic(() => import('./SkyHopWorld'), {
 });
 
 export default function SkyHopPage() {
+    useGameView('sky-hop');
     return (
         <div className="fixed inset-0 z-[99999] bg-[#9ed8f6] overflow-hidden font-sans select-none">
             <SkyHopWorld />

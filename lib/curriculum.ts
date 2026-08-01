@@ -137,6 +137,9 @@ function normalizeLesson(lesson: LessonSource, index: number): LessonNode {
 }
 
 function normalize(source: CourseSource): CourseNode {
+  // Sections are numbered in one running sequence across the whole course, so
+  // the next chapter continues where the previous one stopped (…4, 5 | 6, 7…).
+  let sectionCounter = 0;
   return {
     courseId: source.id,
     courseTitle: source.title,
@@ -149,9 +152,9 @@ function normalize(source: CourseSource): CourseNode {
         chapterTitle: chapter.title,
         description: chapter.description ?? chapter.title,
         sections: chapter.sections.map(
-          (section, si): SectionNode => ({
+          (section): SectionNode => ({
             sectionId: section.id,
-            sectionNumber: si + 1,
+            sectionNumber: ++sectionCounter,
             sectionTitle: section.title,
             thumbnail: section.thumbnail,
             lessons: section.lessons.map(normalizeLesson),

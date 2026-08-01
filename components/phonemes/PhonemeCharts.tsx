@@ -622,7 +622,7 @@ function ConsonantButton({ slug, dim }: { slug: string; dim: boolean }) {
       href={`/english/phonemes/${p.slug}`}
       title={`${p.symbol} — ${p.examples[0].word}`}
       className={[
-        "inline-flex items-center justify-center w-9 h-9 rounded-md border border-neutral-200 bg-white font-mono text-sm font-bold text-neutral-900 transition-all hover:border-neutral-950 hover:ring-1 hover:ring-neutral-950 hover:shadow-sm",
+        "inline-flex items-center justify-center w-9 h-9 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 font-mono text-sm font-bold text-neutral-900 dark:text-neutral-100 transition-all hover:border-neutral-950 dark:hover:border-white hover:ring-1 hover:ring-neutral-950 dark:hover:ring-white hover:shadow-sm",
         dim ? "opacity-35 blur-[1px] hover:opacity-100 hover:blur-none" : "",
       ].join(" ")}
     >
@@ -646,7 +646,7 @@ export function ConsonantChart({ accent }: { accent: Accent }) {
                 <th
                   key={place}
                   style={{ backgroundColor: PLACE_COLORS[place] }}
-                  className="px-1.5 py-2 text-[11px] font-semibold text-neutral-700 border border-neutral-200"
+                  className="px-1.5 py-2 text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800"
                 >
                   {PLACE_STR[place][locale]}
                 </th>
@@ -660,7 +660,7 @@ export function ConsonantChart({ accent }: { accent: Accent }) {
                 <tr key={row.label.en}>
                   <td
                     className={`pr-3 py-1.5 text-left text-[11px] font-medium whitespace-nowrap ${
-                      dim ? "text-neutral-300" : "text-neutral-500"
+                      dim ? "text-neutral-300 dark:text-neutral-600" : "text-neutral-500 dark:text-neutral-400"
                     }`}
                   >
                     {row.label[locale]}
@@ -671,7 +671,7 @@ export function ConsonantChart({ accent }: { accent: Accent }) {
                       <td
                         key={place}
                         style={{ backgroundColor: `${PLACE_COLORS[place]}99` }}
-                        className="p-1 border border-neutral-200"
+                        className="p-1 border border-neutral-200 dark:border-neutral-800"
                       >
                         {cell && (
                           <span className="inline-flex items-center justify-center gap-1">

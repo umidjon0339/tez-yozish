@@ -94,13 +94,11 @@ export function LessonRail({
   currentLessonId,
   progress,
   locale,
-  dimmed = false,
 }: {
   lessons: LessonNode[];
   currentLessonId: string;
   progress: ProgressMap;
   locale: Locale;
-  dimmed?: boolean;
 }) {
   const { open, setOpen, ref } = useDrawer();
 
@@ -283,7 +281,7 @@ export function LessonRail({
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label={RAIL_UI.lessons[locale]}
-        className={`absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-end gap-0.5 py-3 pl-2 pr-2.5 rounded-l-xl cursor-pointer hover:bg-neutral-100/80 dark:hover:bg-neutral-900/80 transition-all duration-500 ${dimmed && !open ? "opacity-25" : "opacity-100"}`}
+        className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-end gap-0.5 py-3 pl-2 pr-2.5 rounded-l-xl cursor-pointer hover:bg-neutral-100/80 dark:hover:bg-neutral-900/80 transition-colors"
       >
         {lessons.map(renderDash)}
       </button>
@@ -322,14 +320,12 @@ export function ChapterRail({
   courseId,
   progress,
   locale,
-  dimmed = false,
 }: {
   chapters: ChapterNode[];
   currentSectionId: string | null;
   courseId: string;
   progress: ProgressMap;
   locale: Locale;
-  dimmed?: boolean;
 }) {
   const { open, setOpen, ref } = useDrawer();
 
@@ -352,7 +348,7 @@ export function ChapterRail({
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label={RAIL_UI.course[locale]}
-        className={`absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-start gap-0.5 py-3 pr-2 pl-2.5 rounded-r-xl cursor-pointer hover:bg-neutral-100/80 dark:hover:bg-neutral-900/80 transition-all duration-500 ${dimmed && !open ? "opacity-25" : "opacity-100"}`}
+        className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col items-start gap-0.5 py-3 pr-2 pl-2.5 rounded-r-xl cursor-pointer hover:bg-neutral-100/80 dark:hover:bg-neutral-900/80 transition-colors"
       >
         {chapters.map((ch) => {
           const isCurrent = ch.sections.some(

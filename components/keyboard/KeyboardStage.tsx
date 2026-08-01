@@ -13,6 +13,7 @@ import { getHandStyle, useHandStyle, type HandArtVariant } from "@/components/ke
 import {
   DEFAULT_HAND_OPACITY,
   handTintVars,
+  useFingerColors,
   useHandColors,
   useHandOpacities,
 } from "@/components/keyboard/handColor";
@@ -31,6 +32,7 @@ type HandsProps = {
   scale?: number;
   offsetX?: number;
   offsetY?: number;
+  fingerColors?: boolean;
 };
 
 const HANDS_BY_VARIANT: Record<HandArtVariant, React.ComponentType<HandsProps>> = {
@@ -89,6 +91,8 @@ export function KeyboardWithHands({
     [handStyle.id, handColor],
   );
   const handOpacity = useHandOpacities()[handStyle.id] ?? DEFAULT_HAND_OPACITY;
+  // Colour every finger by the keys it types, not just the one pressing now.
+  const fingerColors = useFingerColors();
   // A style with its own theme (the flesh look) defines light and dark itself,
   // so it keeps `theme-dark` only as a modifier rather than being replaced by it.
   const handsTheme = handStyle.theme
@@ -125,6 +129,7 @@ export function KeyboardWithHands({
             scale={hnScale}
             offsetX={HANDS_CONFIG.offsetX}
             offsetY={hnY}
+            fingerColors={fingerColors}
           />
         </div>
       )}

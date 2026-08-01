@@ -5,9 +5,18 @@
 // straight copy, so this component is a drop-in replacement for the classic
 // <Keyboard />. Edit hands.tsx and re-run; edits here will be overwritten.
 
-import React, { useEffect, useRef, memo } from "react";
+import React, { useEffect, useId, useRef, useState, memo } from "react";
 import { KEY_ID_MAP, LEFT_HAND_KEYS, requiresShift, shiftIdFor } from "./keymap";
 import { SKIN } from "./skinTones.mjs";
+import { clearBand, paintBand, type FingerBandTable } from "./fingerBands";
+
+/* The per-pose colour data for the "finger colours" toggle — ~130 KB of outline
+   geometry, so it only loads once someone turns the toggle on. The variant
+   build rewrites this specifier for the reshaped hand (see
+   scripts/build-hand-variants.mjs). */
+const loadBands = () => import("./fingerBands.female.generated");
+let bandTable: FingerBandTable | null = null;
+let bandLoad: Promise<void> | null = null;
 
 function singleChar(char: string | string[] | null): string | null {
   if (!char) return null;
@@ -27,10 +36,34 @@ interface KeyboardProps extends React.SVGProps<SVGSVGElement> {
   offsetX?: number;
   offsetY?: number;
   scale?: number;
+  /** colour every finger by the keys it types, not just the one pressing now */
+  fingerColors?: boolean;
 }
 
-export const FemaleKeyboard = memo(function FemaleKeyboard({ expectedKey, offsetX = 0, offsetY = 0, scale = 1, ...props }: KeyboardProps) {
+export const FemaleKeyboard = memo(function FemaleKeyboard({ expectedKey, offsetX = 0, offsetY = 0, scale = 1, fingerColors = false, ...props }: KeyboardProps) {
   const svgRef = useRef<SVGSVGElement>(null);
+  /* one gradient/mask set per overlay: the key's own pose, and the Shift pose
+     on the other hand (a different hand needs its own axes) */
+  const uid = useId().replace(/[^a-zA-Z0-9-]/g, "");
+  const overlayRefs = useRef<(SVGPathElement | null)[]>([]);
+  const guideRefs = useRef<(SVGPathElement | null)[]>([]);
+  const gradRefs = useRef<(SVGLinearGradientElement | null)[]>([]);
+  const fadeRefs = useRef<(SVGLinearGradientElement | null)[]>([]);
+  const stopRefs = useRef<SVGStopElement[][]>([[], []]);
+  const [bandsReady, setBandsReady] = useState(bandTable != null);
+
+  /* pull the colour table in the first time the toggle is on */
+  useEffect(() => {
+    if (!fingerColors || bandTable) return;
+    let alive = true;
+    bandLoad ??= loadBands().then((m) => {
+      bandTable = m.FINGER_BANDS;
+    });
+    bandLoad.then(() => alive && setBandsReady(true));
+    return () => {
+      alive = false;
+    };
+  }, [fingerColors]);
 
   // Calculate viewBox dimensions based on scale
   const baseW = 825;
@@ -58,9 +91,22 @@ export const FemaleKeyboard = memo(function FemaleKeyboard({ expectedKey, offset
       }
     });
 
-    if (!expectedKey) return;
-    const targetId = getSvgTargetId(expectedKey);
-    if (!targetId) return;
+    /* Redraw the coloured finger outlines over whichever hands ended up
+       visible — the key's pose, a Shift pose, and any hand still resting.
+       With the toggle off they are simply never given a `d`. */
+    const paint = () => {
+      const visible = allGroups
+        .filter((el) => (el as HTMLElement).style.display !== 'none')
+        .map((el) => el.id);
+      overlayRefs.current.forEach((p, i) => {
+        const band = fingerColors && bandTable ? bandTable[visible[i]] : null;
+        const grad = gradRefs.current[i];
+        const fade = fadeRefs.current[i];
+        const guide = guideRefs.current[i];
+        if (!band || !p || !grad || !fade || !guide) { clearBand(p, guide); return; }
+        paintBand(band, { path: p, grad, stops: stopRefs.current[i], fade, guide });
+      });
+    };
 
     const show = (id: string) => {
       const group = allGroups.find(el => el.id === id);
@@ -71,12 +117,15 @@ export const FemaleKeyboard = memo(function FemaleKeyboard({ expectedKey, offset
       if (neutral) (neutral as HTMLElement).style.display = 'none';
     };
 
-    show(targetId);
-
-    // A capital or shifted symbol also poses the opposite hand on its Shift.
-    const char = singleChar(expectedKey);
-    if (char && requiresShift(char)) show(shiftIdFor(targetId));
-  }, [expectedKey]);
+    const targetId = expectedKey ? getSvgTargetId(expectedKey) : null;
+    if (targetId) {
+      show(targetId);
+      // A capital or shifted symbol also poses the opposite hand on its Shift.
+      const char = singleChar(expectedKey);
+      if (char && requiresShift(char)) show(shiftIdFor(targetId));
+    }
+    paint();
+  }, [expectedKey, fingerColors, bandsReady]);
 
   return (
   <svg
@@ -114,6 +163,15 @@ export const FemaleKeyboard = memo(function FemaleKeyboard({ expectedKey, offset
           display: inline; fill: none; stroke: var(--guide);
           stroke-width: 2; stroke-linecap: round; stroke-miterlimit: 10;
         }
+
+        /* "Finger colours": the pose outline drawn again on top, painted by a
+           gradient whose stops sit on the finger boundaries, so each finger
+           carries the colour of the keys it types. Masked to fade out below the
+           knuckles — the palm keeps the plain outline. It is given no path data
+           at all while the toggle is off, so it costs nothing then. */
+        .fzp { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+        /* the pressing finger, drawn over the bands; its stroke is set per pose */
+        .fzp-guide { stroke-width: 2.8; }
 
         .theme-dark { --hands-accent: #8b5cf6; }
         .theme-dark .st1 { fill: var(--hand-fill-dark, rgba(148, 163, 184, 0.14)); }
@@ -170,6 +228,35 @@ export const FemaleKeyboard = memo(function FemaleKeyboard({ expectedKey, offset
       `}
     </style>
     <defs>
+      {/* One gradient/mask set per hand that can be on screen at once (the
+          key's pose and a Shift pose, or a pose and the other hand at rest).
+          Coordinates and stop colours are set per keystroke in the effect —
+          ids are per-instance so two keyboards on a page can't fight. */}
+      {[0, 1].map((i) => (
+        <React.Fragment key={i}>
+          <linearGradient
+            id={`${uid}-band-${i}`}
+            gradientUnits="userSpaceOnUse"
+            ref={(el) => { gradRefs.current[i] = el; }}
+          >
+            {Array.from({ length: 10 }, (_, s) => (
+              <stop key={s} offset="0" ref={(el) => { if (el) stopRefs.current[i][s] = el; }} />
+            ))}
+          </linearGradient>
+          <linearGradient
+            id={`${uid}-fade-${i}`}
+            gradientUnits="userSpaceOnUse"
+            ref={(el) => { fadeRefs.current[i] = el; }}
+          >
+            <stop offset="0" stopColor="#000" />
+            <stop offset="1" stopColor="#fff" />
+          </linearGradient>
+          <mask id={`${uid}-mask-${i}`} maskUnits="userSpaceOnUse" x="-400" y="-400" width="2000" height="1400">
+            <rect x="-400" y="-400" width="2000" height="1400" fill={`url(#${uid}-fade-${i})`} />
+          </mask>
+        </React.Fragment>
+      ))}
+
       <filter id="hands-soft-shadow" x="-15%" y="-15%" width="130%" height="130%">
         <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#334155" floodOpacity="0.18" />
       </filter>
@@ -2551,6 +2638,21 @@ export const FemaleKeyboard = memo(function FemaleKeyboard({ expectedKey, offset
         />
       </g>
     </g>
+
+    {/* Drawn last so the finger colours sit over every pose. */}
+    {[0, 1].map((i) => (
+      <path
+        key={i}
+        className="fzp"
+        ref={(el) => { overlayRefs.current[i] = el; }}
+        stroke={`url(#${uid}-band-${i})`}
+        mask={`url(#${uid}-mask-${i})`}
+      />
+    ))}
+    {/* the pressing finger, over the bands, in its own colour */}
+    {[0, 1].map((i) => (
+      <path key={`g${i}`} className="fzp fzp-guide" ref={(el) => { guideRefs.current[i] = el; }} />
+    ))}
   </svg>
   );
 });

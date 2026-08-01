@@ -26,20 +26,20 @@ export function PosTree({
       {nodes.map((n) => (
         <div key={n.t.en}>
           <div className="flex flex-wrap items-center gap-1">
-            <span className="text-[10px] font-bold text-neutral-700">
+            <span className="text-[10px] font-bold text-neutral-700 dark:text-neutral-300">
               {n.t[locale]}
             </span>
             {n.leaves?.map((l) => (
               <span
                 key={l.en}
-                className="rounded-full border border-neutral-200 bg-neutral-50 px-1.5 py-px text-[10px] font-medium text-neutral-700"
+                className="rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-1.5 py-px text-[10px] font-medium text-neutral-700 dark:text-neutral-300"
               >
                 {l[locale]}
               </span>
             ))}
           </div>
           {n.kids && (
-            <div className="mt-1 ml-1 border-l border-neutral-200 pl-2">
+            <div className="mt-1 ml-1 border-l border-neutral-200 dark:border-neutral-800 pl-2">
               <PosTree nodes={n.kids} locale={locale} />
             </div>
           )}
@@ -60,7 +60,7 @@ export function GroupLabel({
     <div
       className={[
         "text-[11px] uppercase tracking-wider font-medium",
-        strong ? "text-neutral-600 font-semibold" : "text-neutral-400",
+        strong ? "text-neutral-600 dark:text-neutral-400 font-semibold" : "text-neutral-400 dark:text-neutral-500",
       ].join(" ")}
     >
       {children}
@@ -124,7 +124,7 @@ export function IpaTileGrid({ symbols }: { symbols: Tile[] }) {
 }
 
 export const TINT_TILE: Record<Tint, string> = {
-  plain: "bg-white text-neutral-900 border-neutral-300 shadow-sm",
+  plain: "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 border-neutral-300 dark:border-neutral-700 shadow-sm",
   uk: "bg-sky-500/10 text-sky-900 border-sky-500/30",
   us: "bg-rose-500/10 text-rose-900 border-rose-500/30",
   vowel: "bg-emerald-500/10 text-emerald-900 border-emerald-500/30",
@@ -150,7 +150,7 @@ export function Piece({
         "inline-flex items-center justify-center rounded-md border font-mono font-semibold",
         size === "lg" ? "px-3 py-1.5 text-lg" : "px-2.5 py-1 text-base",
         accent
-          ? "bg-neutral-950 text-white border-neutral-950"
+          ? "bg-neutral-950 dark:bg-white text-white dark:text-neutral-950 border-neutral-950 dark:border-white"
           : TINT_TILE[tint],
       ].join(" ")}
     >
@@ -171,9 +171,9 @@ export function SubHeader({
 }) {
   return (
     <div className="flex items-center justify-between gap-3 flex-wrap">
-      <span className="text-sm font-bold text-neutral-900">{title}</span>
+      <span className="text-sm font-bold text-neutral-900 dark:text-neutral-100">{title}</span>
       <span className="flex items-center gap-2.5">
-        <span className="rounded-full border border-neutral-200 bg-neutral-50 px-2 py-0.5 font-mono text-[11px] font-semibold text-neutral-500">
+        <span className="rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-2 py-0.5 font-mono text-[11px] font-semibold text-neutral-500 dark:text-neutral-400">
           {hint}
         </span>
         {stats}
@@ -185,7 +185,7 @@ export function SubHeader({
 /* Table cells for the two grapheme tables. */
 export function HeadCell({ children }: { children: React.ReactNode }) {
   return (
-    <th className="border border-neutral-200 p-2 text-[11px] uppercase tracking-wider font-semibold bg-neutral-50 text-neutral-600">
+    <th className="border border-neutral-200 dark:border-neutral-800 p-2 text-[11px] uppercase tracking-wider font-semibold bg-neutral-50 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400">
       {children}
     </th>
   );
@@ -193,7 +193,7 @@ export function HeadCell({ children }: { children: React.ReactNode }) {
 
 export function RowLabel({ children }: { children: React.ReactNode }) {
   return (
-    <th className="border border-neutral-200 bg-neutral-50 p-2 text-left align-top text-[11px] uppercase tracking-wider font-medium text-neutral-400">
+    <th className="border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 p-2 text-left align-top text-[11px] uppercase tracking-wider font-medium text-neutral-400 dark:text-neutral-500">
       {children}
     </th>
   );
@@ -212,7 +212,7 @@ export function BodyCell({
   return (
     <td
       rowSpan={rowSpan}
-      className={`${w} border border-neutral-200 p-2 align-top`}
+      className={`${w} border border-neutral-200 dark:border-neutral-800 p-2 align-top`}
     >
       {children}
     </td>
@@ -261,7 +261,7 @@ export function GraphemeCell({ s, sounds, tint }: GraphemeTile & { tint: Tint })
 /* A sound as a small bordered card: [/æ/]. Stretches to share the line. */
 export function SoundChip({ ipa }: { ipa: string }) {
   return (
-    <span className="flex-1 inline-flex items-center justify-center rounded-md border border-neutral-200 bg-white px-1.5 py-0.5 font-mono text-[12px] font-semibold text-neutral-600 shadow-sm">
+    <span className="flex-1 inline-flex items-center justify-center rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-1.5 py-0.5 font-mono text-[12px] font-semibold text-neutral-600 dark:text-neutral-400 shadow-sm">
       /{ipa}/
     </span>
   );
@@ -283,7 +283,7 @@ export function GraphemeLines({ tiles, tint }: { tiles: GraphemeTile[]; tint: Ti
         <span className="invisible">
           <Piece tint={tint}>a</Piece>
         </span>
-        <span className="invisible text-neutral-300">→</span>
+        <span className="invisible text-neutral-300 dark:text-neutral-600">→</span>
         {Array.from({ length: soundCols }, (_, i) => (
           <span key={i} className="flex-1 text-center">
             {i === 0 ? (
@@ -291,14 +291,14 @@ export function GraphemeLines({ tiles, tint }: { tiles: GraphemeTile[]; tint: Ti
             ) : i === 1 ? (
               <ReadMark tokens={[{ t: "v", v: true, mark: "long" }]} />
             ) : (
-              <span className="font-mono text-[13px] font-bold text-neutral-300">
+              <span className="font-mono text-[13px] font-bold text-neutral-300 dark:text-neutral-600">
                 …
               </span>
             )}
           </span>
         ))}
         {hasSchwa && (
-          <span className="flex-1 text-center font-mono text-[14px] font-bold text-neutral-800">
+          <span className="flex-1 text-center font-mono text-[14px] font-bold text-neutral-800 dark:text-neutral-200">
             ə
           </span>
         )}
@@ -306,7 +306,7 @@ export function GraphemeLines({ tiles, tint }: { tiles: GraphemeTile[]; tint: Ti
       {tiles.map((t) => (
         <div key={t.s} className="flex items-center gap-1.5">
           <Piece tint={tint}>{t.s}</Piece>
-          <span className="text-neutral-300">→</span>
+          <span className="text-neutral-300 dark:text-neutral-600">→</span>
           {t.sounds
             .filter((x) => x !== "ə")
             .map((x) => (
@@ -382,19 +382,19 @@ export function SyllableSplit({
 }) {
   return (
     <div className="flex items-center gap-2.5 flex-wrap">
-      <span className="font-mono text-[15px] font-bold text-neutral-900">
+      <span className="font-mono text-[15px] font-bold text-neutral-900 dark:text-neutral-100">
         {word}
       </span>
-      <ArrowRight className="w-3.5 h-3.5 text-neutral-300 shrink-0" />
+      <ArrowRight className="w-3.5 h-3.5 text-neutral-300 dark:text-neutral-600 shrink-0" />
       <span className="inline-flex items-center gap-1">
         {parts.map((p, i) => (
           <React.Fragment key={p + i}>
             {i > 0 && (
-              <span className="self-center font-mono text-base font-bold leading-none text-neutral-400">
+              <span className="self-center font-mono text-base font-bold leading-none text-neutral-400 dark:text-neutral-500">
                 {sep}
               </span>
             )}
-            <span className="inline-flex items-center justify-center rounded-md border border-neutral-200 bg-neutral-50 px-2 py-1 font-mono text-[13px] font-semibold text-neutral-700 shadow-sm">
+            <span className="inline-flex items-center justify-center rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-2 py-1 font-mono text-[13px] font-semibold text-neutral-700 dark:text-neutral-300 shadow-sm">
               {p}
             </span>
           </React.Fragment>
@@ -408,7 +408,7 @@ export function SyllableSplit({
    to a highlighted grapheme (matching PatternWord's emerald). */
 export function CvPattern({ pat, hl }: { pat: string; hl?: number[] }) {
   return (
-    <span className="font-mono text-sm font-bold tracking-widest text-neutral-800">
+    <span className="font-mono text-sm font-bold tracking-widest text-neutral-800 dark:text-neutral-200">
       {hl
         ? pat
             .split("")
@@ -441,8 +441,8 @@ export function PatternWord({
             s.g
               ? "text-emerald-600"
               : s.silent
-                ? "text-neutral-300"
-                : "text-neutral-800"
+                ? "text-neutral-300 dark:text-neutral-600"
+                : "text-neutral-800 dark:text-neutral-200"
           }
         >
           {s.t}
@@ -473,7 +473,7 @@ export function TreeTag({
       className={[
         "inline-flex flex-col items-center justify-center text-center rounded-md border px-2.5 py-1.5 w-32",
         accent
-          ? "bg-neutral-950 border-neutral-950 text-white"
+          ? "bg-neutral-950 dark:bg-white border-neutral-950 dark:border-white text-white dark:text-neutral-950"
           : (cls ?? TINT_TILE[tint]),
       ].join(" ")}
     >
@@ -482,7 +482,7 @@ export function TreeTag({
         <span
           className={[
             "mt-0.5 text-[10px] font-medium leading-tight",
-            accent ? "text-neutral-400" : "opacity-60",
+            accent ? "text-neutral-400 dark:text-neutral-500" : "opacity-60",
           ].join(" ")}
         >
           {hint}
@@ -507,24 +507,24 @@ export function TreeBranch({
   return (
     <div className="flex items-center">
       <div className="shrink-0">{node}</div>
-      <span aria-hidden className="h-px w-4 shrink-0 bg-neutral-300" />
+      <span aria-hidden className="h-px w-4 shrink-0 bg-neutral-300 dark:bg-neutral-600" />
       <div className="flex flex-col">
         {kids.map((child, i) => (
           <div key={i} className="relative py-1 pl-4">
             <span
               aria-hidden
-              className="absolute left-0 top-1/2 h-px w-4 bg-neutral-300"
+              className="absolute left-0 top-1/2 h-px w-4 bg-neutral-300 dark:bg-neutral-600"
             />
             {kids.length > 1 && i > 0 && (
               <span
                 aria-hidden
-                className="absolute left-0 top-0 bottom-1/2 w-px bg-neutral-300"
+                className="absolute left-0 top-0 bottom-1/2 w-px bg-neutral-300 dark:bg-neutral-600"
               />
             )}
             {kids.length > 1 && i < kids.length - 1 && (
               <span
                 aria-hidden
-                className="absolute left-0 top-1/2 bottom-0 w-px bg-neutral-300"
+                className="absolute left-0 top-1/2 bottom-0 w-px bg-neutral-300 dark:bg-neutral-600"
               />
             )}
             {child}
@@ -664,11 +664,11 @@ export function MorphLeaf({
     <div className={`relative w-32 rounded-md border px-2 py-1.5 ${t.leaf}`}>
       {count && <CountBadge n={count} />}
       <div className="flex items-center justify-center gap-1.5">
-        <span className="text-[11px] font-bold text-neutral-800 whitespace-nowrap">
+        <span className="text-[11px] font-bold text-neutral-800 dark:text-neutral-200 whitespace-nowrap">
           {name}
         </span>
         {rare && (
-          <span className="rounded-full bg-white/70 px-1.5 py-px text-[9px] font-semibold text-neutral-500 whitespace-nowrap">
+          <span className="rounded-full bg-white/70 dark:bg-neutral-900/70 px-1.5 py-px text-[9px] font-semibold text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
             {rare}
           </span>
         )}
@@ -677,10 +677,10 @@ export function MorphLeaf({
         <div className="mt-1 flex items-end justify-center gap-1">
           {from && (
             <span className="inline-flex items-center gap-1 pr-0.5 pb-px">
-              <span className="font-mono text-[12px] font-semibold text-neutral-500">
+              <span className="font-mono text-[12px] font-semibold text-neutral-500 dark:text-neutral-400">
                 {from}
               </span>
-              <ArrowRight className="w-3 h-3 text-neutral-400 shrink-0" />
+              <ArrowRight className="w-3 h-3 text-neutral-400 dark:text-neutral-500 shrink-0" />
             </span>
           )}
           {cols.map((col, i) => (
@@ -693,7 +693,7 @@ export function MorphLeaf({
               {col.t && (
                 <span
                   className={`text-center font-mono text-[12px] font-semibold leading-tight ${
-                    col.b ? t.txt : "text-neutral-800"
+                    col.b ? t.txt : "text-neutral-800 dark:text-neutral-200"
                   }`}
                 >
                   {col.t}
@@ -711,7 +711,7 @@ export function MorphLeaf({
    English has ("8", "2k", "400–500"). */
 export function CountBadge({ n }: { n: string }) {
   return (
-    <span className="absolute -top-2 -right-2 rounded-full border border-neutral-300 bg-white px-1.5 py-px font-mono text-[9px] font-bold text-neutral-600 whitespace-nowrap shadow-sm">
+    <span className="absolute -top-2 -right-2 rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-1.5 py-px font-mono text-[9px] font-bold text-neutral-600 dark:text-neutral-400 whitespace-nowrap shadow-sm">
       {n}
     </span>
   );
@@ -732,14 +732,14 @@ export function PosLeaf({
   return (
     <div className="relative w-fit max-w-72 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2 py-1.5">
       {count && <CountBadge n={count} />}
-      <span className="block text-center text-[11px] font-bold text-neutral-800">
+      <span className="block text-center text-[11px] font-bold text-neutral-800 dark:text-neutral-200">
         {label}
       </span>
       <div className="mt-1 flex flex-wrap items-center justify-center gap-1">
         {items.map((p) => (
           <span
             key={p.t}
-            className="inline-flex items-center gap-1 rounded border border-emerald-500/30 bg-white/70 px-1 py-px text-[10px] font-medium text-emerald-900"
+            className="inline-flex items-center gap-1 rounded border border-emerald-500/30 bg-white/70 dark:bg-neutral-900/70 px-1 py-px text-[10px] font-medium text-emerald-900"
           >
             {p.t}
             <span className="font-mono text-[9px] font-bold text-emerald-700">
@@ -772,14 +772,14 @@ export function ReadMark({
       {tokens.map((s, i) => {
         if (s.sup) {
           return (
-            <sup key={i} className="text-neutral-800">
+            <sup key={i} className="text-neutral-800 dark:text-neutral-200">
               {s.t}
             </sup>
           );
         }
         const color = s.silent
-          ? "text-neutral-300 line-through"
-          : "text-neutral-800";
+          ? "text-neutral-300 dark:text-neutral-600 line-through"
+          : "text-neutral-800 dark:text-neutral-200";
         if (s.mark) {
           return (
             <span key={i} className={`relative inline-block ${color}`}>
@@ -855,7 +855,7 @@ export function StressSeg({
   variant: StressStyle;
 }) {
   if (!k) {
-    return <span className="text-[12px] font-medium text-neutral-500">{t}</span>;
+    return <span className="text-[12px] font-medium text-neutral-500 dark:text-neutral-400">{t}</span>;
   }
   const color = k === "primary" ? "text-red-800" : "text-blue-600";
   const weight = k === "primary" ? "font-extrabold" : "font-bold";
@@ -937,7 +937,7 @@ export function StressWord({
 export function StressIpa({ ipa }: { ipa: string }) {
   let mode: "primary" | "secondary" | null = null;
   return (
-    <span className="font-mono text-[12px] text-neutral-500 whitespace-nowrap">
+    <span className="font-mono text-[12px] text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
       {Array.from(ipa).map((ch, i) => {
         if (ch === "ˈ") mode = "primary";
         else if (ch === "ˌ") mode = "secondary";
@@ -974,7 +974,7 @@ export function StressIpaExample({
 }) {
   return (
     <span className="flex flex-col items-center gap-0.5">
-      <span className="text-[12px] font-semibold text-neutral-700">{word}</span>
+      <span className="text-[12px] font-semibold text-neutral-700 dark:text-neutral-300">{word}</span>
       {[
         { label: "us", ipa: us },
         { label: "uk", ipa: uk },
@@ -983,7 +983,7 @@ export function StressIpaExample({
           key={v.label}
           className="inline-flex items-baseline gap-1 whitespace-nowrap"
         >
-          <span className="text-[9px] font-bold uppercase tracking-wide text-neutral-400">
+          <span className="text-[9px] font-bold uppercase tracking-wide text-neutral-400 dark:text-neutral-500">
             {v.label}
           </span>
           <StressIpa ipa={v.ipa} />
@@ -1003,7 +1003,7 @@ export function SplitPattern({ tokens }: { tokens: string[] }) {
             |
           </span>
         ) : (
-          <span key={i} className="text-neutral-800">
+          <span key={i} className="text-neutral-800 dark:text-neutral-200">
             {t}
           </span>
         ),
@@ -1017,7 +1017,7 @@ export function SplitPattern({ tokens }: { tokens: string[] }) {
 export function PartPattern({ pat }: { pat: string }) {
   if (pat === "C̩") {
     return (
-      <span className="relative inline-block font-mono text-[11px] font-bold text-neutral-800">
+      <span className="relative inline-block font-mono text-[11px] font-bold text-neutral-800 dark:text-neutral-200">
         C
         <span
           aria-hidden
@@ -1027,7 +1027,7 @@ export function PartPattern({ pat }: { pat: string }) {
     );
   }
   return (
-    <span className="font-mono text-[11px] font-bold text-neutral-800 whitespace-nowrap">
+    <span className="font-mono text-[11px] font-bold text-neutral-800 dark:text-neutral-200 whitespace-nowrap">
       {pat}
     </span>
   );
@@ -1044,15 +1044,15 @@ export function SyllablePartCard({
   forms: string[];
 }) {
   return (
-    <div className="w-full flex-1 rounded border border-neutral-200 bg-white px-2 py-1.5 flex flex-col items-center gap-1">
-      <span className="text-[10px] uppercase tracking-wide text-neutral-400 font-semibold">
+    <div className="w-full flex-1 rounded border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 px-2 py-1.5 flex flex-col items-center gap-1">
+      <span className="text-[10px] uppercase tracking-wide text-neutral-400 dark:text-neutral-500 font-semibold">
         {label}
       </span>
       <div className="w-full flex flex-col gap-1">
         {forms.map((pat) => (
           <div
             key={pat}
-            className="flex items-center justify-center rounded border border-neutral-200 bg-neutral-50 px-1.5 py-0.5"
+            className="flex items-center justify-center rounded border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-1.5 py-0.5"
           >
             <PartPattern pat={pat} />
           </div>

@@ -207,14 +207,59 @@ export function useHandOpacities(): HandOpacityMap {
   return useSyncExternalStore(subscribeOpacity, getOpacitySnapshot, () => EMPTY_OPACITY);
 }
 
+/* ── finger colours ──────────────────────────────────────────────────────── */
+/* Off: only the finger pressing the current key is coloured (its `.st5` guide
+   outline). On: every finger of the shown hand is drawn in the colour of the
+   keys IT types, so the learner can read the whole assignment off the hands.
+   One flag for all styles — it is about what the hands teach, not how they
+   look, so it shouldn't reset when the learner tries another hand. */
+
+const FINGERS_KEY = "tz-hand-finger-colors-v1";
+
+const fingerListeners = new Set<() => void>();
+let fingerCache: boolean | null = null;
+
+function subscribeFingers(cb: () => void) {
+  fingerListeners.add(cb);
+  return () => {
+    fingerListeners.delete(cb);
+  };
+}
+
+function getFingerSnapshot(): boolean {
+  if (fingerCache != null) return fingerCache;
+  try {
+    fingerCache = localStorage.getItem(FINGERS_KEY) === "1";
+  } catch {
+    fingerCache = false;
+  }
+  return fingerCache;
+}
+
+export function setFingerColors(on: boolean) {
+  fingerCache = on;
+  try {
+    if (on) localStorage.setItem(FINGERS_KEY, "1");
+    else localStorage.removeItem(FINGERS_KEY);
+  } catch {}
+  fingerListeners.forEach((cb) => cb());
+}
+
+export function useFingerColors(): boolean {
+  return useSyncExternalStore(subscribeFingers, getFingerSnapshot, () => false);
+}
+
 /** Back to the built-in look: clears every stored color and opacity. */
 export function resetHandAppearance() {
   cache = EMPTY;
   opacityCache = EMPTY_OPACITY;
+  fingerCache = false;
   try {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(OPACITY_KEY);
+    localStorage.removeItem(FINGERS_KEY);
   } catch {}
   listeners.forEach((cb) => cb());
   opacityListeners.forEach((cb) => cb());
+  fingerListeners.forEach((cb) => cb());
 }

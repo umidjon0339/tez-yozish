@@ -11,9 +11,11 @@
     "extract:hands-svg": "node scripts/extract-hands-svg.mjs",
     "build:hands": "node scripts/build-hand-variants.mjs",
     "hands:previews": "node scripts/hands-previews.mjs",
-    "hands:rebuild": "npm run extract:hands-svg && npm run build:hands && npm run hands:previews",
+    "build:finger-bands": "node scripts/build-finger-bands.mjs",
+    "hands:rebuild": "npm run extract:hands-svg && npm run build:hands && npm run build:finger-bands && npm run hands:previews",
     "model:rhino": "node scripts/build-rhino-model.mjs",
     "validate:lessons": "node scripts/validate-lessons.mjs",
+    "validate:texts": "node scripts/validate-typing-texts.mjs",
     "validate:letters": "node scripts/validate-letter-lessons.mjs",
     "validate:phonemes": "node scripts/validate-phoneme-lessons.mjs",
     "validate:graphemes": "node scripts/validate-grapheme-lessons.mjs"

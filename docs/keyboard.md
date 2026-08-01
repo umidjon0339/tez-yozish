@@ -62,6 +62,16 @@ Markup: `<g id="keys">` has one `<path id="…">` per keycap using exactly the
 keymap ids; `<g id="letters">` holds legends (`text-<id>` ids for word
 legends).
 
+Keycap geometry is a rounded rect written by hand, all on the same grid: the
+bottom row runs `y 191 → 239` (`v-42` + 3-unit corners), and the arrow
+cluster splits that height — `arrow-left`/`arrow-right` are full-height like
+`control-right`, `arrow-up`/`arrow-down` are the half-height pair between
+them (`v-16.8`, split at y 213.8/216.2). A cap's glyph is centred on the cap:
+the ◀/▶ triangles sit at y 212.3 (centre of the full height), ▲/▼ at 199.5 /
+224.9. **Changing a cap's size is the one reason to touch `d=` here** (see
+§9) — keep the corner curves identical to the neighbouring cap you're
+matching and move its legend with it.
+
 ## 3. `Keyboard` / hands layer (`hands.tsx`, ~2400 lines)
 
 **Established project rule: never edit the SVG path `d=` data.** The hand
@@ -197,6 +207,73 @@ visit) falls back to `classic` in `handStyle.ts`'s `getSnapshot`.
 **After editing `hands.tsx`, run `npm run hands:rebuild`** so the standalone
 svg and the picker thumbnails pick the change up.
 
+### 3c. Finger colors — every finger, not just the pressing one
+
+The last row of the hand-style dropdown is a switch, **"Color every finger"**
+(`setFingerColors`/`useFingerColors` in `handColor.ts`,
+`localStorage["tz-hand-finger-colors-v1"]`, one flag for all styles because it
+is about what the hands *teach*, not how they look — and cleared by
+`resetHandAppearance`). Off (the default) only the finger pressing the current
+key is colored, by its `.st5` guide outline. On, **every** finger of every
+visible hand is drawn in the color of the keys that finger types, so a learner
+can read the whole finger assignment off the hands. The colors are the `--fz-*`
+finger-zone variables, i.e. exactly the keycap colors — that identity is the
+point of the feature, so never give the hands a palette of their own.
+
+The artwork makes this harder than it sounds: **there is no per-finger
+geometry.** A pose is one silhouette, one `.st2` contour tracing it, two or
+three crease lines, and one `.st5` guide around the pressing finger. So the
+colors come from a gradient laid *across* the hand whose stops sit on the
+boundaries between finger columns, masked by a second gradient *along* the
+fingers that fades the color out before it reaches the palm (the palm keeps its
+plain outline). Per pose that is: an axis, four stop offsets and a fade axis —
+baked by **`npm run build:finger-bands`** into
+`fingerBands.{classic,female}.generated.ts` (~130 KB each, so `hands.tsx`
+`import()`s the table only when the switch is first turned on; the variant build
+repoints that specifier, and the standalone `public/hands/*.svg` export does not
+carry the feature).
+
+At runtime `paintBand` (`fingerBands.ts`) mutates one gradient/mask set per
+visible hand — two are rendered, enough for a pose plus a Shift pose or a
+resting hand. Stop colors stay as `var(--fz-…)` so the palette switcher and dark
+mode keep working. Nothing re-renders per keystroke, same as pose toggling.
+
+How the boundaries are derived (`scripts/lib/finger-bands.mjs`) — every rule
+there is a scar, so read before retuning:
+
+- The **axis along the fingers is the contour's principal axis**, not the guide
+  path's direction. A finger reaching sideways swings the guide by 30°+, which
+  rotated the whole frame and collapsed the bands.
+- The hand's **width is measured across the knuckles** (25–62% along that
+  axis), not the whole drawing — a stretched finger sets the outermost point of
+  the contour, and measuring there squeezed all four resting fingers into one
+  band. If that slice comes back a sliver (< 55% of the full width, which
+  happens on steeply angled poses) it falls back to the full contour.
+- Boundaries **start at `DEFAULT_SPLIT`** and are only nudged from there:
+  snapped onto a crease or a contour slit within `SNAP`, and shifted bodily by
+  the guide path's two endpoints. Deriving them from evidence alone and
+  extrapolating the rest was the original design and it blew up — one bad
+  anchor threw the other three boundaries off the hand.
+- Guide endpoints are **rejected unless the finger width they imply is
+  believable** (`MIN/MAX_FINGER_SHARE`).
+- **Fingertip detection is not used at all.** It misfires on curled poses, the
+  same reason this doc gives for not auto-placing nails.
+- The **pressing finger is drawn last, from its own guide path**, in its own
+  zone color (`guide`/`guideZone` in the table). On `j`, `y` or `1` that finger
+  reaches *across* its neighbours, where no left-to-right band model can place
+  it — and it is the finger the learner is being told to move, so it is never
+  left to the gradient.
+
+`npm run build:finger-bands -- --sheet` writes `.next/finger-bands.svg`, all 68
+poses rendered with their colors; `-- --check` lists poses where a band holds
+almost no hand, with the stop fractions and the evidence it found. Poses the
+automatic pass still gets wrong are pinned by hand in
+`scripts/lib/finger-band-overrides.mjs` (four fractions, pinky→thumb, 0 = the
+pinky edge of the hand). **Known remaining: `j`, `c`, `i`, `key-1`, `tilda` put
+one or two resting fingers in a neighbour's color** — on those the derived width
+axis is itself unstable, so pinning fractions against it is fragile; fix the
+axis for them before hand-authoring numbers.
+
 ### The `theme-rose` (female) look
 
 Every hex this look uses — gradient, crease lines, nails, the filter floods —
@@ -277,8 +354,10 @@ these filters, re-measure — it is easy to add a frame without noticing.
 - `KeyboardWithHands` (`KeyboardStage.tsx`): renders `NewKeyboard` always and
   `HandsKeyboard` when `isHandsVisible`, toggling `theme-dark`/`theme-bone`
   by dark mode and `colorful-mode` on the `.kb-stage` div. Mounted by all
-  five non-game viewport arenas, and by the home page hero (dark, colorful
-  mode off, `className="max-w-4xl"` for stage width).
+  five non-game viewport arenas, and by the home page hero — which keeps
+  **colorful mode always on** (the lessons make it a toggle; the hero has no
+  reason to, and the tinted zones are what advertise the idea to a first-time
+  visitor) and passes its own `HERO_LAYOUT` and stage width.
 - `Mascot` (`components/Mascot.tsx`): stateless SVG ninja mascot with
   `mood: happy | focused | oops | celebrate`; used on the lesson results /
   locked / 404 screens and the ninja game menu. Not part of the keyboard
@@ -287,7 +366,10 @@ these filters, re-measure — it is easy to add a frame without noticing.
 ## Invariants
 
 - **Never edit path `d=` data** in `hands.tsx` or `new_keyboard.tsx`;
-  restyle via the inline `<style>` blocks and CSS variables only.
+  restyle via the inline `<style>` blocks and CSS variables only. The single
+  exception is **keycap size/position** in `new_keyboard.tsx` (§2) — a
+  layout fact, not artwork, and unreachable from CSS without distorting the
+  corner radii. Hand poses stay untouchable either way.
 - The keymap ids are load-bearing across three places: keycap `path#id`,
   hands `g#id`, and the `.kb-stage :is(…)` finger lists in globals.css.
   Adding a key touches all three (plus `text#text-<id>` legends).

@@ -53,6 +53,7 @@ import {
   type DojoState,
 } from "@/lib/dojoSim";
 import { useLocale, type Locale } from "@/lib/locale";
+import { useTheme } from "@/lib/theme";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   Home,
@@ -1813,7 +1814,9 @@ export default function LessonPage() {
     const t = setTimeout(() => setShowLayoutWarning(false), 8000);
     return () => clearTimeout(t);
   }, [showLayoutWarning]);
-  const [isDark, setIsDark] = useState(false);
+  // Theme is app-wide (lib/theme, same tz-prefs-v1 key) — the navbar switch and
+  // this header's switch are the same setting.
+  const { isDark, setDark: setIsDark } = useTheme();
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isColorful, setIsColorful] = useState(true);
   const [isHandsVisible, setIsHandsVisible] = useState(true);
@@ -1823,15 +1826,15 @@ export default function LessonPage() {
     preloadSfx();
   }, []);
 
-  // Persisted workspace preferences (theme, sound, key colors, hands overlay).
-  // Loaded once on mount; saved on every change after that.
+  // Persisted workspace preferences (sound, key colors, hands overlay) — the
+  // `dark` field of the same blob belongs to lib/theme, which reads and writes
+  // it itself; this effect must never set or clobber it.
   const prefsLoaded = useRef(false);
   useEffect(() => {
     try {
       const raw = localStorage.getItem("tz-prefs-v1");
       if (raw) {
         const p = JSON.parse(raw);
-        if (typeof p.dark === "boolean") setIsDark(p.dark);
         if (typeof p.audio === "boolean") setIsAudioEnabled(p.audio);
         if (typeof p.colorful === "boolean") setIsColorful(p.colorful);
         if (typeof p.hands === "boolean") setIsHandsVisible(p.hands);
@@ -1843,17 +1846,19 @@ export default function LessonPage() {
   useEffect(() => {
     if (!prefsLoaded.current) return;
     try {
+      const raw = localStorage.getItem("tz-prefs-v1");
+      const prev = raw ? JSON.parse(raw) : {};
       localStorage.setItem(
         "tz-prefs-v1",
         JSON.stringify({
-          dark: isDark,
+          ...prev,
           audio: isAudioEnabled,
           colorful: isColorful,
           hands: isHandsVisible,
         }),
       );
     } catch {}
-  }, [isDark, isAudioEnabled, isColorful, isHandsVisible]);
+  }, [isAudioEnabled, isColorful, isHandsVisible]);
 
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -1865,21 +1870,6 @@ export default function LessonPage() {
   });
 
   const [isAutoRouting, setIsAutoRouting] = useState(false);
-
-  // Focus mode: chrome (header/footer/rails) fades while typing, returns on mouse move
-  const [isFocusMode, setIsFocusMode] = useState(false);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key.length === 1 || e.key === "Backspace") setIsFocusMode(true);
-    };
-    const onMove = () => setIsFocusMode(false);
-    window.addEventListener("keydown", onKey);
-    window.addEventListener("pointermove", onMove);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener("pointermove", onMove);
-    };
-  }, []);
 
   // ─── RUN STATS & PERSISTED PROGRESS ───
   const runStats = useRef<LessonRunStats>(emptyRun());
@@ -2405,7 +2395,7 @@ export default function LessonPage() {
       <div className="fixed inset-0 z-50 arena-workspace-active h-dvh w-screen overflow-hidden bg-white dark:bg-neutral-950 font-sans flex flex-col select-none">
         {/* ─── STARK NOTION HEADER ─── */}
         <header
-          className={`flex-shrink-0 w-full py-4 px-6 md:px-8 flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 z-20 transition-all duration-500 ${isFocusMode ? "opacity-30" : "opacity-100"}`}
+          className="flex-shrink-0 w-full py-4 px-6 md:px-8 flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 z-20"
         >
           <div className="flex items-center gap-1">
             <Link
@@ -2562,7 +2552,6 @@ export default function LessonPage() {
             courseId={course.courseId}
             progress={progressMap}
             locale={locale}
-            dimmed={isFocusMode}
           />
 
           {/* CENTER ARENA */}
@@ -2693,7 +2682,7 @@ export default function LessonPage() {
             </main>
             {/* ─── STARK NOTION FOOTER PROGRESS DECK ─── */}
             <footer
-              className={`flex-shrink-0 w-full py-4 sm:py-6 px-4 md:px-8 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 transition-all duration-500 z-20 relative flex items-center justify-between ${isFocusMode ? "opacity-30" : "opacity-100"}`}
+              className="flex-shrink-0 w-full py-4 sm:py-6 px-4 md:px-8 border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 z-20 relative flex items-center justify-between"
             >
               <div className="flex items-center justify-between max-w-4xl mx-auto w-full">
                 <button
@@ -2739,7 +2728,6 @@ export default function LessonPage() {
             currentLessonId={lesson.lessonId}
             progress={progressMap}
             locale={locale}
-            dimmed={isFocusMode}
           />
         </div>
       </div>
