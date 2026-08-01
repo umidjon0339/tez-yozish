@@ -26,7 +26,7 @@ Detailed contracts, data flow, and invariants live in **`docs/`**. Before editin
 | pages, `NavBar`, `lib/locale.tsx`, `lib/uiStrings.ts`, `app/globals.css` | `docs/app-shell.md` |
 | `app/courses/page.tsx`, `lib/k12.ts`, `lib/exams.ts`, `data/k-12-curriculum.json`, `data/exams.json` | `docs/app-shell.md` (`/courses` row) |
 | `app/coding/*`, `lib/coding.ts`, `data/coding-curriculum.json` | `docs/coding.md` |
-| `app/books/*`, `lib/books.ts`, `data/books.json` | `docs/books.md` |
+| `app/books/*`, `components/books/*`, `lib/books.ts`, `data/books.json` | `docs/books.md` |
 | `lib/auth.ts`, `lib/firebase.ts`, `app/auth/*`, `UserMenu` | `docs/auth.md` |
 | `components/thumbnails/*` | `docs/thumbnails.md` |
 | `app/pricing/*`, `components/pricing/*` | `docs/pricing.md` |
