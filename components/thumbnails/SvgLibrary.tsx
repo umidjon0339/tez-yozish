@@ -11,7 +11,7 @@ import {
   Network, SearchCode, Server, ShieldCheck, Smartphone, SquareTerminal,
   TestTubeDiagonal, Trophy, Waypoints, Workflow,
 } from 'lucide-react';
-import { Award, FileText, Headphones, Mic, PenLine, Target } from 'lucide-react';
+import { Award, FileText, Gauge, Headphones, Mic, PenLine, Target } from 'lucide-react';
 import { SvgTemplateProps } from '@/types/thumbnail';
 
 // Special keys render as icons or short labels so they fit a keycap.
@@ -2461,8 +2461,8 @@ export const BookCover: React.FC<SvgTemplateProps> = ({ params, className }) => 
 };
 
 const EXAM_GLYPHS: Record<string, LucideIcon> = {
-  Award, BookOpen, Calculator, FileText, Globe2, Headphones, Languages,
-  Mic, PenLine, Target,
+  Award, BookOpen, Braces, Calculator, FileText, Gauge, Globe2, GraduationCap,
+  Headphones, Keyboard, Languages, Mic, PenLine, Target,
 };
 
 /* ── Exam cover ────────────────────────────────────────────────────────

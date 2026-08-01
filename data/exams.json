@@ -3,6 +3,88 @@
 
   "exams": [
     {
+      "id": "edify-typing",
+      "house": true,
+      "tone": "violet",
+      "icon": "Keyboard",
+      "scale": "20 – 100 wpm",
+      "title": {
+        "en": "Edify Typing Certificate",
+        "uz": "Edify yozuv sertifikati",
+        "ru": "Сертификат Edify по печати"
+      },
+      "summary": {
+        "en": "Our own certificate — proof that you really can type.",
+        "uz": "O'zimizning sertifikatimiz — chindan ham yoza olishingga dalil.",
+        "ru": "Наш собственный сертификат — доказательство, что ты правда умеешь печатать."
+      },
+      "sections": [
+        {
+          "id": "touch",
+          "icon": "Keyboard",
+          "title": {
+            "en": "Touch typing",
+            "uz": "Ko'rmasdan yozish",
+            "ru": "Слепая печать"
+          },
+          "detail": {
+            "en": "All ten fingers, eyes off the keyboard.",
+            "uz": "O'n barmoq bilan, klaviaturaga qaramasdan.",
+            "ru": "Все десять пальцев, глаза не на клавиатуре."
+          }
+        },
+        {
+          "id": "speed",
+          "icon": "Gauge",
+          "title": { "en": "Speed", "uz": "Tezlik", "ru": "Скорость" },
+          "detail": {
+            "en": "Words per minute on plain text.",
+            "uz": "Oddiy matnda daqiqasiga so'z soni.",
+            "ru": "Слов в минуту на обычном тексте."
+          }
+        },
+        {
+          "id": "accuracy",
+          "icon": "Target",
+          "title": { "en": "Accuracy", "uz": "Aniqlik", "ru": "Точность" },
+          "detail": {
+            "en": "Speed counts only if the keys are right.",
+            "uz": "Tezlik faqat tugmalar to'g'ri bo'lsa hisoblanadi.",
+            "ru": "Скорость считается, только если клавиши верные."
+          }
+        },
+        {
+          "id": "symbols",
+          "icon": "Braces",
+          "title": {
+            "en": "Numbers and symbols",
+            "uz": "Raqam va belgilar",
+            "ru": "Цифры и символы"
+          },
+          "detail": {
+            "en": "The number row, punctuation and code brackets.",
+            "uz": "Raqamlar qatori, tinish belgilari va kod qavslari.",
+            "ru": "Ряд цифр, знаки препинания и скобки кода."
+          }
+        },
+        {
+          "id": "endurance",
+          "icon": "BookOpen",
+          "title": {
+            "en": "Long text",
+            "uz": "Uzun matn",
+            "ru": "Длинный текст"
+          },
+          "detail": {
+            "en": "Hold your speed for a whole book page.",
+            "uz": "Butun kitob sahifasida tezlikni ushlab tur.",
+            "ru": "Держи скорость на целой странице книги."
+          }
+        }
+      ]
+    },
+
+    {
       "id": "ielts",
       "tone": "rose",
       "icon": "Globe2",

@@ -11,9 +11,12 @@ import {
   BarChart3,
   BookOpen,
   Check,
+  Code2,
   Gamepad2,
+  GraduationCap,
   Hand,
   Languages,
+  Library,
   type LucideIcon,
   Sparkles,
   Trophy,
@@ -21,6 +24,10 @@ import {
 import { FEATURE_SCENES } from "@/components/pricing/FeatureScenes";
 import { course } from "@/lib/curriculum";
 import { useAuth, edifyAuthUrl } from "@/lib/auth";
+import { GAME_COUNT, gameNameLines } from "@/lib/games";
+import { codingTotals } from "@/lib/coding";
+import { exams } from "@/lib/exams";
+import { k12Grades } from "@/lib/k12";
 import { useLocale } from "@/lib/locale";
 import { STR } from "@/lib/uiStrings";
 
@@ -119,6 +126,27 @@ const FEATURES: Feature[] = [
     bullets: ["f6b1", "f6b2", "f6b3"],
   },
   {
+    id: "coding",
+    icon: Code2,
+    label: "f8Label",
+    title: "f8Title",
+    bullets: ["f8b1", "f8b2", "f8b3"],
+  },
+  {
+    id: "books",
+    icon: Library,
+    label: "f9Label",
+    title: "f9Title",
+    bullets: ["f9b1", "f9b2", "f9b3"],
+  },
+  {
+    id: "exams",
+    icon: GraduationCap,
+    label: "f10Label",
+    title: "f10Title",
+    bullets: ["f10b1", "f10b2", "f10b3"],
+  },
+  {
     id: "comfort",
     icon: Sparkles,
     label: "f7Label",
@@ -127,7 +155,6 @@ const FEATURES: Feature[] = [
   },
 ];
 
-const GAME_COUNT = 7;
 const AUTO_MS = 8000;
 
 export default function PricingPage() {
@@ -148,6 +175,16 @@ export default function PricingPage() {
     return { lessonCount: lessons, sectionCount: sections };
   }, []);
 
+  /* Same rule for everything the product gained since: read the catalogues,
+     never restate their size in copy. */
+  const gameLines = useMemo(() => gameNameLines(), []);
+  const examCount = exams.length;
+  const gradeCount = k12Grades.length;
+  const subjectCount = useMemo(
+    () => k12Grades.reduce((n, g) => n + g.subjects.length, 0),
+    [],
+  );
+
   const [term, setTerm] = useState<TermId>("m12");
   const [active, setActive] = useState<Feature["id"]>("course");
   const [autoPlay, setAutoPlay] = useState(true);
@@ -163,8 +200,20 @@ export default function PricingPage() {
   const feature = FEATURES.find((f) => f.id === active)!;
   const Scene = FEATURE_SCENES[active];
 
-  const bulletVars: Record<string, Record<string, number>> = {
+  /* Every number and name the showcase prints, in one place. Labels, titles
+     and bullets all go through `fill`, so nothing about the product's size
+     is ever typed into `STR.pricing` — the game count and the game names
+     come from `lib/games`, the course size from `lib/curriculum`. */
+  const textVars: Record<string, Record<string, string | number>> = {
     f1b1: { n: lessonCount, s: sectionCount },
+    f2Label: { n: GAME_COUNT },
+    f2Title: { n: GAME_COUNT },
+    f2b1: { names: gameLines[0] ?? "" },
+    f2b2: { names: gameLines[1] ?? "" },
+    f8b1: { n: codingTotals.tracks, s: codingTotals.stages },
+    f8b2: { n: codingTotals.modules },
+    f10b1: { n: subjectCount, s: gradeCount },
+    f10b2: { n: examCount },
   };
 
   /* The showcase rotates on its own until the visitor takes over — then it
@@ -288,7 +337,7 @@ export default function PricingPage() {
                     />
                     <Icon className="w-4 h-4" />
                     <span className="text-[11px] font-medium whitespace-nowrap">
-                      {STR.pricing[f.label][locale]}
+                      {fill(STR.pricing[f.label][locale], textVars[f.label])}
                     </span>
                   </button>
                 );
@@ -302,14 +351,14 @@ export default function PricingPage() {
               className="p-4"
             >
               <h2 className="font-bold text-neutral-900 dark:text-neutral-100">
-                {STR.pricing[feature.title][locale]}
+                {fill(STR.pricing[feature.title][locale], textVars[feature.title])}
               </h2>
               <ul className="mt-2 grid sm:grid-cols-3 gap-x-4 gap-y-1.5">
                 {feature.bullets.map((b) => (
                   <li key={b} className="flex items-start gap-1.5">
                     <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-neutral-400 dark:text-neutral-500" />
                     <span className="text-xs text-neutral-600 dark:text-neutral-400">
-                      {fill(STR.pricing[b][locale], bulletVars[b])}
+                      {fill(STR.pricing[b][locale], textVars[b])}
                     </span>
                   </li>
                 ))}

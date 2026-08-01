@@ -31,10 +31,33 @@ Every other number on the page is derived from it — the period prices, the
 per-month lines, the discount percentages and the savings line. Changing a
 discount means editing one `off` in `TERMS`.
 
-Two more numbers are read from the app rather than typed into copy:
-`lessonCount` and `sectionCount` come from `@/lib/curriculum`, so the
-"504 lessons in 51 sections" claim can never drift from the actual course.
-`GAME_COUNT` is still a constant — bump it when a game ships.
+## 1b. Nothing about the product's size is typed into copy
+
+Every figure and every product name the page prints is **read from the app**.
+This is not tidiness: `GAME_COUNT` used to be a hand-kept constant here and
+it silently said `7` for as long as eight games shipped, while `f2b1`/`f2b2`
+listed seven game names by hand.
+
+| Claim | Source |
+|---|---|
+| lessons, sections | `@/lib/curriculum` |
+| game count **and game names** | `@/lib/games` (`GAME_COUNT`, `gameNameLines()`) |
+| coding stages / tracks / blocks | `@/lib/coding` (`codingTotals`) |
+| exam count | `@/lib/exams` |
+| grades, total subjects | `@/lib/k12` |
+
+`lib/games.ts` exists for exactly this reason — the roster used to live
+inside `app/games/page.tsx`, where the pricing page could not reach it.
+`/games` and `/pricing` now render from the same array.
+
+Labels, titles **and** bullets all pass through `fill()` against one
+`textVars` map, so a string in `STR.pricing` may hold `{n}`, `{s}` or
+`{names}` and never a literal. **Adding a number to the page means adding a
+row to `textVars`, never typing the number into `uiStrings.ts`.** Mind that
+the placeholder names are positional-by-meaning, not by order: `f10b1` reads
+"grades 1-{s}, {n} in all", so `{s}` is the grade count and `{n}` the
+subject total — getting them the wrong way round renders "grades 1-151,
+11 in all", which type-checks perfectly.
 
 `fmt()` groups thousands with a **non-breaking space** using a plain regex,
 not `toLocaleString` — the latter is locale/ICU dependent and would produce a
@@ -57,10 +80,17 @@ than replaces.
 
 ## 3. The showcase
 
-`FEATURES` is a list of seven tabs; each names a scene id, a lucide icon, and
-three `STR.pricing.*` keys (label / title / three bullets). Adding a feature
-= one entry there + one scene in `FEATURE_SCENES` + its strings in all three
-locales.
+`FEATURES` is a list of **ten** tabs; each names a scene id, a lucide icon,
+and three `STR.pricing.*` keys (label / title / three bullets). Adding a
+feature = one entry there + one scene in `FEATURE_SCENES` + its strings in
+all three locales (+ a `textVars` row if it prints a number).
+
+The order is the order a visitor meets the product, not the order the tabs
+were written: course · games · english · hands · stats · compete · **coding ·
+books · school** · comfort. That is why the string keys run `f1…f6`, then
+`f8…f10`, then `f7` — `f7` is Comfort and stays last. **Do not renumber the
+keys to match the order**; they are only identifiers, and a rename touches
+every locale for no gain.
 
 - The strip is a real `role="tablist"`: arrow keys move between tabs, only
   the active tab is in the tab order (`tabIndex`), and the panel is wired
@@ -103,10 +133,12 @@ than the whole viewBox.
 ## Invariants
 
 - One plan, three periods. `MONTHLY_PRICE` is the source of truth for every
-  number shown.
+  price shown.
 - The page stays one screen tall — the **Get Pro** button must remain above
-  the fold at 1366×768.
-- Course size comes from `lib/curriculum`, never from hand-typed copy.
+  the fold at 1366×768, in **all three locales** (uz and ru labels are the
+  longest). Measured at 581px with ten tabs.
+- **No count, and no product name, is ever typed into `STR.pricing`** — see
+  §1b. If a claim can go stale when a game, exam or track ships, it is a bug.
 - The CTA label is auth-independent.
 - New strings land in `STR.pricing` in all three locales (`docs/app-shell.md`
   §4).

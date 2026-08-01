@@ -7,69 +7,7 @@ import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
 import { useLocale } from '@/lib/locale';
 import { STR } from '@/lib/uiStrings';
 import { formatCount, useGameCounters } from '@/lib/gameStats';
-import type { ThumbnailParams } from '@/types/thumbnail';
-
-type GameCard = {
-  /** the route, and the key the like/play counters are stored under */
-  slug: string;
-  /** game names stay English in every locale, like the games' own title screens */
-  name: string;
-  svgId: string;
-  params: ThumbnailParams;
-};
-
-/* Card order is authored here, not by folder name — this is the order the
-   /games grid shows. */
-const GAMES: GameCard[] = [
-  {
-    slug: 'typing-ninja',
-    name: 'Ninja Run',
-    svgId: 'NINJA_ARENA_COVER',
-    params: { enemyCount: 14, accentColor: 'red' },
-  },
-  {
-    slug: 'rhino-dash',
-    name: 'Rhino Dash',
-    svgId: 'RHINO_DASH_COVER',
-    params: { keys: ['d', 'a', 's', 'h'], accentColor: 'amber' },
-  },
-  {
-    slug: 'star-type',
-    name: 'Star Type',
-    svgId: 'STAR_TYPE_COVER',
-    params: { keys: ['star', 'type', 'wave'], accentColor: 'blue' },
-  },
-  {
-    slug: 'beam-break',
-    name: 'Beam Break',
-    svgId: 'BEAM_BREAK_COVER',
-    params: { keys: ['b', 'e', 'a', 'm'], accentColor: 'emerald' },
-  },
-  {
-    slug: 'alien-drop',
-    name: 'Alien Drop',
-    svgId: 'ALIEN_DROP_COVER',
-    params: { keys: ['a', 'd', 'r'], accentColor: 'emerald' },
-  },
-  {
-    slug: 'sky-hop',
-    name: 'Sky Hop',
-    svgId: 'SKY_HOP_COVER',
-    params: { keys: ['f', 'j', 'd', 'k'], accentColor: 'blue' },
-  },
-  {
-    slug: 'word-forge',
-    name: 'Word Forge',
-    svgId: 'WORD_FORGE_COVER',
-    params: { keys: ['SHARP', 'BLAST', 'SNIPER', 'PISTOL'], accentColor: 'amber' },
-  },
-  {
-    slug: 'tug-of-typing',
-    name: 'Tug of Typing',
-    svgId: 'TUG_OF_TYPING_COVER',
-    params: { keys: ['p', 'u', 'l', 'l'], accentColor: 'emerald' },
-  },
-];
+import { GAMES } from '@/lib/games';
 
 export default function GamesPage() {
   const { locale } = useLocale();

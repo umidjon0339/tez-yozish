@@ -198,15 +198,13 @@ export const STR = {
     },
     /* The exam catalogue (lib/exams.ts) */
     examsGroup: { en: "Exams", uz: "Imtihonlar", ru: "Экзамены" },
-    examsDesc: {
-      en: "Know what each exam asks before you sit it.",
-      uz: "Imtihonga kirishdan oldin nima so'ralishini bil.",
-      ru: "Узнай, что спрашивают на экзамене, до того как сядешь.",
-    },
     /* Counted ("4 parts") vs used as a heading — Russian needs a different
        case for each, so they cannot be the same string. */
     parts: { en: "parts", uz: "qism", ru: "частей" },
     partsLabel: { en: "Parts", uz: "Qismlar", ru: "Части" },
+    /* Badge on the house certificate, so it is not mistaken for a third
+       party's exam sitting in the same grid. */
+    ourExam: { en: "Ours", uz: "Bizniki", ru: "Наш" },
     score: { en: "Score", uz: "Ball", ru: "Балл" },
     backToExams: {
       en: "Back to Exams",
@@ -218,11 +216,6 @@ export const STR = {
       en: "School subjects",
       uz: "Maktab fanlari",
       ru: "Школьные предметы",
-    },
-    k12Desc: {
-      en: "Pick your grade and see its subjects.",
-      uz: "Sinfingni tanla va fanlarini ko'r.",
-      ru: "Выбери свой класс и смотри предметы.",
     },
     backToGrades: {
       en: "Back to Grades",
@@ -1700,22 +1693,16 @@ export const STR = {
       uz: "Har bir blokdan keyin yulduzli testlar",
       ru: "Тесты со звёздами после каждого блока",
     },
-    f2Label: { en: "7 games", uz: "7 o'yin", ru: "7 игр" },
+    /* {n} and {names} are filled from lib/games — never type a count or a
+       game name here, or the page drifts the moment a game ships. */
+    f2Label: { en: "{n} games", uz: "{n} o'yin", ru: "{n} игр" },
     f2Title: {
-      en: "Seven typing games",
-      uz: "Yettita yozish o'yini",
-      ru: "Семь игр на печать",
+      en: "{n} typing games",
+      uz: "{n} ta yozish o'yini",
+      ru: "{n} игр на печать",
     },
-    f2b1: {
-      en: "Star Type, Alien Drop, Beam Break, Sky Hop",
-      uz: "Star Type, Alien Drop, Beam Break, Sky Hop",
-      ru: "Star Type, Alien Drop, Beam Break, Sky Hop",
-    },
-    f2b2: {
-      en: "Ninja Run, Rhino Dash, Tug of Typing",
-      uz: "Ninja Run, Rhino Dash, Tug of Typing",
-      ru: "Ninja Run, Rhino Dash, Tug of Typing",
-    },
+    f2b1: { en: "{names}", uz: "{names}", ru: "{names}" },
+    f2b2: { en: "{names}", uz: "{names}", ru: "{names}" },
     f2b3: {
       en: "Every game speeds up as you do",
       uz: "Sen tezlashsang, o'yin ham tezlashadi",
@@ -1808,6 +1795,72 @@ export const STR = {
       en: "Your own record, always on top",
       uz: "Shaxsiy rekording doim tepada",
       ru: "Твой личный рекорд всегда сверху",
+    },
+    /* Coding / Books / Exams — the units the product gained after the first
+       seven tabs were written. Counts come from lib/coding, lib/exams and
+       lib/k12, so these strings never restate a catalogue's size. */
+    f8Label: { en: "Coding", uz: "Dasturlash", ru: "Кодинг" },
+    f8Title: {
+      en: "Learn to code while you type",
+      uz: "Yozayotib dasturlashni o'rgan",
+      ru: "Учись коду, пока печатаешь",
+    },
+    f8b1: {
+      en: "{n} fields over {s} stages, beginner to master",
+      uz: "{s} bosqichda {n} yo'nalish — boshlang'ichdan ustagacha",
+      ru: "{n} направлений на {s} ступенях — от новичка до мастера",
+    },
+    f8b2: {
+      en: "{n} chapter blocks, from first steps to hacking",
+      uz: "{n} ta blok — birinchi qadamdan xakerlikkacha",
+      ru: "{n} блоков — от первых шагов до хакинга",
+    },
+    f8b3: {
+      en: "Drills on the symbol keys code needs most",
+      uz: "Kodda eng kerakli belgilar uchun mashq",
+      ru: "Тренировка символов, нужных коду чаще всего",
+    },
+    f9Label: { en: "Books", uz: "Kitoblar", ru: "Книги" },
+    f9Title: {
+      en: "Type whole books, page by page",
+      uz: "Butun kitobni sahifama-sahifa yoz",
+      ru: "Печатай целые книги, страница за страницей",
+    },
+    f9b1: {
+      en: "Real long text, not just short drills",
+      uz: "Qisqa mashq emas — haqiqiy uzun matn",
+      ru: "Настоящий длинный текст, а не короткие упражнения",
+    },
+    f9b2: {
+      en: "Add your own book: paste it and practise",
+      uz: "O'z kitobingni qo'sh: matnni joyla va mashq qil",
+      ru: "Добавь свою книгу: вставь текст и тренируйся",
+    },
+    f9b3: {
+      en: "Split into chapters and topics, best speed kept",
+      uz: "Bob va mavzularga bo'linadi, eng yaxshi tezlik saqlanadi",
+      ru: "Делится на главы и темы, лучший результат сохраняется",
+    },
+    f10Label: { en: "School", uz: "Maktab", ru: "Школа" },
+    f10Title: {
+      en: "Exams and school subjects",
+      uz: "Imtihonlar va maktab fanlari",
+      ru: "Экзамены и школьные предметы",
+    },
+    f10b1: {
+      en: "Every subject of grades 1-{s}, {n} in all",
+      uz: "1-{s} sinf fanlari — jami {n} ta",
+      ru: "Предметы 1-{s} классов — всего {n}",
+    },
+    f10b2: {
+      en: "{n} exams, broken into their real parts",
+      uz: "{n} ta imtihon — haqiqiy qismlariga bo'lingan",
+      ru: "{n} экзаменов, разобранных по частям",
+    },
+    f10b3: {
+      en: "Our own typing certificate at the end",
+      uz: "Oxirida o'zimizning yozuv sertifikatimiz",
+      ru: "В конце — наш собственный сертификат по печати",
     },
     f7Label: { en: "Comfort", uz: "Qulaylik", ru: "Удобство" },
     f7Title: {

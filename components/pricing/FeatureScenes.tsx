@@ -894,6 +894,203 @@ export const ComfortScene: React.FC<SceneProps> = ({ className }) => {
   );
 };
 
+/* ───────────────────────── 8. Coding ───────────────────────── */
+
+/** Typed out one character at a time by a `steps()` width animation. */
+const CODE_LINES: { indent: number; text: string; hue: string }[] = [
+  { indent: 0, text: "def greet(name):", hue: "#8B5CF6" },
+  { indent: 1, text: 'print(f"Hi, {name}!")', hue: "#10B981" },
+  { indent: 0, text: "greet(\"Aziza\")", hue: "#0EA5E9" },
+];
+
+export const CodingScene: React.FC<SceneProps> = ({ className }) => {
+  const ns = useNs();
+  const CH = 15.5;
+
+  return (
+    <svg viewBox={VB} className={className} aria-hidden="true">
+      <style>
+        {motion(
+          ns,
+          `
+          .${ns}-type { animation: ${ns}-type 9s steps(30) infinite; }
+          @keyframes ${ns}-type { 0%,4% { width: 0 } 22%,100% { width: var(--w) } }
+          .${ns}-caret { animation: ${ns}-blink 1s steps(1) infinite; }
+          @keyframes ${ns}-blink { 50% { opacity: 0 } }
+          .${ns}-rung { animation: ${ns}-lift 4.5s ease-in-out infinite; transform-box: fill-box; }
+          @keyframes ${ns}-lift { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+          `,
+        )}
+      </style>
+
+      {/* editor window */}
+      <rect x="70" y="58" width="530" height="300" rx="20" fill="var(--thumb-key)" stroke="var(--thumb-edge)" strokeWidth="2.5" />
+      <path d="M70 78a20 20 0 0 1 20-20h490a20 20 0 0 1 20 20v30H70z" fill="#8B5CF6" opacity="0.14" />
+      {[0, 1, 2].map((i) => (
+        <circle key={i} cx={104 + i * 22} cy="83" r="6" fill={i === 0 ? "#8B5CF6" : "var(--thumb-dim)"} />
+      ))}
+
+      {CODE_LINES.map((l, i) => {
+        const y = 150 + i * 54;
+        const w = l.text.length * CH;
+        return (
+          <g key={i}>
+            <text x="98" y={y + 5} fontSize="19" fontFamily="ui-monospace, Menlo, monospace" fill="var(--thumb-ink-soft)">
+              {i + 1}
+            </text>
+            {/* clipped band that widens = the line being typed */}
+            <clipPath id={`${ns}-c${i}`}>
+              <rect
+                className={`${ns}-type`}
+                x={130 + l.indent * 40}
+                y={y - 20}
+                height="30"
+                width={w}
+                style={{ ["--w" as string]: `${w}px`, animationDelay: `${i * 1.1}s` }}
+              />
+            </clipPath>
+            <text
+              x={130 + l.indent * 40}
+              y={y + 5}
+              fontSize="21"
+              fontFamily="ui-monospace, Menlo, monospace"
+              fill={l.hue}
+              clipPath={`url(#${ns}-c${i})`}
+            >
+              {l.text}
+            </text>
+          </g>
+        );
+      })}
+      <rect className={`${ns}-caret`} x="130" y="238" width="12" height="26" rx="2" fill="#8B5CF6" />
+
+      {/* the stage ladder, beginner → master */}
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <g key={i} transform={`translate(650 ${330 - i * 46})`}>
+          <g className={`${ns}-rung`} style={{ animationDelay: `${i * 0.25}s` }}>
+            <rect x="0" y="0" width={38 + i * 12} height="26" rx="8" fill="#8B5CF6" opacity={0.2 + i * 0.13} />
+          </g>
+        </g>
+      ))}
+    </svg>
+  );
+};
+
+/* ───────────────────────── 9. Books ───────────────────────── */
+
+export const BooksScene: React.FC<SceneProps> = ({ className }) => {
+  const ns = useNs();
+  const TONES = ["#0EA5E9", "#10B981", "#F59E0B", "#F43F5E"];
+
+  return (
+    <svg viewBox={VB} className={className} aria-hidden="true">
+      <style>
+        {motion(
+          ns,
+          `
+          .${ns}-book { animation: ${ns}-bob 4s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+          @keyframes ${ns}-bob { 0%,100% { transform: translateY(0) rotate(0) } 50% { transform: translateY(-10px) rotate(-2deg) } }
+          .${ns}-fill { animation: ${ns}-read 7s ease-in-out infinite; }
+          @keyframes ${ns}-read { 0%,6% { width: 0 } 60%,100% { width: var(--w) } }
+          .${ns}-caret { animation: ${ns}-blink 1s steps(1) infinite; }
+          @keyframes ${ns}-blink { 50% { opacity: 0 } }
+          `,
+        )}
+      </style>
+
+      {/* shelf of books */}
+      {TONES.map((hue, i) => (
+        <g key={hue} transform={`translate(${72 + i * 74} ${300 - (i % 2) * 14})`}>
+          <g className={`${ns}-book`} style={{ animationDelay: `${i * 0.5}s` }}>
+            <rect x="0" y="0" width="56" height="86" rx="8" fill={hue} />
+            <path d="M0 8a8 8 0 0 1 8-8h6v86H8a8 8 0 0 1-8-8z" fill="#000" opacity="0.2" />
+            <rect x="22" y="24" width="26" height="5" rx="2.5" fill="#fff" opacity="0.9" />
+            <rect x="22" y="36" width="18" height="5" rx="2.5" fill="#fff" opacity="0.6" />
+          </g>
+        </g>
+      ))}
+      <rect x="60" y="392" width="300" height="8" rx="4" fill="var(--thumb-dim)" />
+
+      {/* the open page being typed */}
+      <rect x="404" y="60" width="336" height="300" rx="18" fill="var(--thumb-key)" stroke="var(--thumb-edge)" strokeWidth="2.5" />
+      <line x1="572" y1="72" x2="572" y2="348" stroke="var(--thumb-edge)" strokeWidth="2" />
+      {[0, 1, 2, 3, 4, 5, 6].map((i) => {
+        const y = 104 + i * 34;
+        const w = i % 3 === 2 ? 108 : 140;
+        return (
+          <g key={i}>
+            <rect x="428" y={y} width={w} height="9" rx="4.5" fill="var(--thumb-dim)" opacity="0.55" />
+            <rect x="596" y={y} width={w} height="9" rx="4.5" fill="var(--thumb-dim)" opacity="0.55" />
+            {/* the left column fills in as it is typed */}
+            <rect
+              className={`${ns}-fill`}
+              x="428"
+              y={y}
+              height="9"
+              rx="4.5"
+              width={w}
+              fill="#0EA5E9"
+              style={{ ["--w" as string]: `${w}px`, animationDelay: `${i * 0.35}s` }}
+            />
+          </g>
+        );
+      })}
+      <rect className={`${ns}-caret`} x="428" y="308" width="10" height="24" rx="2" fill="#0EA5E9" />
+    </svg>
+  );
+};
+
+/* ───────────────────────── 10. Exams ───────────────────────── */
+
+export const ExamsScene: React.FC<SceneProps> = ({ className }) => {
+  const ns = useNs();
+  const CARDS = [
+    { hue: "#8B5CF6", x: 96, y: 150, rot: -7 },
+    { hue: "#F43F5E", x: 300, y: 120, rot: 0 },
+    { hue: "#6366F1", x: 504, y: 150, rot: 7 },
+  ];
+
+  return (
+    <svg viewBox={VB} className={className} aria-hidden="true">
+      <style>
+        {motion(
+          ns,
+          `
+          .${ns}-card { animation: ${ns}-rise 5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+          @keyframes ${ns}-rise { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-14px) } }
+          .${ns}-tick { animation: ${ns}-pop 5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+          @keyframes ${ns}-pop { 0%,40% { transform: scale(0) } 55%,100% { transform: scale(1) } }
+          `,
+        )}
+      </style>
+
+      {CARDS.map((c, i) => (
+        <g key={i} transform={`translate(${c.x} ${c.y}) rotate(${c.rot} 100 105)`}>
+          <g className={`${ns}-card`} style={{ animationDelay: `${i * 0.45}s` }}>
+            <rect x="0" y="0" width="200" height="210" rx="18" fill="var(--thumb-key)" stroke="var(--thumb-edge)" strokeWidth="2.5" />
+            <path d="M0 18A18 18 0 0 1 18 0h164a18 18 0 0 1 18 18v18H0z" fill={c.hue} />
+            {/* the seal */}
+            <circle cx="100" cy="96" r="30" fill={c.hue} opacity="0.16" />
+            <circle cx="100" cy="96" r="30" fill="none" stroke={c.hue} strokeWidth="3" />
+            <path
+              className={`${ns}-tick`}
+              d="M86 96l10 11 19-22"
+              fill="none"
+              stroke={c.hue}
+              strokeWidth="7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ animationDelay: `${i * 0.45}s` }}
+            />
+            <rect x="52" y="150" width="96" height="9" rx="4.5" fill="var(--thumb-dim)" />
+            <rect x="70" y="170" width="60" height="7" rx="3.5" fill="var(--thumb-dim)" opacity="0.6" />
+          </g>
+        </g>
+      ))}
+    </svg>
+  );
+};
+
 /* Registry — the page maps its tab ids onto these. */
 export const FEATURE_SCENES: Record<string, React.FC<SceneProps>> = {
   course: CourseScene,
@@ -902,5 +1099,8 @@ export const FEATURE_SCENES: Record<string, React.FC<SceneProps>> = {
   hands: HandsScene,
   stats: StatsScene,
   compete: CompeteScene,
+  coding: CodingScene,
+  books: BooksScene,
+  exams: ExamsScene,
   comfort: ComfortScene,
 };

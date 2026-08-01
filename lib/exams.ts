@@ -31,12 +31,15 @@ export interface Exam {
   tone: Tone;
   /** score range, e.g. `0 – 9` — never translated */
   scale: string;
+  /** our own certificate, not a third party's — badged and listed first */
+  house: boolean;
   sections: ExamSection[];
 }
 
 type RawSection = { id: string; icon: string; title: LocalizedString; detail: LocalizedString };
 type RawExam = {
   id: string;
+  house?: boolean;
   tone: string;
   icon: string;
   scale: string;
@@ -60,6 +63,7 @@ export const exams: Exam[] = (raw as unknown as { exams: RawExam[] }).exams.map(
   icon: e.icon,
   tone: toTone(e.tone),
   scale: e.scale,
+  house: e.house === true,
   sections: e.sections.map((s) => ({
     sectionId: s.id,
     icon: s.icon,

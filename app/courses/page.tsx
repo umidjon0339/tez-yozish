@@ -16,6 +16,13 @@ const CARD =
   'group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm transition-all duration-200 flex flex-col overflow-hidden relative';
 const CARD_HOVER =
   'hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-md cursor-pointer';
+/* Two levels of heading, on purpose. The catalogue's own groups are the
+   page's structure, so they are full-size ink; the labels inside a
+   drill-down ("Parts", "Subjects") only separate one list from its header
+   and stay quiet. Both carry `pl-1` so they line up with the card grid's
+   left edge rather than the container's. */
+const SECTION_HEADING =
+  'text-xl sm:text-2xl font-extrabold text-neutral-900 dark:text-neutral-50 tracking-tight mb-5 pl-1';
 const GROUP_LABEL =
   'text-xs font-bold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-3 pl-1';
 
@@ -61,11 +68,8 @@ export default function CoursesPage({
             </h1>
 
             {/* Exams — one card per exam, each divided into its real papers */}
-            <div className="mb-10">
-              <h2 className={GROUP_LABEL}>{STR.courses.examsGroup[locale]}</h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4 pl-1">
-                {STR.courses.examsDesc[locale]}
-              </p>
+            <div className="mb-14">
+              <h2 className={SECTION_HEADING}>{STR.courses.examsGroup[locale]}</h2>
               <div className={GRID}>
                 {exams.map((exam) => (
                   <div
@@ -79,6 +83,12 @@ export default function CoursesPage({
                         params={{ codeIcon: exam.icon, codeLine: exam.scale, tone: exam.tone }}
                         className="w-full h-full object-cover"
                       />
+                      {/* Ours, sitting in a grid of other people's exams */}
+                      {exam.house && (
+                        <span className="absolute top-2 right-2 z-10 text-[9px] font-bold uppercase tracking-wider bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 px-1.5 py-0.5 rounded shadow-sm">
+                          {STR.courses.ourExam[locale]}
+                        </span>
+                      )}
                     </div>
                     <CardTitle
                       title={exam.title[locale]}
@@ -91,10 +101,7 @@ export default function CoursesPage({
 
             {/* The K-12 ladder — one card per grade */}
             <div>
-              <h2 className={GROUP_LABEL}>{STR.courses.k12Group[locale]}</h2>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4 pl-1">
-                {STR.courses.k12Desc[locale]}
-              </p>
+              <h2 className={SECTION_HEADING}>{STR.courses.k12Group[locale]}</h2>
               <div className={GRID}>
                 {k12Grades.map((g) => (
                   <div
