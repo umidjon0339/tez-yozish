@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    Browser-tab mark: the same keycap as components/BrandMark.tsx, but with
+    its own palette instead of currentColor. A favicon sits on a tab strip
+    whose colour we do not control, so it cannot rely on the page background
+    showing through — the face is painted solid, and the whole mark carries
+    its own dark plate. Change this and BrandMark together.
+
+    Kept to three shapes on purpose: at 16px the front edge of the cap and
+    the Y are all that survive, so nothing else is worth drawing.
+  -->
+  <rect width="32" height="32" rx="7.5" fill="#09090B" />
+  <rect x="5.5" y="5" width="21" height="19" rx="4.5" fill="#FAFAFA" />
+  <path
+    d="M11.5 9.4 L16 14.4 L20.5 9.4 M16 14.4 L16 19.6"
+    fill="none"
+    stroke="#09090B"
+    stroke-width="2.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

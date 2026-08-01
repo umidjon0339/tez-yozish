@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <!--
+    Tab-icon form of BrandMark variant `depth`. Not active: copy this over
+    app/icon.svg to adopt it. Ids need no namespacing here because a file
+    used as a favicon is rendered alone.
+  -->
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3B3B3B"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="0" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4A4A4A"/>
+      <stop offset="100%" stop-color="#202020"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity=".35"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <rect x="4" y="4" width="56" height="56" rx="13" fill="url(#body)"/>
+    <rect x="10" y="8" width="44" height="38" rx="9" fill="url(#top)" stroke="#666" stroke-width="1"/>
+    <path d="M20 20 L30.5 33 V44 H33.5 V33 L44 20 H39.8 L32 30 L24.2 20 Z" fill="white"/>
+  </g>
+</svg>

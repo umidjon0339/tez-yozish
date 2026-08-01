@@ -22,8 +22,25 @@ the language switch at runtime.
 
 ## 2. NavBar — `components/NavBar.tsx`
 
-Sticky, localized, auth-aware. Left: `TY` chip + `tez/yozish` wordmark
-(link to `/`). The nine links live in one `NAV_LINKS` array (all
+Sticky, localized, auth-aware. Left: the **`BrandMark`** keycap + the
+wordmark (link to `/`).
+
+`components/BrandMark.tsx` draws a keyboard keycap with `Y` on it, from
+**one colour**: a mask paints the cap body in `currentColor`, punches the
+top face back out to transparent and draws the legend in again. The face
+therefore shows whatever is behind the mark, so the whole logo inverts by
+setting `text-*` on the parent — where the old `TY` chip needed a
+`bg-neutral-950 … dark:bg-white dark:text-neutral-950` pair. The mask id is
+`useId()`-namespaced; two marks on one page would otherwise collide and one
+would disappear. The front edge is deliberately thicker than the sides —
+that asymmetry is what reads as a *key* rather than a rounded box.
+
+`app/icon.svg` is the same drawing for the browser tab, and the App Router
+picks it up by filename (it sits alongside the legacy `favicon.ico`; both
+get a `<link>`, and SVG wins in modern browsers). It cannot use the
+`currentColor` trick — a tab strip's colour is not ours to know — so it
+carries its own dark plate with a painted face, and is cut to three shapes
+because at 16px nothing finer survives. **Change one and change the other.** The nine links live in one `NAV_LINKS` array (all
 `STR.nav.*`) that both the desktop row and the mobile sheet map over, so
 they cannot drift: `/courses/course_core_typing` (hardcoded course id),
 `/english`, `/coding`, `/courses`, `/books`, `/games`, `/compete`,

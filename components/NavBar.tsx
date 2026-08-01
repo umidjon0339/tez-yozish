@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { UserMenu } from "@/components/UserMenu";
@@ -109,11 +110,11 @@ export function NavBar() {
               track below, brand width comes straight off the middle track, so
               every pixel saved here is a pixel the link row gets. */}
           <Link href="/" className="flex items-center gap-1.5 group cursor-pointer">
-            <span className="font-mono text-[10px] bg-neutral-950 text-white font-bold px-1 py-0.5 rounded tracking-tighter group-hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:group-hover:bg-neutral-200 transition-colors shadow-sm">
-              TY
-            </span>
+            {/* One colour, inverted by the theme — the mark masks its own
+                face out, so it needs no `bg-*`/`dark:bg-*` pair. */}
+            <BrandMark className="w-[18px] h-[18px] shrink-0 text-neutral-950 dark:text-white group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors" />
             <span className="font-semibold tracking-tight text-[11px] text-neutral-950 dark:text-white">
-              tez<span className="text-neutral-400 font-light">/</span>yozish
+              TezYoz
             </span>
           </Link>
         </div>
