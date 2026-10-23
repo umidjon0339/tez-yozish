@@ -166,6 +166,6 @@ Keep files small (mono, 48–64 kbps mp3 is plenty).
 
 ## Keystroke sounds
 
-Separate layer: the mp3 click/error sounds (`/press_key4.mp3`,
-`/error2.mp3`) play through the Web-Audio code in `stages/kit.tsx`, gated
+Separate layer: the mp3 click/error sounds (`/sounds/press_key4.mp3`,
+`/sounds/error2.mp3`) play through the Web-Audio code in `stages/kit.tsx`, gated
 on the workspace audio toggle — same contract as the course lesson runtime.

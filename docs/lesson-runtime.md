@@ -122,8 +122,8 @@ step remounts its viewport, so only the active listener is live).
 
 Low-latency Web-Audio layer with module-level singletons (`sfxCtx`,
 `sfxBuffers`, `sfxPending` — survive remounts): `preloadSfx()` warms
-`/press_key4.mp3` and `/error2.mp3` (the only two mp3s used; the other mp3s
-in `public/` are unused). `playSfx` resumes a suspended context (keydown is
+`/sounds/press_key4.mp3` and `/sounds/error2.mp3` (the only two mp3s used; the others
+in `public/sounds/` are kept for later). `playSfx` resumes a suspended context (keydown is
 the user gesture), plays a buffer source with gain, and fades out 40 ms
 before an early cut. Every call site is guarded by the `isAudioEnabled`
 pref. This layer is **separate** from the ninja game's oscillator-based

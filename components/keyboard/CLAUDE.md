@@ -37,10 +37,10 @@ Hard rules:
   `scripts/lib/finger-band-overrides.mjs`, never in the generated file.
 - The finger colors must stay the **same variables as the keycaps**
   (`--fz-<zone>`); never give the hands their own palette.
-- **Never edit SVG path `d=` data** in `hands.tsx` or `new_keyboard.tsx`.
+- **Never edit SVG path `d=` data** in `hands.tsx` or `NewKeyboard.tsx`.
   All visual changes go through the inline `<style>` blocks and the
   `--fz` / `--hands-accent` CSS variables. One exception: **keycap
-  size/position** in `new_keyboard.tsx` is layout, not art, and CSS can't
+  size/position** in `NewKeyboard.tsx` is layout, not art, and CSS can't
   change it without distorting the corner radii — match the grid in
   `docs/keyboard.md` §2 and move the cap's legend with it. Hand poses have
   no exception.
@@ -65,7 +65,7 @@ Hard rules:
   much as a blur). Re-measure pose-swap time after any change — see
   `docs/keyboard.md` §3b for the numbers.
 - `keymap.ts` ids are load-bearing in three places: keycap `path#id`
-  (new_keyboard), pose `g#id` (hands), and the `.kb-stage :is(…)`
+  (NewKeyboard), pose `g#id` (hands), and the `.kb-stage :is(…)`
   finger-zone lists in `app/globals.css`. Adding a key touches all three
   (plus `text#text-<id>` legends).
 - Both components mutate the DOM imperatively via refs — keep highlighting

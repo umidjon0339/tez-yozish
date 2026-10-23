@@ -14,7 +14,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { NewKeyboard } from "@/components/keyboard/new_keyboard";
+import { NewKeyboard } from "@/components/keyboard/NewKeyboard";
 import { Keyboard as HandsKeyboard } from "@/components/keyboard/hands";
 
 /* ── Keystroke sounds — same mp3s and Web-Audio idiom as the lesson
@@ -66,8 +66,8 @@ function playSfx(url: string, volume: number, maxSeconds?: number) {
   source.start(t0, 0, dur + 0.01);
 }
 
-export const playKeySound = () => playSfx("/press_key4.mp3", 1, 0.3);
-export const playErrSound = () => playSfx("/error2.mp3", 0.8);
+export const playKeySound = () => playSfx("/sounds/press_key4.mp3", 1, 0.3);
+export const playErrSound = () => playSfx("/sounds/error2.mp3", 0.8);
 
 /* ── Character-state model (mirrors the lesson runtime) ─────────────── */
 export const UNTYPED = 0;

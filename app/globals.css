@@ -245,7 +245,7 @@ html {
 }
 
 /* ===== Finger-zone palette =====
-   One color per finger, shared by the target-key highlight (new_keyboard.tsx),
+   One color per finger, shared by the target-key highlight (NewKeyboard.tsx),
    the colorful-mode keycap tints, and the hands guide-finger ring (hands.tsx).
    Light mode uses deeper shades (readable on white), dark mode brighter ones.
    Dark values flip via the page-local `.dark` wrapper div. */
@@ -326,7 +326,7 @@ html {
 }
 
 /* Assign each key to its finger. Bare #id selectors intentionally match both the
-   keycap (`path#id` in new_keyboard.tsx) and the hand pose (`g#id` in hands.tsx),
+   keycap (`path#id` in NewKeyboard.tsx) and the hand pose (`g#id` in hands.tsx),
    so `--fz` inherits into whichever SVG is inside the `.kb-stage` wrapper. */
 .kb-stage :is(#key-1, #tilda, #q, #a, #z, #tab, #capslock, #shift-left, #control, #fn, #shift-option-left) { --fz: var(--fz-l-pinky); }
 .kb-stage :is(#key-2, #w, #s, #x) { --fz: var(--fz-l-ring); }

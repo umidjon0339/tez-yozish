@@ -37,8 +37,8 @@ function loadSfx(url: string) {
 
 // Warm the cache on mount so even the very first keystroke is instant.
 export function preloadSfx() {
-  loadSfx("/press_key4.mp3");
-  loadSfx("/error2.mp3");
+  loadSfx("/sounds/press_key4.mp3");
+  loadSfx("/sounds/error2.mp3");
 }
 
 function playSfx(url: string, volume: number, maxSeconds?: number) {
@@ -66,5 +66,5 @@ function playSfx(url: string, volume: number, maxSeconds?: number) {
   source.start(t0, 0, dur + 0.01);
 }
 
-export const playKeystrokeSound = () => playSfx("/press_key4.mp3", 1, 0.3);
-export const playErrorSound = () => playSfx("/error2.mp3", 0.8);
+export const playKeystrokeSound = () => playSfx("/sounds/press_key4.mp3", 1, 0.3);
+export const playErrorSound = () => playSfx("/sounds/error2.mp3", 0.8);

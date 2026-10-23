@@ -70,7 +70,7 @@ Key conventions:
 
 `app/lesson/[id]/` is the core typing engine: `page.tsx` (`"use client"`) is the controller and each viewport lives in its own file under `viewports/`. It finds the lesson by `lessonId` in the JSON, then renders per-step by branching on `step.viewport`. Character state is tracked with numeric constants (`UNTYPED`/`CORRECT`/`INCORRECT`/`CORRECT_FIXED`) and imperative letter handles (`useImperativeHandle`) for zero-latency per-keystroke DOM updates rather than re-rendering the whole text. The gym (`PracticeTracker`) types over a `GymUnit` list (plain chars / inline special keys / chords) built by `buildGymUnits`, so one step can mix words, real line breaks and shortcut presses; `ChatSim` and `ShortcutDojo` are siblings in `viewports/`. It composes the keyboard visualizations (`components/keyboard/`) and plays mp3 keystroke/error sounds (`press_key4.mp3`/`error2.mp3`) through a Web-Audio layer. Workspace toggles (dark/audio/colorful/hands) persist in `localStorage` (`tz-prefs-v1`); the sidebar rails (`components/lesson/Rails.tsx`) are ephemeral overlay drawers.
 
-Keyboard components (all `memo`'d, driven by an `expectedKey` prop): `new_keyboard.tsx` (`NewKeyboard`, the primary one) and `hands.tsx` (`Keyboard`, the animated hands overlay — largest component).
+Keyboard components (all `memo`'d, driven by an `expectedKey` prop): `NewKeyboard.tsx` (`NewKeyboard`, the primary one) and `hands.tsx` (`Keyboard`, the animated hands overlay — largest component).
 
 ### Thumbnail registry (parametric SVGs)
 

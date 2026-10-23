@@ -231,8 +231,8 @@ export function PhonemeLessonRunner({
   }, []);
 
   useEffect(() => {
-    loadSfx("/press_key4.mp3");
-    loadSfx("/error2.mp3");
+    loadSfx("/sounds/press_key4.mp3");
+    loadSfx("/sounds/error2.mp3");
   }, []);
 
   // ── Run engine: one stage per lesson ──

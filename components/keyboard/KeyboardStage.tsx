@@ -7,7 +7,7 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
-import { NewKeyboard } from "@/components/keyboard/new_keyboard";
+import { NewKeyboard } from "@/components/keyboard/NewKeyboard";
 import { Keyboard as HandsKeyboard } from "@/components/keyboard/hands";
 import { getHandStyle, useHandStyle, type HandArtVariant } from "@/components/keyboard/handStyle";
 import {

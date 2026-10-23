@@ -1,5 +1,5 @@
 // Single source of truth mapping KeyboardEvent.key values to SVG element ids.
-// Shared by new_keyboard.tsx (keycap highlight layer) and hands.tsx (hand poses).
+// Shared by NewKeyboard.tsx (keycap highlight layer) and hands.tsx (hand poses).
 // Shifted symbols alias to their physical key (e.g. '_' and '-' → 'minus').
 
 export const KEY_ID_MAP: Record<string, string> = {

@@ -67,7 +67,7 @@ import {
   type LetterProgressMap,
 } from "@/lib/english/letterProgress";
 import { createStatsSession, type StatsSession } from "@/lib/typing/stats";
-import { NewKeyboard } from "@/components/keyboard/new_keyboard";
+import { NewKeyboard } from "@/components/keyboard/NewKeyboard";
 import { Keyboard as HandsKeyboard } from "@/components/keyboard/hands";
 import { PaletteSwitcher } from "@/components/PaletteSwitcher";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -134,8 +134,8 @@ function playSfx(url: string, volume: number, maxSeconds?: number) {
   source.start(t0, 0, dur + 0.01);
 }
 
-const playKeySound = () => playSfx("/press_key4.mp3", 1, 0.3);
-const playErrSound = () => playSfx("/error2.mp3", 0.8);
+const playKeySound = () => playSfx("/sounds/press_key4.mp3", 1, 0.3);
+const playErrSound = () => playSfx("/sounds/error2.mp3", 0.8);
 
 // Morse beeps: 640 Hz sine, dot = 1 unit, dash = 3, 1 unit between symbols.
 function playMorse(code: string) {
@@ -884,8 +884,8 @@ export function LetterLessonRunner({
   }, []);
 
   useEffect(() => {
-    loadSfx("/press_key4.mp3");
-    loadSfx("/error2.mp3");
+    loadSfx("/sounds/press_key4.mp3");
+    loadSfx("/sounds/error2.mp3");
   }, []);
 
   // ── Run engine: one stage per lesson ──

@@ -1,7 +1,7 @@
 # Keyboard visualization — `components/keyboard/`
 
 Two SVG layers stack inside a `.kb-stage` wrapper under the typing arena:
-the **keycap layer** (`new_keyboard.tsx`, `NewKeyboard`) at `z-0` and the
+the **keycap layer** (`NewKeyboard.tsx`, `NewKeyboard`) at `z-0` and the
 translucent **hands layer** (`hands.tsx`, exported as `Keyboard`, imported
 as `HandsKeyboard`) at `z-10`. They share one id vocabulary defined in
 `keymap.ts` and are themed by the `--fz` finger-zone CSS variables in
@@ -77,7 +77,7 @@ matching and move its legend with it.
 **Established project rule: never edit the SVG path `d=` data.** The hand
 poses are hand-authored art; all visual changes (colors, opacity, themes)
 go through the inline `<style>` block only. Same rule applies to
-`new_keyboard.tsx` geometry.
+`NewKeyboard.tsx` geometry.
 
 Structure: one `<g id="<keyId>">` per key (ids match keymap), each holding a
 full hand pose reaching for that key with the correct finger already drawn
@@ -365,9 +365,9 @@ these filters, re-measure — it is easy to add a frame without noticing.
 
 ## Invariants
 
-- **Never edit path `d=` data** in `hands.tsx` or `new_keyboard.tsx`;
+- **Never edit path `d=` data** in `hands.tsx` or `NewKeyboard.tsx`;
   restyle via the inline `<style>` blocks and CSS variables only. The single
-  exception is **keycap size/position** in `new_keyboard.tsx` (§2) — a
+  exception is **keycap size/position** in `NewKeyboard.tsx` (§2) — a
   layout fact, not artwork, and unreachable from CSS without distorting the
   corner radii. Hand poses stay untouchable either way.
 - The keymap ids are load-bearing across three places: keycap `path#id`,
