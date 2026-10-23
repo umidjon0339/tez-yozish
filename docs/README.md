@@ -7,7 +7,7 @@ Root `CLAUDE.md` holds the short overview; these hold the details.
 | Doc | Covers | Key files |
 |---|---|---|
 | [curriculum.md](curriculum.md) | v4 authoring format, normalization, token grammar, dojo model, lesson types, validator | `data/lessons.json`, `data/lessondoc.txt`, `lib/curriculum.ts`, `types/lesson.ts`, `lib/keyTokens.ts`, `lib/dojoSim.ts`, `lib/lessonTypes.tsx`, `scripts/validate-lessons.mjs` |
-| [lesson-runtime.md](lesson-runtime.md) | The typing engine: viewports, character state, keystroke flow, sounds, progression, results | `app/lesson/[id]/page.tsx`, `components/lesson/Rails.tsx` |
+| [lesson-runtime.md](lesson-runtime.md) | The typing engine: viewports, character state, keystroke flow, sounds, progression, results | `app/lesson/[id]/*`, `components/lesson/Rails.tsx` |
 | [keyboard.md](keyboard.md) | Keycap + hands SVG layers, key-id contract, `--fz` finger-zone theming | `components/keyboard/*`, `app/globals.css`, `components/PaletteSwitcher.tsx` |
 | [typing-ninja.md](typing-ninja.md) | The 3D game: simulation model, embedded vs arcade, sound synth, GLTF characters | `app/typing-ninja/*`, `public/models/*` |
 | [rhino-dash.md](rhino-dash.md) | The 3D cliff-duel game: tug-of-war physics, phases, procedural rhinos, sound synth | `app/rhino-dash/*` |

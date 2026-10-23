@@ -1,7 +1,8 @@
 # app/lesson/ — the typing engine
 
-Read **`docs/lesson-runtime.md`** before editing `[id]/page.tsx` (~2700
-lines, everything module-local).
+Read **`docs/lesson-runtime.md`** before editing `[id]/` — `page.tsx` (the
+controller), one file per viewport in `viewports/`, and small shared modules
+(`typingCells`, `gymUnits`, `sfx`, `ui`, `StageScaler`).
 
 Hard rules:
 - Per-keystroke feedback is imperative: `LetterHandle`s + refs. Never move

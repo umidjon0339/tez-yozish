@@ -11,7 +11,7 @@ Detailed contracts, data flow, and invariants live in **`docs/`**. Before editin
 | Editing… | Read first |
 |---|---|
 | `data/lessons.json`, `lib/curriculum.ts`, `lib/keyTokens.ts`, `lib/dojoSim.ts`, `lib/lessonTypes.tsx`, the validator | `docs/curriculum.md` (+ `data/lessondoc.txt`) |
-| `app/lesson/[id]/page.tsx`, `components/lesson/Rails.tsx` | `docs/lesson-runtime.md` |
+| `app/lesson/[id]/*`, `components/lesson/Rails.tsx` | `docs/lesson-runtime.md` |
 | `components/keyboard/*`, finger-zone CSS, `PaletteSwitcher` | `docs/keyboard.md` |
 | `app/typing-ninja/*` | `docs/typing-ninja.md` |
 | `app/rhino-dash/*` | `docs/rhino-dash.md` |
@@ -68,7 +68,7 @@ Key conventions:
 
 ### The lesson runtime
 
-`app/lesson/[id]/page.tsx` (~2700 lines, `"use client"`) is the core typing engine. It finds the lesson by `lessonId` in the JSON, then renders per-step by branching on `step.viewport`. Character state is tracked with numeric constants (`UNTYPED`/`CORRECT`/`INCORRECT`/`CORRECT_FIXED`) and imperative letter handles (`useImperativeHandle`) for zero-latency per-keystroke DOM updates rather than re-rendering the whole text. The gym (`PracticeTracker`) types over a `GymUnit` list (plain chars / inline special keys / chords) built by `buildGymUnits`, so one step can mix words, real line breaks and shortcut presses; `ChatSim` and `ShortcutDojo` live in the same file. It composes the keyboard visualizations (`components/keyboard/`) and plays mp3 keystroke/error sounds (`press_key4.mp3`/`error2.mp3`) through a Web-Audio layer. Workspace toggles (dark/audio/colorful/hands) persist in `localStorage` (`tz-prefs-v1`); the sidebar rails (`components/lesson/Rails.tsx`) are ephemeral overlay drawers.
+`app/lesson/[id]/` is the core typing engine: `page.tsx` (`"use client"`) is the controller and each viewport lives in its own file under `viewports/`. It finds the lesson by `lessonId` in the JSON, then renders per-step by branching on `step.viewport`. Character state is tracked with numeric constants (`UNTYPED`/`CORRECT`/`INCORRECT`/`CORRECT_FIXED`) and imperative letter handles (`useImperativeHandle`) for zero-latency per-keystroke DOM updates rather than re-rendering the whole text. The gym (`PracticeTracker`) types over a `GymUnit` list (plain chars / inline special keys / chords) built by `buildGymUnits`, so one step can mix words, real line breaks and shortcut presses; `ChatSim` and `ShortcutDojo` are siblings in `viewports/`. It composes the keyboard visualizations (`components/keyboard/`) and plays mp3 keystroke/error sounds (`press_key4.mp3`/`error2.mp3`) through a Web-Audio layer. Workspace toggles (dark/audio/colorful/hands) persist in `localStorage` (`tz-prefs-v1`); the sidebar rails (`components/lesson/Rails.tsx`) are ephemeral overlay drawers.
 
 Keyboard components (all `memo`'d, driven by an `expectedKey` prop): `new_keyboard.tsx` (`NewKeyboard`, the primary one) and `hands.tsx` (`Keyboard`, the animated hands overlay — largest component).
 

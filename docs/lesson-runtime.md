@@ -1,27 +1,25 @@
-# Lesson runtime — `app/lesson/[id]/page.tsx`
+# Lesson runtime — `app/lesson/[id]/`
 
-One `"use client"` module (~2700 lines) containing the whole typing engine.
-Default export `LessonPage`; every other component is module-local. The page
-resolves the lesson by `lessonId` (via `useParams()`) from the normalized
-`course` and renders per-step by branching on `step.viewport`.
+The whole typing engine. `page.tsx` (`"use client"`, default export
+`LessonPage`) resolves the lesson by `lessonId` (via `useParams()`) from the
+normalized `course` and renders per-step by branching on `step.viewport`.
+Each viewport is its own file; the pieces they share are small modules next
+to the page.
 
-## 1. File map (top to bottom)
+## 1. File map
 
-| Symbol | Kind | Role |
+| File | Symbols | Role |
 |---|---|---|
-| `emptyRun()` | fn | zeroed `LessonRunStats` factory |
-| `UI` | const | chrome i18n dict (en/uz/ru) for all lesson chrome strings |
-| `StageScaler` | component | fits the 1100×780 stage into the viewport via CSS `transform: scale()` (ResizeObserver); wraps every non-game viewport |
-| `BURST_PARTICLES` | const | 12 deterministic celebration particles (no RNG → hydration-safe) |
-| `NinjaWorld` | dynamic import | `next/dynamic`, `ssr: false` |
-| `UNTYPED/CORRECT/INCORRECT/CORRECT_FIXED` | consts | character-state model (0/1/2/3) |
-| `LetterHandle` | interface | imperative handle contract |
-| SFX layer | module fns | Web-Audio mp3 playback (see §6) |
-| `KeyboardWithHands` | component | composites `NewKeyboard` + `HandsKeyboard` (see keyboard.md) |
-| `Letter`, `KeyCapUnit` | memo+forwardRef | per-character / per-keycap imperative cells |
-| `GymUnit`, `buildGymUnits` | type + fn | gym token model (see §3) |
-| `PostureCheck`, `KeyIntro`, `PracticeTracker`, `ChatSim`, `ShortcutDojo` | components | one per viewport |
-| `LessonPage` | default export | routing, prefs, locking, dispatch, results |
+| `page.tsx` | `LessonPage`, `emptyRun()`, `HEATMAP_ROWS`, `BURST_PARTICLES`, `NinjaWorld` | routing, prefs, locking, viewport dispatch, results screen; `NinjaWorld` is a `next/dynamic` import with `ssr: false` |
+| `ui.ts` | `UI` | chrome i18n dict (en/uz/ru) for all lesson chrome strings |
+| `StageScaler.tsx` | `StageScaler` | fits the 1100×780 stage into the viewport via CSS `transform: scale()` (ResizeObserver); wraps every non-game viewport |
+| `sfx.ts` | `preloadSfx`, `playKeystrokeSound`, `playErrorSound` | Web-Audio mp3 playback (see §6) |
+| `typingCells.tsx` | `UNTYPED/CORRECT/INCORRECT/CORRECT_FIXED`, `CharState`, `LetterHandle`, `Letter`, `KeyCapUnit` | character-state model (0/1/2/3) and the imperative per-character / per-keycap cells |
+| `gymUnits.ts` | `GymUnit`, `buildGymUnits`, `unitExpectedKeys`, `unitStatKey`, `KEY_TOKEN_GLYPHS` | gym token model (see §3) |
+| `viewports/PostureCheck.tsx`, `KeyIntro.tsx`, `PracticeTracker.tsx`, `ChatSim.tsx`, `ShortcutDojo.tsx` | one component each | one per viewport |
+
+The keyboard composite `KeyboardWithHands` comes from
+`components/keyboard/KeyboardStage.tsx` (see keyboard.md).
 
 The sidebar rails (`ChapterRail`, `LessonRail`) live in
 `components/lesson/Rails.tsx` (see §8).
