@@ -81,6 +81,6 @@ Hard rules:
 - The eslint disable at the top of `BeamBreakWorld.tsx` is intentional
   (mutable-ref architecture); don't "fix" it.
 - The `/games` card is `BEAM_BREAK_COVER` in
-  `components/thumbnails/SvgLibrary.tsx`, rendered in the same uniform tile as
+  `components/thumbnails/covers/games/beamBreak.tsx`, rendered in the same uniform tile as
   the other three games. All four game cards are the same size on purpose —
   don't promote this one to a featured/oversized card.

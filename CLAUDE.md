@@ -78,9 +78,9 @@ Course/section/lesson cards reference a thumbnail by string id + params in the J
 ```json
 "thumbnail": { "svgId": "TWO_KEYS_FOCUS", "parameters": { "keys": ["f","j"], "accentColor": "emerald" } }
 ```
-`components/thumbnails/DynamicThumbnail.tsx` looks `svgId` up in **`ThumbnailRegistry`** (bottom of `SvgLibrary.tsx`) and renders the matched component, passing `params`. Missing ids render a visible fallback, never crash.
+`components/thumbnails/DynamicThumbnail.tsx` looks `svgId` up in **`ThumbnailRegistry`** (`SvgLibrary.tsx`, which holds only the registry) and renders the matched component, passing `params`. Missing ids render a visible fallback, never crash.
 
-To add a thumbnail: write a `React.FC<SvgTemplateProps>` in `SvgLibrary.tsx` (props typed in `types/thumbnail.ts`; **every `ThumbnailParams` field must stay optional** with a default), then register it in `ThumbnailRegistry`. A thumbnail can alternatively be a raster via `thumbnail.imageSrc` (e.g. the course cover uses `/course-cover.svg`).
+To add a thumbnail: write a `React.FC<SvgTemplateProps>` in the matching file under `components/thumbnails/covers/` (props typed in `types/thumbnail.ts`; **every `ThumbnailParams` field must stay optional** with a default), then register it in `ThumbnailRegistry`. A thumbnail can alternatively be a raster via `thumbnail.imageSrc` (e.g. the course cover uses `/course-cover.svg`).
 
 ### The games (independent of the lesson engine)
 

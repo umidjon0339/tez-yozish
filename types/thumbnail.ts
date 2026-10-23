@@ -1,6 +1,6 @@
 /**
  * The accent hues the catalogue covers draw with. The literal values live in
- * `TONE_HEX` (SvgLibrary.tsx) — this union is just the vocabulary that
+ * `TONE_HEX` (components/thumbnails/covers/catalog.tsx) — this union is just the vocabulary that
  * `lib/k12.ts` and `lib/coding.ts` assign from.
  */
 export type Tone =

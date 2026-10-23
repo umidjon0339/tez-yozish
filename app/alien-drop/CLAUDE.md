@@ -88,5 +88,5 @@ Hard rules:
 - The eslint disable at the top of `AlienDropWorld.tsx` is intentional
   (mutable-ref architecture); don't "fix" it.
 - The `/games` card is `ALIEN_DROP_COVER` in
-  `components/thumbnails/SvgLibrary.tsx`, rendered in the same uniform tile as
+  `components/thumbnails/covers/games/alienDrop.tsx`, rendered in the same uniform tile as
   the other five games. All game cards are the same size on purpose.

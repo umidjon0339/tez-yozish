@@ -143,7 +143,7 @@ html {
   }
 }
 /* ===== Card thumbnail ink =====
-   The keycap-style thumbnails in components/thumbnails/SvgLibrary.tsx are UI
+   The keycap-style thumbnails in components/thumbnails/covers/ are UI
    drawn as SVG (panel + keycaps + legends), not pictures, so they must follow
    the theme like the rest of the chrome — a white keycap panel on a dark card
    reads as a bright hole. Fill/stroke attributes can't take Tailwind classes,

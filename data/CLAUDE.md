@@ -21,4 +21,4 @@ Hard rules:
 - `CHAT_SIM` uses `chat` (≥1 `you` turn), `SHORTCUT_DOJO` uses `dojo`
   (validator simulates the task script) — both omit `text`.
 - `thumbnail.svgId` must exist in `ThumbnailRegistry`
-  (`components/thumbnails/SvgLibrary.tsx`).
+  (`components/thumbnails/SvgLibrary.tsx`, templates in `covers/`).

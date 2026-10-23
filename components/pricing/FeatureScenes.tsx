@@ -4,7 +4,7 @@ import React from "react";
 
 /* Animated art for the /pricing feature showcase.
  *
- * Same contract as components/thumbnails/SvgLibrary.tsx:
+ * Same contract as the templates in components/thumbnails/covers/:
  *   - one fixed viewBox (800×450) so every scene swaps in place,
  *   - class/filter names namespaced with useId() so two scenes can't collide,
  *   - neutrals come from the --thumb-* variables (globals.css) so the art
@@ -12,7 +12,7 @@ import React from "react";
  *   - every animation is switched off under prefers-reduced-motion.
  *
  * The one exception is GamesScene: it is a *picture of a place* (space), so
- * like the game covers in SvgLibrary it keeps its painted palette in both
+ * like the game covers in thumbnails/covers/games it keeps its painted palette in both
  * themes. See docs/thumbnails.md, "Two kinds of cover".
  */
 

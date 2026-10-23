@@ -9,7 +9,7 @@ set, and anything the learner pastes in.
 | model + store | `lib/books.ts` (`tz-books-v1`) |
 | library | `app/books/page.tsx` |
 | one book | `app/books/[id]/page.tsx` |
-| art | `BOOK_COVER` in `components/thumbnails/SvgLibrary.tsx` |
+| art | `BOOK_COVER` in `components/thumbnails/covers/catalog.tsx` |
 | strings | `STR.books.*` |
 
 ## 1. There is no book typing engine

@@ -71,7 +71,7 @@ JSON is rejected by the validator.
 - **Lesson list** lives in `data/graphemeLessons.json` (identical shape for
   both tracks). Run `npm run validate:graphemes` after edits. New `kind` =
   curriculum union + validator `KINDS` + stage component + runner case +
-  `GRAPHEME_STAGE` motif (`components/thumbnails/SvgLibrary.tsx`).
+  `GRAPHEME_STAGE` motif (`components/thumbnails/covers/english.tsx`).
 - Speech only through `lib/phonemeAudio.ts` (recordings first, TTS
   fallback — see `app/english/phonemes/README.md` "Audio" for the mp3
   folder layout); typed answers through the shared kit's `useAnswerInput`

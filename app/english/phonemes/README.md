@@ -107,7 +107,7 @@ words with all its single-word shade words (up to 24);
   `PhonemeLessonKind` (lib/phonemeCurriculum.ts) + the validator's `KINDS`
   list + a stage component + a case in the runner's `renderStage` + a
   thumbnail motif in `PhonemeStageCover` (`components/thumbnails/
-  SvgLibrary.tsx`).
+  covers/english.tsx`).
 - **Writing-first**: answers are produced, not selected. Typed stages use
   `useAnswerInput` + `AnswerLine`/`LetterSlots` from `stages/kit.tsx`
   (a–z appends, Backspace deletes, Enter submits; fixed-length answers

@@ -116,7 +116,7 @@ disagree.
 
 `GamesScene` is the one **scene cover** in the file — a picture of space that
 keeps its painted palette in both themes, exactly like the game covers in
-`SvgLibrary.tsx`.
+`components/thumbnails/covers/games/`.
 
 ### The one trap
 

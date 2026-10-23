@@ -18,7 +18,7 @@ Files:
 | `page.tsx` | dynamic import wrapper. |
 
 Its `/games` card is a normal `DynamicThumbnail` tile — `BEAM_BREAK_COVER` in
-`components/thumbnails/SvgLibrary.tsx` (§6).
+`components/thumbnails/covers/games/beamBreak.tsx` (§6).
 
 ## 1. Game design
 
@@ -222,7 +222,7 @@ and rings all get their moment on the game-over card instead.
 
 ## 6. The `/games` card
 
-`BEAM_BREAK_COVER` in `components/thumbnails/SvgLibrary.tsx`, rendered through
+`BEAM_BREAK_COVER` in `components/thumbnails/covers/games/beamBreak.tsx`, rendered through
 `DynamicThumbnail` on `/games` in exactly the same tile as Ninja Run, Sky Hop
 and Rhino Dash — same grid cell, same 16/10 frame, same caption strip. All four
 game cards are uniform on purpose; there is no featured or oversized card.

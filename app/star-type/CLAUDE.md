@@ -87,5 +87,5 @@ Hard rules:
 - The eslint disable at the top of `StarTypeWorld.tsx` is intentional
   (mutable-ref architecture); don't "fix" it.
 - The `/games` card is `STAR_TYPE_COVER` in
-  `components/thumbnails/SvgLibrary.tsx`, rendered in the same uniform tile as
+  `components/thumbnails/covers/games/starType.tsx`, rendered in the same uniform tile as
   the other games. All game cards are the same size on purpose.

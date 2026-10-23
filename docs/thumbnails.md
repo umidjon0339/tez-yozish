@@ -8,8 +8,14 @@ Course/section/lesson cards reference art by string id + params in
                "parameters": { "keys": ["f","j"], "accentColor": "emerald" } }
 ```
 
+Files: `SvgLibrary.tsx` holds only `ThumbnailRegistry`; the templates live in
+`covers/` — `typing.tsx` (keycap/course covers), `english.tsx` (letter /
+codes / phoneme / grapheme lesson covers), `catalog.tsx` (K-12, coding, book,
+exam covers) and `games/` (one file per game cover; `ninja.tsx` holds both
+typing-ninja covers).
+
 `components/thumbnails/DynamicThumbnail.tsx` looks `svgId` up in
-`ThumbnailRegistry` (bottom of `SvgLibrary.tsx`) and renders the component
+`ThumbnailRegistry` (`SvgLibrary.tsx`) and renders the component
 with `params`. Missing ids log a warning and render a visible neutral
 fallback — **never crash**.
 
@@ -90,17 +96,18 @@ height>`** inside the 400×240 root — lucide spreads unknown props onto its
 own `<svg>`, so `x`/`y` position it. That keeps the repo's "no hand-rolled
 inline SVGs for standard glyphs" rule for the 19 subject emblems. Their
 accents come from `TONE_HEX` (12 literal hues) keyed by the `tone` param —
-`SUBJECT_GLYPHS`/`TONE_HEX` in `SvgLibrary.tsx` are the lookup tables, and
+`SUBJECT_GLYPHS`/`TONE_HEX` in `covers/catalog.tsx` are the lookup tables, and
 `SUBJECT_ART` in `lib/k12.ts` decides which subject gets which pair. An
 unknown `subjectIcon` falls back to `BookOpen`, an unknown `tone` to slate.
 
-Shared internal art helpers (not registered): `ninjaFigure`,
-`skeletonFigure`, `letterTag`, `keyLabel` (special-key → glyph). The ninja
+Internal art helpers (not registered): `ninjaFigure`, `skeletonFigure`,
+`letterTag` (in `covers/games/ninja.tsx`) and `keyLabel` (special-key → glyph,
+exported from `covers/typing.tsx` and shared with the ninja covers). The ninja
 covers deliberately mirror the real 3D models (`hero.glb`/`enemy.glb`).
 
 ## Adding a template
 
-1. Write a `React.FC<SvgTemplateProps>` in `SvgLibrary.tsx` following the
+1. Write a `React.FC<SvgTemplateProps>` in the matching `covers/` file following the
    contracts above (defaults for every param, `useId`-namespaced styles,
    reduced-motion guard).
 2. Register it in `ThumbnailRegistry` as `'MY_ID': MyComponent`.

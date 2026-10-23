@@ -10,7 +10,7 @@ the journey. Adding lessons later must not require re-cutting the map.
 | data | `data/coding-curriculum.json` |
 | model | `lib/coding.ts` |
 | page | `app/coding/page.tsx` |
-| art | `CODE_TRACK_COVER` in `components/thumbnails/SvgLibrary.tsx` |
+| art | `CODE_TRACK_COVER` in `components/thumbnails/covers/catalog.tsx` |
 | strings | `STR.coding.*` in `lib/uiStrings/coding.ts` |
 
 ## 1. Three tiers, and why
@@ -84,7 +84,7 @@ rather than rendering blank.
 ```
 
 - `icon` is a **lucide component name** (`"Database"`), resolved through
-  `CODE_GLYPHS` in `SvgLibrary.tsx`. An unknown name falls back to
+  `CODE_GLYPHS` in `covers/catalog.tsx`. An unknown name falls back to
   `FileCode2` — never a hole in the grid. Adding an icon means adding it to
   the lucide import **and** to `CODE_GLYPHS`.
 - `tone` is one of the 12 `Tone` names in `types/thumbnail.ts`; unknown
