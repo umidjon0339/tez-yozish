@@ -107,7 +107,3 @@ covers deliberately mirror the real 3D models (`hero.glb`/`enemy.glb`).
 3. Reference it from `lessons.json` and run `npm run validate:lessons`
    (validates the id exists).
 
-## Inert files
-
-`components/thumbnails/svgsprite-*.svg` are unreferenced assets — safe to
-ignore.

@@ -17,4 +17,3 @@ Hard rules:
   `scripts/validate-lessons.mjs` scrapes the ids by regex.
 - `DynamicThumbnail` must keep its visible never-crash fallback for unknown
   ids.
-- `svgsprite-*.svg` files here are inert/unreferenced — ignore them.
