@@ -17,7 +17,7 @@
 //   │ └ Tail (pivot at the base — swish)
 //   ├ LegFR / LegFL / LegBR / LegBL  (pivots at the hips — gait swings)
 //
-// Keep pivots/dimensions in sync with app/rhino-dash/rhino.tsx (BODY_Y,
+// Keep pivots/dimensions in sync with app/games/rhino-dash/rhino.tsx (BODY_Y,
 // leg positions, RHINO_GAP in environment.tsx). Regenerate with:
 //   npm run model:rhino
 // =========================================================================

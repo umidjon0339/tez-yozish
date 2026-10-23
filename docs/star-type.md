@@ -1,4 +1,4 @@
-# Star Type — the 2D space typing shooter (`/star-type`)
+# Star Type — the 2D space typing shooter (`/games/star-type`)
 
 Enemy drones dive at your ship, each carrying one word. Type a word's **first
 letter** to lock on, then type the rest to shoot the drone down. One drone
@@ -8,13 +8,13 @@ Files:
 
 | File | Holds |
 |---|---|
-| `app/star-type/page.tsx` | the route; `next/dynamic` with `ssr: false` |
-| `app/star-type/sim.ts` | data + tuning only — no React, no canvas |
-| `app/star-type/render.ts` | every canvas draw call; pure, never mutates state |
-| `app/star-type/sound.ts` | the inline oscillator synth |
-| `app/star-type/StarTypeWorld.tsx` | `step()`, input, HUD, menus |
+| `app/games/star-type/page.tsx` | the route; `next/dynamic` with `ssr: false` |
+| `app/games/star-type/sim.ts` | data + tuning only — no React, no canvas |
+| `app/games/star-type/render.ts` | every canvas draw call; pure, never mutates state |
+| `app/games/star-type/sound.ts` | the inline oscillator synth |
+| `app/games/star-type/StarTypeWorld.tsx` | `step()`, input, HUD, menus |
 
-Hard rules live in `app/star-type/CLAUDE.md`. This doc explains the *why*.
+Hard rules live in `app/games/star-type/CLAUDE.md`. This doc explains the *why*.
 
 ---
 

@@ -1,4 +1,4 @@
-# app/typing-ninja/ — the 3D game
+# app/games/typing-ninja/ — the 3D game
 
 Read **`docs/typing-ninja.md`** before editing.
 

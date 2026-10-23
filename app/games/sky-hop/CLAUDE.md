@@ -1,4 +1,4 @@
-# app/sky-hop/ — the 2D balloon-hop game
+# app/games/sky-hop/ — the 2D balloon-hop game
 
 Read **`docs/sky-hop.md`** before editing.
 

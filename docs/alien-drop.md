@@ -1,4 +1,4 @@
-# Alien Drop — the 2D falling-pod game (`/alien-drop`)
+# Alien Drop — the 2D falling-pod game (`/games/alien-drop`)
 
 Alien drop-pods fall out of the sky over a colony, each one carrying **one
 character** on its porthole. Type that character and the hero's blaster snaps
@@ -10,13 +10,13 @@ Files:
 
 | File | Holds |
 |---|---|
-| `app/alien-drop/page.tsx` | the route; `next/dynamic` with `ssr: false` |
-| `app/alien-drop/sim.ts` | data + tuning only — no React, no canvas |
-| `app/alien-drop/render.ts` | every canvas draw call; pure, never mutates state |
-| `app/alien-drop/sound.ts` | the inline oscillator synth |
-| `app/alien-drop/AlienDropWorld.tsx` | `step()`, input, HUD, menus |
+| `app/games/alien-drop/page.tsx` | the route; `next/dynamic` with `ssr: false` |
+| `app/games/alien-drop/sim.ts` | data + tuning only — no React, no canvas |
+| `app/games/alien-drop/render.ts` | every canvas draw call; pure, never mutates state |
+| `app/games/alien-drop/sound.ts` | the inline oscillator synth |
+| `app/games/alien-drop/AlienDropWorld.tsx` | `step()`, input, HUD, menus |
 
-Hard rules live in `app/alien-drop/CLAUDE.md`. This doc explains the *why*.
+Hard rules live in `app/games/alien-drop/CLAUDE.md`. This doc explains the *why*.
 
 ---
 

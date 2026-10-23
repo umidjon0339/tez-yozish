@@ -69,7 +69,7 @@ const BURST_PARTICLES = Array.from({ length: 12 }, (_, i) => {
   };
 });
 
-const NinjaWorld = dynamic(() => import("@/app/typing-ninja/NinjaWorld"), {
+const NinjaWorld = dynamic(() => import("@/app/games/typing-ninja/NinjaWorld"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full min-h-[50vh] flex flex-col items-center justify-center gap-3 bg-neutral-100 dark:bg-neutral-900 rounded-xl">

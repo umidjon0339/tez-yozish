@@ -2,7 +2,7 @@ import React from 'react';
 import { SvgTemplateProps } from '@/types/thumbnail';
 
 /**
- * Cover for the top-down tug-of-war at `/tug-of-typing`: two pullers on a mown
+ * Cover for the top-down tug-of-war at `/games/tug-of-typing`: two pullers on a mown
  * pitch with the word tiles above. `params.keys` supplies the word on the
  * tiles; `params.accentColor` is ignored (the pitch palette is fixed).
  */

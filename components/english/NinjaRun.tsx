@@ -13,7 +13,7 @@ import React, { useEffect, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import { shuffled, type StageStats } from "@/components/english/stage-kit";
 
-const NinjaWorld = dynamic(() => import("@/app/typing-ninja/NinjaWorld"), {
+const NinjaWorld = dynamic(() => import("@/app/games/typing-ninja/NinjaWorld"), {
   ssr: false,
   loading: () => (
     <div className="absolute inset-0 flex items-center justify-center">

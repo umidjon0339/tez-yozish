@@ -1,4 +1,4 @@
-# app/rhino-dash/ — the cliff-duel 3D game
+# app/games/rhino-dash/ — the cliff-duel 3D game
 
 Read **`docs/rhino-dash.md`** before editing.
 

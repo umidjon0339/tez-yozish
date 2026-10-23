@@ -1,4 +1,4 @@
-# app/beam-break/ — the 2D UFO tractor-beam game
+# app/games/beam-break/ — the 2D UFO tractor-beam game
 
 Read **`docs/beam-break.md`** before editing.
 

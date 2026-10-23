@@ -9,14 +9,14 @@ Root `CLAUDE.md` holds the short overview; these hold the details.
 | [curriculum.md](curriculum.md) | v4 authoring format, normalization, token grammar, dojo model, lesson types, validator | `data/lessons.json`, `data/lessondoc.txt`, `lib/typing/curriculum.ts`, `types/lesson.ts`, `lib/typing/keyTokens.ts`, `lib/typing/dojoSim.ts`, `lib/typing/lessonTypes.tsx`, `scripts/validate-lessons.mjs` |
 | [lesson-runtime.md](lesson-runtime.md) | The typing engine: viewports, character state, keystroke flow, sounds, progression, results | `app/lesson/[id]/*`, `components/lesson/Rails.tsx` |
 | [keyboard.md](keyboard.md) | Keycap + hands SVG layers, key-id contract, `--fz` finger-zone theming | `components/keyboard/*`, `app/globals.css`, `components/PaletteSwitcher.tsx` |
-| [typing-ninja.md](typing-ninja.md) | The 3D game: simulation model, embedded vs arcade, sound synth, GLTF characters | `app/typing-ninja/*`, `public/models/*` |
-| [rhino-dash.md](rhino-dash.md) | The 3D cliff-duel game: tug-of-war physics, phases, procedural rhinos, sound synth | `app/rhino-dash/*` |
-| [sky-hop.md](sky-hop.md) | The 2D balloon-hop game: canvas renderer, flight/lift model, stages, crows, attract mode | `app/sky-hop/*` |
-| [tug-of-typing.md](tug-of-typing.md) | The 2D tug-of-war game: shared word race, honest rival WPM, endless levels, dig-in ramp, top-down kids | `app/tug-of-typing/*` |
-| [beam-break.md](beam-break.md) | The 2D UFO-beam game: tug-of-war model, sprung motion, the 10-animal parametric painter, levels, capture rings, no-shake / no-music rules | `app/beam-break/*` |
-| [alien-drop.md](alien-drop.md) | The 2D falling-pod game: single-character targeting, the three accelerations, tag-then-bolt kills, the mirroring hero, waves / swarms / nova, the siren | `app/alien-drop/*` |
-| [word-forge.md](word-forge.md) | The 2D lane-defence game: one key = one shot, the SPACE loadout mode, the one-word-one-bot HP identity, the heat engine, how the balance was measured | `app/word-forge/*` |
-| [star-type.md](star-type.md) | The 2D space shooter (a faithful ZType copy): the lock-on model, doomed drones, the wave ramp, what was deliberately left out | `app/star-type/*` |
+| [typing-ninja.md](typing-ninja.md) | The 3D game: simulation model, embedded vs arcade, sound synth, GLTF characters | `app/games/typing-ninja/*`, `public/models/*` |
+| [rhino-dash.md](rhino-dash.md) | The 3D cliff-duel game: tug-of-war physics, phases, procedural rhinos, sound synth | `app/games/rhino-dash/*` |
+| [sky-hop.md](sky-hop.md) | The 2D balloon-hop game: canvas renderer, flight/lift model, stages, crows, attract mode | `app/games/sky-hop/*` |
+| [tug-of-typing.md](tug-of-typing.md) | The 2D tug-of-war game: shared word race, honest rival WPM, endless levels, dig-in ramp, top-down kids | `app/games/tug-of-typing/*` |
+| [beam-break.md](beam-break.md) | The 2D UFO-beam game: tug-of-war model, sprung motion, the 10-animal parametric painter, levels, capture rings, no-shake / no-music rules | `app/games/beam-break/*` |
+| [alien-drop.md](alien-drop.md) | The 2D falling-pod game: single-character targeting, the three accelerations, tag-then-bolt kills, the mirroring hero, waves / swarms / nova, the siren | `app/games/alien-drop/*` |
+| [word-forge.md](word-forge.md) | The 2D lane-defence game: one key = one shot, the SPACE loadout mode, the one-word-one-bot HP identity, the heat engine, how the balance was measured | `app/games/word-forge/*` |
+| [star-type.md](star-type.md) | The 2D space shooter (a faithful ZType copy): the lock-on model, doomed drones, the wave ramp, what was deliberately left out | `app/games/star-type/*` |
 | [home-test.md](home-test.md) | The home page's Monkeytype-style test: what was copied and what was not, the input model, the ref+snapshot architecture, scoring, fitting one screen | `app/page.tsx`, `components/home/*`, `lib/typing/typingTest.ts` |
 | [progress.md](progress.md) | localStorage progress store, star ladder, WPM/accuracy formulas, unlocking | `lib/typing/progress.ts` |
 | [app-shell.md](app-shell.md) | Layout, NavBar, pages, localization (`useLocale`/`STR`), palette switcher, global CSS | `app/layout.tsx`, `app/page.tsx`, `app/courses/*`, `app/games/*`, `components/NavBar.tsx`, `lib/core/locale.tsx`, `lib/core/uiStrings/`, `app/globals.css` |

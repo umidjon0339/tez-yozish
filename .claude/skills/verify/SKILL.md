@@ -11,7 +11,7 @@ Static checks (fast, run first):
 npx tsc --noEmit                 # typecheck (no test runner exists)
 npx eslint <changed dirs>        # full `npm run lint` has pre-existing
                                  # errors in app/lesson, app/courses,
-                                 # app/typing-ninja — lint only your files
+                                 # app/games/typing-ninja — lint only your files
 npm run validate:lessons|letters|phonemes|graphemes   # after data/ edits
 npm run build                    # production build must pass
 ```

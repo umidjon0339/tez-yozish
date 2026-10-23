@@ -2,7 +2,7 @@ import React from 'react';
 import { SvgTemplateProps } from '@/types/thumbnail';
 
 /**
- * Cover for `/alien-drop`: alien drop-pods falling on the colony, each carrying
+ * Cover for `/games/alien-drop`: alien drop-pods falling on the colony, each carrying
  * one letter, with the space-suit hero below aiming his blaster at the lowest
  * one. `params.keys` supplies the letters on the pods; `params.accentColor` is
  * ignored (the alien-sky palette is fixed).

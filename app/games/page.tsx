@@ -22,7 +22,7 @@ export default function GamesPage() {
           {GAMES.map((g) => {
             const isLiked = !!liked[g.slug];
             return (
-              <Link key={g.slug} href={`/${g.slug}`}>
+              <Link key={g.slug} href={`/games/${g.slug}`}>
                 <div className="group bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-sm transition-all flex flex-col overflow-hidden relative hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-md cursor-pointer">
                   <div className="w-full aspect-[16/10] bg-neutral-50 dark:bg-neutral-900 relative overflow-hidden">
                     <DynamicThumbnail

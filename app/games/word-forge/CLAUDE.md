@@ -1,4 +1,4 @@
-# app/word-forge/ — the 2D lane-defence game
+# app/games/word-forge/ — the 2D lane-defence game
 
 Read **`docs/word-forge.md`** before editing.
 

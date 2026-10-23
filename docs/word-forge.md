@@ -1,4 +1,4 @@
-# Word Forge — the 2D lane-defence game (`/word-forge`)
+# Word Forge — the 2D lane-defence game (`/games/word-forge`)
 
 A top-down forge corridor. Scrap-bots march down it at your gate, and **every
 bot carries the thing you have to type** — one key on EASY, a word after that.
@@ -16,13 +16,13 @@ Files:
 
 | File | Holds |
 |---|---|
-| `app/word-forge/page.tsx` | the route; `next/dynamic` with `ssr: false` |
-| `app/word-forge/sim.ts` | data + tuning only — no React, no canvas |
-| `app/word-forge/render.ts` | every canvas draw call; pure, never mutates state |
-| `app/word-forge/sound.ts` | the inline oscillator synth + the forge drone |
-| `app/word-forge/WordForgeWorld.tsx` | `step()`, input, HUD, menus |
+| `app/games/word-forge/page.tsx` | the route; `next/dynamic` with `ssr: false` |
+| `app/games/word-forge/sim.ts` | data + tuning only — no React, no canvas |
+| `app/games/word-forge/render.ts` | every canvas draw call; pure, never mutates state |
+| `app/games/word-forge/sound.ts` | the inline oscillator synth + the forge drone |
+| `app/games/word-forge/WordForgeWorld.tsx` | `step()`, input, HUD, menus |
 
-Hard rules live in `app/word-forge/CLAUDE.md`. This doc explains the *why*.
+Hard rules live in `app/games/word-forge/CLAUDE.md`. This doc explains the *why*.
 
 ---
 

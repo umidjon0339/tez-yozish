@@ -2,7 +2,7 @@ import React from 'react';
 import { SvgTemplateProps } from '@/types/thumbnail';
 
 /**
- * Cover for `/star-type`: enemy drones diving on the cyan ship over a dark
+ * Cover for `/games/star-type`: enemy drones diving on the cyan ship over a dark
  * starfield, one word locked on (amber, remaining letters only) and the rest
  * white. `params.keys` supplies the words; `params.accentColor` is ignored
  * (the space palette is fixed).

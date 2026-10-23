@@ -1,8 +1,8 @@
-# Beam Break — `app/beam-break/`
+# Beam Break — `app/games/beam-break/`
 
 2D **canvas** typing game (no three.js, no image assets, no mp3s), fourth
 sibling of typing-ninja, rhino-dash and sky-hop. Single entry point:
-`/beam-break` (`page.tsx`, `next/dynamic` + `ssr: false`, fullscreen fixed
+`/games/beam-break` (`page.tsx`, `next/dynamic` + `ssr: false`, fullscreen fixed
 overlay). Not embedded in the lesson runtime — arcade only, linked from
 `/games` by a uniform thumbnail card like its siblings.
 

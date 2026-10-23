@@ -1,8 +1,8 @@
-# Rhino Dash — `app/rhino-dash/`
+# Rhino Dash — `app/games/rhino-dash/`
 
 3D cliff-top typing duel (`@react-three/fiber` + `three`), sibling of
 typing-ninja and built on the same architecture. Single entry point:
-`/rhino-dash` (`page.tsx`, `next/dynamic` + `ssr: false`, fullscreen fixed
+`/games/rhino-dash` (`page.tsx`, `next/dynamic` + `ssr: false`, fullscreen fixed
 overlay). Not embedded in the lesson runtime — arcade only, linked from
 `/games`.
 

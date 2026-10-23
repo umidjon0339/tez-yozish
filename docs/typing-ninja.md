@@ -1,9 +1,9 @@
-# Typing Ninja — `app/typing-ninja/`
+# Typing Ninja — `app/games/typing-ninja/`
 
 3D WebGL survival typing game (`@react-three/fiber` + `drei` + `three`).
 Two entry points, both `next/dynamic` with `ssr: false`:
 
-- **Standalone arcade**: `/typing-ninja` (`page.tsx`) — menu, difficulties,
+- **Standalone arcade**: `/games/typing-ninja` (`page.tsx`) — menu, difficulties,
   endless survival, high score.
 - **Embedded**: mounted by the lesson runtime for `GAME_NINJA_RUN` steps as
   `<NinjaWorld step={step} onComplete={handleComplete} isEmbedded />`.
@@ -76,7 +76,7 @@ any land (the word label's red portion advances on keypress, not on impact).
 
 ## 4. Standalone vs embedded
 
-| | Arcade (`/typing-ninja`) | Embedded (`GAME_NINJA_RUN`) |
+| | Arcade (`/games/typing-ninja`) | Embedded (`GAME_NINJA_RUN`) |
 |---|---|---|
 | Start | MENU + difficulty buttons | auto-starts PLAYING (MEDIUM) |
 | Words | internal 60-word `WORDS` pool, endless | `step.content` copied to `embeddedQueue`, spawned in order |

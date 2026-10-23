@@ -1,8 +1,8 @@
-# Tug of Typing — `app/tug-of-typing/`
+# Tug of Typing — `app/games/tug-of-typing/`
 
 2D **canvas** typing game (no three.js, no image assets, no mp3s), a top-down
 tug-of-war against an endless ladder of rivals. Single entry point:
-`/tug-of-typing` (`page.tsx`, `next/dynamic` + `ssr: false`, fullscreen fixed
+`/games/tug-of-typing` (`page.tsx`, `next/dynamic` + `ssr: false`, fullscreen fixed
 overlay). Arcade only — not embedded in the lesson runtime; linked from
 `/games`.
 

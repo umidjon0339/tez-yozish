@@ -2,7 +2,7 @@ import React from 'react';
 import { SvgTemplateProps } from '@/types/thumbnail';
 
 /**
- * Cover for `/word-forge`: the forge corridor seen from above — molten seams
+ * Cover for `/games/word-forge`: the forge corridor seen from above — molten seams
  * down both lane walls, scrap-bots marching at the turret, and the two columns
  * of typed panels that are the actual game. `params.keys` supplies the panel
  * words (first two land in the perk column, the rest in the weapon column);

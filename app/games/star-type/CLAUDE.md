@@ -1,4 +1,4 @@
-# app/star-type/ — the 2D space typing shooter
+# app/games/star-type/ — the 2D space typing shooter
 
 Read **`docs/star-type.md`** before editing.
 

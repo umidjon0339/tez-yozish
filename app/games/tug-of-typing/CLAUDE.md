@@ -1,4 +1,4 @@
-# app/tug-of-typing/ — the top-down tug-of-war game
+# app/games/tug-of-typing/ — the top-down tug-of-war game
 
 Read **`docs/tug-of-typing.md`** before editing.
 

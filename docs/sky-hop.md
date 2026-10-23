@@ -1,7 +1,7 @@
-# Sky Hop — `app/sky-hop/`
+# Sky Hop — `app/games/sky-hop/`
 
 2D **canvas** typing game (no three.js, no image assets, no mp3s), third
-sibling of typing-ninja and rhino-dash. Single entry point: `/sky-hop`
+sibling of typing-ninja and rhino-dash. Single entry point: `/games/sky-hop`
 (`page.tsx`, `next/dynamic` + `ssr: false`, fullscreen fixed overlay). Not
 embedded in the lesson runtime — arcade only, linked from `/games`.
 

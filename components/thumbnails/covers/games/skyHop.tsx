@@ -2,7 +2,7 @@ import React from 'react';
 import { SvgTemplateProps } from '@/types/thumbnail';
 
 /**
- * Cover for the 2D balloon game at `/sky-hop`: the ninja dangling from a
+ * Cover for the 2D balloon game at `/games/sky-hop`: the ninja dangling from a
  * balloon with the labelled chain climbing away over the ocean.
  * `params.keys` supplies the letters on the chain, `params.accentColor` is ignored
  * (the sky palette is fixed so the card matches the game's first stage).

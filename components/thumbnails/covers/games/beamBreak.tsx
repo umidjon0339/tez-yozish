@@ -2,7 +2,7 @@ import React from 'react';
 import { SvgTemplateProps } from '@/types/thumbnail';
 
 /**
- * Cover for `/beam-break`: the UFO holding a cute animal in its tractor beam
+ * Cover for `/games/beam-break`: the UFO holding a cute animal in its tractor beam
  * over the dune desert, with the keycap tile row the game is played on.
  */
 export const BeamBreakCover: React.FC<SvgTemplateProps> = ({ params, className }) => {

@@ -13,7 +13,7 @@
 import type { ThumbnailParams } from '@/types/thumbnail';
 
 export type GameCard = {
-  /** the route, and the key the like/play counters are stored under */
+  /** the route under /games/, and the key the like/play counters are stored under */
   slug: string;
   /** game names stay English in every locale, like the games' own title screens */
   name: string;

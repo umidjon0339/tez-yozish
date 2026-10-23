@@ -1,4 +1,4 @@
-# app/alien-drop/ — the 2D falling-pod game
+# app/games/alien-drop/ — the 2D falling-pod game
 
 Read **`docs/alien-drop.md`** before editing.
 
