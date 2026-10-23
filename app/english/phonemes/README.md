@@ -119,7 +119,7 @@ words with all its single-word shade words (up to 24);
   from the diacritics — check `allophoneProcess()` covers the mark you used
   (unknown marks fall back to the generic "a different shade" card).
 - **Strings**: every user-facing string needs `en`/`uz`/`ru`
-  (`STR.phonemes` in `lib/uiStrings.ts`), short simple words — the audience
+  (`STR.phonemes` in `lib/uiStrings/phonemes.ts`), short simple words — the audience
   is school students.
 - The stage components live one-per-file in `components/phonemes/stages/`;
   shared UI belongs in `stages/kit.tsx`, sounds in `lib/phonemeAudio.ts` —

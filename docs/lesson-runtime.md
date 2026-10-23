@@ -167,7 +167,7 @@ Both are pure overlays fed by props (`progress`, `locale`) — no own storage.
 - `tz-prefs-v1` (localStorage): `{ dark, audio, colorful, hands }` workspace
   toggles; loaded once (guarded by a `prefsLoaded` ref), saved on change.
 - Locale via `useLocale()` (`tz-locale`); the lesson chrome uses the local
-  `UI` dict, not `lib/uiStrings.ts`.
+  `UI` dict, not `lib/uiStrings/`.
 - **No focus mode.** The header, footer and rails keep full opacity while
   typing — deliberately removed; don't reintroduce dimming/blurring of the
   chrome on keystroke.

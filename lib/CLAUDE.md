@@ -5,7 +5,7 @@ Per-file docs (read before editing):
   **`docs/curriculum.md`**
 - `progress.ts` → **`docs/progress.md`**
 - `stats.ts` → **`docs/stats.md`**
-- `locale.tsx`, `uiStrings.ts`, `theme.tsx` → **`docs/app-shell.md`**
+- `locale.tsx`, `uiStrings/`, `theme.tsx` → **`docs/app-shell.md`**
 - `auth.ts`, `firebase.ts` → **`docs/auth.md`**
 - `dojoSim.ts` consumers → **`docs/lesson-runtime.md`** (ShortcutDojo)
 

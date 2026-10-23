@@ -19,7 +19,7 @@ Root `CLAUDE.md` holds the short overview; these hold the details.
 | [star-type.md](star-type.md) | The 2D space shooter (a faithful ZType copy): the lock-on model, doomed drones, the wave ramp, what was deliberately left out | `app/star-type/*` |
 | [home-test.md](home-test.md) | The home page's Monkeytype-style test: what was copied and what was not, the input model, the ref+snapshot architecture, scoring, fitting one screen | `app/page.tsx`, `components/home/*`, `lib/typingTest.ts` |
 | [progress.md](progress.md) | localStorage progress store, star ladder, WPM/accuracy formulas, unlocking | `lib/progress.ts` |
-| [app-shell.md](app-shell.md) | Layout, NavBar, pages, localization (`useLocale`/`STR`), palette switcher, global CSS | `app/layout.tsx`, `app/page.tsx`, `app/courses/*`, `app/games/*`, `components/NavBar.tsx`, `lib/locale.tsx`, `lib/uiStrings.ts`, `app/globals.css` |
+| [app-shell.md](app-shell.md) | Layout, NavBar, pages, localization (`useLocale`/`STR`), palette switcher, global CSS | `app/layout.tsx`, `app/page.tsx`, `app/courses/*`, `app/games/*`, `components/NavBar.tsx`, `lib/locale.tsx`, `lib/uiStrings/`, `app/globals.css` |
 | [auth.md](auth.md) | Firebase SSO with edify-student, auth store, callback route, UserMenu | `lib/firebase.ts`, `lib/auth.ts`, `app/auth/callback/page.tsx`, `components/UserMenu.tsx` |
 | [thumbnails.md](thumbnails.md) | Parametric SVG registry, every template, params contract | `components/thumbnails/*`, `types/thumbnail.ts` |
 | [pricing.md](pricing.md) | The one Pro plan and its three periods, the checkout seam, the 7-tab feature showcase and its animated scenes | `app/pricing/*`, `components/pricing/*` |

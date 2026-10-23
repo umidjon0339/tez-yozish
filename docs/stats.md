@@ -79,7 +79,7 @@ Chart components in `components/stats/` (hand-built SVG, no chart deps):
 (sequential 4-step ramps, one hue per metric; exports `KEY_ROWS`),
 `FingerMastery` (schematic hands, emerald mastery ramp, `--fz` identity
 dots), `ActivityCalendar`. All page strings live in `STR.stats`
-(`lib/uiStrings.ts`, en/uz/ru).
+(`lib/uiStrings/`, en/uz/ru).
 
 ## Invariants
 

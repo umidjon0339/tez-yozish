@@ -23,7 +23,7 @@ Detailed contracts, data flow, and invariants live in **`docs/`**. Before editin
 | `app/word-forge/*` | `docs/word-forge.md` |
 | `app/page.tsx`, `components/home/*`, `lib/typingTest.ts`, `data/typing-texts.json` | `docs/home-test.md` |
 | `lib/progress.ts` | `docs/progress.md` |
-| pages, `NavBar`, `lib/locale.tsx`, `lib/uiStrings.ts`, `app/globals.css` | `docs/app-shell.md` |
+| pages, `NavBar`, `lib/locale.tsx`, `lib/uiStrings/`, `app/globals.css` | `docs/app-shell.md` |
 | `app/courses/page.tsx`, `lib/k12.ts`, `lib/exams.ts`, `data/k-12-curriculum.json`, `data/exams.json` | `docs/app-shell.md` (`/courses` row) |
 | `app/coding/*`, `lib/coding.ts`, `data/coding-curriculum.json` | `docs/coding.md` |
 | `app/books/*`, `components/books/*`, `lib/books.ts`, `data/books.json` | `docs/books.md` |
@@ -119,7 +119,7 @@ into. See `docs/pricing.md` before touching it.
 ## Conventions
 
 - Import alias `@/*` maps to the repo root (`tsconfig.json`), e.g. `@/data/lessons.json`, `@/components/...`.
-- All pages are `"use client"` — the UI is fully localized (en/uz/ru) and must react to the language switch. The selected locale lives in `localStorage` (`tz-locale`) behind the `useLocale()` hook in **`lib/locale.tsx`** (a `useSyncExternalStore`-based store, same pattern as `PaletteSwitcher`); chrome/page strings live in **`lib/uiStrings.ts`** (the lesson runtime keeps its own `UI` dict). The switcher UI is `components/LanguageSwitcher.tsx` (globe dropdown), used in the navbar (`components/NavBar.tsx`) and the lesson header. New user-facing text must be added in all three locales — use short, simple words (the audience is school students).
+- All pages are `"use client"` — the UI is fully localized (en/uz/ru) and must react to the language switch. The selected locale lives in `localStorage` (`tz-locale`) behind the `useLocale()` hook in **`lib/locale.tsx`** (a `useSyncExternalStore`-based store, same pattern as `PaletteSwitcher`); chrome/page strings live in **`lib/uiStrings/`** (the lesson runtime keeps its own `UI` dict). The switcher UI is `components/LanguageSwitcher.tsx` (globe dropdown), used in the navbar (`components/NavBar.tsx`) and the lesson header. New user-facing text must be added in all three locales — use short, simple words (the audience is school students).
 - Header/toolbar icons come from `lucide-react` — no hand-rolled inline SVGs for standard glyphs.
 - Styling is Tailwind CSS v4 (via `@tailwindcss/postcss`), utility classes inline. The visual language is a monochrome "Notion-style" neutral palette (`#FAFAFA` background, `neutral-*`) with mono/sans fonts (`Inter`, `JetBrains_Mono`) wired in `app/layout.tsx`.
 - **Dark mode is global and class-based** — `lib/theme.tsx` (`useTheme()`) toggles `.dark` on `<html>`, persisted in the `dark` field of `tz-prefs-v1` and applied pre-paint by the boot script in `app/layout.tsx`. The switch is `components/ThemeToggle.tsx` in the navbar; the lesson header switch is the same setting. Every new page/component must ship `dark:` variants (mapping table in `docs/app-shell.md` §2b); SVG charts use the `--chart-*`/`--ramp-*` variables instead of hex. The in-canvas games keep their own authored palettes.

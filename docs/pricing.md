@@ -53,7 +53,7 @@ inside `app/games/page.tsx`, where the pricing page could not reach it.
 Labels, titles **and** bullets all pass through `fill()` against one
 `textVars` map, so a string in `STR.pricing` may hold `{n}`, `{s}` or
 `{names}` and never a literal. **Adding a number to the page means adding a
-row to `textVars`, never typing the number into `uiStrings.ts`.** Mind that
+row to `textVars`, never typing the number into `lib/uiStrings/pricing.ts`.** Mind that
 the placeholder names are positional-by-meaning, not by order: `f10b1` reads
 "grades 1-{s}, {n} in all", so `{s}` is the grade count and `{n}` the
 subject total — getting them the wrong way round renders "grades 1-151,

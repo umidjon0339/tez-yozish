@@ -160,8 +160,9 @@ fade before `router.push`.
   mounted component switches together. No `storage`-event listener →
   cross-tab sync is not automatic. Also exports `LOCALES`
   (`{id,label,short,flag}`; flags in `public/flags/{en,uz,ru}.svg`).
-- **`lib/uiStrings.ts`**: `STR.<namespace>.<key>[locale]` — namespaces
-  `nav`, `auth`, `home`, `courses`, `games`, `notFound`. Chrome/page strings
+- **`lib/uiStrings/`**: `STR.<namespace>.<key>[locale]` — one file per
+  namespace (`nav.ts`, `home.ts`, `games.ts`, …), combined into `STR` by
+  `index.ts`; a new namespace is a new file plus one line there. Chrome/page strings
   only; lesson content is localized in `lessons.json`, and the lesson
   runtime keeps its own `UI` dict.
 - **`components/LanguageSwitcher.tsx`**: hover/click dropdown with flag +

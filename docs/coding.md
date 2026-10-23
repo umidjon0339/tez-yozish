@@ -11,7 +11,7 @@ the journey. Adding lessons later must not require re-cutting the map.
 | model | `lib/coding.ts` |
 | page | `app/coding/page.tsx` |
 | art | `CODE_TRACK_COVER` in `components/thumbnails/SvgLibrary.tsx` |
-| strings | `STR.coding.*` in `lib/uiStrings.ts` |
+| strings | `STR.coding.*` in `lib/uiStrings/coding.ts` |
 
 ## 1. Three tiers, and why
 
