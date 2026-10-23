@@ -40,53 +40,52 @@ picks it up by filename (it sits alongside the legacy `favicon.ico`; both
 get a `<link>`, and SVG wins in modern browsers). It cannot use the
 `currentColor` trick — a tab strip's colour is not ours to know — so it
 carries its own dark plate with a painted face, and is cut to three shapes
-because at 16px nothing finer survives. **Change one and change the other.** The nine links live in one `NAV_LINKS` array (all
-`STR.nav.*`) that both the desktop row and the mobile sheet map over, so
-they cannot drift: `/courses/course_core_typing` (hardcoded course id),
-`/english`, `/coding`, `/courses`, `/books`, `/games`, `/compete`,
-`/stats`, `/pricing`. The active one is marked with `aria-current="page"` and
-near-black text — `/courses` matches exactly, everything else by prefix, so
-"Subjects" does not light up while you are inside the "Keyboard" course.
+because at 16px nothing finer survives. **Change one and change the other.**
+
+The links live in two arrays that both the desktop bar and the mobile sheet
+map over, so they cannot drift (all labels are `STR.nav.*`):
+
+- `LEARN_LINKS` — the five learning areas, each with a lucide icon and a
+  one-line description (`STR.nav.*Desc`): `/courses/course_core_typing`
+  (hardcoded course id), `/english`, `/coding`, `/courses`, `/books`.
+- `NAV_LINKS` — `/games`, `/compete`, `/stats`, `/pricing`.
+
+On desktop the bar shows **Learn ▾** plus the four `NAV_LINKS`. `LearnMenu`
+opens on mouse hover; a tap or Enter toggles it, a mouse click keeps it open
+(hover already opened it), and Escape / outside pointerdown close it — the
+same rules as `LanguageSwitcher`. Hover uses `onPointerEnter` filtered to
+`pointerType === "mouse"`, because a tap also fires enter and would fight
+its own click. It lists `LEARN_LINKS` as icon + title + description rows. Nine
+same-looking links in one row read as an undivided strip; one menu for the
+learning areas gives the bar five clear items and pays for the pill styling.
+Every item is a pill (`pillCls`): the active one gets a soft background and
+near-black text, with `aria-current="page"`; the Learn trigger is active
+when any learning area is. `/courses` matches exactly, everything else by
+prefix, so "Subjects" does not light up inside the "Keyboard" course.
 
 The row is a `1fr auto 1fr` grid (brand · links · controls) and the links are
 **centred in the viewport** — the row's midpoint sits on the screen's
-midpoint at every width, whatever the brand and controls happen to measure.
-Below the breakpoint the link cell is `display:none`, so it stops being a
-grid item and the `grid-cols-[auto_1fr]` track applies instead.
+midpoint at every width. Below the breakpoint the link cell is
+`display:none`, so it stops being a grid item and the `grid-cols-[auto_1fr]`
+track applies instead.
 
-**Viewport centring makes the rest of the bar a fitting problem, not a
-styling one.** Both side columns are forced to the same width, so the row
-stays centred only while
+**Viewport centring makes the bar a fitting problem.** Both side columns
+are forced to the same width, so the row stays centred only while
 
 ```
 row + 2 × controls ≤ container
 ```
 
-and the widest side is always the controls, never the brand. Three things
-are sized to satisfy that with nine links in the longest locale:
+and the widest side is the controls (the auth labels are localized: uz is
+the widest cluster). The brand is kept small (77px) and the navbar's
+`LanguageSwitcher` is `compact` (flag only) for the same reason.
 
-| lever | value | why |
-|---|---|---|
-| brand | ~20% narrower, 98px → **77px** (`text-[10px]` chip, `text-[11px]` wordmark, `gap-1.5`) | asked for, and it buys headroom |
-| `LanguageSwitcher` | **`compact`** in the navbar — flag only, no country code | worth ~30px, and the dropdown still names every language |
-| link gap | **`gap-3`**, stepping to `gap-4` only from 1400px | 1330 cannot afford `gap-4`; 1400 can |
-
-Note the controls are not one width: the auth labels are localized, so the
-cluster measures 250px in en, 286px in ru and **308px in uz** — uz is the
-binding case even though ru has the longest link row.
-
-**The breakpoint (`min-[1330px]`) is a measurement — re-take it whenever a
-link is added or removed.** Verified at
-1330/1360/1399/1400/1512/1920/2560 in all three locales: the row centre sits
-on the viewport centre to **0px** at every one (a single 1px reading at 1399
-in ru is sub-pixel rounding on an odd container width). Worst clearance
-between the last link and the controls is 16px (ru at exactly 1330), 34px at
-1366; no horizontal overflow anywhere, and 1329 and below correctly fall to
-the sheet.
-
-There is deliberately **no `2xl:` step**. Every time the row grew, an
-upsizing step at 1536 inflated it faster than the container did — the
-1400px `gap-4` step is sized against the fit rule above, not by eye.
+**The breakpoint (`min-[1150px]`) is a measurement — re-take it whenever a
+link is added or removed.** Measured at 1149/1150/1366/1920 in all three
+locales: the row centre sits on the viewport centre to 0px everywhere,
+worst clearance between the last link and the controls is 20px (uz at
+1150), 128px+ at 1366; no horizontal overflow, and 1149 and below fall to
+the sheet. (The old nine-link row needed 1330px and had 16px to spare.)
 
 Right: `<ThemeToggle />`, `<LanguageSwitcher compact />`, then a `border-l` divider
 and the auth cluster — renders `null` until auth is `ready` (no "Log in"
@@ -95,10 +94,11 @@ buttons that leave to `edifyAuthUrl("login" | "signup")` (see auth.md). The
 divider is what keeps the five small controls from reading as one dense
 strip.
 
-**Mobile sheet** (`#nav-sheet`, `min-[1330px]:hidden`): a hamburger toggles a panel
+**Mobile sheet** (`#nav-sheet`, `min-[1150px]:hidden`): a hamburger toggles a panel
 *under* the bar — not a full overlay, so the page stays visible and nothing
-needs a scroll lock. It holds the same nine links plus, on `<sm` only, the
-Log in / Sign up pair (two more buttons in the bar itself would push a
+needs a scroll lock. It holds a "Learn" group (the
+`LEARN_LINKS` with their icons), a divider, the `NAV_LINKS`, and on `<sm`
+only the Log in / Sign up pair (two more buttons in the bar itself would push a
 360px viewport into overflow). Closes on link click, outside pointerdown,
 and Escape. There is deliberately **no `setOpen` in a `useEffect` on
 `pathname`** — the React Compiler lint rule `set-state-in-effect` rejects

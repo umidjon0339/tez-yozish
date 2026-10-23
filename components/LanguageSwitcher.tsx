@@ -5,6 +5,9 @@ import { ChevronDown } from "lucide-react";
 import { LOCALES, useLocale } from "@/lib/core/locale";
 import { STR } from "@/lib/core/uiStrings";
 
+const isMouseClick = (e: React.MouseEvent) =>
+  (e.nativeEvent as PointerEvent).pointerType === "mouse";
+
 /* Flag + code button that opens a flag/native-name dropdown on hover
    (click also toggles it, for touch screens). Used in the global navbar
    and the lesson workspace header (hence the dark: variants). */
@@ -35,12 +38,14 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean } = {}
     <div
       ref={rootRef}
       className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      // Hover is mouse-only: a tap also fires enter, which would fight its click.
+      onPointerEnter={(e) => e.pointerType === "mouse" && setOpen(true)}
+      onPointerLeave={(e) => e.pointerType === "mouse" && setOpen(false)}
     >
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        // A mouse already opened it on hover, so its click must not close it.
+        onClick={(e) => setOpen((v) => (isMouseClick(e) ? true : !v))}
         aria-label={STR.nav.language[locale]}
         aria-expanded={open}
         className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800 transition-colors cursor-pointer"
