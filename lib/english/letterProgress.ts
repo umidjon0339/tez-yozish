@@ -9,15 +9,15 @@
 // flow; it is intentionally not migrated.)
 
 import { useSyncExternalStore } from "react";
-import type { LessonResult } from "@/lib/progress";
-import { isLessonPassed } from "@/lib/progress";
+import type { LessonResult } from "@/lib/typing/progress";
+import { isLessonPassed } from "@/lib/typing/progress";
 import {
   LETTER_TRACKS,
   letterLessonKey,
   letterUnlockRefs,
   type LetterTrackId,
-} from "@/lib/letterCurriculum";
-import { LESSON_TYPES } from "@/lib/lessonTypes";
+} from "@/lib/english/letterCurriculum";
+import { LESSON_TYPES } from "@/lib/typing/lessonTypes";
 
 export interface StoredLetterProgress {
   completed: boolean;

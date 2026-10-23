@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { course as courseData } from "@/lib/curriculum";
+import { course as courseData } from "@/lib/typing/curriculum";
 import { SectionNode, LessonNode } from "@/types/lesson";
 import { HandStyleSwitcher } from "@/components/keyboard/HandStyleSwitcher";
 import type { LayoutConfig } from "@/components/keyboard/KeyboardStage";
@@ -20,11 +20,11 @@ import {
   computeUnlocked,
   saveLessonResult,
   getProgress,
-} from "@/lib/progress";
-import { isGradedType } from "@/lib/lessonTypes";
-import { recordAttempt } from "@/lib/stats";
-import { useLocale } from "@/lib/locale";
-import { useTheme } from "@/lib/theme";
+} from "@/lib/typing/progress";
+import { isGradedType } from "@/lib/typing/lessonTypes";
+import { recordAttempt } from "@/lib/typing/stats";
+import { useLocale } from "@/lib/core/locale";
+import { useTheme } from "@/lib/core/theme";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import {
   Home,
@@ -147,7 +147,7 @@ export default function LessonPage() {
     const t = setTimeout(() => setShowLayoutWarning(false), 8000);
     return () => clearTimeout(t);
   }, [showLayoutWarning]);
-  // Theme is app-wide (lib/theme, same tz-prefs-v1 key) — the navbar switch and
+  // Theme is app-wide (lib/core/theme, same tz-prefs-v1 key) — the navbar switch and
   // this header's switch are the same setting.
   const { isDark, setDark: setIsDark } = useTheme();
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
@@ -160,7 +160,7 @@ export default function LessonPage() {
   }, []);
 
   // Persisted workspace preferences (sound, key colors, hands overlay) — the
-  // `dark` field of the same blob belongs to lib/theme, which reads and writes
+  // `dark` field of the same blob belongs to lib/core/theme, which reads and writes
   // it itself; this effect must never set or clobber it.
   const prefsLoaded = useRef(false);
   useEffect(() => {

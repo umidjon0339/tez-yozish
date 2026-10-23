@@ -1,7 +1,7 @@
 import React from "react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { GRAPHEMES } from "@/lib/graphemes";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { GRAPHEMES } from "@/lib/english/graphemes";
 import {
   GroupLabel,
   SyllableSplit,

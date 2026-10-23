@@ -15,7 +15,7 @@ Hard rules:
   `isGraphemeLessonPassed`/`graphemeUnlockedMap`.
 - Every dataset word contains its grapheme's spelling (MEET highlight +
   MASTER slot contract) and is lowercase a–z.
-- Word/phoneme speech only through `lib/phonemeAudio.ts`.
+- Word/phoneme speech only through `lib/english/phonemeAudio.ts`.
 - Mount-time randomness (round builds, shuffles) happens in effects —
   never during render (hydration).
 - Runner callbacks are PLAIN functions + latest-callback refs (React

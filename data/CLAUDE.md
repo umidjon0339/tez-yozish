@@ -6,7 +6,7 @@ edit.
 
 **`typing-texts.json`** is a separate, self-describing file: every word,
 sentence and quote the home-page typing test can produce (`docs/home-test.md`
-§9). Its `subjects` are keyed by the **`lib/k12.ts` subject slug**, which is
+§9). Its `subjects` are keyed by the **`lib/catalog/k12.ts` subject slug**, which is
 also how `k-12-curriculum.json` joins to it — renaming a subject in one file
 without the other silently serves generic text instead of failing. Run
 **`npm run validate:texts`** after editing either file.

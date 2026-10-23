@@ -4,16 +4,16 @@ import {
   type LayoutConfig,
 } from "@/components/keyboard/KeyboardStage";
 import type { StepNode } from "@/types/lesson";
-import type { StepStats } from "@/lib/progress";
-import { createStatsSession, type StatsSession } from "@/lib/stats";
-import { chordKeys, chordMatchesEvent, parseChordToken } from "@/lib/keyTokens";
+import type { StepStats } from "@/lib/typing/progress";
+import { createStatsSession, type StatsSession } from "@/lib/typing/stats";
+import { chordKeys, chordMatchesEvent, parseChordToken } from "@/lib/typing/keyTokens";
 import {
   applyDojoAction,
   initialDojoState,
   type DojoAction,
   type DojoState,
-} from "@/lib/dojoSim";
-import type { Locale } from "@/lib/locale";
+} from "@/lib/typing/dojoSim";
+import type { Locale } from "@/lib/core/locale";
 import { playErrorSound, playKeystrokeSound } from "../sfx";
 
 // ─── SHORTCUT DOJO ───

@@ -10,7 +10,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Heart } from "lucide-react";
-import { createStatsSession, type StatsSession } from "@/lib/stats";
+import { createStatsSession, type StatsSession } from "@/lib/typing/stats";
 import {
   playErrSound,
   playKeySound,

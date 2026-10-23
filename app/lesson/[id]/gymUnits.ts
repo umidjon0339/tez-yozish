@@ -3,7 +3,7 @@ import {
   isSpecialToken,
   parseChordToken,
   type ChordToken,
-} from "@/lib/keyTokens";
+} from "@/lib/typing/keyTokens";
 
 // Special-key tokens render as icons or short labels on their keycap.
 export const KEY_TOKEN_GLYPHS: Record<string, string> = {

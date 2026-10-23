@@ -1,5 +1,5 @@
 // Validates data/graphemeLessons.json (the grapheme/spelling lesson
-// templates). Mirrors the runtime expectations of lib/graphemeCurriculum.ts
+// templates). Mirrors the runtime expectations of lib/english/graphemeCurriculum.ts
 // and components/graphemes/GraphemeLessonRunner.tsx in plain JS — change
 // them together. Run: npm run validate:graphemes
 //
@@ -83,7 +83,7 @@ if (
       }
       if (lesson.passStars !== undefined) {
         errors.push(
-          `${p}: passStars is not used — grapheme unlocking is accuracy-based (PASS_ACCURACY in lib/graphemeCurriculum.ts)`,
+          `${p}: passStars is not used — grapheme unlocking is accuracy-based (PASS_ACCURACY in lib/english/graphemeCurriculum.ts)`,
         );
       }
       if (!lesson.thumbnail?.svgId) {

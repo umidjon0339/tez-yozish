@@ -4,7 +4,7 @@ import {
   type LayoutConfig,
 } from "@/components/keyboard/KeyboardStage";
 import type { StepNode } from "@/types/lesson";
-import type { StepStats } from "@/lib/progress";
+import type { StepStats } from "@/lib/typing/progress";
 
 export function PostureCheck({
   step,

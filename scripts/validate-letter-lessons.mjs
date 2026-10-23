@@ -1,5 +1,5 @@
 // Validates data/letterLessons.json (the letter/codes lesson templates).
-// Mirrors the runtime expectations of lib/letterCurriculum.ts and
+// Mirrors the runtime expectations of lib/english/letterCurriculum.ts and
 // components/letters/LetterLessonRunner.tsx in plain JS — change them
 // together. Run: npm run validate:letters
 //

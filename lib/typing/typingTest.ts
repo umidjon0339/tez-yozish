@@ -4,7 +4,7 @@
 //
 // **No text lives in this file.** Every word, sentence and quote comes from
 // `data/typing-texts.json`, which is the one place to edit or add content.
-// Subject names come from the normalized `lib/k12` model; the text file is
+// Subject names come from the normalized `lib/catalog/k12` model; the text file is
 // keyed by the same subject slugs, so a subject is named once for the app.
 //
 // Content is Latin-only on purpose: the on-screen keyboard and hands art are a
@@ -12,8 +12,8 @@
 // still en/uz/ru — only the *typed text* is limited to English and Uzbek.
 
 import texts from "@/data/typing-texts.json";
-import { k12Grades, type K12Subject } from "@/lib/k12";
-import type { Locale } from "@/lib/locale";
+import { k12Grades, type K12Subject } from "@/lib/catalog/k12";
+import type { Locale } from "@/lib/core/locale";
 
 export type TestMode = "time" | "words" | "quote" | "curriculum" | "custom";
 export type TestLang = "en" | "uz";
@@ -48,8 +48,8 @@ const QUOTES = texts.quotes as Record<TestLang, Quote[]>;
 const SUBJECT_TEXTS = texts.subjects as Record<string, SubjectEntry>;
 
 // ─── SUBJECTS ───
-// Names are read through the normalized `lib/k12` model, never the raw
-// curriculum JSON — same rule as `course` from `lib/curriculum`.
+// Names are read through the normalized `lib/catalog/k12` model, never the raw
+// curriculum JSON — same rule as `course` from `lib/typing/curriculum`.
 // `K12Subject.key` is the slug the text file is keyed by, so a subject is
 // named once for the whole app.
 
@@ -73,7 +73,7 @@ export const FEATURED_SUBJECTS: string[] = [
 ];
 
 export interface SubjectOption {
-  /** the `lib/k12` slug — the key `data/typing-texts.json` uses */
+  /** the `lib/catalog/k12` slug — the key `data/typing-texts.json` uses */
   key: string;
   /** what to show, in the interface language */
   label: string;
@@ -124,7 +124,7 @@ export interface TestConfig {
   words: number;
   /** bucket, for `quote` */
   quote: QuoteLength;
-  /** `lib/k12` subject slug, for `curriculum` */
+  /** `lib/catalog/k12` subject slug, for `curriculum` */
   subject: string;
   lang: TestLang;
   punctuation: boolean;

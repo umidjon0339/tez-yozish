@@ -2,11 +2,11 @@
 
 import React from "react";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "@/lib/theme";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useTheme } from "@/lib/core/theme";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
-/* Navbar light/dark switch. The state itself lives in lib/theme (one
+/* Navbar light/dark switch. The state itself lives in lib/core/theme (one
    `tz-prefs-v1` key shared with the lesson workspace toggle), so flipping it
    here also flips it inside a lesson and the other way round. */
 export function ThemeToggle() {

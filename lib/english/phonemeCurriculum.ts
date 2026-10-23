@@ -1,19 +1,19 @@
 // Normalizes data/phonemeLessons.json into the runtime model for the
 // /english/phonemes lesson hubs. The JSON holds one lesson TEMPLATE; every
 // phoneme gets the same list EXCEPT the "shades" slot: sounds in the
-// SHADE_WORDS pilot (lib/allophones.ts) replace the single SHADES gallery
+// SHADE_WORDS pilot (lib/english/allophones.ts) replace the single SHADES gallery
 // with one generated SHADE lesson per allophone — so the lesson list is
 // per-phoneme (phonemeLessonsFor), not global.
 //
 // Unlocking is ACCURACY-based, not star-based: a graded lesson passes at
-// PASS_ACCURACY (see lib/phonemeProgress.ts); ungraded lessons pass on
+// PASS_ACCURACY (see lib/english/phonemeProgress.ts); ungraded lessons pass on
 // completion. Stars stay as quality feedback only.
 //
 // Run `npm run validate:phonemes` after editing data/phonemeLessons.json.
 
 import rawData from "@/data/phonemeLessons.json";
-import { PHONEME_BY_SLUG } from "@/lib/phonemes";
-import { ALLO_PROCESS_INFO, shadesFor } from "@/lib/allophones";
+import { PHONEME_BY_SLUG } from "@/lib/english/phonemes";
+import { ALLO_PROCESS_INFO, shadesFor } from "@/lib/english/allophones";
 import type { LessonType, LocalizedString } from "@/types/lesson";
 
 export type PhonemeLessonKind =
@@ -98,7 +98,7 @@ export function phonemeLessonsFor(slug: string): PhonemeLesson[] {
   return lessons;
 }
 
-/** Progress-map key for one phoneme's lesson (see lib/phonemeProgress.ts). */
+/** Progress-map key for one phoneme's lesson (see lib/english/phonemeProgress.ts). */
 export function phonemeLessonKey(slug: string, lessonId: string): string {
   return `phonemes/${slug}/${lessonId}`;
 }

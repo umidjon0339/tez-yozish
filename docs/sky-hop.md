@@ -124,7 +124,7 @@ label dimmed — that's the look-ahead the game teaches.
   is only called from the click that starts a run.
 - All player-facing text goes through the localised `UI` dict (en/uz/ru) in
   `SkyHopWorld.tsx`, including the sky names (keyed by `SkyPalette.key`).
-- Score/record: `tz-skyhop-highscore`. Keystrokes feed `lib/stats.ts` through
+- Score/record: `tz-skyhop-highscore`. Keystrokes feed `lib/typing/stats.ts` through
   `createStatsSession()`, and the run logs one `recordAttempt({ lessonId:
   "sky-hop", type: "game" })`.
 

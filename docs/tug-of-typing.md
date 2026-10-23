@@ -126,7 +126,7 @@ green while you are out-typing the rival and red while you are not.
   rope ticks, grunts, a whistle and the crowd.
 - All player-facing text goes through the localised `UI` dict (en/uz/ru) in
   `TugWorld.tsx`.
-- Score/record: `tz-tug-highscore`. Keystrokes feed `lib/stats.ts` via
+- Score/record: `tz-tug-highscore`. Keystrokes feed `lib/typing/stats.ts` via
   `createStatsSession()`, and each run logs one `recordAttempt({ lessonId:
   "tug-of-typing", type: "game" })`.
 

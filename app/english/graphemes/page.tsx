@@ -9,15 +9,15 @@
 import React from "react";
 import Link from "next/link";
 import { ChevronRight, Star } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { GRAPHEMES, type GraphemeInfo } from "@/lib/graphemes";
-import { graphemeHubHref } from "@/lib/graphemeCurriculum";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { GRAPHEMES, type GraphemeInfo } from "@/lib/english/graphemes";
+import { graphemeHubHref } from "@/lib/english/graphemeCurriculum";
 import {
   graphemeDone,
   graphemeStars,
   useGraphemeProgress,
-} from "@/lib/graphemeProgress";
+} from "@/lib/english/graphemeProgress";
 
 const G = STR.graphemes;
 const E = STR.english;
@@ -26,7 +26,7 @@ const L = STR.letters;
 const SIZE_LABEL = [E.monograph, E.digraph, E.trigraph, E.tetragraph];
 
 /* Consonant blends (clusters) — NOT graphemes: each letter keeps its own
-   sound, so they live here rather than in lib/graphemes.ts and link to no
+   sound, so they live here rather than in lib/english/graphemes.ts and link to no
    lesson hub. Order: l-blends · r-blends · s-blends · 3-letter. */
 const BLENDS: { s: string; ipa: string }[] = [
   { s: "bl", ipa: "bl" },

@@ -21,24 +21,24 @@ unlock chain after mount and shows a locked card instead of the runner.
 ```
 data/phonemeLessons.json      the lesson TRACK template (ids, types, kinds,
                               titles ×3 locales, thumbnails)
-lib/phonemes.ts               reference data: 50 PhonemeInfo (symbol, slug,
+lib/english/phonemes.ts               reference data: 50 PhonemeInfo (symbol, slug,
                               examples, rival, minimal pairs) + ALLOPHONES
-lib/allophones.ts             the allophone teaching layer:
+lib/english/allophones.ts             the allophone teaching layer:
                               · process classification (aspirated, flap, …)
                                 with localized name + hint per variant
                               · SHADE_WORDS — per-allophone typing words
                                 (the pilot; drives the SHADE lessons)
                               · findSpelling / shadeTriggerIndex — word
                                 highlighting for the SHADE intro
-lib/graphemes.ts              GPC table; SPELLING_BY_SLUG + choiceForSpelling
+lib/english/graphemes.ts              GPC table; SPELLING_BY_SLUG + choiceForSpelling
                               feed the SPELL stage and MASTER spelling rounds
-lib/phonemeCurriculum.ts      JSON → runtime model; phonemeLessonsFor(slug)
+lib/english/phonemeCurriculum.ts      JSON → runtime model; phonemeLessonsFor(slug)
                               expands the "shades" slot into per-allophone
                               SHADE lessons for pilot sounds; PASS_ACCURACY
-lib/phonemeProgress.ts        localStorage store "tz-phonemes-v1"; the
+lib/english/phonemeProgress.ts        localStorage store "tz-phonemes-v1"; the
                               accuracy pass gate (isPhonemeLessonPassed,
                               phonemeUnlockedMap)
-lib/phonemeAudio.ts           speech: local recordings first, TTS fallback
+lib/english/phonemeAudio.ts           speech: local recordings first, TTS fallback
 components/phonemes/
   PhonemeLessonRunner.tsx     workspace chrome + kind → stage switch +
                               gated results screen
@@ -69,7 +69,7 @@ scripts/validate-phoneme-lessons.mjs   npm run validate:phonemes
 | rain | game | `RAIN` | RainStage | 2D word-rain typing game (SVG + rAF) |
 | ninja | game | `NINJA` | NinjaStage | embedded 3D Typing-Ninja run over the sound's words |
 
-**SHADE coverage**: ALL 50 sounds are in `SHADE_WORDS` (lib/allophones.ts)
+**SHADE coverage**: ALL 50 sounds are in `SHADE_WORDS` (lib/english/allophones.ts)
 — every allophone of every phoneme has its own lesson (154 shade sets;
 /t/ alone gets 9). Word lists are aligned by index with
 `ALLOPHONES[symbol]`; the SHADES gallery kind remains only as a fallback
@@ -94,7 +94,7 @@ words with all its single-word shade words (up to 24);
 - **Passing is accuracy-based, not star-based**: a graded lesson (test/
   game) unlocks the next one at `PASS_ACCURACY` (50%) best accuracy;
   ungraded lessons pass on completion. One rule everywhere:
-  `isPhonemeLessonPassed` / `phonemeUnlockedMap` (lib/phonemeProgress.ts).
+  `isPhonemeLessonPassed` / `phonemeUnlockedMap` (lib/english/phonemeProgress.ts).
   Stars stay as quality feedback. `passStars` in the JSON is rejected by
   the validator.
 - The runner's results screen respects the gate: below 50% the primary
@@ -104,7 +104,7 @@ words with all its single-word shade words (up to 24);
 
 - **Lesson list** lives in `data/phonemeLessons.json`. After every edit run
   `npm run validate:phonemes`. New `kind` = new entry in
-  `PhonemeLessonKind` (lib/phonemeCurriculum.ts) + the validator's `KINDS`
+  `PhonemeLessonKind` (lib/english/phonemeCurriculum.ts) + the validator's `KINDS`
   list + a stage component + a case in the runner's `renderStage` + a
   thumbnail motif in `PhonemeStageCover` (`components/thumbnails/
   covers/english.tsx`).
@@ -112,17 +112,17 @@ words with all its single-word shade words (up to 24);
   `useAnswerInput` + `AnswerLine`/`LetterSlots` from `stages/kit.tsx`
   (a–z appends, Backspace deletes, Enter submits; fixed-length answers
   auto-check when full).
-- **Words** in `lib/phonemes.ts` / `SHADE_WORDS` must stay lowercase a–z
+- **Words** in `lib/english/phonemes.ts` / `SHADE_WORDS` must stay lowercase a–z
   only — they are typed in the gym and fed to the keyboard highlights.
-- **Allophones**: add variants to `ALLOPHONES` in `lib/phonemes.ts` keyed by
-  IPA symbol. `lib/allophones.ts` auto-derives the kid-friendly explanation
+- **Allophones**: add variants to `ALLOPHONES` in `lib/english/phonemes.ts` keyed by
+  IPA symbol. `lib/english/allophones.ts` auto-derives the kid-friendly explanation
   from the diacritics — check `allophoneProcess()` covers the mark you used
   (unknown marks fall back to the generic "a different shade" card).
 - **Strings**: every user-facing string needs `en`/`uz`/`ru`
-  (`STR.phonemes` in `lib/uiStrings/phonemes.ts`), short simple words — the audience
+  (`STR.phonemes` in `lib/core/uiStrings/phonemes.ts`), short simple words — the audience
   is school students.
 - The stage components live one-per-file in `components/phonemes/stages/`;
-  shared UI belongs in `stages/kit.tsx`, sounds in `lib/phonemeAudio.ts` —
+  shared UI belongs in `stages/kit.tsx`, sounds in `lib/english/phonemeAudio.ts` —
   don't re-import the lesson runtime's private copies.
 - The NINJA stage mounts **outside** the StageScaler (a scale-transformed
   WebGL canvas renders blurry) and relies on NinjaWorld's embedded contract
@@ -132,13 +132,13 @@ words with all its single-word shade words (up to 24);
 
 ## Audio — where the sound comes from
 
-All playback goes through **`lib/phonemeAudio.ts`**:
+All playback goes through **`lib/english/phonemeAudio.ts`**:
 
 1. It first tries a **recording** under `public/audio/`:
    - `public/audio/words/<word>.mp3` — one file per example word, lowercase
      (`sheep.mp3`, `ship.mp3`, …)
    - `public/audio/phonemes/<slug>.mp3` — the isolated sound per phoneme
-     slug (`ee.mp3`, `sh.mp3`, … — slugs are in `lib/phonemes.ts`)
+     slug (`ee.mp3`, `sh.mp3`, … — slugs are in `lib/english/phonemes.ts`)
 2. If the file doesn't exist (or fails), it falls back to the browser's
    **Web Speech API** (robot voice, `en-US`, works offline, zero setup).
 

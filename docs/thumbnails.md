@@ -91,13 +91,13 @@ fallback — **never crash**.
 ### The two K-12 covers use lucide glyphs, not hand-drawn paths
 
 `GRADE_COVER`/`SUBJECT_COVER` (added for the `/courses` grade→subject tree,
-`lib/k12.ts`) render lucide components as a **nested `<svg x y width
+`lib/catalog/k12.ts`) render lucide components as a **nested `<svg x y width
 height>`** inside the 400×240 root — lucide spreads unknown props onto its
 own `<svg>`, so `x`/`y` position it. That keeps the repo's "no hand-rolled
 inline SVGs for standard glyphs" rule for the 19 subject emblems. Their
 accents come from `TONE_HEX` (12 literal hues) keyed by the `tone` param —
 `SUBJECT_GLYPHS`/`TONE_HEX` in `covers/catalog.tsx` are the lookup tables, and
-`SUBJECT_ART` in `lib/k12.ts` decides which subject gets which pair. An
+`SUBJECT_ART` in `lib/catalog/k12.ts` decides which subject gets which pair. An
 unknown `subjectIcon` falls back to `BookOpen`, an unknown `tone` to slate.
 
 Internal art helpers (not registered): `ninjaFigure`, `skeletonFigure`,

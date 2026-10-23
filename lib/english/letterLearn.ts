@@ -5,12 +5,12 @@
 // so a letter's stages are identical on every visit (and hydration-safe).
 
 import { FINGER_OF_KEY_ID } from "@/components/keyboard/keymap";
-import { wordsForLetter, WORD_POOL } from "@/lib/letterWords";
+import { wordsForLetter, WORD_POOL } from "@/lib/english/letterWords";
 
 const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split("");
 
 // The letter's usual SOUND (not its name): shown as "/f/ as in fish".
-// The letter name (IPA) lives in lib/letters.ts.
+// The letter name (IPA) lives in lib/english/letters.ts.
 export interface LetterSound {
   ipa: string;
   word: string;

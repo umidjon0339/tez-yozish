@@ -1,6 +1,6 @@
 import type { Str } from "./types";
 
-/* Typing practice over long-form text — lib/books.ts */
+/* Typing practice over long-form text — lib/catalog/books.ts */
 export const books = {
   title: { en: "Books", uz: "Kitoblar", ru: "Книги" },
   desc: {

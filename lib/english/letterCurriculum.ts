@@ -1,11 +1,11 @@
 // Normalizes data/letterLessons.json into the runtime model for the
 // /english/letters and /english/codes lesson hubs — the letters analogue of
-// lib/curriculum.ts. The JSON holds one lesson TEMPLATE per track; every
+// lib/typing/curriculum.ts. The JSON holds one lesson TEMPLATE per track; every
 // letter a–z gets the same lesson list, and per-letter identity lives in the
 // progress key (`${track}/${char}/${lessonId}`, stored by letterProgress.ts).
 //
 // Lesson `type` semantics (graded/ungraded, group order, pass gates) are the
-// course engine's — LESSON_TYPES in lib/lessonTypes.tsx is the single source.
+// course engine's — LESSON_TYPES in lib/typing/lessonTypes.tsx is the single source.
 // `kind` picks which stage UI the runner mounts (LetterLessonRunner);
 // kind "SOON" marks authored-but-unimplemented lessons: they render as locked
 // "coming soon" cards and never block the unlock chain.
@@ -13,9 +13,9 @@
 // Run `npm run validate:letters` after editing data/letterLessons.json.
 
 import rawData from "@/data/letterLessons.json";
-import { LESSON_TYPES } from "@/lib/lessonTypes";
+import { LESSON_TYPES } from "@/lib/typing/lessonTypes";
 import type { LessonType, LocalizedString } from "@/types/lesson";
-import type { UnlockRef } from "@/lib/progress";
+import type { UnlockRef } from "@/lib/typing/progress";
 
 export type LetterTrackId = "letters" | "codes";
 
@@ -84,7 +84,7 @@ export const LETTER_TRACKS: Record<LetterTrackId, LetterTrack> =
     rawData.tracks.map((t) => [t.id, normalizeTrack(t)]),
   ) as Record<LetterTrackId, LetterTrack>;
 
-/** Progress-map key for one letter's lesson (see lib/letterProgress.ts). */
+/** Progress-map key for one letter's lesson (see lib/english/letterProgress.ts). */
 export function letterLessonKey(
   track: LetterTrackId,
   char: string,

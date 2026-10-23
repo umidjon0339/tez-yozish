@@ -40,8 +40,8 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-[#FAFAFA] dark:bg-neutral-950 text-neutral-950 dark:text-neutral-100 antialiased selection:bg-neutral-950 selection:text-white dark:selection:bg-white dark:selection:text-neutral-950 font-sans">
 
         {/* Apply the saved theme, finger-zone palette, per-finger custom colors
-            and language before paint (see lib/theme, PaletteSwitcher and
-            lib/locale). The `dark` class must land before first paint or dark
+            and language before paint (see lib/core/theme, PaletteSwitcher and
+            lib/core/locale). The `dark` class must land before first paint or dark
             users get a white flash on every navigation. */}
         <script
           dangerouslySetInnerHTML={{

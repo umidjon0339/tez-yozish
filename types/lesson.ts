@@ -27,7 +27,7 @@ export interface ChatTurn {
 
 /**
  * One task card of a SHORTCUT_DOJO step. `do` is the shortcut to perform
- * (one of lib/dojoSim.ts DOJO_ACTIONS, e.g. "Ctrl+C"); `say` is the
+ * (one of lib/typing/dojoSim.ts DOJO_ACTIONS, e.g. "Ctrl+C"); `say` is the
  * localized task text ("Copy the selected words!").
  */
 export interface DojoTask {
@@ -56,7 +56,7 @@ export interface StepRules {
 // Simple to write by hand: uniform `id`/`title` keys, no *Number
 // fields (derived from array order), `mode` presets instead of raw
 // rules, and step text as one space-separated string.
-// `lib/curriculum.ts` normalizes this into the runtime *Node types
+// `lib/typing/curriculum.ts` normalizes this into the runtime *Node types
 // below, which the UI consumes.
 // ═══════════════════════════════════════════════════════════════════
 
@@ -75,7 +75,7 @@ export interface StepSource {
    * "f f fj jf" — split on whitespace into tokens. An array is also accepted.
    * Besides plain typed text, a token may be a SPECIAL KEY (Enter, Backspace,
    * Tab, CapsLock, Control, Alt, Shift) or a CHORD ("Ctrl+C") — see
-   * lib/keyTokens.ts for the exact rules and where each kind is allowed.
+   * lib/typing/keyTokens.ts for the exact rules and where each kind is allowed.
    * CHAT_SIM steps use `chat` INSTEAD of `text`.
    */
   text?: string | string[];
@@ -109,7 +109,7 @@ export interface StepSource {
  * 'test'     — proves the skill. Graded 0–5 stars, gates progression.
  * 'game'     — arcade challenge. Graded 0–5 stars.
  * Per-type behavior (grading, passStars defaults, labels) lives in
- * lib/lessonTypes.tsx.
+ * lib/typing/lessonTypes.tsx.
  */
 export type LessonType = 'lesson' | 'practice' | 'test' | 'game';
 
@@ -154,7 +154,7 @@ export interface CourseSource {
 
 // ═══════════════════════════════════════════════════════════════════
 // RUNTIME MODEL — what the UI components consume (produced by
-// lib/curriculum.ts; not written by hand anymore).
+// lib/typing/curriculum.ts; not written by hand anymore).
 // ═══════════════════════════════════════════════════════════════════
 
 export interface StepNode {

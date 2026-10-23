@@ -4,7 +4,7 @@
 // stages/*). Everything here is a module-local copy of the lesson runtime's
 // chrome — the course engine keeps its own (see PhonemeLessonRunner header).
 //
-// Word/phoneme playback goes through lib/phonemeAudio.ts (recordings first,
+// Word/phoneme playback goes through lib/english/phonemeAudio.ts (recordings first,
 // TTS fallback); keystroke clicks stay on the mp3 Web-Audio layer below.
 
 import React, {

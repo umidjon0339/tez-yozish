@@ -1,6 +1,6 @@
 // Static reference data for the 50 English phonemes (Cambridge dictionary
 // symbol set), used by /english/phonemes — the phoneme analogue of
-// lib/letters.ts. Every example / pair word is lowercase a–z only: the words
+// lib/english/letters.ts. Every example / pair word is lowercase a–z only: the words
 // are typed in the gym stages and fed to the keyboard highlight layer.
 //
 // `spell` is the substring of `word` that writes the sound ("ee" in "sheep");

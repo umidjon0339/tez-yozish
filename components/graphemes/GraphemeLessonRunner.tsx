@@ -4,7 +4,7 @@
 // /english/graphemes/[grapheme]/[lesson] and
 // /english/spellings/[phoneme]/[lesson]; the two-track analogue of
 // PhonemeLessonRunner. One URL = one lesson (found in
-// lib/graphemeCurriculum.ts by id); the runner mounts the stage for the
+// lib/english/graphemeCurriculum.ts by id); the runner mounts the stage for the
 // lesson's `kind` (components/graphemes/stages/ + the shared
 // components/english/ layer), grades the run with the course star formula
 // and persists it under the grapheme-lesson progress key (tz-graphemes-v1).
@@ -32,8 +32,8 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 import {
   GRAPHEMES,
   SPELLINGS,
@@ -48,9 +48,9 @@ import {
   typeDrillWords,
   wordsForGrapheme,
   wordsForSpelling,
-} from "@/lib/graphemes";
-import { speakWord } from "@/lib/phonemeAudio";
-import { computeLessonResult, type LessonResult } from "@/lib/progress";
+} from "@/lib/english/graphemes";
+import { speakWord } from "@/lib/english/phonemeAudio";
+import { computeLessonResult, type LessonResult } from "@/lib/typing/progress";
 import {
   GRAPHEME_TRACKS,
   PASS_ACCURACY,
@@ -60,14 +60,14 @@ import {
   type GraphemeLesson,
   type GraphemeLessonKind,
   type GraphemeTrackId,
-} from "@/lib/graphemeCurriculum";
-import { LESSON_TYPES } from "@/lib/lessonTypes";
+} from "@/lib/english/graphemeCurriculum";
+import { LESSON_TYPES } from "@/lib/typing/lessonTypes";
 import {
   graphemeDone,
   saveGraphemeLessonResult,
   useGraphemeProgress,
   type GraphemeProgressMap,
-} from "@/lib/graphemeProgress";
+} from "@/lib/english/graphemeProgress";
 import { PaletteSwitcher } from "@/components/PaletteSwitcher";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { loadSfx, type StageStats } from "@/components/english/stage-kit";

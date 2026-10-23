@@ -4,14 +4,14 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronRight, Star } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { LETTERS, type LetterInfo } from "@/lib/letters";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { LETTERS, type LetterInfo } from "@/lib/english/letters";
 import {
   letterDone,
   letterStars,
   useLetterProgress,
-} from "@/lib/letterProgress";
+} from "@/lib/english/letterProgress";
 import { SignalFlag, SemaphoreFigure } from "@/components/LetterSignals";
 
 const L = STR.letters;

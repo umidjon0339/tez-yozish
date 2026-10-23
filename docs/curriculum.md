@@ -1,9 +1,9 @@
 # Curriculum / data engine
 
 The entire course is data: `data/lessons.json`, written in the **v4 authoring
-format** specified by `data/lessondoc.txt`. `lib/curriculum.ts` normalizes that
+format** specified by `data/lessondoc.txt`. `lib/typing/curriculum.ts` normalizes that
 source into the runtime model at import time. Pages import `course` from
-`@/lib/curriculum` — **never** the raw JSON.
+`@/lib/typing/curriculum` — **never** the raw JSON.
 
 Corpus as of July 2026: 1 course, 11 chapters, 51 sections, 504 lessons,
 1220 steps. Lesson types: 199 practice / 152 test / 102 game / 51 lesson.
@@ -43,7 +43,7 @@ student types.
 
 ### `mode` presets → `StepRules`
 
-Defined in `MODE_PRESETS` (`lib/curriculum.ts`); expanded by `buildRules`:
+Defined in `MODE_PRESETS` (`lib/typing/curriculum.ts`); expanded by `buildRules`:
 
 | mode | allowBackspace | blockOnTypo | maxMistakesAllowed | use for |
 |---|---|---|---|---|
@@ -60,7 +60,7 @@ Note `free` disables backspace — game steps cannot correct mistakes.
 4★ needs `wpm ≥ 0.8 × target`); 3★ and below are accuracy-only. See
 [progress.md](progress.md).
 
-### Special keys & chords (v4.1) — `lib/keyTokens.ts`
+### Special keys & chords (v4.1) — `lib/typing/keyTokens.ts`
 
 A `text` token is classified in this order:
 1. **Special key** — one of `SPECIAL_KEY_TOKENS`: `Enter Backspace Tab
@@ -90,7 +90,7 @@ keyboard visualization.
 Enter. ≥1 `you` turn required; `text`/`dojo` must be omitted; `you` message
 text must be plain typable ASCII (validator rejects specials/chords).
 
-### SHORTCUT_DOJO payload — `lib/dojoSim.ts`
+### SHORTCUT_DOJO payload — `lib/typing/dojoSim.ts`
 
 `step.dojo = { doc: "the quick brown fox", tasks: [{ do: "Ctrl+A", say:
 LocalizedString }] }`. Document model: a **list of words**; selection is a
@@ -123,7 +123,7 @@ must exist in `ThumbnailRegistry`. Raster alternative:
 thumbnail survives only if it has an `svgId` (`LessonNode.thumbnail` is typed
 `{ svgId, parameters? }`). See [thumbnails.md](thumbnails.md).
 
-## 2. Normalization — `lib/curriculum.ts`
+## 2. Normalization — `lib/typing/curriculum.ts`
 
 Exports: `course: CourseNode` (the singleton, built once at import),
 `MODE_PRESETS`, `deriveKeys`. Everything else is internal.
@@ -159,7 +159,7 @@ unlockedKeys, passStars, thumbnail?, steps }`, plus `SectionNode`,
 `ChapterNode`, `CourseNode`. (`LessonNode.archetype` is declared but never
 populated — vestigial.)
 
-## 3. Lesson types — `lib/lessonTypes.tsx`
+## 3. Lesson types — `lib/typing/lessonTypes.tsx`
 
 `LESSON_TYPES: Record<LessonType, LessonTypeConfig>` centralizes all per-type
 behavior; pages never switch on the type string directly.
@@ -198,7 +198,7 @@ thumbnail `svgId` existence (scraped from `SvgLibrary.tsx` by regex).
 **Sync duplication**: the validator re-implements TS logic in plain JS —
 `VIEWPORTS`, `MODES`, `TYPES`/`UNGRADED_TYPES`, `BACKSPACE_MODES`, the
 special-key/chord grammar, and `simulateDojo`. If you change
-`lib/keyTokens.ts`, `lib/dojoSim.ts`, `lib/lessonTypes.tsx`, or
+`lib/typing/keyTokens.ts`, `lib/typing/dojoSim.ts`, `lib/typing/lessonTypes.tsx`, or
 `MODE_PRESETS`, update the validator's mirror constants in the same commit.
 
 ## Invariants

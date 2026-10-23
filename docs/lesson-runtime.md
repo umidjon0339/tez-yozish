@@ -167,7 +167,7 @@ Both are pure overlays fed by props (`progress`, `locale`) — no own storage.
 - `tz-prefs-v1` (localStorage): `{ dark, audio, colorful, hands }` workspace
   toggles; loaded once (guarded by a `prefsLoaded` ref), saved on change.
 - Locale via `useLocale()` (`tz-locale`); the lesson chrome uses the local
-  `UI` dict, not `lib/uiStrings/`.
+  `UI` dict, not `lib/core/uiStrings/`.
 - **No focus mode.** The header, footer and rails keep full opacity while
   typing — deliberately removed; don't reintroduce dimming/blurring of the
   chrome on keystroke.
@@ -183,7 +183,7 @@ Both are pure overlays fed by props (`progress`, `locale`) — no own storage.
   every key).
 - Each viewport owns exactly one `window` keydown listener, mounted via the
   `key={step.stepId}` remount; always clean up in the effect return.
-- `StepStats` shape is the contract with `lib/progress.ts` — every graded
+- `StepStats` shape is the contract with `lib/typing/progress.ts` — every graded
   viewport must report `{ correct, mistakes, timeMs, perKeyMistakes }`.
 - Space/Tab must stay `preventDefault`'d in every typing viewport; chord
   handlers must keep suppressing real browser shortcuts.

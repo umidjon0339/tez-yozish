@@ -8,7 +8,7 @@
  * contract, and this module is the single place that relies on it.
  *
  * Everything downstream consumes the normalized model below, exactly the
- * way pages consume `course` from `@/lib/curriculum` rather than the raw
+ * way pages consume `course` from `@/lib/typing/curriculum` rather than the raw
  * lessons JSON.
  */
 

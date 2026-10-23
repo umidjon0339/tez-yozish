@@ -146,7 +146,7 @@ export const SubjectCover: React.FC<SvgTemplateProps> = ({ params, className }) 
 };
 
 /* ── Coding catalogue cover ────────────────────────────────────────────
-   One template for all 35 tracks of `/coding` (lib/coding.ts). It draws an
+   One template for all 35 tracks of `/coding` (lib/catalog/coding.ts). It draws an
    editor window holding that track's real `sample` line, because the point
    of the unit is that you learn the field and type its syntax at the same
    time — a cover with no code on it would be selling half the promise. */
@@ -266,7 +266,7 @@ const EXAM_GLYPHS: Record<string, LucideIcon> = {
 };
 
 /* ── Exam cover ────────────────────────────────────────────────────────
-   One template for every exam on `/courses` (lib/exams.ts). It draws a score
+   One template for every exam on `/courses` (lib/catalog/exams.ts). It draws a score
    card: the exam's glyph over a ruled answer sheet, with the score range
    printed as the one piece of text — that range is never translated, so it
    is the only string safe to bake into the art. */

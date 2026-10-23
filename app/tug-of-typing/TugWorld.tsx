@@ -28,8 +28,8 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Mascot } from "@/components/Mascot";
-import { useLocale } from "@/lib/locale";
-import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/stats";
+import { useLocale } from "@/lib/core/locale";
+import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/typing/stats";
 import { sfx } from "./sound";
 import { draw, layoutFor, botX, playerX, type Layout } from "./render";
 import {

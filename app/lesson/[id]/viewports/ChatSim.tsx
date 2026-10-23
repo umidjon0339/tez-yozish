@@ -4,9 +4,9 @@ import {
   type LayoutConfig,
 } from "@/components/keyboard/KeyboardStage";
 import type { StepNode } from "@/types/lesson";
-import type { StepStats } from "@/lib/progress";
-import { createStatsSession, type StatsSession } from "@/lib/stats";
-import type { Locale } from "@/lib/locale";
+import type { StepStats } from "@/lib/typing/progress";
+import { createStatsSession, type StatsSession } from "@/lib/typing/stats";
+import type { Locale } from "@/lib/core/locale";
 import { playErrorSound, playKeystrokeSound } from "../sfx";
 import {
   CORRECT,

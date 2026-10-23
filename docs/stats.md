@@ -1,9 +1,9 @@
-# Keystroke statistics — `lib/stats.ts`
+# Keystroke statistics — `lib/typing/stats.ts`
 
 Client-only, aggregate-only statistics in `localStorage["tz-stats-v1"]`.
 No raw keystroke log is kept — every write merges into lifetime counters,
 so the store stays small (~tens of KB) forever. SSR-guarded and
-try/catch-wrapped like `lib/progress.ts`.
+try/catch-wrapped like `lib/typing/progress.ts`.
 
 ## Storage shape (compatibility contract — bump the key on change)
 
@@ -79,7 +79,7 @@ Chart components in `components/stats/` (hand-built SVG, no chart deps):
 (sequential 4-step ramps, one hue per metric; exports `KEY_ROWS`),
 `FingerMastery` (schematic hands, emerald mastery ramp, `--fz` identity
 dots), `ActivityCalendar`. All page strings live in `STR.stats`
-(`lib/uiStrings/`, en/uz/ru).
+(`lib/core/uiStrings/`, en/uz/ru).
 
 ## Invariants
 

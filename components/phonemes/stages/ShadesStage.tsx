@@ -2,16 +2,16 @@
 
 // SHADES — the allophone learn stage. Every variant of the sound is a card:
 // tap it to hear its example word and read what the mouth does differently
-// (process name + hint from lib/allophones.ts). All cards must be heard
+// (process name + hint from lib/english/allophones.ts). All cards must be heard
 // before Enter completes the lesson — so every allophone really gets seen.
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Check, Volume2 } from "lucide-react";
-import { type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { type PhonemeInfo } from "@/lib/phonemes";
-import { ALLO_PROCESS_INFO, allophoneCards } from "@/lib/allophones";
-import { speakPhrase, speakWord } from "@/lib/phonemeAudio";
+import { type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { type PhonemeInfo } from "@/lib/english/phonemes";
+import { ALLO_PROCESS_INFO, allophoneCards } from "@/lib/english/allophones";
+import { speakPhrase, speakWord } from "@/lib/english/phonemeAudio";
 
 const P = STR.phonemes;
 const L = STR.letters;

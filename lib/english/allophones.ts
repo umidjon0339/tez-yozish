@@ -1,4 +1,4 @@
-// Teaching layer over ALLOPHONES (lib/phonemes.ts): every allophone variant
+// Teaching layer over ALLOPHONES (lib/english/phonemes.ts): every allophone variant
 // is classified into a phonetic PROCESS (aspiration, nasalization, flap, …)
 // by reading the IPA diacritics in its symbol, and every process carries a
 // kid-friendly localized name + hint. The SHADES learn stage and the MASTER
@@ -18,8 +18,8 @@ import {
   wordsForPhoneme,
   type Allophone,
   type PhonemeInfo,
-} from "@/lib/phonemes";
-import { SPELLING_BY_SLUG } from "@/lib/graphemes";
+} from "@/lib/english/phonemes";
+import { SPELLING_BY_SLUG } from "@/lib/english/graphemes";
 import type { LocalizedString } from "@/types/lesson";
 
 export type AlloProcess =

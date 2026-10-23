@@ -3,10 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronRight, Star } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { LETTERS } from "@/lib/letters";
-import { useLetterProgress } from "@/lib/letterProgress";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { LETTERS } from "@/lib/english/letters";
+import { useLetterProgress } from "@/lib/english/letterProgress";
 import { AlphabetExample } from "./_units/AlphabetExample";
 import { GraphemeExample } from "./_units/GraphemeExample";
 import { SyllableExample } from "./_units/SyllableExample";

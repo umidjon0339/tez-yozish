@@ -1,6 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
-import { useGameView } from '@/lib/gameStats';
+import { useGameView } from '@/lib/catalog/gameStats';
 
 const AlienDropWorld = dynamic(() => import('./AlienDropWorld'), {
     ssr: false,

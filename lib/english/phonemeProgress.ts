@@ -11,14 +11,14 @@
 // the shape changes.
 
 import { useSyncExternalStore } from "react";
-import type { LessonResult } from "@/lib/progress";
+import type { LessonResult } from "@/lib/typing/progress";
 import {
   PASS_ACCURACY,
   phonemeLessonKey,
   phonemeLessonsFor,
   type PhonemeLesson,
-} from "@/lib/phonemeCurriculum";
-import { LESSON_TYPES } from "@/lib/lessonTypes";
+} from "@/lib/english/phonemeCurriculum";
+import { LESSON_TYPES } from "@/lib/typing/lessonTypes";
 
 export interface StoredPhonemeProgress {
   completed: boolean;

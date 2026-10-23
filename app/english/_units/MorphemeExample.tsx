@@ -1,5 +1,5 @@
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 import { TreeTag, TreeBranch, MorphLeaf, PosLeaf } from "../_components";
 
 const E = STR.english;

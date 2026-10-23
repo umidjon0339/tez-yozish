@@ -1,4 +1,4 @@
-# Progress & stars — `lib/progress.ts`
+# Progress & stars — `lib/typing/progress.ts`
 
 Client-only persistence of lesson results in
 `localStorage["tz-progress-v1"]`. All reads/writes are SSR-guarded and
@@ -69,7 +69,7 @@ only the top two. `targetWpm === 0` makes the speed condition vacuous.
 
 Ungraded lesson types (`lesson`, `practice`) bypass this: the runtime forces
 `stars = 0, skipped = false` and completion alone passes them
-(`lib/lessonTypes.tsx` decides gradedness).
+(`lib/typing/lessonTypes.tsx` decides gradedness).
 
 ## Consumers
 

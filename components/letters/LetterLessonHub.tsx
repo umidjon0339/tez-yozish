@@ -12,9 +12,9 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import type { LetterInfo } from "@/lib/letters";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import type { LetterInfo } from "@/lib/english/letters";
 import {
   LETTER_TRACKS,
   letterLessonKey,
@@ -23,10 +23,10 @@ import {
   trackHref,
   type LetterLesson,
   type LetterTrackId,
-} from "@/lib/letterCurriculum";
-import { LESSON_TYPES, LESSON_TYPE_ORDER } from "@/lib/lessonTypes";
-import { useLetterProgress } from "@/lib/letterProgress";
-import { computeUnlocked, isLessonPassed } from "@/lib/progress";
+} from "@/lib/english/letterCurriculum";
+import { LESSON_TYPES, LESSON_TYPE_ORDER } from "@/lib/typing/lessonTypes";
+import { useLetterProgress } from "@/lib/english/letterProgress";
+import { computeUnlocked, isLessonPassed } from "@/lib/typing/progress";
 import { DynamicThumbnail } from "@/components/thumbnails/DynamicThumbnail";
 
 const L = STR.letters;

@@ -7,7 +7,7 @@
 
 import React from "react";
 import { FINGER_ORDER, type Finger } from "@/components/keyboard/keymap";
-import type { GroupStat } from "@/lib/stats";
+import type { GroupStat } from "@/lib/typing/stats";
 
 const MASTERY_RAMP = ["var(--ramp-good-1)", "var(--ramp-good-2)", "var(--ramp-good-3)", "var(--ramp-good-4)"];
 const NO_DATA = "var(--chart-empty)";

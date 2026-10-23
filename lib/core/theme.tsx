@@ -13,7 +13,7 @@ import { useCallback, useSyncExternalStore } from "react";
    <html>. The pre-paint script in app/layout.tsx sets that same class before
    first paint so there is never a white flash.
 
-   Same module-level useSyncExternalStore idiom as lib/locale.tsx — no Provider. */
+   Same module-level useSyncExternalStore idiom as lib/core/locale.tsx — no Provider. */
 
 const STORAGE_KEY = "tz-prefs-v1";
 

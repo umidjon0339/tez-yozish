@@ -13,8 +13,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ChevronRight, Star, Volume2 } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 import {
   ALLOPHONES,
   PHONEMES,
@@ -23,7 +23,7 @@ import {
   inAccent,
   type Accent,
   type PhonemeInfo,
-} from "@/lib/phonemes";
+} from "@/lib/english/phonemes";
 import {
   VowelChart,
   DiphthongChart,
@@ -34,8 +34,8 @@ import {
   phonemeDone,
   phonemeStars,
   usePhonemeProgress,
-} from "@/lib/phonemeProgress";
-import { phonemeLessonsFor } from "@/lib/phonemeCurriculum";
+} from "@/lib/english/phonemeProgress";
+import { phonemeLessonsFor } from "@/lib/english/phonemeCurriculum";
 
 const P = STR.phonemes;
 const L = STR.letters;

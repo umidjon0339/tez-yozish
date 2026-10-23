@@ -34,7 +34,7 @@ That is a deliberate gap-filler, not a shortcut:
 - It trains **letter recognition and reaction** — find the key, hit it, now —
   rather than sustained flow. That is the skill a beginner is missing before
   words are even possible.
-- It is the cleanest possible feed for `lib/stats.ts`. Every keystroke is an
+- It is the cleanest possible feed for `lib/typing/stats.ts`. Every keystroke is an
   isolated, unambiguous sample of "how fast can you find this one key", with no
   neighbouring letters priming the finger. The `/stats` per-key heatmap is
   noticeably sharper after a few Alien Drop runs than after any word game.

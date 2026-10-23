@@ -1,7 +1,7 @@
 "use client";
 
 // Which hand drawing the learner wants over the keyboard. Same
-// useSyncExternalStore shape as lib/locale.tsx and PaletteSwitcher, so the
+// useSyncExternalStore shape as lib/core/locale.tsx and PaletteSwitcher, so the
 // lesson workspace and the picker in its header read one source of truth.
 
 import { useSyncExternalStore } from "react";

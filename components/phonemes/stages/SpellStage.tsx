@@ -4,16 +4,16 @@
 // and shown with its spelling as empty slots ("sh · · p"); the student
 // TYPES the missing letters. The answer auto-checks when the slots are
 // full (Enter also submits). Rounds come from the grapheme↔phoneme table
-// (choiceForSpelling in lib/graphemes.ts), so the gaps are the sound's
+// (choiceForSpelling in lib/english/graphemes.ts), so the gaps are the sound's
 // real spellings.
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Volume2 } from "lucide-react";
-import { type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { type PhonemeInfo } from "@/lib/phonemes";
-import { SPELLING_BY_SLUG, choiceForSpelling } from "@/lib/graphemes";
-import { speakWord } from "@/lib/phonemeAudio";
+import { type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { type PhonemeInfo } from "@/lib/english/phonemes";
+import { SPELLING_BY_SLUG, choiceForSpelling } from "@/lib/english/graphemes";
+import { speakWord } from "@/lib/english/phonemeAudio";
 import {
   LetterSlots,
   RoundHeader,

@@ -1,7 +1,7 @@
 "use client";
 
 // /compete — global typing leaderboards, live from the public
-// Monkeytype API (lib/monkeytype.ts). Three boards — today / all-time
+// Monkeytype API (lib/catalog/monkeytype.ts). Three boards — today / all-time
 // (speed, 15s or 60s) and this-week (XP, rewards practice volume) —
 // plus a "you" card placing the student's local best (tz-stats-v1) on
 // the world speed histogram, the histogram itself as a chart, today's
@@ -22,11 +22,11 @@ import {
   type MtLeaderboardPage,
   type MtTypingStats,
   type MtXpPage,
-} from "@/lib/monkeytype";
+} from "@/lib/catalog/monkeytype";
 import { Histogram, type HistBucket } from "@/components/stats/Histogram";
-import { useStats } from "@/lib/stats";
-import { useLocale, type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useStats } from "@/lib/typing/stats";
+import { useLocale, type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
 const C = STR.compete;
 const LOCALE_TAG: Record<Locale, string> = { en: "en", uz: "uz", ru: "ru" };

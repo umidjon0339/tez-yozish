@@ -14,15 +14,15 @@
 // ranking, so nobody reads the podium as a local scoreboard of this app's users.
 //
 // It reuses the read-only Monkeytype client /compete is built on
-// (lib/monkeytype.ts): the all-time leaderboard for the podium, and the public
+// (lib/catalog/monkeytype.ts): the all-time leaderboard for the podium, and the public
 // speed histogram for both the curve and the learner's estimated place — one
 // fetch feeding both, since they are the same data read two ways.
 // See docs/home-test.md §7.
 
 import React, { useEffect, useMemo, useState } from "react";
 import { Crown, Medal } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 import { Histogram, type HistBucket } from "@/components/stats/Histogram";
 import {
   discordAvatarUrl,
@@ -31,8 +31,8 @@ import {
   rankForWpm,
   type MtDuration,
   type MtEntry,
-} from "@/lib/monkeytype";
-import type { TestMode } from "@/lib/typingTest";
+} from "@/lib/catalog/monkeytype";
+import type { TestMode } from "@/lib/typing/typingTest";
 
 /** 15 s tests get the 15 s board; everything else is measured against 60 s. */
 export function boardFor(mode: TestMode, time: number): MtDuration {

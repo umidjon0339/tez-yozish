@@ -11,7 +11,7 @@
 //
 // This is the app's only SINGLE-CHARACTER game — reaction and letter
 // recognition rather than word flow — which is why it is the best possible
-// feed for the per-key data in `lib/stats.ts`.
+// feed for the per-key data in `lib/typing/stats.ts`.
 //
 // Architecture (same contract as typing-ninja / rhino-dash / sky-hop /
 // beam-break / tug-of-typing):
@@ -26,8 +26,8 @@
 // =========================================================================
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useLocale, type Locale } from "@/lib/locale";
-import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/stats";
+import { useLocale, type Locale } from "@/lib/core/locale";
+import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/typing/stats";
 import { sfx } from "./sound";
 import { draw, layoutFor, muzzleOf, drawPod, type Layout } from "./render";
 import {

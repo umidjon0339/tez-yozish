@@ -12,7 +12,7 @@ Hard rules:
 - Space/Tab stay `preventDefault`'d; chord-aware handlers suppress real
   browser shortcuts (Ctrl/Alt/Meta combos, Arrows).
 - Graded viewports report `StepStats { correct, mistakes, timeMs,
-  perKeyMistakes }` to `onComplete` — the contract with `lib/progress.ts`.
+  perKeyMistakes }` to `onComplete` — the contract with `lib/typing/progress.ts`.
 - Sounds only through the shared SFX layer (`press_key4.mp3`/`error2.mp3`),
   gated on `isAudioEnabled`.
 - Chrome strings live in the local `UI` dict — all three locales.

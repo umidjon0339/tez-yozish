@@ -6,9 +6,9 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { LETTERS } from "@/lib/letters";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { LETTERS } from "@/lib/english/letters";
 import { LetterLessonHub } from "@/components/letters/LetterLessonHub";
 
 export default function CodesHubPage() {

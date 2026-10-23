@@ -9,13 +9,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChapterNode, LessonNode } from "@/types/lesson";
-import { computeUnlocked, ProgressMap } from "@/lib/progress";
+import { computeUnlocked, ProgressMap } from "@/lib/typing/progress";
 import { DynamicThumbnail } from "@/components/thumbnails/DynamicThumbnail";
 import {
   LESSON_TYPES,
   LESSON_TYPE_ORDER,
   LessonTypeIcon,
-} from "@/lib/lessonTypes";
+} from "@/lib/typing/lessonTypes";
 
 type Locale = "en" | "uz" | "ru";
 

@@ -10,7 +10,7 @@ Detailed contracts, data flow, and invariants live in **`docs/`**. Before editin
 
 | Editing… | Read first |
 |---|---|
-| `data/lessons.json`, `lib/curriculum.ts`, `lib/keyTokens.ts`, `lib/dojoSim.ts`, `lib/lessonTypes.tsx`, the validator | `docs/curriculum.md` (+ `data/lessondoc.txt`) |
+| `data/lessons.json`, `lib/typing/curriculum.ts`, `lib/typing/keyTokens.ts`, `lib/typing/dojoSim.ts`, `lib/typing/lessonTypes.tsx`, the validator | `docs/curriculum.md` (+ `data/lessondoc.txt`) |
 | `app/lesson/[id]/*`, `components/lesson/Rails.tsx` | `docs/lesson-runtime.md` |
 | `components/keyboard/*`, finger-zone CSS, `PaletteSwitcher` | `docs/keyboard.md` |
 | `app/typing-ninja/*` | `docs/typing-ninja.md` |
@@ -21,13 +21,13 @@ Detailed contracts, data flow, and invariants live in **`docs/`**. Before editin
 | `app/alien-drop/*` | `docs/alien-drop.md` |
 | `app/star-type/*` | `docs/star-type.md` |
 | `app/word-forge/*` | `docs/word-forge.md` |
-| `app/page.tsx`, `components/home/*`, `lib/typingTest.ts`, `data/typing-texts.json` | `docs/home-test.md` |
-| `lib/progress.ts` | `docs/progress.md` |
-| pages, `NavBar`, `lib/locale.tsx`, `lib/uiStrings/`, `app/globals.css` | `docs/app-shell.md` |
-| `app/courses/page.tsx`, `lib/k12.ts`, `lib/exams.ts`, `data/k-12-curriculum.json`, `data/exams.json` | `docs/app-shell.md` (`/courses` row) |
-| `app/coding/*`, `lib/coding.ts`, `data/coding-curriculum.json` | `docs/coding.md` |
-| `app/books/*`, `components/books/*`, `lib/books.ts`, `data/books.json` | `docs/books.md` |
-| `lib/auth.ts`, `lib/firebase.ts`, `app/auth/*`, `UserMenu` | `docs/auth.md` |
+| `app/page.tsx`, `components/home/*`, `lib/typing/typingTest.ts`, `data/typing-texts.json` | `docs/home-test.md` |
+| `lib/typing/progress.ts` | `docs/progress.md` |
+| pages, `NavBar`, `lib/core/locale.tsx`, `lib/core/uiStrings/`, `app/globals.css` | `docs/app-shell.md` |
+| `app/courses/page.tsx`, `lib/catalog/k12.ts`, `lib/catalog/exams.ts`, `data/k-12-curriculum.json`, `data/exams.json` | `docs/app-shell.md` (`/courses` row) |
+| `app/coding/*`, `lib/catalog/coding.ts`, `data/coding-curriculum.json` | `docs/coding.md` |
+| `app/books/*`, `components/books/*`, `lib/catalog/books.ts`, `data/books.json` | `docs/books.md` |
+| `lib/core/auth.ts`, `lib/core/firebase.ts`, `app/auth/*`, `UserMenu` | `docs/auth.md` |
 | `components/thumbnails/*` | `docs/thumbnails.md` |
 | `app/pricing/*`, `components/pricing/*` | `docs/pricing.md` |
 
@@ -46,7 +46,7 @@ npm run start   # serve production build
 npm run lint    # eslint (flat config, eslint-config-next core-web-vitals + typescript)
 ```
 
-There is no test runner configured. `scripts/validate-typing-texts.mjs` guards the home test's content via `npm run validate:texts` — run it after editing `data/typing-texts.json` **or** `data/k-12-curriculum.json`, which join on a subject slug and fail silently when they drift. `scripts/validate-lessons.mjs` validates lesson data via `npm run validate:lessons` — run it after every `data/lessons.json` edit. The validator mirrors TS logic (`lib/keyTokens.ts`, `lib/dojoSim.ts`, `lib/lessonTypes.tsx`, `MODE_PRESETS`) in plain JS; change them together.
+There is no test runner configured. `scripts/validate-typing-texts.mjs` guards the home test's content via `npm run validate:texts` — run it after editing `data/typing-texts.json` **or** `data/k-12-curriculum.json`, which join on a subject slug and fail silently when they drift. `scripts/validate-lessons.mjs` validates lesson data via `npm run validate:lessons` — run it after every `data/lessons.json` edit. The validator mirrors TS logic (`lib/typing/keyTokens.ts`, `lib/typing/dojoSim.ts`, `lib/typing/lessonTypes.tsx`, `MODE_PRESETS`) in plain JS; change them together.
 
 ## Architecture
 
@@ -56,15 +56,15 @@ This is a touch-typing trainer ("tez/yozish"). Four pillars: a JSON-driven curri
 
 The entire course lives in **`data/lessons.json`**, written in the **v4 authoring format** (5-tier hierarchy **Course → Chapter → Section → Lesson → Step**, uniform `id`/`title` keys, no `*Number` fields, step `text` as one space-separated string, `mode` presets instead of raw rules). The spec is **`data/lessondoc.txt`** (v4) — read it before editing lesson content, and run `npm run validate:lessons` after.
 
-**`lib/curriculum.ts`** normalizes the v4 source (`*Source` types in `types/lesson.ts`) into the runtime model (`CourseNode`, `ChapterNode`, `SectionNode`, `LessonNode`, `StepNode`): it derives numbers from array order, generates step ids, splits `text` into `content` tokens, expands `mode` presets into `StepRules`, and derives `unlockedKeys`. Pages import `course` from `@/lib/curriculum` — never the raw JSON.
+**`lib/typing/curriculum.ts`** normalizes the v4 source (`*Source` types in `types/lesson.ts`) into the runtime model (`CourseNode`, `ChapterNode`, `SectionNode`, `LessonNode`, `StepNode`): it derives numbers from array order, generates step ids, splits `text` into `content` tokens, expands `mode` presets into `StepRules`, and derives `unlockedKeys`. Pages import `course` from `@/lib/typing/curriculum` — never the raw JSON.
 
 Key conventions:
 - All user-facing text is a `LocalizedString { en, uz, ru }` — all three locales are required (enforced by the validator).
-- Every step has a `viewport` field (`ViewportMode`) that selects which UI mounts at runtime: `POSTURE_CHECK`, `KEY_INTRO`, `STANDARD_GYM`, `GAME_NINJA_RUN`, `CHAT_SIM` (messenger — Enter sends each typed reply; step carries `chat` turns instead of `text`), `SHORTCUT_DOJO` (task cards drive real shortcut effects on a mini document; step carries `dojo` — model in **`lib/dojoSim.ts`**, the validator simulates the task script).
-- Step `text` tokens can be more than plain characters (v4.1, rules in **`lib/keyTokens.ts`**): special keys (`Enter`/`Tab` inline in gym text render as keycaps and really break/indent the line; all seven in `KEY_INTRO`) and chords (`Ctrl+C` — matched with real modifier state, browser default suppressed). A `prefill` step field makes fix-the-typo drills: the wrong text starts pre-typed and must be backspaced and repaired. Games accept plain words only.
-- Lesson `type` is one of `lesson` / `practice` / `test` / `game`. All per-type behavior (graded or not, default `passStars`, group labels/order, badge icon) is centralized in **`lib/lessonTypes.tsx`** — `lesson` and `practice` are ungraded (completing = passing, no stars), `test` and `game` earn 0–5 stars. Adding a type = one config entry there + the `TYPES` list in the validator.
-- Lesson progress/stars persist in `localStorage` via **`lib/progress.ts`** (`tz-progress-v1`; star rules and standard 5-chars-per-word WPM live in `computeLessonResult`).
-- All-time keystroke statistics persist via **`lib/stats.ts`** (`tz-stats-v1`, aggregate-only: per-key/per-day counters, last 200 attempts, records — see `docs/stats.md`). Every typing viewport and the ninja game record through `createStatsSession()`; the `/stats` dashboard (`app/stats/page.tsx` + `components/stats/`, hand-built SVG charts) visualizes them.
+- Every step has a `viewport` field (`ViewportMode`) that selects which UI mounts at runtime: `POSTURE_CHECK`, `KEY_INTRO`, `STANDARD_GYM`, `GAME_NINJA_RUN`, `CHAT_SIM` (messenger — Enter sends each typed reply; step carries `chat` turns instead of `text`), `SHORTCUT_DOJO` (task cards drive real shortcut effects on a mini document; step carries `dojo` — model in **`lib/typing/dojoSim.ts`**, the validator simulates the task script).
+- Step `text` tokens can be more than plain characters (v4.1, rules in **`lib/typing/keyTokens.ts`**): special keys (`Enter`/`Tab` inline in gym text render as keycaps and really break/indent the line; all seven in `KEY_INTRO`) and chords (`Ctrl+C` — matched with real modifier state, browser default suppressed). A `prefill` step field makes fix-the-typo drills: the wrong text starts pre-typed and must be backspaced and repaired. Games accept plain words only.
+- Lesson `type` is one of `lesson` / `practice` / `test` / `game`. All per-type behavior (graded or not, default `passStars`, group labels/order, badge icon) is centralized in **`lib/typing/lessonTypes.tsx`** — `lesson` and `practice` are ungraded (completing = passing, no stars), `test` and `game` earn 0–5 stars. Adding a type = one config entry there + the `TYPES` list in the validator.
+- Lesson progress/stars persist in `localStorage` via **`lib/typing/progress.ts`** (`tz-progress-v1`; star rules and standard 5-chars-per-word WPM live in `computeLessonResult`).
+- All-time keystroke statistics persist via **`lib/typing/stats.ts`** (`tz-stats-v1`, aggregate-only: per-key/per-day counters, last 200 attempts, records — see `docs/stats.md`). Every typing viewport and the ninja game record through `createStatsSession()`; the `/stats` dashboard (`app/stats/page.tsx` + `components/stats/`, hand-built SVG charts) visualizes them.
 
 ### The lesson runtime
 
@@ -94,7 +94,7 @@ The game embeds its own inline `SoundSynthesizer` class (Web Audio API oscillato
 
 - **`/beam-break`** → `app/beam-break/` (`BeamBreakWorld.tsx` + `sim.ts` / `animals.ts` / `render.ts` / `sound.ts`): the second **2D** canvas game — a cute animal is caught in a UFO's tractor beam over a dune desert, and the word to type is a row of keycap tiles at the top of the screen. The beam raises `grab` every second; each correct key yanks it back down and finishing a word breaks the grip and shoves the world forward, so the score is the **distance** travelled (an integral of your keys/sec). Endless, 3 lives, levels every 10 words with capture rings and golden words. **A different one of 10 animals every run**, all drawn by one parametric painter in `animals.ts`. Three things make it unlike its siblings: it has **no screen shake and no music at all** by design (rising danger is shown, not heard), the animal's position is drawn from a **critically damped spring** (`grabView`) so fast typing never makes it judder, and typos are **flow mode** — they cost you ground but never block the word. See `docs/beam-break.md` before touching it.
 
-- **`/alien-drop`** → `app/alien-drop/` (`AlienDropWorld.tsx` + `sim.ts` / `render.ts` / `sound.ts`): the third **2D** canvas game — alien drop-pods fall on a colony, each carrying **one character**, and the space-suit hero blasts the one you type out of the air. Let a pod land and the shield bar drops; shield at zero ends the run. It is the only game whose whole mechanic is **one keystroke per target** (every other one is word-based), which makes it the cleanest feed for the per-key data in `lib/stats.ts` and a genuine first-week drill on EASY (home row only). Three things define it: targeting is always the **lowest matching pod**; the kill is banked on the **keystroke** while the blaster bolt is pure theatre that catches up a beat later; and difficulty comes from **three stacked accelerations** (per pod, per wave, per run) whose single source of truth, `gapAt()`/`speedAt()`, also generates the WPM figures the menu prints. Unlike beam-break it *does* have screen shake, and it has a pulsed danger siren. See `docs/alien-drop.md` before touching it.
+- **`/alien-drop`** → `app/alien-drop/` (`AlienDropWorld.tsx` + `sim.ts` / `render.ts` / `sound.ts`): the third **2D** canvas game — alien drop-pods fall on a colony, each carrying **one character**, and the space-suit hero blasts the one you type out of the air. Let a pod land and the shield bar drops; shield at zero ends the run. It is the only game whose whole mechanic is **one keystroke per target** (every other one is word-based), which makes it the cleanest feed for the per-key data in `lib/typing/stats.ts` and a genuine first-week drill on EASY (home row only). Three things define it: targeting is always the **lowest matching pod**; the kill is banked on the **keystroke** while the blaster bolt is pure theatre that catches up a beat later; and difficulty comes from **three stacked accelerations** (per pod, per wave, per run) whose single source of truth, `gapAt()`/`speedAt()`, also generates the WPM figures the menu prints. Unlike beam-break it *does* have screen shake, and it has a pulsed danger siren. See `docs/alien-drop.md` before touching it.
 
 - **`/star-type`** → `app/star-type/` (`StarTypeWorld.tsx` + `sim.ts` / `render.ts` / `sound.ts`): the fourth **2D** canvas game and the only one built from a **"copy the reference"** brief rather than a "take the idea" one — a faithful re-build of the ZType space shooter. Enemy drones dive at your ship carrying words; type a word's **first letter to lock on**, then type it out to shoot the drone down. One drone reaching the ship ends the run. What defines this route is what is deliberately **absent**: no difficulty picker, no lives, no power-ups, no combo multiplier and no in-run score read-out — the wave ramp is the whole difficulty model and the bare HUD is the point. The one intentional departure from the reference is layout: it is a portrait phone game, this fills a landscape window. Its title and results screens are dark/cyan rather than the sibling games' cream card, on purpose. See `docs/star-type.md` before touching it.
 
@@ -108,7 +108,7 @@ The game embeds its own inline `SoundSynthesizer` class (Web Audio API oscillato
 months (25% off), 12 months (50% off). `MONTHLY_PRICE` in
 `app/pricing/page.tsx` is the only number to edit; every price, per-month
 line, discount and savings figure on the page is derived from it, and the
-course-size claims are read from `lib/curriculum` rather than typed into
+course-size claims are read from `lib/typing/curriculum` rather than typed into
 copy. It is deliberately a **one-screen page** — the Get Pro button stays
 above the fold at 1366×768, so new copy has to earn its vertical space. The
 left column is a 7-tab showcase whose animated SVG scenes live in
@@ -119,7 +119,7 @@ into. See `docs/pricing.md` before touching it.
 ## Conventions
 
 - Import alias `@/*` maps to the repo root (`tsconfig.json`), e.g. `@/data/lessons.json`, `@/components/...`.
-- All pages are `"use client"` — the UI is fully localized (en/uz/ru) and must react to the language switch. The selected locale lives in `localStorage` (`tz-locale`) behind the `useLocale()` hook in **`lib/locale.tsx`** (a `useSyncExternalStore`-based store, same pattern as `PaletteSwitcher`); chrome/page strings live in **`lib/uiStrings/`** (the lesson runtime keeps its own `UI` dict). The switcher UI is `components/LanguageSwitcher.tsx` (globe dropdown), used in the navbar (`components/NavBar.tsx`) and the lesson header. New user-facing text must be added in all three locales — use short, simple words (the audience is school students).
+- All pages are `"use client"` — the UI is fully localized (en/uz/ru) and must react to the language switch. The selected locale lives in `localStorage` (`tz-locale`) behind the `useLocale()` hook in **`lib/core/locale.tsx`** (a `useSyncExternalStore`-based store, same pattern as `PaletteSwitcher`); chrome/page strings live in **`lib/core/uiStrings/`** (the lesson runtime keeps its own `UI` dict). The switcher UI is `components/LanguageSwitcher.tsx` (globe dropdown), used in the navbar (`components/NavBar.tsx`) and the lesson header. New user-facing text must be added in all three locales — use short, simple words (the audience is school students).
 - Header/toolbar icons come from `lucide-react` — no hand-rolled inline SVGs for standard glyphs.
 - Styling is Tailwind CSS v4 (via `@tailwindcss/postcss`), utility classes inline. The visual language is a monochrome "Notion-style" neutral palette (`#FAFAFA` background, `neutral-*`) with mono/sans fonts (`Inter`, `JetBrains_Mono`) wired in `app/layout.tsx`.
-- **Dark mode is global and class-based** — `lib/theme.tsx` (`useTheme()`) toggles `.dark` on `<html>`, persisted in the `dark` field of `tz-prefs-v1` and applied pre-paint by the boot script in `app/layout.tsx`. The switch is `components/ThemeToggle.tsx` in the navbar; the lesson header switch is the same setting. Every new page/component must ship `dark:` variants (mapping table in `docs/app-shell.md` §2b); SVG charts use the `--chart-*`/`--ramp-*` variables instead of hex. The in-canvas games keep their own authored palettes.
+- **Dark mode is global and class-based** — `lib/core/theme.tsx` (`useTheme()`) toggles `.dark` on `<html>`, persisted in the `dark` field of `tz-prefs-v1` and applied pre-paint by the boot script in `app/layout.tsx`. The switch is `components/ThemeToggle.tsx` in the navbar; the lesson header switch is the same setting. Every new page/component must ship `dark:` variants (mapping table in `docs/app-shell.md` §2b); SVG charts use the `--chart-*`/`--ramp-*` variables instead of hex. The in-canvas games keep their own authored palettes.

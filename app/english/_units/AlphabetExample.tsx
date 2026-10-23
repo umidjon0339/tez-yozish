@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { ChevronRight, Star } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { LETTERS } from "@/lib/letters";
-import { useLetterProgress } from "@/lib/letterProgress";
-import { PHONEMES } from "@/lib/phonemes";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { LETTERS } from "@/lib/english/letters";
+import { useLetterProgress } from "@/lib/english/letterProgress";
+import { PHONEMES } from "@/lib/english/phonemes";
 import {
   phonemeDone,
   phonemeStars,
   usePhonemeProgress,
-} from "@/lib/phonemeProgress";
+} from "@/lib/english/phonemeProgress";
 import {
   ALPHABET,
   IPA_VOWELS,

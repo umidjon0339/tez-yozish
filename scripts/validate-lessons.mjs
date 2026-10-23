@@ -28,7 +28,7 @@ const VIEWPORTS = new Set([
   "SHORTCUT_DOJO",
 ]);
 
-// ── Shortcut Dojo simulation — keep in sync with lib/dojoSim.ts ──
+// ── Shortcut Dojo simulation — keep in sync with lib/typing/dojoSim.ts ──
 // Simulating the task script at validation time rejects impossible lessons
 // (copy with nothing selected, undo with no history, …).
 const DOJO_ACTIONS = new Set([
@@ -105,14 +105,14 @@ function simulateDojo(doc, actions) {
   return null; // script is playable
 }
 const MODES = new Set(["learn", "careful", "strict", "free"]);
-// Keep in sync with LESSON_TYPES in lib/lessonTypes.tsx (this script can't import TS)
+// Keep in sync with LESSON_TYPES in lib/typing/lessonTypes.tsx (this script can't import TS)
 const TYPES = new Set(["lesson", "practice", "test", "game"]);
 const UNGRADED_TYPES = new Set(["lesson", "practice"]);
 const LOCALES = ["en", "uz", "ru"];
-// Modes whose preset allows backspace (keep in sync with MODE_PRESETS in lib/curriculum.ts)
+// Modes whose preset allows backspace (keep in sync with MODE_PRESETS in lib/typing/curriculum.ts)
 const BACKSPACE_MODES = new Set(["careful", "strict"]);
 
-// ── Special-key & chord tokens — keep in sync with lib/keyTokens.ts ──
+// ── Special-key & chord tokens — keep in sync with lib/typing/keyTokens.ts ──
 const SPECIAL_KEYS = new Set([
   "Enter",
   "Backspace",

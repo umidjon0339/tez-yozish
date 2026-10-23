@@ -8,7 +8,7 @@ import * as THREE from "three";
 import { Mascot } from "@/components/Mascot";
 import { HeroNinja, EnemyNinja, getSoftTexture, type HeroMode } from "./characters";
 import { CameraRig, SkyDome, Mountains, Clouds, InstancedScenery } from "./environment";
-import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/stats";
+import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/typing/stats";
 
 // ==========================================
 // THE "GOD MODE" MASTER CONFIGURATION

@@ -1,7 +1,7 @@
 "use client";
 
 // One grapheme lesson (/english/graphemes/sh/meet, …/sh/which, …). The
-// lesson is looked up in lib/graphemeCurriculum.ts; unknown or
+// lesson is looked up in lib/english/graphemeCurriculum.ts; unknown or
 // not-yet-implemented ids fall back to the hub link. The unlock chain is
 // ENFORCED here too — deep links to a locked lesson show a locked card
 // instead of the runner (the check runs after mount, when localStorage
@@ -11,14 +11,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Lock } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { GRAPHEME_BY_SLUG } from "@/lib/graphemes";
-import { GRAPHEME_TRACKS, graphemeHubHref } from "@/lib/graphemeCurriculum";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { GRAPHEME_BY_SLUG } from "@/lib/english/graphemes";
+import { GRAPHEME_TRACKS, graphemeHubHref } from "@/lib/english/graphemeCurriculum";
 import {
   graphemeUnlockedMap,
   useGraphemeProgress,
-} from "@/lib/graphemeProgress";
+} from "@/lib/english/graphemeProgress";
 import { GraphemeLessonRunner } from "@/components/graphemes/GraphemeLessonRunner";
 
 export default function GraphemeLessonPage() {

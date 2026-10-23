@@ -6,9 +6,9 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { PHONEME_BY_SLUG } from "@/lib/phonemes";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { PHONEME_BY_SLUG } from "@/lib/english/phonemes";
 import { PhonemeLessonHub } from "@/components/phonemes/PhonemeLessonHub";
 
 export default function PhonemeHubPage() {

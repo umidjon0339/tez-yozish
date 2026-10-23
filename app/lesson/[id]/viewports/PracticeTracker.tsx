@@ -5,9 +5,9 @@ import {
   type KeyPressInfo,
 } from "@/components/keyboard/KeyboardStage";
 import type { StepNode } from "@/types/lesson";
-import type { StepStats } from "@/lib/progress";
-import { createStatsSession, type StatsSession } from "@/lib/stats";
-import { chordMatchesEvent } from "@/lib/keyTokens";
+import type { StepStats } from "@/lib/typing/progress";
+import { createStatsSession, type StatsSession } from "@/lib/typing/stats";
+import { chordMatchesEvent } from "@/lib/typing/keyTokens";
 import { playErrorSound, playKeystrokeSound } from "../sfx";
 import {
   CORRECT,

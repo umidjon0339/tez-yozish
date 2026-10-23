@@ -19,5 +19,5 @@ Hard rules:
   localized strings) — no phoneme/grapheme imports here.
 - A change here affects EVERY English unit — verify at least one phoneme
   and one grapheme lesson after editing.
-- Speech goes through `lib/phonemeAudio.ts` at the call sites, not here
+- Speech goes through `lib/english/phonemeAudio.ts` at the call sites, not here
   (WordRain/GymStage take callbacks/props instead).

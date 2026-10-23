@@ -8,7 +8,7 @@
 //
 // This is the only game in the app that is keyed on SINGLE CHARACTERS instead
 // of words, so it trains letter recognition and reaction rather than sustained
-// flow — which is exactly what feeds `lib/stats.ts` per-key data.
+// flow — which is exactly what feeds `lib/typing/stats.ts` per-key data.
 //
 // THREE ACCELERATIONS stack, and together they guarantee every run ends:
 //   1. per-pod   — a pod speeds up as it falls (POD_ACCEL_FRAC), so the last

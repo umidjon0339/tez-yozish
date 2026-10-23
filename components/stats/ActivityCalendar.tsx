@@ -5,7 +5,7 @@
 // tooltip; a less→more legend anchors the ramp.
 
 import React, { useMemo } from "react";
-import type { DayPoint } from "@/lib/stats";
+import type { DayPoint } from "@/lib/typing/stats";
 
 const RAMP = ["var(--ramp-good-1)", "var(--ramp-good-2)", "var(--ramp-good-3)", "var(--ramp-good-4)"];
 const EMPTY = "var(--chart-empty)";

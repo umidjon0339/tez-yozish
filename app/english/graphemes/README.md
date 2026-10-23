@@ -20,14 +20,14 @@ routes (locked card after mount).
 ## Architecture (who owns what)
 
 ```
-lib/graphemes.ts              THE dataset: 67 GraphemeInfo (spelling, kind,
+lib/english/graphemes.ts              THE dataset: 67 GraphemeInfo (spelling, kind,
                               size, sounds[{ipa, phoneme?, words×6}]) +
                               SPELLINGS inversion + stage builders
                               (meetRows / words / dictation / choiceFor* /
                               slotRoundsFor* / typeDrillWords)
 data/graphemeLessons.json     the lesson TEMPLATE per track (7 lessons)
-lib/graphemeCurriculum.ts     JSON → runtime model; PASS_ACCURACY (50)
-lib/graphemeProgress.ts       localStorage "tz-graphemes-v1"; accuracy
+lib/english/graphemeCurriculum.ts     JSON → runtime model; PASS_ACCURACY (50)
+lib/english/graphemeProgress.ts       localStorage "tz-graphemes-v1"; accuracy
                               pass gate (isGraphemeLessonPassed,
                               graphemeUnlockedMap)
 components/graphemes/
@@ -64,7 +64,7 @@ JSON is rejected by the validator.
 
 ## Editing rules
 
-- **More examples**: extend the `words` arrays in `lib/graphemes.ts` —
+- **More examples**: extend the `words` arrays in `lib/english/graphemes.ts` —
   every word must be lowercase a–z and CONTAIN its grapheme's spelling
   (MEET highlights it; MASTER masks it). The SPELLINGS inversion, both
   tracks, every stage and both games pick new words up automatically.
@@ -72,7 +72,7 @@ JSON is rejected by the validator.
   both tracks). Run `npm run validate:graphemes` after edits. New `kind` =
   curriculum union + validator `KINDS` + stage component + runner case +
   `GRAPHEME_STAGE` motif (`components/thumbnails/covers/english.tsx`).
-- Speech only through `lib/phonemeAudio.ts` (recordings first, TTS
+- Speech only through `lib/english/phonemeAudio.ts` (recordings first, TTS
   fallback — see `app/english/phonemes/README.md` "Audio" for the mp3
   folder layout); typed answers through the shared kit's `useAnswerInput`
   / `AnswerLine` / `LetterSlots`.

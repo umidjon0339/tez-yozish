@@ -1,6 +1,6 @@
 import React from "react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 import {
   L3,
   POS_G,

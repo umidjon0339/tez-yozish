@@ -8,14 +8,14 @@ import { BookDialog } from '@/components/books/BookDialog';
 import {
   useBooks, findBook, removeBook, recordLeaf, scoreKey, wordCount,
   chapterLeaves, bookLeaves, hasTopics, type Book, type Chapter, type Leaf, type PageScore,
-} from '@/lib/books';
+} from '@/lib/catalog/books';
 import type { LocalizedString } from '@/types/lesson';
 import { useTypingTest } from '@/components/home/useTypingTest';
 import { TestWords } from '@/components/home/TestWords';
 import { TestResult } from '@/components/home/TestResult';
-import { DEFAULT_CONFIG } from '@/lib/typingTest';
-import { useLocale } from '@/lib/locale';
-import { STR } from '@/lib/uiStrings';
+import { DEFAULT_CONFIG } from '@/lib/typing/typingTest';
+import { useLocale } from '@/lib/core/locale';
+import { STR } from '@/lib/core/uiStrings';
 
 type Scores = Record<string, PageScore>;
 

@@ -6,20 +6,20 @@
 //
 // Every word is lowercase a–z only (typed in the gym stages) and MUST
 // contain its grapheme's spelling as a substring — the MEET stages highlight
-// its first occurrence. `sounds[].phoneme` links to lib/phonemes.ts slugs
+// its first occurrence. `sounds[].phoneme` links to lib/english/phonemes.ts slugs
 // when a sound page exists (x → "ks" and qu → "kw" are two phonemes at once,
 // so they carry only a display ipa). `rival` is a look-alike / same-sound
 // spelling used by the choice test and the sort game when a grapheme has
 // only one sound of its own.
 
-import { PHONEMES, type PhonemeInfo } from "@/lib/phonemes";
+import { PHONEMES, type PhonemeInfo } from "@/lib/english/phonemes";
 
 export type GraphemeKind = "vowel" | "consonant";
 
 export interface GraphemeSound {
   /** Display symbol, e.g. "iː" — always present. */
   ipa: string;
-  /** lib/phonemes.ts slug when this sound has its own page. */
+  /** lib/english/phonemes.ts slug when this sound has its own page. */
   phoneme?: string;
   /** Example words; each contains the grapheme's spelling. */
   words: string[];

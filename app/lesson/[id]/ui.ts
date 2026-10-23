@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/locale";
+import type { Locale } from "@/lib/core/locale";
 
 // Small chrome strings (lesson data itself is localized in lessons.json)
 export const UI = {

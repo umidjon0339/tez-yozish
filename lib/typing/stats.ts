@@ -1,9 +1,9 @@
 // Keystroke statistics — stored in localStorage (key: tz-stats-v1).
 // Aggregates only (no raw keystroke log): lifetime per-key counters,
 // per-day activity, a capped list of recent lesson attempts and records.
-// All reads/writes are SSR-guarded, same contract style as lib/progress.ts.
+// All reads/writes are SSR-guarded, same contract style as lib/typing/progress.ts.
 //
-// Reactivity follows the house useSyncExternalStore idiom (lib/locale.tsx):
+// Reactivity follows the house useSyncExternalStore idiom (lib/core/locale.tsx):
 // a module-level snapshot cache + subscriber set — no Provider.
 
 import { useSyncExternalStore } from "react";

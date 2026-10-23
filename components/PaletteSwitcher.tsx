@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { useLocale } from "@/lib/locale";
+import { useLocale } from "@/lib/core/locale";
 
 const STORAGE_KEY = "tz-fz-palette";
 const CUSTOM_KEY = "tz-fz-custom-v1";

@@ -2,13 +2,13 @@
 
 import React, { useCallback, useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
-import { course as courseData } from '@/lib/curriculum';
+import { course as courseData } from '@/lib/typing/curriculum';
 import { SectionNode, LessonNode } from '@/types/lesson';
 import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
-import { getProgress, computeUnlocked, isLessonPassed, ProgressMap } from '@/lib/progress';
-import { LESSON_TYPES, LESSON_TYPE_ORDER } from '@/lib/lessonTypes';
-import { useLocale } from '@/lib/locale';
-import { STR } from '@/lib/uiStrings';
+import { getProgress, computeUnlocked, isLessonPassed, ProgressMap } from '@/lib/typing/progress';
+import { LESSON_TYPES, LESSON_TYPE_ORDER } from '@/lib/typing/lessonTypes';
+import { useLocale } from '@/lib/core/locale';
+import { STR } from '@/lib/core/uiStrings';
 
 export default function CourseDetailPage({ 
   params,

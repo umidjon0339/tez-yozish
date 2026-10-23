@@ -40,20 +40,20 @@ listed seven game names by hand.
 
 | Claim | Source |
 |---|---|
-| lessons, sections | `@/lib/curriculum` |
-| game count **and game names** | `@/lib/games` (`GAME_COUNT`, `gameNameLines()`) |
-| coding stages / tracks / blocks | `@/lib/coding` (`codingTotals`) |
-| exam count | `@/lib/exams` |
-| grades, total subjects | `@/lib/k12` |
+| lessons, sections | `@/lib/typing/curriculum` |
+| game count **and game names** | `@/lib/catalog/games` (`GAME_COUNT`, `gameNameLines()`) |
+| coding stages / tracks / blocks | `@/lib/catalog/coding` (`codingTotals`) |
+| exam count | `@/lib/catalog/exams` |
+| grades, total subjects | `@/lib/catalog/k12` |
 
-`lib/games.ts` exists for exactly this reason — the roster used to live
+`lib/catalog/games.ts` exists for exactly this reason — the roster used to live
 inside `app/games/page.tsx`, where the pricing page could not reach it.
 `/games` and `/pricing` now render from the same array.
 
 Labels, titles **and** bullets all pass through `fill()` against one
 `textVars` map, so a string in `STR.pricing` may hold `{n}`, `{s}` or
 `{names}` and never a literal. **Adding a number to the page means adding a
-row to `textVars`, never typing the number into `lib/uiStrings/pricing.ts`.** Mind that
+row to `textVars`, never typing the number into `lib/core/uiStrings/pricing.ts`.** Mind that
 the placeholder names are positional-by-meaning, not by order: `f10b1` reads
 "grades 1-{s}, {n} in all", so `{s}` is the grade count and `{n}` the
 subject total — getting them the wrong way round renders "grades 1-151,

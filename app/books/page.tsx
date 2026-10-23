@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
-import { useBooks, bookLeaves } from '@/lib/books';
+import { useBooks, bookLeaves } from '@/lib/catalog/books';
 import { BookDialog } from '@/components/books/BookDialog';
 import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
-import { useLocale } from '@/lib/locale';
-import { STR } from '@/lib/uiStrings';
+import { useLocale } from '@/lib/core/locale';
+import { STR } from '@/lib/core/uiStrings';
 
 const GRID = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5';
 const CARD =

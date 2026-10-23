@@ -7,10 +7,10 @@ import {
   signOut,
   type User,
 } from "firebase/auth";
-import { getFirebaseAuth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/core/firebase";
 
 /* Signed-in state, mirrored from the Firebase SDK into React with the same
-   external-store pattern as lib/locale.tsx. `ready` is false until Firebase
+   external-store pattern as lib/core/locale.tsx. `ready` is false until Firebase
    has restored (or ruled out) a saved session, so the navbar can avoid
    flashing "Log in" at a signed-in student. */
 

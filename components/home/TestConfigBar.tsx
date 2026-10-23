@@ -17,8 +17,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { ALargeSmall, AtSign, Clock, GraduationCap, Hash, Quote, Wrench } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 import {
   featuredSubjects,
   LANG_LABEL,
@@ -30,7 +30,7 @@ import {
   type TestConfig,
   type TestLang,
   type TestMode,
-} from "@/lib/typingTest";
+} from "@/lib/typing/typingTest";
 
 type IconType = React.ComponentType<{ className?: string; strokeWidth?: number }>;
 
@@ -192,7 +192,7 @@ export function TestConfigBar({
         </div>
 
         {/* Second line, centred: the text language. The on-screen keyboard is
-            US QWERTY, so the banks are Latin only (see lib/typingTest.ts). */}
+            US QWERTY, so the banks are Latin only (see lib/typing/typingTest.ts). */}
         <Pill>
           {TEST_LANGS.map((l: TestLang) => (
             <Item

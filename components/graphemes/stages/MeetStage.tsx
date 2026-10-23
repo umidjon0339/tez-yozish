@@ -7,10 +7,10 @@
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { Volume2 } from "lucide-react";
-import { type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { type MeetRow } from "@/lib/graphemes";
-import { speakWord } from "@/lib/phonemeAudio";
+import { type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { type MeetRow } from "@/lib/english/graphemes";
+import { speakWord } from "@/lib/english/phonemeAudio";
 import { SpelledWord } from "@/components/english/stage-kit";
 
 const P = STR.phonemes;

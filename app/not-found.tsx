@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { Mascot } from "@/components/Mascot";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
 export default function NotFound() {
   const { locale } = useLocale();

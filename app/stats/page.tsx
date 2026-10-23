@@ -4,7 +4,7 @@
 // week summary → history charts → keyboard heatmap (+ key detail) →
 // finger mastery & rows → practice calendar → records & totals →
 // course progress → keys-learned map. All data from tz-stats-v1
-// (lib/stats.ts) and tz-progress-v1 (lib/progress.ts).
+// (lib/typing/stats.ts) and tz-progress-v1 (lib/typing/progress.ts).
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
@@ -17,9 +17,9 @@ import {
   Star,
   BookOpen,
 } from "lucide-react";
-import { course } from "@/lib/curriculum";
-import { isGradedType } from "@/lib/lessonTypes";
-import { useProgress, isLessonPassed } from "@/lib/progress";
+import { course } from "@/lib/typing/curriculum";
+import { isGradedType } from "@/lib/typing/lessonTypes";
+import { useProgress, isLessonPassed } from "@/lib/typing/progress";
 import {
   useStats,
   computeKeyStats,
@@ -31,7 +31,7 @@ import {
   computeWeekSummary,
   resetStats,
   CONFIDENCE_LEARNED,
-} from "@/lib/stats";
+} from "@/lib/typing/stats";
 import {
   FINGER_OF_KEY_ID,
   keyIdForChar,
@@ -48,8 +48,8 @@ import {
 import { FingerMastery } from "@/components/stats/FingerMastery";
 import { ActivityCalendar } from "@/components/stats/ActivityCalendar";
 import { Mascot } from "@/components/Mascot";
-import { useLocale, type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale, type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
 const S = STR.stats;
 const LOCALE_TAG: Record<Locale, string> = { en: "en", uz: "uz", ru: "ru" };

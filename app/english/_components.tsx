@@ -4,7 +4,7 @@
 // Each takes its data via props (locale is a `keyof L3`). No page state here.
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import { ALLOPHONES } from "@/lib/phonemes";
+import { ALLOPHONES } from "@/lib/english/phonemes";
 import {
   Tint,
   Tile,
@@ -85,7 +85,7 @@ export function TileGrid({ symbols }: { symbols: (string | Tile)[] }) {
 }
 
 /* Like TileGrid, but for IPA phonemes: each tile stacks the phoneme symbol
-   over its allophones in [ ] (data in lib/phonemes.ts). Hovering an
+   over its allophones in [ ] (data in lib/english/phonemes.ts). Hovering an
    allophone shows an example word carrying that variant. */
 export function IpaTileGrid({ symbols }: { symbols: Tile[] }) {
   return (
@@ -822,7 +822,7 @@ export type StressStyle = (typeof STRESS_STYLES)[number];
 
 /* Picked once per page load: advance the stored index and remember the
    result, so every reload shows the next style (useSyncExternalStore
-   snapshot — the module-level idiom from lib/locale.tsx). */
+   snapshot — the module-level idiom from lib/core/locale.tsx). */
 let pickedStressStyle: StressStyle | null = null;
 export function loadStressStyle(): StressStyle {
   if (pickedStressStyle === null) {

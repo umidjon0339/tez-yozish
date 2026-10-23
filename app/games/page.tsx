@@ -4,10 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import { Eye, Heart } from 'lucide-react';
 import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
-import { useLocale } from '@/lib/locale';
-import { STR } from '@/lib/uiStrings';
-import { formatCount, useGameCounters } from '@/lib/gameStats';
-import { GAMES } from '@/lib/games';
+import { useLocale } from '@/lib/core/locale';
+import { STR } from '@/lib/core/uiStrings';
+import { formatCount, useGameCounters } from '@/lib/catalog/gameStats';
+import { GAMES } from '@/lib/catalog/games';
 
 export default function GamesPage() {
   const { locale } = useLocale();

@@ -2,7 +2,7 @@
 
 // Interactive reference charts for /english/phonemes: the IPA vowel
 // trapezoid (SVG, with the classic colored i/u/e/o/a-base zones) and the
-// consonant place × manner table. Both are built from lib/phonemes.ts and
+// consonant place × manner table. Both are built from lib/english/phonemes.ts and
 // react to the page's UK/US accent switch — sounds of the other accent stay
 // visible but dimmed (hover restores them). Every sound links into its
 // lesson hub (/english/phonemes/[slug]).
@@ -12,8 +12,8 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useLocale, type Locale } from "@/lib/locale";
-import { PHONEME_BY_SLUG, inAccent, type Accent } from "@/lib/phonemes";
+import { useLocale, type Locale } from "@/lib/core/locale";
+import { PHONEME_BY_SLUG, inAccent, type Accent } from "@/lib/english/phonemes";
 
 type Str = Record<Locale, string>;
 

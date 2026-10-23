@@ -12,15 +12,15 @@
 // if the shape changes.
 
 import { useSyncExternalStore } from "react";
-import type { LessonResult } from "@/lib/progress";
+import type { LessonResult } from "@/lib/typing/progress";
 import {
   GRAPHEME_TRACKS,
   PASS_ACCURACY,
   graphemeLessonKey,
   type GraphemeLesson,
   type GraphemeTrackId,
-} from "@/lib/graphemeCurriculum";
-import { LESSON_TYPES } from "@/lib/lessonTypes";
+} from "@/lib/english/graphemeCurriculum";
+import { LESSON_TYPES } from "@/lib/typing/lessonTypes";
 
 export interface StoredGraphemeProgress {
   completed: boolean;

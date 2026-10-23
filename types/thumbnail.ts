@@ -1,7 +1,7 @@
 /**
  * The accent hues the catalogue covers draw with. The literal values live in
  * `TONE_HEX` (components/thumbnails/covers/catalog.tsx) — this union is just the vocabulary that
- * `lib/k12.ts` and `lib/coding.ts` assign from.
+ * `lib/catalog/k12.ts` and `lib/catalog/coding.ts` assign from.
  */
 export type Tone =
   | 'sky' | 'emerald' | 'amber' | 'violet' | 'rose' | 'indigo'
@@ -32,12 +32,12 @@ export interface ThumbnailParams {
   symbol?: string;               // IPA symbol, e.g. "iː" — merged in at runtime
   shade?: string;                // allophone symbol on SHADE covers, e.g. "iˑ"
 
-  // K-12 curriculum covers (GRADE_COVER / SUBJECT_COVER) — see lib/k12.ts
+  // K-12 curriculum covers (GRADE_COVER / SUBJECT_COVER) — see lib/catalog/k12.ts
   grade?: number;                // 1..11, painted as the numeral on GRADE_COVER
   subjectIcon?: string;          // SubjectIcon id, e.g. "flask" — picks the lucide glyph
   tone?: string;                 // Tone name, e.g. "violet" — accent hue for these covers
 
-  // Coding catalogue cover (CODE_TRACK_COVER) — see lib/coding.ts
+  // Coding catalogue cover (CODE_TRACK_COVER) — see lib/catalog/coding.ts
   codeIcon?: string;             // lucide component name, e.g. "Database"
   codeLine?: string;             // the sample line drawn in the editor window
 }

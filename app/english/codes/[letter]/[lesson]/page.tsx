@@ -1,15 +1,15 @@
 "use client";
 
 // One secret-codes lesson (/english/codes/a/learn, …). Looked up in the
-// "codes" track of lib/letterCurriculum.ts; unknown or not-yet-implemented
+// "codes" track of lib/english/letterCurriculum.ts; unknown or not-yet-implemented
 // ids ("coming soon" cards) fall back to the hub link.
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { LETTERS } from "@/lib/letters";
-import { LETTER_TRACKS } from "@/lib/letterCurriculum";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { LETTERS } from "@/lib/english/letters";
+import { LETTER_TRACKS } from "@/lib/english/letterCurriculum";
 import { LetterLessonRunner } from "@/components/letters/LetterLessonRunner";
 
 export default function CodesLessonPage() {

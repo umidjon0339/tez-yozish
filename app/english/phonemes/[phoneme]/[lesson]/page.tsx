@@ -11,14 +11,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Lock } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { PHONEME_BY_SLUG } from "@/lib/phonemes";
-import { phonemeHubHref, phonemeLessonsFor } from "@/lib/phonemeCurriculum";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { PHONEME_BY_SLUG } from "@/lib/english/phonemes";
+import { phonemeHubHref, phonemeLessonsFor } from "@/lib/english/phonemeCurriculum";
 import {
   phonemeUnlockedMap,
   usePhonemeProgress,
-} from "@/lib/phonemeProgress";
+} from "@/lib/english/phonemeProgress";
 import { PhonemeLessonRunner } from "@/components/phonemes/PhonemeLessonRunner";
 
 export default function PhonemeLessonPage() {

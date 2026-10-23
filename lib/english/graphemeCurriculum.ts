@@ -1,13 +1,13 @@
 // Normalizes data/graphemeLessons.json into the runtime model for the
 // /english/graphemes and /english/spellings lesson hubs — the two-track
-// analogue of lib/phonemeCurriculum.ts. The JSON holds one lesson TEMPLATE
+// analogue of lib/english/phonemeCurriculum.ts. The JSON holds one lesson TEMPLATE
 // per track; every grapheme (or sound) gets the same lesson list, and
 // per-element identity lives in the progress key
 // (`graphemes/${slug}/${lessonId}` / `spellings/${slug}/${lessonId}`,
 // stored by graphemeProgress.ts).
 //
 // Unlocking is ACCURACY-based, not star-based: a graded lesson passes at
-// PASS_ACCURACY (see lib/graphemeProgress.ts); ungraded lessons pass on
+// PASS_ACCURACY (see lib/english/graphemeProgress.ts); ungraded lessons pass on
 // completion. Stars stay as quality feedback only.
 //
 // `kind` picks which stage UI the runner mounts (GraphemeLessonRunner).
@@ -70,7 +70,7 @@ export const GRAPHEME_TRACKS: Record<GraphemeTrackId, GraphemeTrack> = {
   spellings: buildTrack("spellings"),
 };
 
-/** Progress-map key for one element's lesson (see lib/graphemeProgress.ts). */
+/** Progress-map key for one element's lesson (see lib/english/graphemeProgress.ts). */
 export function graphemeLessonKey(
   track: GraphemeTrackId,
   slug: string,

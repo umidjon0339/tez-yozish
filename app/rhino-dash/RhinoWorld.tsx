@@ -19,7 +19,7 @@ import * as THREE from "three";
 import { Mascot } from "@/components/Mascot";
 import { Rhino } from "./rhino";
 import { CameraRig, SkyDome, SunAndClouds, Ocean, CliffIsland, WORLD, getSoftTexture } from "./environment";
-import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/stats";
+import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/typing/stats";
 
 // ==========================================
 // DIFFICULTY & TUG-OF-WAR TUNING

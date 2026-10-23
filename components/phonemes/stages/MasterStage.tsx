@@ -13,17 +13,17 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Volume2 } from "lucide-react";
-import { type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { type PhonemeInfo } from "@/lib/phonemes";
-import { SPELLING_BY_SLUG, choiceForSpelling } from "@/lib/graphemes";
+import { type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { type PhonemeInfo } from "@/lib/english/phonemes";
+import { SPELLING_BY_SLUG, choiceForSpelling } from "@/lib/english/graphemes";
 import {
   ALLO_PROCESS_INFO,
   quizableAllophones,
   shadesFor,
   type AlloProcess,
-} from "@/lib/allophones";
-import { speakWord } from "@/lib/phonemeAudio";
+} from "@/lib/english/allophones";
+import { speakWord } from "@/lib/english/phonemeAudio";
 import {
   AnswerLine,
   LetterSlots,

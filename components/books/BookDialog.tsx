@@ -13,10 +13,10 @@ import { Plus, Trash2, X } from 'lucide-react';
 import {
   addBook, updateBook, checkText, checkChapters, totalWords, countTopics,
   wordCount, type Book, type BookStructure, type Chapter, type TextIssue,
-} from '@/lib/books';
-import { useLocale } from '@/lib/locale';
-import { STR } from '@/lib/uiStrings';
-import type { Locale } from '@/lib/locale';
+} from '@/lib/catalog/books';
+import { useLocale } from '@/lib/core/locale';
+import { STR } from '@/lib/core/uiStrings';
+import type { Locale } from '@/lib/core/locale';
 
 const FIELD =
   'w-full px-3 py-2 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 outline-none focus:border-neutral-500';
@@ -50,7 +50,7 @@ function toChapters(drafts: DraftChapter[], structure: BookStructure): Chapter[]
 }
 
 /** Stored → editable. A learner's own titles are the same string in all three
-    locales (`plain()` in lib/books), so `en` is the one to edit. */
+    locales (`plain()` in lib/catalog/books), so `en` is the one to edit. */
 function toDrafts(chapters: Chapter[]): DraftChapter[] {
   if (!chapters.length) return [newChapter()];
   return chapters.map((c) => ({

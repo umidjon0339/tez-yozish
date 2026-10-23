@@ -1,6 +1,6 @@
 import type { Str } from "./types";
 
-/* The coding catalogue — stages → tracks → module blocks (lib/coding.ts) */
+/* The coding catalogue — stages → tracks → module blocks (lib/catalog/coding.ts) */
 export const coding = {
   title: { en: "Coding", uz: "Dasturlash", ru: "Кодинг" },
   subtitle: {

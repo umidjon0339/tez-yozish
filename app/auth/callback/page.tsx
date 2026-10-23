@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
-import { signInWithSsoToken, edifyAuthUrl } from "@/lib/auth";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { signInWithSsoToken, edifyAuthUrl } from "@/lib/core/auth";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
 /* SSO landing spot: edify-student redirects here as
    /auth/callback#sso_token=<custom token>. Exchanging the token signs the

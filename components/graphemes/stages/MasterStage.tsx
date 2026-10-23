@@ -8,10 +8,10 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Volume2 } from "lucide-react";
-import { type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { type ChoiceSpec, type SlotRound } from "@/lib/graphemes";
-import { speakWord } from "@/lib/phonemeAudio";
+import { type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { type ChoiceSpec, type SlotRound } from "@/lib/english/graphemes";
+import { speakWord } from "@/lib/english/phonemeAudio";
 import {
   AnswerLine,
   LetterSlots,

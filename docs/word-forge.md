@@ -75,7 +75,7 @@ out, a later wave needs more than one word unless you have upgraded.
 The first letter you press picks a target: of every bot whose word starts with
 it, the one **nearest the gate**. After that only `word[typed]` counts.
 
-- A wrong key costs the streak and is recorded in `lib/stats.ts` against the
+- A wrong key costs the streak and is recorded in `lib/typing/stats.ts` against the
   letter that *was* expected. It does **not** drop the lock — hunting for a key
   must not also cost you the target you already committed to.
 - The lock is released the instant the word runs out, **before the shot lands**,

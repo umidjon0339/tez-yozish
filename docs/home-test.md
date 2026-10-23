@@ -2,7 +2,7 @@
 
 `/` is a typing test built to the **Monkeytype** layout, with our keycap +
 hands art underneath it. This doc is the contract for everything under
-`components/home/` and `lib/typingTest.ts`.
+`components/home/` and `lib/typing/typingTest.ts`.
 
 Files:
 
@@ -10,7 +10,7 @@ Files:
 |---|---|
 | `data/typing-texts.json` | **every word, sentence and quote the test can produce** (§9) |
 | `scripts/validate-typing-texts.mjs` | `npm run validate:texts` — guards the join with the curriculum (§9) |
-| `lib/typingTest.ts` | pure model: modes, text lookup, generation, scoring. No React, no text. |
+| `lib/typing/typingTest.ts` | pure model: modes, text lookup, generation, scoring. No React, no text. |
 | `components/home/testConfig.ts` | the settings store (`tz-typetest-v1`), `useSyncExternalStore` idiom |
 | `components/home/useTypingTest.ts` | the engine — the input model and the clock |
 | `components/home/TestConfigBar.tsx` | the config pill above the words |
@@ -57,7 +57,7 @@ Deliberately different:
   who has never touch-typed learns that fingers own zones.
 - **`zen` is replaced by school subjects.** That slot in the mode pill is
   `subject`: pressing it fills the value pill with **five subjects and nothing
-  else** (`FEATURED_SUBJECTS` in `lib/typingTest.ts` — edit that list to change
+  else** (`FEATURED_SUBJECTS` in `lib/typing/typingTest.ts` — edit that list to change
   them), whose text comes from `data/typing-texts.json` (§9). It had a grade
   step in front of the subjects at first; it was cut because two clicks before
   you can type a word is two clicks too many on a page whose job is to start a
@@ -65,7 +65,7 @@ Deliberately different:
   band variants are **pooled** rather than filtered (§9). Zen itself is not
   implemented at all — there is no free-typing mode.
 - **No account, no leaderboard, no command line (`esc`).** Results go into
-  `lib/stats.ts` (§5) instead.
+  `lib/typing/stats.ts` (§5) instead.
 - **Nothing below the fold in the reference.** Here the six menu cards live in
   a second section — see §6, and note the keydown gate it implies.
 
@@ -245,7 +245,7 @@ failure. The **speed map** is the crowd: the same result sitting to the right of
 most of the distribution. Keep both, or the screen only tells half the truth.
 
 Both come from the **same read-only Monkeytype client `/compete` is built on**
-(`lib/monkeytype.ts` — no API key, CORS-open, cached in sessionStorage):
+(`lib/catalog/monkeytype.ts` — no API key, CORS-open, cached in sessionStorage):
 `fetchLeaderboard` for the podium, and **one** `fetchSpeedHistogram` feeding
 both the curve and `rankForWpm`. The chart itself is the shared
 `components/stats/Histogram` — the same component `/compete` draws, not a copy.
@@ -321,7 +321,7 @@ keystroke — a synchronous layout per letter, for a worse-looking blink.
 ## 9. Where the text comes from
 
 **`data/typing-texts.json` is the only place any typed text lives.** Nothing is
-hardcoded in `lib/typingTest.ts` and nothing is generated — the file is meant to
+hardcoded in `lib/typing/typingTest.ts` and nothing is generated — the file is meant to
 be edited by hand, so it is formatted for that (word banks wrapped, one sentence
 per line) and opens with a `_readme` explaining itself.
 
@@ -329,9 +329,9 @@ It holds four things: the general `words` banks, the `quotes`, the grade `bands`
 and `subjects` for the curriculum mode.
 
 **The subject join is the fragile part.** Curriculum entries are keyed by the
-subject **slug from `lib/k12.ts`** — the English name lowercased and hyphenated,
+subject **slug from `lib/catalog/k12.ts`** — the English name lowercased and hyphenated,
 the same key its `SUBJECT_ART` table uses, so a subject is named once for the
-whole app. `lib/typingTest.ts` reads subject names through the normalized
+whole app. `lib/typing/typingTest.ts` reads subject names through the normalized
 `k12Grades` model and *never* through the raw `data/k-12-curriculum.json`, the
 same rule that applies to `course` and `lessons.json`.
 

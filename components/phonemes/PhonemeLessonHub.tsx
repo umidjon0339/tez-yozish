@@ -13,22 +13,22 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { phonemeAt, type PhonemeInfo } from "@/lib/phonemes";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { phonemeAt, type PhonemeInfo } from "@/lib/english/phonemes";
 import {
   phonemeHubHref,
   phonemeLessonHref,
   phonemeLessonKey,
   phonemeLessonsFor,
   type PhonemeLesson,
-} from "@/lib/phonemeCurriculum";
-import { LESSON_TYPES, LESSON_TYPE_ORDER } from "@/lib/lessonTypes";
+} from "@/lib/english/phonemeCurriculum";
+import { LESSON_TYPES, LESSON_TYPE_ORDER } from "@/lib/typing/lessonTypes";
 import {
   isPhonemeLessonPassed,
   phonemeUnlockedMap,
   usePhonemeProgress,
-} from "@/lib/phonemeProgress";
+} from "@/lib/english/phonemeProgress";
 import { DynamicThumbnail } from "@/components/thumbnails/DynamicThumbnail";
 
 const P = STR.phonemes;

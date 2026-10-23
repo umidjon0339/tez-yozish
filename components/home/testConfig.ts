@@ -1,13 +1,13 @@
 "use client";
 
 // The home test's settings, held in the module-level useSyncExternalStore
-// idiom the rest of the app uses (lib/locale.tsx, handStyle.ts). It exists as a
+// idiom the rest of the app uses (lib/core/locale.tsx, handStyle.ts). It exists as a
 // store rather than page state for one reason: the saved value can only be read
 // on the client, and a store gives the server render a stable default instead
 // of a hydration mismatch.
 
 import { useSyncExternalStore } from "react";
-import { DEFAULT_CONFIG, loadConfig, saveConfig, type TestConfig } from "@/lib/typingTest";
+import { DEFAULT_CONFIG, loadConfig, saveConfig, type TestConfig } from "@/lib/typing/typingTest";
 
 let cache: TestConfig | null = null;
 const listeners = new Set<() => void>();

@@ -40,8 +40,8 @@ Hard rules:
   a mismatched duration brings back the jump and the wobble — `docs/home-test.md`
   §8 has the frame-by-frame numbers.
 - **No typed text goes in the code.** Every word, sentence and quote lives in
-  `data/typing-texts.json`; `lib/typingTest.ts` only looks things up. Subject
-  names come from the normalized `lib/k12` model, never the raw curriculum
+  `data/typing-texts.json`; `lib/typing/typingTest.ts` only looks things up. Subject
+  names come from the normalized `lib/catalog/k12` model, never the raw curriculum
   JSON, and the two files join on the **k12 subject slug** — a join nothing
   type-checks and which fails *silently* into generic text. Run
   `npm run validate:texts` after touching either file.

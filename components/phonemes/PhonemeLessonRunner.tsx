@@ -2,7 +2,7 @@
 
 // Single-lesson workspace for the phonemes unit — mounted by
 // /english/phonemes/[phoneme]/[lesson], the phoneme analogue of
-// LetterLessonRunner. One URL = one lesson (found in lib/phonemeCurriculum.ts
+// LetterLessonRunner. One URL = one lesson (found in lib/english/phonemeCurriculum.ts
 // by id); the runner mounts the stage for the lesson's `kind`
 // (components/phonemes/stages/), grades the run with the course star formula
 // (computeLessonResult) and persists it under the phoneme-lesson progress
@@ -32,15 +32,15 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { PHONEMES, type PhonemeInfo } from "@/lib/phonemes";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { PHONEMES, type PhonemeInfo } from "@/lib/english/phonemes";
 import {
   hearWordsForPhoneme,
   typingWordsForPhoneme,
-} from "@/lib/allophones";
-import { speakWord } from "@/lib/phonemeAudio";
-import { computeLessonResult, type LessonResult } from "@/lib/progress";
+} from "@/lib/english/allophones";
+import { speakWord } from "@/lib/english/phonemeAudio";
+import { computeLessonResult, type LessonResult } from "@/lib/typing/progress";
 import {
   PASS_ACCURACY,
   PHONEME_TRACK,
@@ -50,14 +50,14 @@ import {
   phonemeLessonsFor,
   type PhonemeLesson,
   type PhonemeLessonKind,
-} from "@/lib/phonemeCurriculum";
-import { LESSON_TYPES } from "@/lib/lessonTypes";
+} from "@/lib/english/phonemeCurriculum";
+import { LESSON_TYPES } from "@/lib/typing/lessonTypes";
 import {
   phonemeDone,
   savePhonemeLessonResult,
   usePhonemeProgress,
   type PhonemeProgressMap,
-} from "@/lib/phonemeProgress";
+} from "@/lib/english/phonemeProgress";
 import { PaletteSwitcher } from "@/components/PaletteSwitcher";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { loadSfx, type StageStats } from "@/components/english/stage-kit";

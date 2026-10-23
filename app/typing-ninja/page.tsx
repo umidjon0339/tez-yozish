@@ -1,6 +1,6 @@
 "use client";
 import dynamic from 'next/dynamic';
-import { useGameView } from '@/lib/gameStats';
+import { useGameView } from '@/lib/catalog/gameStats';
 
 const NinjaWorld = dynamic(() => import('./NinjaWorld'), {
     ssr: false,

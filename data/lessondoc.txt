@@ -5,7 +5,7 @@ Locales: en (English), uz (O'zbekcha), ru (Русский)
 ================================================================================
 
 data/lessons.json is written in the v4 AUTHORING format described here.
-At runtime, lib/curriculum.ts normalizes it into the internal model
+At runtime, lib/typing/curriculum.ts normalizes it into the internal model
 (ids for steps, numbers, expanded rules) — you never write those by hand.
 
 CHECK YOUR WORK:   npm run validate:lessons
@@ -45,7 +45,7 @@ LESSON fields:
       "game"      arcade challenge. Graded 0-5 stars.
     A good section follows the arc:
     lesson -> practice -> practice -> test -> game -> mastery test.
-    (per-type behavior is defined once in lib/lessonTypes.tsx,
+    (per-type behavior is defined once in lib/typing/lessonTypes.tsx,
     so new types can be added without touching the pages)
   passStars — stars needed to PASS this lesson and unlock the next one.
     Defaults: "lesson"/"practice" 0 (just complete it), "game" 1, "test" 3.
@@ -88,7 +88,7 @@ STEP fields:
 --------------------------------------------------------------------------------
 
 Besides plain typed text, a text token can be one of two other kinds.
-(The exact rules live in lib/keyTokens.ts; the validator enforces them.)
+(The exact rules live in lib/typing/keyTokens.ts; the validator enforces them.)
 
 SPECIAL KEY tokens — one named key the learner must press:
     Enter  Backspace  Tab  CapsLock  Control  Alt  Shift

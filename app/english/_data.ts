@@ -1,8 +1,8 @@
 // Static reference data for the /english units page — split out of page.tsx
 // so these large typed literals type-check in isolation and keep the page
 // component light for Turbopack HMR and the editor. Pure data, no JSX.
-import { STR } from "@/lib/uiStrings";
-import { GRAPHEMES } from "@/lib/graphemes";
+import { STR } from "@/lib/core/uiStrings";
+import { GRAPHEMES } from "@/lib/english/graphemes";
 
 /* Tile tints: plain white, soft UK / US colors, soft vowel color, plus
    the morpheme card's free (emerald) / bound (violet) pair. */

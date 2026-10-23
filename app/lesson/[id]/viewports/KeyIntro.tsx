@@ -4,9 +4,9 @@ import {
   type LayoutConfig,
 } from "@/components/keyboard/KeyboardStage";
 import type { StepNode } from "@/types/lesson";
-import type { StepStats } from "@/lib/progress";
-import { createStatsSession, type StatsSession } from "@/lib/stats";
-import { chordKeys, chordMatchesEvent, parseChordToken } from "@/lib/keyTokens";
+import type { StepStats } from "@/lib/typing/progress";
+import { createStatsSession, type StatsSession } from "@/lib/typing/stats";
+import { chordKeys, chordMatchesEvent, parseChordToken } from "@/lib/typing/keyTokens";
 import { playErrorSound, playKeystrokeSound } from "../sfx";
 import { KEY_TOKEN_GLYPHS } from "../gymUnits";
 

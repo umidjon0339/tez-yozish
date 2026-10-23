@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { ChevronRight, Star } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { GRAPHEMES, SPELLINGS } from "@/lib/graphemes";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { GRAPHEMES, SPELLINGS } from "@/lib/english/graphemes";
 import {
   graphemeDone,
   graphemeStars,
   useGraphemeProgress,
-} from "@/lib/graphemeProgress";
+} from "@/lib/english/graphemeProgress";
 import {
   GRAPHEME_SIZES,
   GraphemeTile,

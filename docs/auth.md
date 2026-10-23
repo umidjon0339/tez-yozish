@@ -8,7 +8,7 @@ shared account pool) and receives sessions via a custom-token SSO hand-off.
 
 1. Signed-out user clicks **Log in / Sign up** in the NavBar →
    `window.location.assign(edifyAuthUrl("login" | "signup"))`.
-2. `edifyAuthUrl(page)` (`lib/auth.ts`) builds
+2. `edifyAuthUrl(page)` (`lib/core/auth.ts`) builds
    `${NEXT_PUBLIC_EDIFY_URL}/auth/${page}?returnTo=<origin>/auth/callback`.
    Env fallback is `http://localhost:3001` (dev); production is
    `https://edify.uz` (`.env.local`).
@@ -25,15 +25,15 @@ shared account pool) and receives sessions via a custom-token SSO hand-off.
 
 ## Modules
 
-- **`lib/firebase.ts`** — LAZY modular init, idempotent
+- **`lib/core/firebase.ts`** — LAZY modular init, idempotent
   (`getApps().length ? getApp() : initializeApp`). Config entirely from
   `NEXT_PUBLIC_FIREBASE_*` env vars (see `.env.local`; deployments must
   define the same vars). Exports `getFirebaseAuth()` — call it only from
   browser code paths: module-scope init would run during `next build`
   prerendering and, without env vars, fail the build with
   `auth/invalid-api-key`.
-- **`lib/auth.ts`** — module-singleton external store (same
-  `useSyncExternalStore` idiom as `lib/locale.tsx`):
+- **`lib/core/auth.ts`** — module-singleton external store (same
+  `useSyncExternalStore` idiom as `lib/core/locale.tsx`):
   - `useAuth(): { user: User | null, ready: boolean }` — `ready` stays
     false until Firebase has restored or ruled out a session. The
     `onAuthStateChanged` subscription starts lazily on first subscribe.
@@ -56,4 +56,4 @@ shared account pool) and receives sessions via a custom-token SSO hand-off.
 - Firebase config keys are `NEXT_PUBLIC_*` env vars — never hardcode them.
 - Roadmap context (see memory / premium initiative): step 1 is this shared
   project + edify-hosted login; step 2 is deeper custom-token SSO. Keep
-  `lib/auth.ts` the single integration point.
+  `lib/core/auth.ts` the single integration point.

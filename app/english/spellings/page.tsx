@@ -9,16 +9,16 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ChevronRight, Star } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { inAccent, type Accent } from "@/lib/phonemes";
-import { SPELLINGS, type SpellingInfo } from "@/lib/graphemes";
-import { graphemeHubHref } from "@/lib/graphemeCurriculum";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { inAccent, type Accent } from "@/lib/english/phonemes";
+import { SPELLINGS, type SpellingInfo } from "@/lib/english/graphemes";
+import { graphemeHubHref } from "@/lib/english/graphemeCurriculum";
 import {
   graphemeDone,
   graphemeStars,
   useGraphemeProgress,
-} from "@/lib/graphemeProgress";
+} from "@/lib/english/graphemeProgress";
 
 const G = STR.graphemes;
 const E = STR.english;

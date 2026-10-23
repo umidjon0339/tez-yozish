@@ -1,11 +1,11 @@
 'use client';
 
 import { use, useState } from 'react';
-import { codingStages, codingTotals, findTrack, CodingTrack } from '@/lib/coding';
+import { codingStages, codingTotals, findTrack, CodingTrack } from '@/lib/catalog/coding';
 import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
-import { useLocale } from '@/lib/locale';
-import { STR } from '@/lib/uiStrings';
-import type { Locale } from '@/lib/locale';
+import { useLocale } from '@/lib/core/locale';
+import { STR } from '@/lib/core/uiStrings';
+import type { Locale } from '@/lib/core/locale';
 
 /* Same grid/card constants as /courses — the three catalogues on this site
    (typing course, K-12 subjects, coding tracks) must read as one surface. */

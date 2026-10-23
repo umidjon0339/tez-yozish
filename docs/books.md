@@ -6,7 +6,7 @@ set, and anything the learner pastes in.
 | | |
 |---|---|
 | shipped data | `data/books.json` |
-| model + store | `lib/books.ts` (`tz-books-v1`) |
+| model + store | `lib/catalog/books.ts` (`tz-books-v1`) |
 | library | `app/books/page.tsx` |
 | one book | `app/books/[id]/page.tsx` |
 | art | `BOOK_COVER` in `components/thumbnails/covers/catalog.tsx` |
@@ -26,8 +26,8 @@ const test = useTypingTest(cfg, true);
 ```
 
 `mode: "custom"` already existed for the home page's paste-your-own-text
-option (`buildTest` in `lib/typingTest.ts`), so books reuse the caret,
-the per-letter colouring, the scoring, the `lib/stats.ts` recording and the
+option (`buildTest` in `lib/typing/typingTest.ts`), so books reuse the caret,
+the per-letter colouring, the scoring, the `lib/typing/stats.ts` recording and the
 `TestResult` screen for free. **Do not add a fourth typing implementation
 here** — the repo already has the lesson runtime, the games and this one.
 
@@ -152,7 +152,7 @@ other caller can put a padded book in the store.
 ## 3. Storage
 
 `tz-books-v1` holds `{ books, scores }` behind the same
-`useSyncExternalStore` idiom as `lib/locale.tsx` and
+`useSyncExternalStore` idiom as `lib/core/locale.tsx` and
 `components/home/testConfig.ts`, so the server render is a stable empty
 store instead of a hydration mismatch.
 

@@ -3,9 +3,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown, LogOut } from "lucide-react";
 import type { User } from "firebase/auth";
-import { logout } from "@/lib/auth";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { logout } from "@/lib/core/auth";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
 /* Avatar + name dropdown for the signed-in student. Same hover-open
    behavior as LanguageSwitcher. */

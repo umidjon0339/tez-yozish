@@ -6,7 +6,7 @@ Hard rules:
 - **One keystroke per target is the whole mechanic.** Every pod carries exactly
   one character and one key kills it. Do not "improve" it into a word game —
   reaction and letter recognition are the point, and it is the activity that
-  feeds `lib/stats.ts` the cleanest per-key sample (no neighbouring letters
+  feeds `lib/typing/stats.ts` the cleanest per-key sample (no neighbouring letters
   priming the finger).
 - **Targeting is always the LOWEST matching pod.** With a 9-key pool on EASY,
   two pods showing the same letter is unavoidable; the lowest-first rule is the

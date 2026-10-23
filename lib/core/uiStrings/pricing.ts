@@ -32,7 +32,7 @@ export const pricing = {
     uz: "Har bir blokdan keyin yulduzli testlar",
     ru: "Тесты со звёздами после каждого блока",
   },
-  /* {n} and {names} are filled from lib/games — never type a count or a
+  /* {n} and {names} are filled from lib/catalog/games — never type a count or a
      game name here, or the page drifts the moment a game ships. */
   f2Label: { en: "{n} games", uz: "{n} o'yin", ru: "{n} игр" },
   f2Title: {
@@ -136,8 +136,8 @@ export const pricing = {
     ru: "Твой личный рекорд всегда сверху",
   },
   /* Coding / Books / Exams — the units the product gained after the first
-     seven tabs were written. Counts come from lib/coding, lib/exams and
-     lib/k12, so these strings never restate a catalogue's size. */
+     seven tabs were written. Counts come from lib/catalog/coding, lib/catalog/exams and
+     lib/catalog/k12, so these strings never restate a catalogue's size. */
   f8Label: { en: "Coding", uz: "Dasturlash", ru: "Кодинг" },
   f8Title: {
     en: "Learn to code while you type",

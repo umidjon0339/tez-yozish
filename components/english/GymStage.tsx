@@ -6,7 +6,7 @@
 // keystroke). Records every stroke into the all-time stats layer.
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { createStatsSession, type StatsSession } from "@/lib/stats";
+import { createStatsSession, type StatsSession } from "@/lib/typing/stats";
 import {
   CORRECT,
   CORRECT_FIXED,

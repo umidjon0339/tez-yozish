@@ -19,7 +19,7 @@ const read = (p) => JSON.parse(readFileSync(new URL(p, import.meta.url), "utf8")
 const texts = read("../data/typing-texts.json");
 const k12 = read("../data/k-12-curriculum.json");
 
-/** Mirrors `slugify` in lib/k12.ts — keep the two in step. */
+/** Mirrors `slugify` in lib/catalog/k12.ts — keep the two in step. */
 const slugify = (name) =>
   name
     .toLowerCase()

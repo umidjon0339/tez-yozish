@@ -6,7 +6,7 @@
     "  words   : the general word bank for the time / words modes.",
     "  quotes  : the quote mode. `text` is typed, `source` is printed under the result.",
     "  bands   : which school grades count as primary / middle / senior.",
-    "  subjects: the `subject` mode. Keys are the subject SLUGS from lib/k12.ts",
+    "  subjects: the `subject` mode. Keys are the subject SLUGS from lib/catalog/k12.ts",
     "            (the English name, lowercased and hyphenated) - the same keys its",
     "            SUBJECT_ART table uses, so a subject is named once for the whole app.",
     "            A key may carry a band suffix - \"mathematics@primary\" next to",
@@ -21,7 +21,7 @@
     "    subject are POOLED into one pot. The band suffix is kept for the day a",
     "    picker returns; today it changes nothing about what a learner sees.",
     "  - The config bar offers only the five subjects listed in FEATURED_SUBJECTS",
-    "    (lib/typingTest.ts). Every other subject here is written and checked but",
+    "    (lib/typing/typingTest.ts). Every other subject here is written and checked but",
     "    unreachable until that list names it. Add to that list, not just here."
   ],
   "bands": {

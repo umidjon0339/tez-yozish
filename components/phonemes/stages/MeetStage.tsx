@@ -6,11 +6,11 @@
 
 import React, { useEffect, useRef } from "react";
 import { Volume2 } from "lucide-react";
-import { type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { PHONEME_BY_SLUG, type PhonemeInfo } from "@/lib/phonemes";
-import { allophoneCards } from "@/lib/allophones";
-import { speakPhrase, speakWord } from "@/lib/phonemeAudio";
+import { type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { PHONEME_BY_SLUG, type PhonemeInfo } from "@/lib/english/phonemes";
+import { allophoneCards } from "@/lib/english/allophones";
+import { speakPhrase, speakWord } from "@/lib/english/phonemeAudio";
 import { SpelledWord } from "@/components/english/stage-kit";
 
 const P = STR.phonemes;

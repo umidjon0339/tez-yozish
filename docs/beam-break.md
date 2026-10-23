@@ -259,7 +259,7 @@ separate `<g>`s.
   `BeamBreakWorld.tsx`, including animal and sky names. The one exception is
   the game's **name**, which stays English in every locale exactly like Sky
   Hop / Rhino Dash / Ninja Run.
-- Keystrokes feed `lib/stats.ts` through `createStatsSession()`, and the run
+- Keystrokes feed `lib/typing/stats.ts` through `createStatsSession()`, and the run
   logs one `recordAttempt({ lessonId: "beam-break", type: "game" })`.
 
 ## 8. Testing

@@ -25,8 +25,8 @@
 // =========================================================================
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useLocale, type Locale } from "@/lib/locale";
-import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/stats";
+import { useLocale, type Locale } from "@/lib/core/locale";
+import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/typing/stats";
 import { sfx } from "./sound";
 import { draw, drawShip, layoutFor, muzzleOf, type Layout } from "./render";
 import {

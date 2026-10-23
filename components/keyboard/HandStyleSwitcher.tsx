@@ -6,7 +6,7 @@
 // free color input, stored per style, painting the hands via --hand-* CSS vars.
 
 import { useEffect, useRef, useState } from "react";
-import { useLocale } from "@/lib/locale";
+import { useLocale } from "@/lib/core/locale";
 import { DEFAULT_HAND_STYLE, HAND_STYLES, setHandStyle, useHandStyle, type HandStyleId } from "./handStyle";
 import {
   DEFAULT_HAND_OPACITY,

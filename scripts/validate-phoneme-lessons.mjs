@@ -1,5 +1,5 @@
 // Validates data/phonemeLessons.json (the phoneme lesson template).
-// Mirrors the runtime expectations of lib/phonemeCurriculum.ts and
+// Mirrors the runtime expectations of lib/english/phonemeCurriculum.ts and
 // components/phonemes/PhonemeLessonRunner.tsx in plain JS — change them
 // together. Run: npm run validate:phonemes
 //
@@ -22,7 +22,7 @@ const data = JSON.parse(
 );
 
 const TYPES = ["lesson", "practice", "test", "game"];
-// SHADE lessons are generated per-phoneme by lib/phonemeCurriculum.ts and
+// SHADE lessons are generated per-phoneme by lib/english/phonemeCurriculum.ts and
 // never appear in the JSON template.
 const KINDS = [
   "MEET",
@@ -90,7 +90,7 @@ if (!Array.isArray(data.tracks) || data.tracks.length !== 1) {
       }
       if (lesson.passStars !== undefined) {
         errors.push(
-          `${p}: passStars is not used — phoneme unlocking is accuracy-based (PASS_ACCURACY in lib/phonemeCurriculum.ts)`,
+          `${p}: passStars is not used — phoneme unlocking is accuracy-based (PASS_ACCURACY in lib/english/phonemeCurriculum.ts)`,
         );
       }
       if (!lesson.thumbnail?.svgId) {

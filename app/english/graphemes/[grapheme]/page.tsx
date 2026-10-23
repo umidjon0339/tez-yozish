@@ -6,9 +6,9 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { GRAPHEME_BY_SLUG } from "@/lib/graphemes";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { GRAPHEME_BY_SLUG } from "@/lib/english/graphemes";
 import { GraphemeLessonHub } from "@/components/graphemes/GraphemeLessonHub";
 
 export default function GraphemeHubPage() {

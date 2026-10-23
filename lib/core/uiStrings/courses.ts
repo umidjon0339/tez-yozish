@@ -7,7 +7,7 @@ export const courses = {
     uz: "Bo'limlarga qaytish",
     ru: "К разделам",
   },
-  /* The exam catalogue (lib/exams.ts) */
+  /* The exam catalogue (lib/catalog/exams.ts) */
   examsGroup: { en: "Exams", uz: "Imtihonlar", ru: "Экзамены" },
   /* Counted ("4 parts") vs used as a heading — Russian needs a different
      case for each, so they cannot be the same string. */
@@ -22,7 +22,7 @@ export const courses = {
     uz: "Imtihonlarga qaytish",
     ru: "К экзаменам",
   },
-  /* The K-12 grade → subject tree (lib/k12.ts) */
+  /* The K-12 grade → subject tree (lib/catalog/k12.ts) */
   k12Group: {
     en: "School subjects",
     uz: "Maktab fanlari",

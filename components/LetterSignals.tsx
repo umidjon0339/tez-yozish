@@ -5,7 +5,7 @@
 //   drawn per the ICS blazons ("International maritime signal flags" on
 //   Wikipedia) in a 96×96 box; Alfa/Bravo are swallowtailed.
 // - SemaphoreFigure: a stick figure holding two hand flags. Arm angles
-//   come from lib/letters.ts (`semaphore`): degrees clockwise from
+//   come from lib/english/letters.ts (`semaphore`): degrees clockwise from
 //   12 o'clock, viewer's perspective (so "A" = one flag at 225°,
 //   the viewer's lower left).
 

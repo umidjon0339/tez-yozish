@@ -1,12 +1,12 @@
 'use client';
 
 import { use, useState } from 'react';
-import { k12Grades, findGrade, gradeTone, K12Grade } from '@/lib/k12';
-import { exams, findExam, type Exam } from '@/lib/exams';
+import { k12Grades, findGrade, gradeTone, K12Grade } from '@/lib/catalog/k12';
+import { exams, findExam, type Exam } from '@/lib/catalog/exams';
 import { DynamicThumbnail } from '@/components/thumbnails/DynamicThumbnail';
-import { useLocale } from '@/lib/locale';
-import { STR } from '@/lib/uiStrings';
-import type { Locale } from '@/lib/locale';
+import { useLocale } from '@/lib/core/locale';
+import { STR } from '@/lib/core/uiStrings';
+import type { Locale } from '@/lib/core/locale';
 
 /* One grid shape for every card on this page — the same one the course
    detail page uses for its section/lesson grids, so /courses and

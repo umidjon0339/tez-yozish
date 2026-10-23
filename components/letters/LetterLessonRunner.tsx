@@ -2,7 +2,7 @@
 
 // Single-lesson workspace for the letter units — mounted by
 // /english/letters/[letter]/[lesson] and /english/codes/[letter]/[lesson].
-// One URL = one lesson (found in lib/letterCurriculum.ts by track + id);
+// One URL = one lesson (found in lib/english/letterCurriculum.ts by track + id);
 // the runner mounts the stage for the lesson's `kind`, grades the run with
 // the course star formula (computeLessonResult) and persists it under the
 // letter-lesson progress key (tz-letters-v2).
@@ -36,21 +36,21 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
-import { useLocale, type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { LETTERS, type LetterInfo } from "@/lib/letters";
-import { wordsForLetter, wordsForPair } from "@/lib/letterWords";
+import { useLocale, type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { LETTERS, type LetterInfo } from "@/lib/english/letters";
+import { wordsForLetter, wordsForPair } from "@/lib/english/letterWords";
 import {
   LETTER_SOUNDS,
   capsWords,
   dictationWords,
   positionWords,
   rivalsFor,
-} from "@/lib/letterLearn";
+} from "@/lib/english/letterLearn";
 import {
   computeLessonResult,
   type LessonResult,
-} from "@/lib/progress";
+} from "@/lib/typing/progress";
 import {
   LETTER_TRACKS,
   letterLessonKey,
@@ -58,15 +58,15 @@ import {
   trackHref,
   type LetterLesson,
   type LetterTrackId,
-} from "@/lib/letterCurriculum";
-import { LESSON_TYPES } from "@/lib/lessonTypes";
+} from "@/lib/english/letterCurriculum";
+import { LESSON_TYPES } from "@/lib/typing/lessonTypes";
 import {
   letterDone,
   saveLetterLessonResult,
   useLetterProgress,
   type LetterProgressMap,
-} from "@/lib/letterProgress";
-import { createStatsSession, type StatsSession } from "@/lib/stats";
+} from "@/lib/english/letterProgress";
+import { createStatsSession, type StatsSession } from "@/lib/typing/stats";
 import { NewKeyboard } from "@/components/keyboard/new_keyboard";
 import { Keyboard as HandsKeyboard } from "@/components/keyboard/hands";
 import { PaletteSwitcher } from "@/components/PaletteSwitcher";

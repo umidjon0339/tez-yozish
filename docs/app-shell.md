@@ -107,7 +107,7 @@ it, and the link `onClick` covers the same case.
 `PaletteSwitcher` is **not** in the NavBar — it lives in the lesson
 workspace header only.
 
-## 2b. Theme — `lib/theme.tsx` + `components/ThemeToggle.tsx`
+## 2b. Theme — `lib/core/theme.tsx` + `components/ThemeToggle.tsx`
 
 Dark mode is **app-wide and class-based**: the store's only side effect is
 `documentElement.classList.toggle("dark", …)`, which drives every `dark:`
@@ -136,12 +136,12 @@ authored art and menu palettes and deliberately ignore the switch.
 | Route | File | Notes |
 |---|---|---|
 | `/` | `app/page.tsx` | **A Monkeytype-style typing test — own doc: `docs/home-test.md`.** Above the fold: the config pill (`TestConfigBar`), the words + caret (`TestWords`), the result screen (`TestResult`), and under them the real `KeyboardWithHands` (lazy-loaded from `components/keyboard/KeyboardStage.tsx`, `isColorful={false}`, follows the theme switch via `isDark`) pointing at the next letter. The engine is `components/home/useTypingTest.ts`; settings live in `components/home/testConfig.ts` (`tz-typetest-v1`). The hero must fit `100dvh` minus the navbar — `STAGE_WIDTH` caps the keyboard by the leftover height and `STAGE_TAIL` reserves the room the wrists need below the stage, so the hands are shown whole. Below the fold (`#menu`): six menu cards (`CARDS`, lucide icons, first one accented "Start here") linking keyboard course / games / english / courses / compete / stats. The test's keydown listener is gated on an IntersectionObserver so `space`/`tab` scroll normally once the menu is in view. |
-| `/courses` | `app/courses/page.tsx` | **Two catalogues, one card grid.** Group 1 "Exams" = `EXAM_COVER` cards from `@/lib/exams` (IELTS / SAT / TOEFL iBT / CEFR), each drilling into its real papers with a score panel. Group 2 "School subjects" = the K-12 ladder from `@/lib/k12` — 11 `GRADE_COVER` cards that swap the page to a `SUBJECT_COVER` grid for that grade, with a "Back to Grades" button mirroring `/courses/[id]`'s section drill-down. The page's `View` is a discriminated union (`grade` \| `exam` \| null), so both catalogues drill down through one state; deep-linkable on entry via `?grade=5` or `?exam=ielts` (`use(searchParams)`, local state after). All grids share the `GRID`/`CARD` constants at the top of the file so this page and `/courses/[id]` read as one surface. **Subject cards are display-only** — there is no subject content yet, so they carry no click handler and no hover affordance. |
+| `/courses` | `app/courses/page.tsx` | **Two catalogues, one card grid.** Group 1 "Exams" = `EXAM_COVER` cards from `@/lib/catalog/exams` (IELTS / SAT / TOEFL iBT / CEFR), each drilling into its real papers with a score panel. Group 2 "School subjects" = the K-12 ladder from `@/lib/catalog/k12` — 11 `GRADE_COVER` cards that swap the page to a `SUBJECT_COVER` grid for that grade, with a "Back to Grades" button mirroring `/courses/[id]`'s section drill-down. The page's `View` is a discriminated union (`grade` \| `exam` \| null), so both catalogues drill down through one state; deep-linkable on entry via `?grade=5` or `?exam=ielts` (`use(searchParams)`, local state after). All grids share the `GRID`/`CARD` constants at the top of the file so this page and `/courses/[id]` read as one surface. **Subject cards are display-only** — there is no subject content yet, so they carry no click handler and no hover affordance. |
 | `/courses/[id]` | `app/courses/[id]/page.tsx` | **The `React.use()` example**: props type `params`/`searchParams` as Promises; it unwraps `searchParams` via `use(searchParams)` (`params` is currently unused — data comes from the curriculum singleton). Two views: chapter→section card grid (with emerald progress bars from `progress`), and per-section lesson list grouped by `LESSON_TYPE_ORDER` with unlock gating (`computeUnlocked`), star overlays, "up next" ring. Lesson thumbnail falls back to `TWO_KEYS_FOCUS`. |
-| `/games` | `app/games/page.tsx` | The arcade grid. One uniform card per game, driven by the `GAMES` array at the top of the file (`slug` / `name` / `svgId` / `params`) — **card order is that array's order**, not folder or alphabetical order, so re-ordering the shelf is a one-line move. Game names stay English in every locale, like the games' own title screens. Each card footer carries a like heart and a play counter from `lib/gameStats.ts` (`tz-games-v1`): the heart is a toggle whose click must `preventDefault()` (it sits inside the card's `Link`), the eye is how many times this browser opened that game — counted by `useGameView(slug)` in each game's `page.tsx`, so direct links count too. Both counters are **local to the browser**; the labels say "you" for that reason. |
+| `/games` | `app/games/page.tsx` | The arcade grid. One uniform card per game, driven by the `GAMES` array at the top of the file (`slug` / `name` / `svgId` / `params`) — **card order is that array's order**, not folder or alphabetical order, so re-ordering the shelf is a one-line move. Game names stay English in every locale, like the games' own title screens. Each card footer carries a like heart and a play counter from `lib/catalog/gameStats.ts` (`tz-games-v1`): the heart is a toggle whose click must `preventDefault()` (it sits inside the card's `Link`), the eye is how many times this browser opened that game — counted by `useGameView(slug)` in each game's `page.tsx`, so direct links count too. Both counters are **local to the browser**; the labels say "you" for that reason. |
 | `/books` | `app/books/page.tsx` | **Book library — own doc: `docs/books.md`.** Grid of `BOOK_COVER` cards (shipped books from `data/books.json` + the learner's own from `tz-books-v1`), with an "Add a book" tile that opens a paste dialog showing the resulting page count live. |
 | `/books/[id]` | `app/books/[id]/page.tsx` | Two views: the page list (best WPM or word count per page, delete affordance on the learner's own books) and the practice run. Practice mounts the **home page's** `useTypingTest` with `mode:"custom"` — no separate engine. Client page, so `useParams()`. |
-| `/coding` | `app/coding/page.tsx` | **The coding catalogue — own doc: `docs/coding.md`.** Six stages (beginner→master) × 35 tracks × 188 module blocks from `@/lib/coding`, all rungs on one page; a track drills into its numbered block list plus the `typingFocus` keycaps and `sample` code line that tie the unit to the typing engine. Deep-links via `?track=`. Classification only — no lesson content yet. |
+| `/coding` | `app/coding/page.tsx` | **The coding catalogue — own doc: `docs/coding.md`.** Six stages (beginner→master) × 35 tracks × 188 module blocks from `@/lib/catalog/coding`, all rungs on one page; a track drills into its numbered block list plus the `typingFocus` keycaps and `sample` code line that tie the unit to the typing engine. Deep-links via `?track=`. Classification only — no lesson content yet. |
 | `/pricing` | `app/pricing/page.tsx` | The one paid plan (Pro) sold for three periods (own doc: `docs/pricing.md`). Left = a 7-tab feature showcase driven by `components/pricing/FeatureScenes.tsx`; right = the sticky period picker and CTA. |
 | `/lesson/[id]` | `app/lesson/[id]/page.tsx` | The lesson runtime (own doc). Client page — uses `useParams()`, not promise props. |
 | `/auth/callback` | `app/auth/callback/page.tsx` | SSO landing (see auth.md). |
@@ -152,7 +152,7 @@ fade before `router.push`.
 
 ## 4. Localization
 
-- **`lib/locale.tsx`**: `Locale = "en" | "uz" | "ru"`, stored in
+- **`lib/core/locale.tsx`**: `Locale = "en" | "uz" | "ru"`, stored in
   `localStorage["tz-locale"]`, default `en`. Pure module-level external
   store (`useSyncExternalStore`) — no Provider. `useLocale()` returns
   `{ locale, setLocale }`; `setLocale` writes storage, sets
@@ -160,7 +160,7 @@ fade before `router.push`.
   mounted component switches together. No `storage`-event listener →
   cross-tab sync is not automatic. Also exports `LOCALES`
   (`{id,label,short,flag}`; flags in `public/flags/{en,uz,ru}.svg`).
-- **`lib/uiStrings/`**: `STR.<namespace>.<key>[locale]` — one file per
+- **`lib/core/uiStrings/`**: `STR.<namespace>.<key>[locale]` — one file per
   namespace (`nav.ts`, `home.ts`, `games.ts`, …), combined into `STR` by
   `index.ts`; a new namespace is a new file plus one line there. Chrome/page strings
   only; lesson content is localized in `lessons.json`, and the lesson
@@ -172,7 +172,7 @@ fade before `router.push`.
   words (the audience is school students).
 
 The same `useSyncExternalStore` external-store idiom is implemented three
-times — locale, palette (`PaletteSwitcher`), and auth (`lib/auth.ts`). Reuse
+times — locale, palette (`PaletteSwitcher`), and auth (`lib/core/auth.ts`). Reuse
 it for any new global client preference.
 
 ## 5. Palette switcher — `components/PaletteSwitcher.tsx`
@@ -189,7 +189,7 @@ the DOM (`documentElement.dataset.fz`); `applyPalette` writes
 
 - Tailwind v4 wiring: `@import "tailwindcss"`, `tw-animate-css`,
   `@custom-variant dark (&:where(.dark, .dark *))` — dark mode is
-  **class-based and global**: `lib/theme.tsx` toggles `.dark` on `<html>`
+  **class-based and global**: `lib/core/theme.tsx` toggles `.dark` on `<html>`
   (§2b).
 - Chart ink variables (`--chart-*`, `--ramp-*`) with a `.dark` override —
   the hand-built SVG charts in `components/stats/` read these instead of

@@ -1,15 +1,15 @@
 "use client";
 
 // One letter lesson (/english/letters/a/meet, .../a/rain, …). The lesson is
-// looked up in the "letters" track of lib/letterCurriculum.ts; unknown or
+// looked up in the "letters" track of lib/english/letterCurriculum.ts; unknown or
 // not-yet-implemented ids fall back to the hub link.
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { LETTERS } from "@/lib/letters";
-import { LETTER_TRACKS } from "@/lib/letterCurriculum";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { LETTERS } from "@/lib/english/letters";
+import { LETTER_TRACKS } from "@/lib/english/letterCurriculum";
 import { LetterLessonRunner } from "@/components/letters/LetterLessonRunner";
 
 export default function LetterLessonPage() {

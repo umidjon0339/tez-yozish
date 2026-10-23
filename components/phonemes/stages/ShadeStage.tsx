@@ -19,17 +19,17 @@ import {
   Wind,
   type LucideIcon,
 } from "lucide-react";
-import { type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { type PhonemeInfo } from "@/lib/phonemes";
+import { type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { type PhonemeInfo } from "@/lib/english/phonemes";
 import {
   ALLO_PROCESS_INFO,
   findSpelling,
   shadeTriggerIndex,
   shadesFor,
   type AlloProcess,
-} from "@/lib/allophones";
-import { speakWord } from "@/lib/phonemeAudio";
+} from "@/lib/english/allophones";
+import { speakWord } from "@/lib/english/phonemeAudio";
 import { GymStage } from "@/components/english/GymStage";
 import { type StageChromeProps, type StageStats } from "@/components/english/stage-kit";
 

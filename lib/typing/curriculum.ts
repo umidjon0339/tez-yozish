@@ -9,8 +9,8 @@
 //   - lesson `keys` derived from step text when not authored
 
 import rawCourse from '@/data/lessons.json';
-import { LESSON_TYPES } from '@/lib/lessonTypes';
-import { isSpecialToken, parseChordToken } from '@/lib/keyTokens';
+import { LESSON_TYPES } from '@/lib/typing/lessonTypes';
+import { isSpecialToken, parseChordToken } from '@/lib/typing/keyTokens';
 import {
   CourseNode,
   ChapterNode,

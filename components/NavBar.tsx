@@ -8,9 +8,9 @@ import { BrandMark } from "@/components/BrandMark";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { UserMenu } from "@/components/UserMenu";
-import { useAuth, edifyAuthUrl } from "@/lib/auth";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useAuth, edifyAuthUrl } from "@/lib/core/auth";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
 /* One source of truth for the link row, so the desktop bar and the mobile
    sheet can never drift apart. */

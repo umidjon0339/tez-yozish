@@ -4,10 +4,10 @@
 // components/english/NinjaRun.tsx — mounts OUTSIDE the StageScaler).
 
 import React, { useMemo } from "react";
-import { type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
-import { type PhonemeInfo } from "@/lib/phonemes";
-import { typingWordsForPhoneme } from "@/lib/allophones";
+import { type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
+import { type PhonemeInfo } from "@/lib/english/phonemes";
+import { typingWordsForPhoneme } from "@/lib/english/allophones";
 import { NinjaRun } from "@/components/english/NinjaRun";
 import { type StageStats } from "@/components/english/stage-kit";
 

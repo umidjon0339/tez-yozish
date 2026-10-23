@@ -12,15 +12,15 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { useLocale, type Locale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale, type Locale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 import {
   graphemeAt,
   spellingAt,
   wordsForGrapheme,
   type GraphemeInfo,
   type SpellingInfo,
-} from "@/lib/graphemes";
+} from "@/lib/english/graphemes";
 import {
   GRAPHEME_TRACKS,
   graphemeHubHref,
@@ -29,13 +29,13 @@ import {
   graphemeTrackHref,
   type GraphemeLesson,
   type GraphemeTrackId,
-} from "@/lib/graphemeCurriculum";
-import { LESSON_TYPES, LESSON_TYPE_ORDER } from "@/lib/lessonTypes";
+} from "@/lib/english/graphemeCurriculum";
+import { LESSON_TYPES, LESSON_TYPE_ORDER } from "@/lib/typing/lessonTypes";
 import {
   isGraphemeLessonPassed,
   graphemeUnlockedMap,
   useGraphemeProgress,
-} from "@/lib/graphemeProgress";
+} from "@/lib/english/graphemeProgress";
 import { DynamicThumbnail } from "@/components/thumbnails/DynamicThumbnail";
 
 const G = STR.graphemes;

@@ -7,10 +7,10 @@
 
 import React from "react";
 import { RotateCcw, Repeat } from "lucide-react";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 import { Standing } from "@/components/home/Standing";
-import type { TestResult as Result } from "@/lib/typingTest";
+import type { TestResult as Result } from "@/lib/typing/typingTest";
 
 /* A wide, short viewBox: the chart fills the row beside the headline numbers,
    and the result screen has more width than height to spare. Keep the ratio

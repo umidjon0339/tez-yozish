@@ -16,7 +16,7 @@ Hard rules:
   PHONEME_TRACK.lessons): SHADE_WORDS pilot sounds get one SHADE lesson
   per allophone. Passing is accuracy-based (PASS_ACCURACY 50%), never
   star-based — use `isPhonemeLessonPassed`/`phonemeUnlockedMap`.
-- Word/phoneme speech only through `lib/phonemeAudio.ts` (recordings
+- Word/phoneme speech only through `lib/english/phonemeAudio.ts` (recordings
   first, TTS fallback) — never call `speechSynthesis` directly here.
 - Typing stages keep tracker bookkeeping in refs with imperative
   `LetterHandle`s (lesson-runtime invariant); game sims live in a mutable

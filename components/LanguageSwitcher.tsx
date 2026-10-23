@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { LOCALES, useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { LOCALES, useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
 /* Flag + code button that opens a flag/native-name dropdown on hover
    (click also toggles it, for touch screens). Used in the global navbar

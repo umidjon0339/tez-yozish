@@ -22,14 +22,14 @@ import {
   Trophy,
 } from "lucide-react";
 import { FEATURE_SCENES } from "@/components/pricing/FeatureScenes";
-import { course } from "@/lib/curriculum";
-import { useAuth, edifyAuthUrl } from "@/lib/auth";
-import { GAME_COUNT, gameNameLines } from "@/lib/games";
-import { codingTotals } from "@/lib/coding";
-import { exams } from "@/lib/exams";
-import { k12Grades } from "@/lib/k12";
-import { useLocale } from "@/lib/locale";
-import { STR } from "@/lib/uiStrings";
+import { course } from "@/lib/typing/curriculum";
+import { useAuth, edifyAuthUrl } from "@/lib/core/auth";
+import { GAME_COUNT, gameNameLines } from "@/lib/catalog/games";
+import { codingTotals } from "@/lib/catalog/coding";
+import { exams } from "@/lib/catalog/exams";
+import { k12Grades } from "@/lib/catalog/k12";
+import { useLocale } from "@/lib/core/locale";
+import { STR } from "@/lib/core/uiStrings";
 
 /* ── The plan ────────────────────────────────────────────────────────────
    One product (Pro) sold for three periods. The discount is baked into the
@@ -203,7 +203,7 @@ export default function PricingPage() {
   /* Every number and name the showcase prints, in one place. Labels, titles
      and bullets all go through `fill`, so nothing about the product's size
      is ever typed into `STR.pricing` — the game count and the game names
-     come from `lib/games`, the course size from `lib/curriculum`. */
+     come from `lib/catalog/games`, the course size from `lib/typing/curriculum`. */
   const textVars: Record<string, Record<string, string | number>> = {
     f1b1: { n: lessonCount, s: sectionCount },
     f2Label: { n: GAME_COUNT },

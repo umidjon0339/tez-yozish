@@ -34,8 +34,8 @@ import {
   type TestConfig,
   type TestResult,
   type TestText,
-} from "@/lib/typingTest";
-import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/stats";
+} from "@/lib/typing/typingTest";
+import { createStatsSession, recordAttempt, type StatsSession } from "@/lib/typing/stats";
 
 export type TestStatus = "idle" | "running" | "done";
 
